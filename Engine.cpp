@@ -2,21 +2,22 @@
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
-const int SCREEN_BPP = 32;
 
 Engine::Engine() {
     this->screen = NULL;
+
+    this->renderer = NULL;
     
     this->screenWidth = SCREEN_WIDTH;
     
     this->screenHeight = SCREEN_WIDTH;
-    
-    this->screenBPP = SCREEN_BPP;
-    
+
     this->windowTitle = "Hello, world!";
 }
 
 Engine::~Engine() {
+    SDL_DestroyWindow(this->screen);
+
     SDL_Quit();
 }
 
@@ -25,13 +26,11 @@ bool Engine::Setup() {
         return false;
     }
 
-    this->screen = SDL_SetVideoMode(this->screenWidth, this->screenHeight, this->screenBPP, SDL_SWSURFACE);
-    
-    if (this->screen == NULL) {
+    SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer);
+
+    if (this->screen == NULL || this->renderer == NULL) {
         return false;
     }
-    
-    SDL_WM_SetCaption(this->windowTitle.c_str(), NULL);
 
     return true;
 }
@@ -55,7 +54,7 @@ void Engine::MainLoop() {
     // The basic idea is, each pass of the loop checks to see if there is a state object
     // left in the stack (I'm using a std::vector like a stack because I'm lazy), if not
     // then do nothing and then quit. Otherwise, check for any pending events then call
-    // the update the current state (and quit if desired).
+    // the update function for the current state (and quit if desired).
     // This is the tricky part that I'm not convinced is a good idea: if the Update
     // function returns NULL then we pop the current state off the end of the stack. If
     // it returns itself we do nothing. And finally, if it returns a pointer to another
@@ -63,6 +62,11 @@ void Engine::MainLoop() {
     // state.
     // Without passing the whole Engine object to the update function I can't really
     // figure out a better way of telling the Engine to do stuff with its state stack.
+    // I'm hoping that doing things this way will ensure that only the current state
+    // initiates transitions to new states and by having that transition be opaque to
+    // the loop the loop itself should remain very simple and unaware of what each
+    // state actually means. It should also allow each state to manage its own internal
+    // objects independently.
     while (quit == false) {
         if (this->states.size() > 0) {
             int pendingEvent;
@@ -99,11 +103,13 @@ void Engine::MainLoop() {
 }
 
 void Engine::Render() {
-    SDL_FillRect(this->screen, &this->screen->clip_rect, SDL_MapRGB(this->screen->format, 0x00, 0x00, 0x00));
+    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+
+    SDL_RenderClear(this->renderer);
 
     this->states.back()->RenderObjects();
-    
-    SDL_Flip(this->screen);
-    
+
+    SDL_RenderPresent(this->renderer);
+
     SDL_Delay(1000 / 60);
 }

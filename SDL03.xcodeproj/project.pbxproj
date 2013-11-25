@@ -11,16 +11,16 @@
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
 		7B342A2A183F09E000BA2C29 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A29183F09E000BA2C29 /* XCTest.framework */; };
 		7B342A2B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
-		7B342A40183F0AF000BA2C29 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A3F183F0AF000BA2C29 /* SDLMain.m */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
-		7B342A46183F0D7900BA2C29 /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A43183F0D7900BA2C29 /* SDL_image.framework */; };
-		7B342A47183F0D7900BA2C29 /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A44183F0D7900BA2C29 /* SDL_mixer.framework */; };
-		7B342A48183F0D7900BA2C29 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A45183F0D7900BA2C29 /* SDL.framework */; };
 		7B342A4B183F0EE000BA2C29 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A49183F0EE000BA2C29 /* main.cpp */; };
 		7B342A4E183F15A900BA2C29 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A4C183F15A900BA2C29 /* Engine.cpp */; };
 		7B342A53183F2D6900BA2C29 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A51183F2D6900BA2C29 /* GameObject.cpp */; };
 		7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A54184321DB00BA2C29 /* GameState.cpp */; };
 		7B342A5A18439C0D00BA2C29 /* IntroState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A5818439C0D00BA2C29 /* IntroState.cpp */; };
+		7B342A5F1843E18600BA2C29 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A5B1843E18600BA2C29 /* SDL2_image.framework */; };
+		7B342A601843E18600BA2C29 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A5C1843E18600BA2C29 /* SDL2_mixer.framework */; };
+		7B342A611843E18600BA2C29 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A5D1843E18600BA2C29 /* SDL2_ttf.framework */; };
+		7B342A621843E18600BA2C29 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A5E1843E18600BA2C29 /* SDL2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,12 +44,7 @@
 		7B342A18183F09E000BA2C29 /* SDL03-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDL03-Prefix.pch"; sourceTree = "<group>"; };
 		7B342A28183F09E000BA2C29 /* SDL03Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDL03Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A29183F09E000BA2C29 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		7B342A3E183F0A6000BA2C29 /* SDLMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
-		7B342A3F183F0AF000BA2C29 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
 		7B342A41183F0CF500BA2C29 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		7B342A43183F0D7900BA2C29 /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = ../../../../../Library/Frameworks/SDL_image.framework; sourceTree = "<group>"; };
-		7B342A44183F0D7900BA2C29 /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = ../../../../../Library/Frameworks/SDL_mixer.framework; sourceTree = "<group>"; };
-		7B342A45183F0D7900BA2C29 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../../../Library/Frameworks/SDL.framework; sourceTree = "<group>"; };
 		7B342A49183F0EE000BA2C29 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7B342A4A183F0EE000BA2C29 /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 		7B342A4C183F15A900BA2C29 /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Engine.cpp; sourceTree = "<group>"; };
@@ -60,6 +55,11 @@
 		7B342A55184321DB00BA2C29 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
 		7B342A5818439C0D00BA2C29 /* IntroState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntroState.cpp; sourceTree = "<group>"; };
 		7B342A5918439C0D00BA2C29 /* IntroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroState.h; sourceTree = "<group>"; };
+		7B342A5B1843E18600BA2C29 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		7B342A5C1843E18600BA2C29 /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
+		7B342A5D1843E18600BA2C29 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
+		7B342A5E1843E18600BA2C29 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		7B342A631843E53400BA2C29 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,9 +67,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B342A46183F0D7900BA2C29 /* SDL_image.framework in Frameworks */,
-				7B342A47183F0D7900BA2C29 /* SDL_mixer.framework in Frameworks */,
-				7B342A48183F0D7900BA2C29 /* SDL.framework in Frameworks */,
+				7B342A5F1843E18600BA2C29 /* SDL2_image.framework in Frameworks */,
+				7B342A601843E18600BA2C29 /* SDL2_mixer.framework in Frameworks */,
+				7B342A611843E18600BA2C29 /* SDL2_ttf.framework in Frameworks */,
+				7B342A621843E18600BA2C29 /* SDL2.framework in Frameworks */,
 				7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */,
 				7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */,
 			);
@@ -90,6 +91,7 @@
 		7B3429FE183F09E000BA2C29 = {
 			isa = PBXGroup;
 			children = (
+				7B342A631843E53400BA2C29 /* README.md */,
 				7B342A4F183F2CDA00BA2C29 /* Game Classes */,
 				7B342A49183F0EE000BA2C29 /* main.cpp */,
 				7B342A4A183F0EE000BA2C29 /* main.h */,
@@ -111,9 +113,10 @@
 		7B342A09183F09E000BA2C29 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7B342A43183F0D7900BA2C29 /* SDL_image.framework */,
-				7B342A44183F0D7900BA2C29 /* SDL_mixer.framework */,
-				7B342A45183F0D7900BA2C29 /* SDL.framework */,
+				7B342A5B1843E18600BA2C29 /* SDL2_image.framework */,
+				7B342A5C1843E18600BA2C29 /* SDL2_mixer.framework */,
+				7B342A5D1843E18600BA2C29 /* SDL2_ttf.framework */,
+				7B342A5E1843E18600BA2C29 /* SDL2.framework */,
 				7B342A41183F0CF500BA2C29 /* OpenGL.framework */,
 				7B342A0A183F09E000BA2C29 /* Cocoa.framework */,
 				7B342A29183F09E000BA2C29 /* XCTest.framework */,
@@ -136,8 +139,6 @@
 			isa = PBXGroup;
 			children = (
 				7B342A11183F09E000BA2C29 /* Supporting Files */,
-				7B342A3E183F0A6000BA2C29 /* SDLMain.h */,
-				7B342A3F183F0AF000BA2C29 /* SDLMain.m */,
 			);
 			path = SDL03;
 			sourceTree = "<group>";
@@ -282,7 +283,6 @@
 				7B342A4B183F0EE000BA2C29 /* main.cpp in Sources */,
 				7B342A4E183F15A900BA2C29 /* Engine.cpp in Sources */,
 				7B342A5A18439C0D00BA2C29 /* IntroState.cpp in Sources */,
-				7B342A40183F0AF000BA2C29 /* SDLMain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +397,7 @@
 				GCC_PREFIX_HEADER = "SDL03/SDL03-Prefix.pch";
 				INFOPLIST_FILE = "SDL03/SDL03-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/SDL.framework/Headers;
+				USER_HEADER_SEARCH_PATHS = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -416,7 +416,7 @@
 				GCC_PREFIX_HEADER = "SDL03/SDL03-Prefix.pch";
 				INFOPLIST_FILE = "SDL03/SDL03-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = /Library/Frameworks/SDL.framework/Headers;
+				USER_HEADER_SEARCH_PATHS = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -16,10 +16,10 @@ public:
     void Start();
 
 private:
-    SDL_Surface *screen;
+    SDL_Window *screen;
+    SDL_Renderer *renderer;
     int screenWidth;
     int screenHeight;
-    int screenBPP;
     std::string windowTitle;
     std::vector <GameState*> states;
     
