@@ -5,11 +5,11 @@
 int main(int argc, char* args[]) {
     Engine engine;
     
-    if (!engine.setup()) {
+    if (!engine.Setup()) {
         return 1;
     }
 
-    engine.start();
+    engine.Start();
 
     return 0;
 }

@@ -20,7 +20,7 @@ Engine::~Engine() {
     SDL_Quit();
 }
 
-bool Engine::setup() {
+bool Engine::Setup() {
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
         return false;
     }
@@ -36,30 +36,72 @@ bool Engine::setup() {
     return true;
 }
 
-void Engine::start() {
-    this->mainLoop();
+void Engine::Start() {
+    IntroState* introState = new IntroState();
+
+    this->states.push_back(introState);
+
+    this->MainLoop();
 }
 
-void Engine::mainLoop() {
+void Engine::MainLoop() {
     SDL_Event event;
 
     bool quit = false;
-    
+
+    // The way this works right now is very tentative and is probably very bad.
+    // I have no idea what I'm doing, but I think this should work while things are
+    // still simple.
+    // The basic idea is, each pass of the loop checks to see if there is a state object
+    // left in the stack (I'm using a std::vector like a stack because I'm lazy), if not
+    // then do nothing and then quit. Otherwise, check for any pending events then call
+    // the update the current state (and quit if desired).
+    // This is the tricky part that I'm not convinced is a good idea: if the Update
+    // function returns NULL then we pop the current state off the end of the stack. If
+    // it returns itself we do nothing. And finally, if it returns a pointer to another
+    // GameState object then that state is pushed onto the stack and is now the current
+    // state.
+    // Without passing the whole Engine object to the update function I can't really
+    // figure out a better way of telling the Engine to do stuff with its state stack.
     while (quit == false) {
-        this->render();
-        
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                quit = true;
+        if (this->states.size() > 0) {
+            int pendingEvent;
+
+            pendingEvent = SDL_PollEvent(&event);
+
+            GameState* currentState = this->states.back();
+
+            GameState* nextState = currentState;
+
+            if (pendingEvent) {
+                if (event.type == SDL_QUIT) {
+                    quit = true;
+                }
+
+                nextState = currentState->Update(&event);
+            } else {
+                nextState = currentState->Update(NULL);
             }
+
+            this->Render();
+
+            if (nextState == NULL) {
+                this->states.pop_back();
+            } else {
+                if (nextState != currentState) {
+                    this->states.push_back(nextState);
+                }
+            }
+        } else {
+            quit = true;
         }
     }
 }
 
-void Engine::render() {
+void Engine::Render() {
     SDL_FillRect(this->screen, &this->screen->clip_rect, SDL_MapRGB(this->screen->format, 0x00, 0x00, 0x00));
-    
-    
+
+    this->states.back()->RenderObjects();
     
     SDL_Flip(this->screen);
     

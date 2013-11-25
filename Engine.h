@@ -2,14 +2,18 @@
 #define __SDL03__Engine__
 
 #include <string>
+#include <vector>
 #include "SDL.h"
+#include "GameState.h"
+#include "IntroState.h"
+#include "GameObject.h"
 
 class Engine {
 public:
     Engine();
     ~Engine();
-    bool setup();
-    void start();
+    bool Setup();
+    void Start();
 
 private:
     SDL_Surface *screen;
@@ -17,9 +21,10 @@ private:
     int screenHeight;
     int screenBPP;
     std::string windowTitle;
+    std::vector <GameState*> states;
     
-    void mainLoop();
-    void render();
+    void MainLoop();
+    void Render();
 };
 
 #endif
