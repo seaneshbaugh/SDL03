@@ -1,9 +1,9 @@
-#include "Engine.h"
+#include "GameEngine.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-Engine::Engine() {
+GameEngine::GameEngine() {
     this->screen = NULL;
 
     this->renderer = NULL;
@@ -15,7 +15,7 @@ Engine::Engine() {
     this->windowTitle = "Hello, world!";
 }
 
-Engine::~Engine() {
+GameEngine::~GameEngine() {
     for (std::vector<GameTexture*>::iterator texture = this->textures.begin(); texture != this->textures.end(); texture++) {
         if (*texture) {
             delete *texture;
@@ -41,7 +41,7 @@ Engine::~Engine() {
     SDL_Quit();
 }
 
-bool Engine::Setup() {
+bool GameEngine::Setup() {
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
         return false;
     }
@@ -63,7 +63,7 @@ bool Engine::Setup() {
     return true;
 }
 
-bool Engine::LoadResources() {
+bool GameEngine::LoadResources() {
     return this->LoadTextures() && this->LoadFonts() && this->LoadSounds();
 }
 
@@ -72,11 +72,11 @@ bool Engine::LoadResources() {
 // to figure out a clean way to include third party libraries via source in C++.
 // Aslo each resource needs to have a name or ID or something so they can be
 // referenced without necessarily knowing ther order in which they were loaded.
-bool Engine::LoadTextures() {
+bool GameEngine::LoadTextures() {
     return true;
 }
 
-bool Engine::LoadFonts() {
+bool GameEngine::LoadFonts() {
     std::vector<std::string> filenames = {"DroidSans.ttf"};
 
     for (std::vector<std::string>::iterator filename = filenames.begin(); filename != filenames.end(); filename++) {
@@ -92,11 +92,11 @@ bool Engine::LoadFonts() {
     return true;
 }
 
-bool Engine::LoadSounds() {
+bool GameEngine::LoadSounds() {
     return true;
 }
 
-void Engine::Start() {
+void GameEngine::Start() {
     IntroState* introState = new IntroState(this->renderer);
 
     this->states.push_back(introState);
@@ -104,7 +104,7 @@ void Engine::Start() {
     this->MainLoop();
 }
 
-void Engine::MainLoop() {
+void GameEngine::MainLoop() {
     SDL_Event event;
 
     bool quit = false;
@@ -121,8 +121,9 @@ void Engine::MainLoop() {
     // it returns itself we do nothing. And finally, if it returns a pointer to another
     // GameState object then that state is pushed onto the stack and is now the current
     // state.
-    // Without passing the whole Engine object to the update function I can't really
-    // figure out a better way of telling the Engine to do stuff with its state stack.
+    // Without passing the whole GameEngine object to the update function I can't really
+    // figure out a better way of telling the GameEngine to do stuff with its state
+    // stack.
     // I'm hoping that doing things this way will ensure that only the current state
     // initiates transitions to new states and by having that transition be opaque to
     // the loop the loop itself should remain very simple and unaware of what each
@@ -163,7 +164,7 @@ void Engine::MainLoop() {
     }
 }
 
-void Engine::Render() {
+void GameEngine::Render() {
     SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
 
     SDL_RenderClear(this->renderer);

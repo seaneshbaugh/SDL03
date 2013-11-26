@@ -1,5 +1,5 @@
-#ifndef __SDL03__Engine__
-#define __SDL03__Engine__
+#ifndef __SDL03__GameEngine__
+#define __SDL03__GameEngine__
 
 #include <string>
 #include <vector>
@@ -12,10 +12,10 @@
 #include "GameFont.h"
 #include "GameSound.h"
 
-class Engine {
+class GameEngine {
 public:
-    Engine();
-    ~Engine();
+    GameEngine();
+    ~GameEngine();
     bool Setup();
     void Start();
     // These should probably be behind getter methods.
