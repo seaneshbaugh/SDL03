@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
-		7B342A2A183F09E000BA2C29 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A29183F09E000BA2C29 /* XCTest.framework */; };
-		7B342A2B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
 		7B342A4B183F0EE000BA2C29 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A49183F0EE000BA2C29 /* main.cpp */; };
 		7B342A4E183F15A900BA2C29 /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A4C183F15A900BA2C29 /* Engine.cpp */; };
@@ -30,16 +28,6 @@
 		7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7C1844686600BA2C29 /* DroidSans.ttf */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		7B342A2C183F09E000BA2C29 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7B3429FF183F09E000BA2C29 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7B342A06183F09E000BA2C29;
-			remoteInfo = SDL03;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		7B342A07183F09E000BA2C29 /* SDL03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A0A183F09E000BA2C29 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -49,7 +37,6 @@
 		7B342A12183F09E000BA2C29 /* SDL03-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SDL03-Info.plist"; sourceTree = "<group>"; };
 		7B342A14183F09E000BA2C29 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7B342A18183F09E000BA2C29 /* SDL03-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SDL03-Prefix.pch"; sourceTree = "<group>"; };
-		7B342A28183F09E000BA2C29 /* SDL03Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SDL03Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A29183F09E000BA2C29 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		7B342A41183F0CF500BA2C29 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7B342A49183F0EE000BA2C29 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -94,15 +81,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7B342A25183F09E000BA2C29 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7B342A2B183F09E000BA2C29 /* Cocoa.framework in Frameworks */,
-				7B342A2A183F09E000BA2C29 /* XCTest.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -124,7 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				7B342A07183F09E000BA2C29 /* SDL03.app */,
-				7B342A28183F09E000BA2C29 /* SDL03Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -257,24 +234,6 @@
 			productReference = 7B342A07183F09E000BA2C29 /* SDL03.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7B342A27183F09E000BA2C29 /* SDL03Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7B342A3B183F09E000BA2C29 /* Build configuration list for PBXNativeTarget "SDL03Tests" */;
-			buildPhases = (
-				7B342A24183F09E000BA2C29 /* Sources */,
-				7B342A25183F09E000BA2C29 /* Frameworks */,
-				7B342A26183F09E000BA2C29 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7B342A2D183F09E000BA2C29 /* PBXTargetDependency */,
-			);
-			name = SDL03Tests;
-			productName = SDL03Tests;
-			productReference = 7B342A28183F09E000BA2C29 /* SDL03Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -298,7 +257,6 @@
 			projectRoot = "";
 			targets = (
 				7B342A06183F09E000BA2C29 /* SDL03 */,
-				7B342A27183F09E000BA2C29 /* SDL03Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -312,13 +270,6 @@
 				7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */,
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
 				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7B342A26183F09E000BA2C29 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,22 +292,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7B342A24183F09E000BA2C29 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		7B342A2D183F09E000BA2C29 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7B342A06183F09E000BA2C29 /* SDL03 */;
-			targetProxy = 7B342A2C183F09E000BA2C29 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		7B342A13183F09E000BA2C29 /* InfoPlist.strings */ = {
@@ -476,42 +412,6 @@
 			};
 			name = Release;
 		};
-		7B342A3C183F09E000BA2C29 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SDL03/SDL03-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "SDL03Tests/SDL03Tests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		7B342A3D183F09E000BA2C29 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SDL03/SDL03-Prefix.pch";
-				INFOPLIST_FILE = "SDL03Tests/SDL03Tests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -529,15 +429,6 @@
 			buildConfigurations = (
 				7B342A39183F09E000BA2C29 /* Debug */,
 				7B342A3A183F09E000BA2C29 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7B342A3B183F09E000BA2C29 /* Build configuration list for PBXNativeTarget "SDL03Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7B342A3C183F09E000BA2C29 /* Debug */,
-				7B342A3D183F09E000BA2C29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
