@@ -18,11 +18,10 @@ public:
     ~GameEngine();
     bool Setup();
     void Start();
-    // These should probably be behind getter methods.
-    SDL_Window *screen;
-    SDL_Renderer *renderer;
 
 private:
+    SDL_Window *screen;
+    SDL_Renderer *renderer;
     int screenWidth;
     int screenHeight;
     std::string windowTitle;
@@ -30,7 +29,6 @@ private:
     std::vector <GameTexture*> textures;
     std::vector <GameFont*> fonts;
     std::vector <GameSound*> sounds;
-
     bool LoadResources();
     bool LoadTextures();
     bool LoadFonts();
