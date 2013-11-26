@@ -1,7 +1,9 @@
 #include "IntroState.h"
 
-IntroState::IntroState() {
-    pop = false;
+IntroState::IntroState(SDL_Renderer* renderer) : GameState(renderer) {
+    this->renderer = renderer;
+
+    this->pop = false;
 }
 
 IntroState::~IntroState() {
@@ -28,6 +30,30 @@ void IntroState::ProcessInput(SDL_Event* event) {
     }
 }
 
-void IntroState::RenderObjects() {
+// This needs to be completely redone. Possibly by having each state have its own lists
+// of resources that are loaded when transitioning to the state. This should avoid having
+// to pass in everything awkwardly. It would however greatly increase the likelyhood of
+// needing to reload resouces multiple times, especially textures and fonts.
+void IntroState::RenderObjects(std::vector<GameTexture*> textures, std::vector<GameFont*> fonts, std::vector<GameSound*> sounds) {
+    SDL_Texture *textTexture = NULL;
 
+    SDL_Color color = { 255, 255, 255 };
+
+    SDL_Rect textLocation;
+
+    SDL_Surface *textSurface = TTF_RenderText_Blended(fonts[0]->font, "Hello, world!", color);
+
+    textTexture = SDL_CreateTextureFromSurface(this->renderer, textSurface);
+
+    textLocation.h = textSurface->h;
+
+    textLocation.w = textSurface->w;
+
+    textLocation.x = 100;
+
+    textLocation.y = 100;
+
+    SDL_FreeSurface(textSurface);
+
+    SDL_RenderCopy(this->renderer, textTexture, NULL, &textLocation);
 }

@@ -1,6 +1,4 @@
-#include <string>
-#include "SDL.h"
-#include "engine.h"
+#include "main.h"
 
 int main(int argc, char* args[]) {
     Engine engine;

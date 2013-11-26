@@ -5,12 +5,13 @@
 
 class IntroState : public GameState {
 public:
-    IntroState();
+    IntroState(SDL_Renderer* renderer);
     ~IntroState();
     GameState* Update(SDL_Event* event);
     void ProcessInput(SDL_Event* event);
-    void RenderObjects();
+    void RenderObjects(std::vector<GameTexture*> textures, std::vector<GameFont*> fonts, std::vector<GameSound*> sounds);
 private:
+    SDL_Renderer* renderer;
     bool pop;
 };
 

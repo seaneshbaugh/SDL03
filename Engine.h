@@ -4,9 +4,13 @@
 #include <string>
 #include <vector>
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "GameState.h"
 #include "IntroState.h"
-#include "GameObject.h"
+#include "GameResource.h"
+#include "GameTexture.h"
+#include "GameFont.h"
+#include "GameSound.h"
 
 class Engine {
 public:
@@ -14,15 +18,23 @@ public:
     ~Engine();
     bool Setup();
     void Start();
-
-private:
+    // These should probably be behind getter methods.
     SDL_Window *screen;
     SDL_Renderer *renderer;
+
+private:
     int screenWidth;
     int screenHeight;
     std::string windowTitle;
     std::vector <GameState*> states;
-    
+    std::vector <GameTexture*> textures;
+    std::vector <GameFont*> fonts;
+    std::vector <GameSound*> sounds;
+
+    bool LoadResources();
+    bool LoadTextures();
+    bool LoadFonts();
+    bool LoadSounds();
     void MainLoop();
     void Render();
 };

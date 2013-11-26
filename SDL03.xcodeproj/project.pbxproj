@@ -21,6 +21,13 @@
 		7B342A601843E18600BA2C29 /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A5C1843E18600BA2C29 /* SDL2_mixer.framework */; };
 		7B342A611843E18600BA2C29 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A5D1843E18600BA2C29 /* SDL2_ttf.framework */; };
 		7B342A621843E18600BA2C29 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A5E1843E18600BA2C29 /* SDL2.framework */; };
+		7B342A66184430B300BA2C29 /* GameResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A64184430B300BA2C29 /* GameResource.cpp */; };
+		7B342A6A18443A9100BA2C29 /* GameFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A6818443A9100BA2C29 /* GameFont.cpp */; };
+		7B342A6D18443AA200BA2C29 /* GameTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A6B18443AA200BA2C29 /* GameTexture.cpp */; };
+		7B342A7018443AAE00BA2C29 /* GameSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A6E18443AAE00BA2C29 /* GameSound.cpp */; };
+		7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7A1844686600BA2C29 /* Apache License.txt */; };
+		7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7B1844686600BA2C29 /* DroidSans-Bold.ttf */; };
+		7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7C1844686600BA2C29 /* DroidSans.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +67,17 @@
 		7B342A5D1843E18600BA2C29 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
 		7B342A5E1843E18600BA2C29 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		7B342A631843E53400BA2C29 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		7B342A64184430B300BA2C29 /* GameResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameResource.cpp; sourceTree = "<group>"; };
+		7B342A65184430B300BA2C29 /* GameResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameResource.h; sourceTree = "<group>"; };
+		7B342A6818443A9100BA2C29 /* GameFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameFont.cpp; sourceTree = "<group>"; };
+		7B342A6918443A9100BA2C29 /* GameFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameFont.h; sourceTree = "<group>"; };
+		7B342A6B18443AA200BA2C29 /* GameTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameTexture.cpp; sourceTree = "<group>"; };
+		7B342A6C18443AA200BA2C29 /* GameTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTexture.h; sourceTree = "<group>"; };
+		7B342A6E18443AAE00BA2C29 /* GameSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSound.cpp; sourceTree = "<group>"; };
+		7B342A6F18443AAE00BA2C29 /* GameSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSound.h; sourceTree = "<group>"; };
+		7B342A7A1844686600BA2C29 /* Apache License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
+		7B342A7B1844686600BA2C29 /* DroidSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DroidSans-Bold.ttf"; sourceTree = "<group>"; };
+		7B342A7C1844686600BA2C29 /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +109,7 @@
 		7B3429FE183F09E000BA2C29 = {
 			isa = PBXGroup;
 			children = (
+				7B342A781844686600BA2C29 /* fonts */,
 				7B342A631843E53400BA2C29 /* README.md */,
 				7B342A4F183F2CDA00BA2C29 /* Game Classes */,
 				7B342A49183F0EE000BA2C29 /* main.cpp */,
@@ -156,6 +175,7 @@
 		7B342A4F183F2CDA00BA2C29 /* Game Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7B342A671844393E00BA2C29 /* Game Resources */,
 				7B342A5718439B2500BA2C29 /* Game States */,
 				7B342A50183F2D3A00BA2C29 /* Game Objects */,
 				7B342A4C183F15A900BA2C29 /* Engine.cpp */,
@@ -182,6 +202,39 @@
 				7B342A5918439C0D00BA2C29 /* IntroState.h */,
 			);
 			name = "Game States";
+			sourceTree = "<group>";
+		};
+		7B342A671844393E00BA2C29 /* Game Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7B342A65184430B300BA2C29 /* GameResource.h */,
+				7B342A64184430B300BA2C29 /* GameResource.cpp */,
+				7B342A6818443A9100BA2C29 /* GameFont.cpp */,
+				7B342A6918443A9100BA2C29 /* GameFont.h */,
+				7B342A6B18443AA200BA2C29 /* GameTexture.cpp */,
+				7B342A6C18443AA200BA2C29 /* GameTexture.h */,
+				7B342A6E18443AAE00BA2C29 /* GameSound.cpp */,
+				7B342A6F18443AAE00BA2C29 /* GameSound.h */,
+			);
+			name = "Game Resources";
+			sourceTree = "<group>";
+		};
+		7B342A781844686600BA2C29 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7B342A791844686600BA2C29 /* DroidSans */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+		7B342A791844686600BA2C29 /* DroidSans */ = {
+			isa = PBXGroup;
+			children = (
+				7B342A7A1844686600BA2C29 /* Apache License.txt */,
+				7B342A7B1844686600BA2C29 /* DroidSans-Bold.ttf */,
+				7B342A7C1844686600BA2C29 /* DroidSans.ttf */,
+			);
+			path = DroidSans;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,11 +283,6 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Sean Eshbaugh";
-				TargetAttributes = {
-					7B342A27183F09E000BA2C29 = {
-						TestTargetID = 7B342A06183F09E000BA2C29;
-					};
-				};
 			};
 			buildConfigurationList = 7B342A02183F09E000BA2C29 /* Build configuration list for PBXProject "SDL03" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -260,7 +308,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */,
+				7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */,
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
+				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +332,11 @@
 				7B342A53183F2D6900BA2C29 /* GameObject.cpp in Sources */,
 				7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */,
 				7B342A4B183F0EE000BA2C29 /* main.cpp in Sources */,
+				7B342A6D18443AA200BA2C29 /* GameTexture.cpp in Sources */,
+				7B342A66184430B300BA2C29 /* GameResource.cpp in Sources */,
 				7B342A4E183F15A900BA2C29 /* Engine.cpp in Sources */,
+				7B342A6A18443A9100BA2C29 /* GameFont.cpp in Sources */,
+				7B342A7018443AAE00BA2C29 /* GameSound.cpp in Sources */,
 				7B342A5A18439C0D00BA2C29 /* IntroState.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,7 +479,6 @@
 		7B342A3C183F09E000BA2C29 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SDL03.app/Contents/MacOS/SDL03";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -438,7 +492,6 @@
 				);
 				INFOPLIST_FILE = "SDL03Tests/SDL03Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -446,7 +499,6 @@
 		7B342A3D183F09E000BA2C29 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SDL03.app/Contents/MacOS/SDL03";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -456,7 +508,6 @@
 				GCC_PREFIX_HEADER = "SDL03/SDL03-Prefix.pch";
 				INFOPLIST_FILE = "SDL03Tests/SDL03Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

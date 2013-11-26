@@ -16,7 +16,27 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-    SDL_DestroyWindow(this->screen);
+    for (std::vector<GameTexture*>::iterator texture = this->textures.begin(); texture != this->textures.end(); texture++) {
+        if (*texture) {
+            delete *texture;
+        }
+    }
+
+    for (std::vector<GameFont*>::iterator font = this->fonts.begin(); font != this->fonts.end(); font++) {
+        if (*font) {
+            delete *font;
+        }
+    }
+
+    for (std::vector<GameSound*>::iterator sound = this->sounds.begin(); sound != this->sounds.end(); sound++) {
+        if (*sound) {
+            delete *sound;
+        }
+    }
+
+    if (this->screen) {
+        SDL_DestroyWindow(this->screen);
+    }
 
     SDL_Quit();
 }
@@ -32,11 +52,52 @@ bool Engine::Setup() {
         return false;
     }
 
+    if (TTF_Init() == -1) {
+        return false;
+    }
+
+    if (LoadResources() == false) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Engine::LoadResources() {
+    return this->LoadTextures() && this->LoadFonts() && this->LoadSounds();
+}
+
+// For now these functions will load resources defined in a static list of files.
+// Eventually the list will be defined in a JSON file or something. I really need
+// to figure out a clean way to include third party libraries via source in C++.
+// Aslo each resource needs to have a name or ID or something so they can be
+// referenced without necessarily knowing ther order in which they were loaded.
+bool Engine::LoadTextures() {
+    return true;
+}
+
+bool Engine::LoadFonts() {
+    std::vector<std::string> filenames = {"DroidSans.ttf"};
+
+    for (std::vector<std::string>::iterator filename = filenames.begin(); filename != filenames.end(); filename++) {
+        GameFont* font = new GameFont();
+
+        if (font->Load(*filename) == false) {
+            return false;
+        }
+
+        this->fonts.push_back(font);
+    }
+
+    return true;
+}
+
+bool Engine::LoadSounds() {
     return true;
 }
 
 void Engine::Start() {
-    IntroState* introState = new IntroState();
+    IntroState* introState = new IntroState(this->renderer);
 
     this->states.push_back(introState);
 
@@ -107,7 +168,7 @@ void Engine::Render() {
 
     SDL_RenderClear(this->renderer);
 
-    this->states.back()->RenderObjects();
+    this->states.back()->RenderObjects(this->textures, this->fonts, this->sounds);
 
     SDL_RenderPresent(this->renderer);
 
