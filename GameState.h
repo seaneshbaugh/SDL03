@@ -1,6 +1,7 @@
 #ifndef __SDL03__GameState__
 #define __SDL03__GameState__
 
+#include <map>
 #include <vector>
 #include "SDL.h"
 #include "SDL_ttf.h"
@@ -15,7 +16,7 @@ public:
     ~GameState();
     virtual GameState* Update(SDL_Event* event);
     virtual void ProcessInput(SDL_Event* event);
-    virtual void RenderObjects(std::vector<GameTexture*> textures, std::vector<GameFont*> fonts, std::vector<GameSound*> sounds);
+    virtual void RenderObjects(std::map <std::string, GameTexture*> textures, std::map <std::string, GameFont*> fonts, std::map <std::string, GameSound*> sounds);
 private:
     SDL_Renderer* renderer;
     bool pop;

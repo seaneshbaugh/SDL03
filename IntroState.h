@@ -9,7 +9,7 @@ public:
     ~IntroState();
     GameState* Update(SDL_Event* event);
     void ProcessInput(SDL_Event* event);
-    void RenderObjects(std::vector<GameTexture*> textures, std::vector<GameFont*> fonts, std::vector<GameSound*> sounds);
+    void RenderObjects(std::map <std::string, GameTexture*> textures, std::map <std::string, GameFont*> fonts, std::map <std::string, GameSound*> sounds);
 private:
     SDL_Renderer* renderer;
     bool pop;

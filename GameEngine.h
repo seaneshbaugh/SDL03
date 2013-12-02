@@ -29,9 +29,9 @@ private:
     int screenHeight;
     std::string windowTitle;
     std::vector <GameState*> states;
-    std::vector <GameTexture*> textures;
-    std::vector <GameFont*> fonts;
-    std::vector <GameSound*> sounds;
+    std::map <std::string, GameTexture*> textures;
+    std::map <std::string, GameFont*> fonts;
+    std::map <std::string, GameSound*> sounds;
 
     bool LoadResources();
     bool LoadTextures();

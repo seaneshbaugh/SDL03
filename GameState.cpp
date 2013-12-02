@@ -26,6 +26,6 @@ void GameState::ProcessInput(SDL_Event* event) {
 
 }
 
-void GameState::RenderObjects(std::vector<GameTexture*> textures, std::vector<GameFont*> fonts, std::vector<GameSound*> sounds) {
+void GameState::RenderObjects(std::map <std::string, GameTexture*> textures, std::map <std::string, GameFont*> fonts, std::map <std::string, GameSound*> sounds) {
     
 }

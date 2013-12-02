@@ -16,21 +16,21 @@ GameEngine::GameEngine() {
 }
 
 GameEngine::~GameEngine() {
-    for (std::vector<GameTexture*>::iterator texture = this->textures.begin(); texture != this->textures.end(); texture++) {
-        if (*texture) {
-            delete *texture;
+    for (std::map <std::string, GameTexture*>::iterator it = this->textures.begin(); it != this->textures.end(); it++) {
+        if (it->second) {
+            delete it->second;
         }
     }
 
-    for (std::vector<GameFont*>::iterator font = this->fonts.begin(); font != this->fonts.end(); font++) {
-        if (*font) {
-            delete *font;
+    for (std::map <std::string, GameFont*>::iterator it = this->fonts.begin(); it != this->fonts.end(); it++) {
+        if (it->second) {
+            delete it->second;
         }
     }
 
-    for (std::vector<GameSound*>::iterator sound = this->sounds.begin(); sound != this->sounds.end(); sound++) {
-        if (*sound) {
-            delete *sound;
+    for (std::map <std::string, GameSound*>::iterator it = this->sounds.begin(); it != this->sounds.end(); it++) {
+        if (it->second) {
+            delete it->second;
         }
     }
 
@@ -97,7 +97,7 @@ bool GameEngine::LoadFonts() {
             return false;
         }
 
-        this->fonts.push_back(font);
+        this->fonts[fontFilename->first] = font;
     }
 
     return true;

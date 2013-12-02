@@ -35,14 +35,14 @@ void IntroState::ProcessInput(SDL_Event* event) {
 // avoid having to pass in everything awkwardly. It would however greatly increase
 // the likelyhood of needing to reload resouces multiple times, especially textures
 // and fonts.
-void IntroState::RenderObjects(std::vector<GameTexture*> textures, std::vector<GameFont*> fonts, std::vector<GameSound*> sounds) {
+void IntroState::RenderObjects(std::map <std::string, GameTexture*> textures, std::map <std::string, GameFont*> fonts, std::map <std::string, GameSound*> sounds) {
     SDL_Texture *textTexture = NULL;
 
     SDL_Color color = { 255, 255, 255 };
 
     SDL_Rect textLocation;
 
-    SDL_Surface *textSurface = TTF_RenderText_Blended(fonts[0]->font, "Hello, world!", color);
+    SDL_Surface *textSurface = TTF_RenderText_Blended(fonts["DroidSans"]->font, "Hello, world!", color);
 
     textTexture = SDL_CreateTextureFromSurface(this->renderer, textSurface);
 
