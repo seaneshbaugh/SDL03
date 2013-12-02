@@ -16,3 +16,6 @@ Right now this "game" doesn't do anything. Eventually it might.
 * http://meandmark.com/blog/2012/01/using-sdl-with-xcode-4/
 * http://gamedev.tutsplus.com/tutorials/implementation/finite-state-machines-theory-and-implementation/
 * http://forums.libsdl.org/viewtopic.php?t=8382&sid=2a47d6269de5f4b842be6305c27eb603
+* http://libjson.sourceforge.net/
+* http://insanecoding.blogspot.com/2011/11/how-to-read-in-file-in-c.html
+* https://developer.apple.com/library/mac/documentation/CoreFoundation/Reference/CFBundleRef/Reference/reference.html

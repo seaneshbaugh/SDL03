@@ -19,6 +19,12 @@ bool GameFont::Load(std::string filename) {
 }
 
 bool GameFont::Load(std::string filename, int pointSize) {
+    if (this->font) {
+        TTF_CloseFont(this->font);
+
+        this->font = NULL;
+    }
+
     this->filename = filename;
 
     this->pointSize = pointSize;

@@ -30,10 +30,11 @@ void IntroState::ProcessInput(SDL_Event* event) {
     }
 }
 
-// This needs to be completely redone. Possibly by having each state have its own lists
-// of resources that are loaded when transitioning to the state. This should avoid having
-// to pass in everything awkwardly. It would however greatly increase the likelyhood of
-// needing to reload resouces multiple times, especially textures and fonts.
+// This needs to be completely redone. Possibly by having each state have its own
+// lists of resources that are loaded when transitioning to the state. This should
+// avoid having to pass in everything awkwardly. It would however greatly increase
+// the likelyhood of needing to reload resouces multiple times, especially textures
+// and fonts.
 void IntroState::RenderObjects(std::vector<GameTexture*> textures, std::vector<GameFont*> fonts, std::vector<GameSound*> sounds) {
     SDL_Texture *textTexture = NULL;
 
@@ -56,4 +57,8 @@ void IntroState::RenderObjects(std::vector<GameTexture*> textures, std::vector<G
     SDL_FreeSurface(textSurface);
 
     SDL_RenderCopy(this->renderer, textTexture, NULL, &textLocation);
+
+    // Need to figure out how to store textures as objects or something since this is
+    // creating a new texture on every pass which is very inefficient.
+    SDL_DestroyTexture(textTexture);
 }
