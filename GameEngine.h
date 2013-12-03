@@ -5,9 +5,12 @@
 #include <map>
 #include <string>
 #include <vector>
+
 #include "SDL.h"
 #include "SDL_ttf.h"
+
 #include "libs/libjson/libjson.h"
+
 #include "GameState.h"
 #include "IntroState.h"
 #include "GameResource.h"

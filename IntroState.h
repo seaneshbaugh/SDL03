@@ -12,6 +12,7 @@ public:
     void RenderObjects(std::map <std::string, GameTexture*> textures, std::map <std::string, GameFont*> fonts, std::map <std::string, GameSound*> sounds);
 private:
     SDL_Renderer* renderer;
+    lua_State *luaState;
     bool pop;
 };
 

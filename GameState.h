@@ -3,8 +3,12 @@
 
 #include <map>
 #include <vector>
+
 #include "SDL.h"
 #include "SDL_ttf.h"
+
+#include "libs/lua/src/lua.hpp"
+#include "libs/lua/src/lua.h"
 
 #include "GameTexture.h"
 #include "GameFont.h"

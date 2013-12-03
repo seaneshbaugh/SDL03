@@ -1,13 +1,52 @@
 #include "IntroState.h"
 
+#include <iostream>
+#include <sstream>
+
 IntroState::IntroState(SDL_Renderer* renderer) : GameState(renderer) {
     this->renderer = renderer;
+
+    std::cout << "Creating new Lua state" << std::endl;
+    this->luaState = luaL_newstate();
+
+    std::cout << "Opening Lua libs" << std::endl;
+    luaL_openlibs(this->luaState);
+
+    std::cout << "Loading intro.lua" << std::endl;
+    if (luaL_loadfile(this->luaState, "intro.lua")) {
+        std::cerr << "Error loading intro.lua" << std::endl;
+
+        std::cerr << lua_tostring(this->luaState, -1) << std::endl;
+
+        std::cerr << "Popping error message off the Lua stack" << std::endl;
+        lua_pop(this->luaState, 1);
+    } else {
+        std::cout << "Loaded intro.lua" << std::endl;
+    }
+
+    std::cout << "Pushing 0.0 onto Lua stack" << std::endl;
+    lua_pushnumber(this->luaState, 0.0);
+
+    std::cout << "Assigning pushed number to global currentTime" << std::endl;
+    lua_setglobal(this->luaState, "currentTime");
+
+    std::cout << "Executing intro.lua" << std::endl;
+    if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
+        std::cerr << "Error executing intro.lua" << std::endl;
+
+        std::cerr << lua_tostring(this->luaState, -1) << std::endl;
+
+        std::cerr << "Popping error message off the Lua stack" << std::endl;
+        lua_pop(this->luaState,1);
+    }
 
     this->pop = false;
 }
 
 IntroState::~IntroState() {
-    
+    if (this->luaState) {
+        lua_close(this->luaState);
+    }
 }
 
 GameState* IntroState::Update(SDL_Event* event) {
@@ -42,7 +81,46 @@ void IntroState::RenderObjects(std::map <std::string, GameTexture*> textures, st
 
     SDL_Rect textLocation;
 
-    SDL_Surface *textSurface = TTF_RenderText_Blended(fonts["DroidSans"]->font, "Hello, world!", color);
+    static int i = 0;
+
+    i++;
+
+    if (i > 60) {
+        i = 0;
+
+        std::cout << "Reseting frame counter" << std::endl;
+    }
+
+    if (i == 0) {
+        std::cout << "Getting Lua function incrementTime" << std::endl;
+        lua_getglobal(this->luaState, "incrementTime");
+
+        std::cout << "Pushing 1.0 onto Lua stack" << std::endl;
+        lua_pushnumber(this->luaState, 1.0);
+
+        std::cout << "Calling Lua function incrementTime" << std::endl;
+        lua_pcall(this->luaState, 1, 1, 0);
+
+        std::cout << "The return value of the incrementTime was " << lua_tostring(this->luaState, -1) << std::endl;
+
+        std::cout << "Popping return value of incrementTime off the Lua stack" << std::endl;
+        lua_pop(this->luaState, 1);
+    }
+
+    //std::cout << "Getting Lua global currentTime" << std::endl;
+    lua_getglobal(this->luaState, "currentTime");
+
+    //std::cout << "Reading Lua global currentTime from Lua stack" << std::endl;
+    double currentTime = lua_tonumber(this->luaState, -1);
+
+    //std::cout << "Popping Lua global currentTime off the sLua tack" << std::endl;
+    lua_pop(this->luaState, 1);
+
+    std::stringstream s;
+
+    s << currentTime;
+
+    SDL_Surface *textSurface = TTF_RenderText_Blended(fonts["DroidSans"]->font, s.str().c_str(), color);
 
     textTexture = SDL_CreateTextureFromSurface(this->renderer, textSurface);
 
