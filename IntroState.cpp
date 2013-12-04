@@ -6,6 +6,10 @@
 IntroState::IntroState(SDL_Renderer* renderer) : GameState(renderer) {
     this->renderer = renderer;
 
+    this->LoadResources();
+
+    this->texts.push_back(new GameText(this->renderer, "0", this->fonts["DroidSans"], 100, 100, {255, 255, 255}));
+
     std::cout << "Creating new Lua state" << std::endl;
     this->luaState = luaL_newstate();
 
@@ -74,12 +78,12 @@ void IntroState::ProcessInput(SDL_Event* event) {
 // avoid having to pass in everything awkwardly. It would however greatly increase
 // the likelyhood of needing to reload resouces multiple times, especially textures
 // and fonts.
-void IntroState::RenderObjects(std::map <std::string, GameTexture*> textures, std::map <std::string, GameFont*> fonts, std::map <std::string, GameSound*> sounds) {
-    SDL_Texture *textTexture = NULL;
-
-    SDL_Color color = { 255, 255, 255 };
-
-    SDL_Rect textLocation;
+void IntroState::Render() {
+//    SDL_Texture *textTexture = NULL;
+//
+//    SDL_Color color = { 255, 255, 255 };
+//
+//    SDL_Rect textLocation;
 
     static int i = 0;
 
@@ -120,23 +124,62 @@ void IntroState::RenderObjects(std::map <std::string, GameTexture*> textures, st
 
     s << currentTime;
 
-    SDL_Surface *textSurface = TTF_RenderText_Blended(fonts["DroidSans"]->font, s.str().c_str(), color);
+    this->texts[0]->SetText(s.str());
 
-    textTexture = SDL_CreateTextureFromSurface(this->renderer, textSurface);
+    this->texts[0]->Render();
 
-    textLocation.h = textSurface->h;
 
-    textLocation.w = textSurface->w;
+//    SDL_Surface *textSurface = TTF_RenderText_Blended(fonts["DroidSans"]->font, s.str().c_str(), color);
+//
+//    textTexture = SDL_CreateTextureFromSurface(this->renderer, textSurface);
+//
+//    textLocation.h = textSurface->h;
+//
+//    textLocation.w = textSurface->w;
+//
+//    textLocation.x = 100;
+//
+//    textLocation.y = 100;
+//
+//    SDL_FreeSurface(textSurface);
+//
+//    SDL_RenderCopy(this->renderer, textTexture, NULL, &textLocation);
+//
+//    // Need to figure out how to store textures as objects or something since this is
+//    // creating a new texture on every pass which is very inefficient.
+//    SDL_DestroyTexture(textTexture);
+}
 
-    textLocation.x = 100;
+bool IntroState::LoadTextures() {
+    return true;
+}
 
-    textLocation.y = 100;
+bool IntroState::LoadFonts() {
+    std::string jsonString;
 
-    SDL_FreeSurface(textSurface);
+    if (!this->ReadFile("fonts.json", jsonString)) {
+        return false;
+    }
 
-    SDL_RenderCopy(this->renderer, textTexture, NULL, &textLocation);
+    std::map<std::string, std::string> fontList;
 
-    // Need to figure out how to store textures as objects or something since this is
-    // creating a new texture on every pass which is very inefficient.
-    SDL_DestroyTexture(textTexture);
+    if (!this->ParseResourceList(jsonString, fontList)) {
+        return false;
+    }
+
+    for (std::map<std::string, std::string>::iterator fontFilename = fontList.begin(); fontFilename != fontList.end(); fontFilename++) {
+        GameFont* font = new GameFont();
+
+        if (!font->Load(fontFilename->second)) {
+            return false;
+        }
+
+        this->fonts[fontFilename->first] = font;
+    }
+    
+    return true;
+}
+
+bool IntroState::LoadSounds() {
+    return true;
 }

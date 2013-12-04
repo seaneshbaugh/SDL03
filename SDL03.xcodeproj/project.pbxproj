@@ -61,6 +61,9 @@
 		7B9A6085184D3E810016BA1A /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6060184D3E810016BA1A /* lzio.c */; };
 		7B9A6086184D3E810016BA1A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6062184D3E810016BA1A /* Makefile */; };
 		7B9A608B184DA61F0016BA1A /* intro.lua in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A608A184DA61F0016BA1A /* intro.lua */; };
+		7B9A608E184E49CC0016BA1A /* GameText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A608C184E49CC0016BA1A /* GameText.cpp */; };
+		7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A608F184E798A0016BA1A /* intro_textures.json */; };
+		7B9A6092184E79970016BA1A /* intro_sounds.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A6091184E79970016BA1A /* intro_sounds.json */; };
 		7BE4738918454E57002EA054 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BE4738818454E57002EA054 /* fonts.json */; };
 		7BE474401845547C002EA054 /* internalJSONNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473921845547C002EA054 /* internalJSONNode.cpp */; };
 		7BE474411845547C002EA054 /* JSONAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473951845547C002EA054 /* JSONAllocator.cpp */; };
@@ -177,6 +180,10 @@
 		7B9A6061184D3E810016BA1A /* lzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzio.h; sourceTree = "<group>"; };
 		7B9A6062184D3E810016BA1A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		7B9A608A184DA61F0016BA1A /* intro.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = intro.lua; sourceTree = "<group>"; };
+		7B9A608C184E49CC0016BA1A /* GameText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameText.cpp; sourceTree = "<group>"; };
+		7B9A608D184E49CC0016BA1A /* GameText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameText.h; sourceTree = "<group>"; };
+		7B9A608F184E798A0016BA1A /* intro_textures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = intro_textures.json; sourceTree = "<group>"; };
+		7B9A6091184E79970016BA1A /* intro_sounds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = intro_sounds.json; sourceTree = "<group>"; };
 		7BE4738818454E57002EA054 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
 		7BE4738E1845547C002EA054 /* libbase64++.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libbase64++.h"; sourceTree = "<group>"; };
 		7BE473901845547C002EA054 /* mempool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mempool.h; sourceTree = "<group>"; };
@@ -324,6 +331,8 @@
 			children = (
 				7B342A51183F2D6900BA2C29 /* GameObject.cpp */,
 				7B342A52183F2D6900BA2C29 /* GameObject.h */,
+				7B9A608C184E49CC0016BA1A /* GameText.cpp */,
+				7B9A608D184E49CC0016BA1A /* GameText.h */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -467,6 +476,8 @@
 			isa = PBXGroup;
 			children = (
 				7BE4738818454E57002EA054 /* fonts.json */,
+				7B9A608F184E798A0016BA1A /* intro_textures.json */,
+				7B9A6091184E79970016BA1A /* intro_sounds.json */,
 			);
 			path = resource_lists;
 			sourceTree = "<group>";
@@ -625,8 +636,10 @@
 				7BE474A31845547C002EA054 /* License.txt in Resources */,
 				7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */,
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
+				7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */,
 				7B9A608B184DA61F0016BA1A /* intro.lua in Resources */,
 				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
+				7B9A6092184E79970016BA1A /* intro_sounds.json in Resources */,
 				7B9A6063184D3E810016BA1A /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -652,6 +665,7 @@
 				7BE474431845547C002EA054 /* JSONDebug.cpp in Sources */,
 				7B9A6076184D3E810016BA1A /* loadlib.c in Sources */,
 				7BE474451845547C002EA054 /* JSONMemory.cpp in Sources */,
+				7B9A608E184E49CC0016BA1A /* GameText.cpp in Sources */,
 				7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */,
 				7B9A6086184D3E810016BA1A /* Makefile in Sources */,
 				7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */,

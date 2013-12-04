@@ -1,5 +1,17 @@
 print("Hello from Lua")
 
+function initialize()
+
+end
+
+function processInput(input)
+
+end
+
+function update()
+
+end
+
 function incrementTime(x)
     print("currentTime is " .. currentTime)
     

@@ -19,3 +19,7 @@ Right now this "game" doesn't do anything. Eventually it might.
 * http://libjson.sourceforge.net/
 * http://insanecoding.blogspot.com/2011/11/how-to-read-in-file-in-c.html
 * https://developer.apple.com/library/mac/documentation/CoreFoundation/Reference/CFBundleRef/Reference/reference.html
+* http://rubenlaguna.com/wp/2012/11/26/first-steps-lua-cplusplus-integration/
+* http://rubenlaguna.com/wp/2012/12/09/accessing-cpp-objects-from-lua/
+* http://www.lua.org/manual/5.2/manual.html
+* http://lua-users.org/wiki/

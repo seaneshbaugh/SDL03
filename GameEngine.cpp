@@ -16,24 +16,6 @@ GameEngine::GameEngine() {
 }
 
 GameEngine::~GameEngine() {
-    for (std::map <std::string, GameTexture*>::iterator it = this->textures.begin(); it != this->textures.end(); it++) {
-        if (it->second) {
-            delete it->second;
-        }
-    }
-
-    for (std::map <std::string, GameFont*>::iterator it = this->fonts.begin(); it != this->fonts.end(); it++) {
-        if (it->second) {
-            delete it->second;
-        }
-    }
-
-    for (std::map <std::string, GameSound*>::iterator it = this->sounds.begin(); it != this->sounds.end(); it++) {
-        if (it->second) {
-            delete it->second;
-        }
-    }
-
     if (this->screen) {
         SDL_DestroyWindow(this->screen);
     }
@@ -56,109 +38,12 @@ bool GameEngine::Setup() {
         return false;
     }
 
-    if (this->LoadResources() == false) {
-        return false;
-    }
+//    if (this->LoadResources() == false) {
+//        return false;
+//    }
 
     return true;
 }
-
-bool GameEngine::LoadResources() {
-    return this->LoadTextures() && this->LoadFonts() && this->LoadSounds();
-}
-
-// Eventually each resource will have a name or ID or something so they can be
-// referenced without necessarily knowing the order in which they were loaded.
-// These functions may be moved to the GameState class so that each state will keep
-// track of its own resources. I'm not 100% sold on that idea though since it will
-// likely mean lots of potential duplication of loaded objects. Whether or not that
-// actually matters, I don't know.
-bool GameEngine::LoadTextures() {
-    return true;
-}
-
-bool GameEngine::LoadFonts() {
-    std::string jsonString;
-
-    if (!this->ReadFile("fonts.json", jsonString)) {
-        return false;
-    }
-
-    std::map<std::string, std::string> fontList;
-
-    if (!this->ParseResourceList(jsonString, fontList)) {
-        return false;
-    }
-
-    for (std::map<std::string, std::string>::iterator fontFilename = fontList.begin(); fontFilename != fontList.end(); fontFilename++) {
-        GameFont* font = new GameFont();
-
-        if (!font->Load(fontFilename->second)) {
-            return false;
-        }
-
-        this->fonts[fontFilename->first] = font;
-    }
-
-    return true;
-}
-
-bool GameEngine::LoadSounds() {
-    return true;
-}
-
-// This is only going here because C++ doesn't have class methods (in the Ruby
-// sense) so I can't put it in with GameResource, which is where I would put it,
-// but it's not really something that belongs on an instance of anything. I'm
-// really afraid that GameEngine will end up as a junk drawer.
-bool GameEngine::ReadFile(std::string filename, std::string &contents) {
-    std::ifstream in(filename.c_str(), std::ios::in | std::ios::binary);
-
-    try {
-        if (in) {
-            in.seekg(0, std::ios::end);
-
-            contents.resize(in.tellg());
-
-            in.seekg(0, std::ios::beg);
-
-            in.read(&contents[0], contents.size());
-
-            in.close();
-
-            return true;
-        } else {
-            return false;
-        }
-    } catch (int exception) {
-        return false;
-    }
-}
-
-bool GameEngine::ParseResourceList(std::string jsonString, std::map<std::string, std::string> &resourceList) {
-    JSONNode json = libjson::parse(jsonString);
-
-    std::function<void(const JSONNode&)> parseJSON = [&] (const JSONNode &node) {
-        JSONNode::const_iterator i = node.begin();
-
-        while (i != node.end()) {
-            if (i->type() == JSON_ARRAY || i->type() == JSON_NODE) {
-                parseJSON(*i);
-            }
-
-            if (i->type() == JSON_STRING) {
-                resourceList[i->name()] = i->as_string();
-            }
-            
-            i++;
-        }
-    };
-    
-    parseJSON(json);
-    
-    return true;
-}
-
 
 void GameEngine::Start() {
     IntroState* introState = new IntroState(this->renderer);
@@ -234,7 +119,7 @@ void GameEngine::Render() {
 
     SDL_RenderClear(this->renderer);
 
-    this->states.back()->RenderObjects(this->textures, this->fonts, this->sounds);
+    this->states.back()->Render();
 
     SDL_RenderPresent(this->renderer);
 

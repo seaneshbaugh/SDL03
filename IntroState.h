@@ -9,11 +9,13 @@ public:
     ~IntroState();
     GameState* Update(SDL_Event* event);
     void ProcessInput(SDL_Event* event);
-    void RenderObjects(std::map <std::string, GameTexture*> textures, std::map <std::string, GameFont*> fonts, std::map <std::string, GameSound*> sounds);
-private:
-    SDL_Renderer* renderer;
+    void Render();
+protected:
     lua_State *luaState;
-    bool pop;
+
+    bool LoadTextures();
+    bool LoadFonts();
+    bool LoadSounds();
 };
 
 #endif
