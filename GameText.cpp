@@ -1,8 +1,24 @@
 #include "GameText.h"
 
-GameText::GameText(SDL_Renderer* renderer) {
-    this->renderer = renderer;
+SDL_Renderer* GameText::renderer;
 
+const char LuaGameText::className[] = "GameText";
+
+Lunar<LuaGameText>::RegType LuaGameText::methods[] = {
+    {"getText", &LuaGameText::getText},
+    {"setText", &LuaGameText::setText},
+    {"getX", &LuaGameText::getX},
+    {"getY", &LuaGameText::getY},
+    {"getWidth", &LuaGameText::getWidth},
+    {"getHeight", &LuaGameText::getHeight},
+    {"setText", &LuaGameText::setText},
+    {"setPosition", &LuaGameText::setPosition},
+    {"setColor", &LuaGameText::setColor},
+    {"render", &LuaGameText::render},
+    {0, 0}
+};
+
+GameText::GameText() {
     this->text = "";
 
     this->font = NULL;
@@ -18,9 +34,7 @@ GameText::GameText(SDL_Renderer* renderer) {
     this->texture = NULL;
 }
 
-GameText::GameText(SDL_Renderer* renderer, std::string text, GameFont* font, int x, int y, SDL_Color color) {
-    this->renderer = renderer;
-
+GameText::GameText(std::string text, GameFont* font, int x, int y, SDL_Color color) {
     this->text = text;
 
     this->font = font;
@@ -44,6 +58,10 @@ GameText::~GameText() {
     }
 }
 
+std::string GameText::GetText() {
+    return this->text;
+}
+
 void GameText::SetText(std::string text) {
     this->text = text;
 
@@ -54,6 +72,10 @@ void GameText::SetFont(GameFont* font) {
     this->font = font;
 
     this->UpdateTexture();
+}
+
+SDL_Rect GameText::GetPosition() {
+    return this->textLocation;
 }
 
 void GameText::SetPosition(int x, int y) {

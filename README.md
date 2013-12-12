@@ -23,3 +23,13 @@ Right now this "game" doesn't do anything. Eventually it might.
 * http://rubenlaguna.com/wp/2012/12/09/accessing-cpp-objects-from-lua/
 * http://www.lua.org/manual/5.2/manual.html
 * http://lua-users.org/wiki/
+* http://lua-users.org/wiki/CppObjectBinding
+* http://lua-users.org/wiki/SimplerCppBinding
+* http://lua-users.org/wiki/CppBindingWithLunar
+* http://lua-users.org/wiki/LunaFive
+* http://lua-users.org/wiki/UserDataExample
+* http://pgl.yoyo.org/luai/i/_
+* http://csl.name/lua/
+* http://stackoverflow.com/questions/14639194/how-do-i-create-a-c-function-accepting-multiple-arguments-in-lua
+* http://lua-users.org/wiki/MathLibraryTutorial
+* http://www.dribin.org/dave/blog/archives/2009/11/15/rpath/

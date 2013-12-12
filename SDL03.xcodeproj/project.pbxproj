@@ -64,6 +64,10 @@
 		7B9A608E184E49CC0016BA1A /* GameText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A608C184E49CC0016BA1A /* GameText.cpp */; };
 		7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A608F184E798A0016BA1A /* intro_textures.json */; };
 		7B9A6092184E79970016BA1A /* intro_sounds.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A6091184E79970016BA1A /* intro_sounds.json */; };
+		7B9A60D9185A35A10016BA1A /* SDL2_image.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B342A5B1843E18600BA2C29 /* SDL2_image.framework */; };
+		7B9A60DA185A35A10016BA1A /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B342A5C1843E18600BA2C29 /* SDL2_mixer.framework */; };
+		7B9A60DB185A35A10016BA1A /* SDL2_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B342A5D1843E18600BA2C29 /* SDL2_ttf.framework */; };
+		7B9A60DC185A35A10016BA1A /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B342A5E1843E18600BA2C29 /* SDL2.framework */; };
 		7BE4738918454E57002EA054 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BE4738818454E57002EA054 /* fonts.json */; };
 		7BE474401845547C002EA054 /* internalJSONNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473921845547C002EA054 /* internalJSONNode.cpp */; };
 		7BE474411845547C002EA054 /* JSONAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473951845547C002EA054 /* JSONAllocator.cpp */; };
@@ -82,6 +86,22 @@
 		7BE474A31845547C002EA054 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7BE4743E1845547C002EA054 /* License.txt */; };
 		7BE474A41845547C002EA054 /* makefile in Sources */ = {isa = PBXBuildFile; fileRef = 7BE4743F1845547C002EA054 /* makefile */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7B9A60D8185A35940016BA1A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7B9A60D9185A35A10016BA1A /* SDL2_image.framework in CopyFiles */,
+				7B9A60DA185A35A10016BA1A /* SDL2_mixer.framework in CopyFiles */,
+				7B9A60DB185A35A10016BA1A /* SDL2_ttf.framework in CopyFiles */,
+				7B9A60DC185A35A10016BA1A /* SDL2.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7B342A07183F09E000BA2C29 /* SDL03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL03.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +204,7 @@
 		7B9A608D184E49CC0016BA1A /* GameText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameText.h; sourceTree = "<group>"; };
 		7B9A608F184E798A0016BA1A /* intro_textures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = intro_textures.json; sourceTree = "<group>"; };
 		7B9A6091184E79970016BA1A /* intro_sounds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = intro_sounds.json; sourceTree = "<group>"; };
+		7B9A60D41850CF990016BA1A /* lunar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lunar.h; sourceTree = "<group>"; };
 		7BE4738818454E57002EA054 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
 		7BE4738E1845547C002EA054 /* libbase64++.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libbase64++.h"; sourceTree = "<group>"; };
 		7BE473901845547C002EA054 /* mempool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mempool.h; sourceTree = "<group>"; };
@@ -333,6 +354,7 @@
 				7B342A52183F2D6900BA2C29 /* GameObject.h */,
 				7B9A608C184E49CC0016BA1A /* GameText.cpp */,
 				7B9A608D184E49CC0016BA1A /* GameText.h */,
+				7B9A60D41850CF990016BA1A /* lunar.h */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -589,6 +611,7 @@
 				7B342A03183F09E000BA2C29 /* Sources */,
 				7B342A04183F09E000BA2C29 /* Frameworks */,
 				7B342A05183F09E000BA2C29 /* Resources */,
+				7B9A60D8185A35940016BA1A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -807,6 +830,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SDL03/SDL03-Prefix.pch";
 				INFOPLIST_FILE = "SDL03/SDL03-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
 				WRAPPER_EXTENSION = app;
@@ -826,6 +850,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SDL03/SDL03-Prefix.pch";
 				INFOPLIST_FILE = "SDL03/SDL03-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
 				WRAPPER_EXTENSION = app;

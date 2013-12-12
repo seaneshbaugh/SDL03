@@ -12,10 +12,6 @@ public:
     void Render();
 protected:
     lua_State *luaState;
-
-    bool LoadTextures();
-    bool LoadFonts();
-    bool LoadSounds();
 };
 
 #endif

@@ -1,5 +1,14 @@
 #include "GameState.h"
 
+const char LuaGameState::className[] = "GameState";
+
+Lunar<LuaGameState>::RegType LuaGameState::methods[] = {
+    {"getTexture", &LuaGameState::getTexture},
+    {"getFont", &LuaGameState::getFont},
+    {"getSound", &LuaGameState::getSound},
+    {0, 0}
+};
+
 GameState::GameState(SDL_Renderer* renderer) {
     this->renderer = renderer;
 
@@ -98,18 +107,40 @@ bool GameState::ParseResourceList(std::string jsonString, std::map<std::string, 
     return true;
 }
 
-bool GameState::LoadResources() {
-    return this->LoadTextures() && this->LoadFonts() && this->LoadSounds();
+bool GameState::LoadResources(std::string textureListPath, std::string fontListPath, std::string SoundListPath) {
+    return this->LoadTextures(textureListPath) && this->LoadFonts(fontListPath) && this->LoadSounds(SoundListPath);
 }
 
-bool GameState::LoadTextures() {
+bool GameState::LoadTextures(std::string resourceListPath) {
     return true;
 }
 
-bool GameState::LoadFonts() {
+bool GameState::LoadFonts(std::string resourceListPath) {
+    std::string jsonString;
+
+    if (!this->ReadFile(resourceListPath, jsonString)) {
+        return false;
+    }
+
+    std::map<std::string, std::string> fontList;
+
+    if (!this->ParseResourceList(jsonString, fontList)) {
+        return false;
+    }
+
+    for (std::map<std::string, std::string>::iterator fontFilename = fontList.begin(); fontFilename != fontList.end(); fontFilename++) {
+        GameFont* font = new GameFont();
+
+        if (!font->Load(fontFilename->second)) {
+            return false;
+        }
+
+        this->fonts[fontFilename->first] = font;
+    }
+    
     return true;
 }
 
-bool GameState::LoadSounds() {
+bool GameState::LoadSounds(std::string resourceListPath) {
     return true;
 }

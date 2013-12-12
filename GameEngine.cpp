@@ -10,15 +10,25 @@ GameEngine::GameEngine() {
     
     this->screenWidth = SCREEN_WIDTH;
     
-    this->screenHeight = SCREEN_WIDTH;
+    this->screenHeight = SCREEN_HEIGHT;
 
     this->windowTitle = "Hello, world!";
 }
 
 GameEngine::~GameEngine() {
+    for (std::vector <GameState*>::iterator it = this->states.begin(); it != this->states.end(); it++) {
+        if (*it) {
+            delete *it;
+        }
+    }
+
     if (this->screen) {
         SDL_DestroyWindow(this->screen);
     }
+
+    Mix_CloseAudio();
+
+    TTF_Quit();
 
     SDL_Quit();
 }
@@ -34,13 +44,15 @@ bool GameEngine::Setup() {
         return false;
     }
 
+    GameText::renderer = this->renderer;
+
     if (TTF_Init() == -1) {
         return false;
     }
 
-//    if (this->LoadResources() == false) {
-//        return false;
-//    }
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
+        return false;
+    }
 
     return true;
 }

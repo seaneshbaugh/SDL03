@@ -3,6 +3,8 @@
 
 #include "SDL.h"
 
+#include "lunar.h"
+
 class GameObject {
 public:
     GameObject();
