@@ -27,8 +27,6 @@ function initialize()
     end
 
     for i, v in ipairs(texts) do
-        v:show()
-        
         if math.random(0, 1) == 0 then
             table.insert(vx, math.random(-3, -1))
         else
@@ -44,7 +42,7 @@ function initialize()
 end
 
 function process_input()
-
+    return ""
 end
 
 function update()

@@ -47,8 +47,8 @@ GameState* GameState::Update(SDL_Event* event) {
     }
 }
 
-void GameState::ProcessInput(SDL_Event* event) {
-
+std::string GameState::ProcessInput(SDL_Event* event) {
+    return "";
 }
 
 void GameState::Render() {
@@ -112,6 +112,28 @@ bool GameState::LoadResources(std::string textureListPath, std::string fontListP
 }
 
 bool GameState::LoadTextures(std::string resourceListPath) {
+    std::string jsonString;
+
+    if (!this->ReadFile(resourceListPath, jsonString)) {
+        return false;
+    }
+
+    std::map<std::string, std::string> textureList;
+
+    if (!this->ParseResourceList(jsonString, textureList)) {
+        return false;
+    }
+
+    for (std::map<std::string, std::string>::iterator textureFilename = textureList.begin(); textureFilename != textureList.end(); textureFilename++) {
+        GameTexture* texture = new GameTexture();
+
+        if (!texture->Load(textureFilename->second)) {
+            return false;
+        }
+
+        this->textures[textureFilename->first] = texture;
+    }
+
     return true;
 }
 
@@ -142,5 +164,9 @@ bool GameState::LoadFonts(std::string resourceListPath) {
 }
 
 bool GameState::LoadSounds(std::string resourceListPath) {
+    return true;
+}
+
+bool GameState::LoadSongs(std::string resourceListPath) {
     return true;
 }

@@ -7,11 +7,15 @@
 
 class GameFont : public GameResource {
 public:
+    TTF_Font* font;
+
     GameFont();
+    GameFont(std::string filename);
+    GameFont(std::string filename, int pointSize);
     ~GameFont();
     bool Load(std::string filename);
     bool Load(std::string filename, int pointSize);
-    TTF_Font* font;
+
 private:
     std::string filename;
     int pointSize;

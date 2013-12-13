@@ -109,6 +109,8 @@ void GameText::Render() {
 void GameText::UpdateTexture() {
     if (this->texture) {
         SDL_DestroyTexture(this->texture);
+
+        this->texture = NULL;
     }
 
     SDL_Surface *textSurface = TTF_RenderText_Blended(this->font->font, this->text.c_str(), this->color);

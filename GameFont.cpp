@@ -5,7 +5,29 @@ const int DEFAULT_POINT_SIZE = 16;
 GameFont::GameFont() {
     this->font = NULL;
 
+    this->filename = "";
+
     this->pointSize = DEFAULT_POINT_SIZE;
+}
+
+GameFont::GameFont(std::string filename) {
+    this->font = NULL;
+
+    this->filename = "";
+
+    this->pointSize = DEFAULT_POINT_SIZE;
+
+    this->Load(filename);
+}
+
+GameFont::GameFont(std::string filename, int pointSize) {
+    this->font = NULL;
+
+    this->filename = "";
+
+    this->pointSize = DEFAULT_POINT_SIZE;
+
+    this->Load(filename, pointSize);
 }
 
 GameFont::~GameFont() {

@@ -30,6 +30,8 @@ GameEngine::~GameEngine() {
 
     TTF_Quit();
 
+    IMG_Quit();
+
     SDL_Quit();
 }
 
@@ -44,7 +46,15 @@ bool GameEngine::Setup() {
         return false;
     }
 
+    GameTexture::renderer = this->renderer;
+
     GameText::renderer = this->renderer;
+
+    GameImage::renderer = this->renderer;
+
+    if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
+        return false;
+    }
 
     if (TTF_Init() == -1) {
         return false;

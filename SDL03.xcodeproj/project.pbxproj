@@ -68,6 +68,17 @@
 		7B9A60DA185A35A10016BA1A /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B342A5C1843E18600BA2C29 /* SDL2_mixer.framework */; };
 		7B9A60DB185A35A10016BA1A /* SDL2_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B342A5D1843E18600BA2C29 /* SDL2_ttf.framework */; };
 		7B9A60DC185A35A10016BA1A /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7B342A5E1843E18600BA2C29 /* SDL2.framework */; };
+		7B9A60E0185A78080016BA1A /* MainMenuState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A60DE185A78080016BA1A /* MainMenuState.cpp */; };
+		7B9A60E4185ADB0D0016BA1A /* cursor-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60E2185ADB0D0016BA1A /* cursor-left.png */; };
+		7B9A60E5185ADB0D0016BA1A /* cursor-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60E3185ADB0D0016BA1A /* cursor-right.png */; };
+		7B9A60E7185ADBC70016BA1A /* main_menu_textures.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60E6185ADBC70016BA1A /* main_menu_textures.json */; };
+		7B9A60E9185ADC0E0016BA1A /* main_menu_sounds.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60E8185ADC0E0016BA1A /* main_menu_sounds.json */; };
+		7B9A60EB185ADC580016BA1A /* main_menu.lua in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60EA185ADC580016BA1A /* main_menu.lua */; };
+		7B9A60EE185B557C0016BA1A /* GameImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A60EC185B557C0016BA1A /* GameImage.cpp */; };
+		7B9A60F1185B8B8E0016BA1A /* GameSong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A60EF185B8B8E0016BA1A /* GameSong.cpp */; };
+		7B9A60F3185BA4F50016BA1A /* sdl_keys.lua in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60F2185BA4F50016BA1A /* sdl_keys.lua */; };
+		7B9A60F5185BBB7C0016BA1A /* main_menu_songs.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60F4185BBB7C0016BA1A /* main_menu_songs.json */; };
+		7B9A60F7185BBB920016BA1A /* intro_songs.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A60F6185BBB920016BA1A /* intro_songs.json */; };
 		7BE4738918454E57002EA054 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BE4738818454E57002EA054 /* fonts.json */; };
 		7BE474401845547C002EA054 /* internalJSONNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473921845547C002EA054 /* internalJSONNode.cpp */; };
 		7BE474411845547C002EA054 /* JSONAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473951845547C002EA054 /* JSONAllocator.cpp */; };
@@ -205,6 +216,20 @@
 		7B9A608F184E798A0016BA1A /* intro_textures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = intro_textures.json; sourceTree = "<group>"; };
 		7B9A6091184E79970016BA1A /* intro_sounds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = intro_sounds.json; sourceTree = "<group>"; };
 		7B9A60D41850CF990016BA1A /* lunar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lunar.h; sourceTree = "<group>"; };
+		7B9A60DE185A78080016BA1A /* MainMenuState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainMenuState.cpp; sourceTree = "<group>"; };
+		7B9A60DF185A78080016BA1A /* MainMenuState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuState.h; sourceTree = "<group>"; };
+		7B9A60E2185ADB0D0016BA1A /* cursor-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cursor-left.png"; sourceTree = "<group>"; };
+		7B9A60E3185ADB0D0016BA1A /* cursor-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cursor-right.png"; sourceTree = "<group>"; };
+		7B9A60E6185ADBC70016BA1A /* main_menu_textures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = main_menu_textures.json; sourceTree = "<group>"; };
+		7B9A60E8185ADC0E0016BA1A /* main_menu_sounds.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = main_menu_sounds.json; sourceTree = "<group>"; };
+		7B9A60EA185ADC580016BA1A /* main_menu.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main_menu.lua; sourceTree = "<group>"; };
+		7B9A60EC185B557C0016BA1A /* GameImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameImage.cpp; sourceTree = "<group>"; };
+		7B9A60ED185B557C0016BA1A /* GameImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameImage.h; sourceTree = "<group>"; };
+		7B9A60EF185B8B8E0016BA1A /* GameSong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSong.cpp; sourceTree = "<group>"; };
+		7B9A60F0185B8B8E0016BA1A /* GameSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSong.h; sourceTree = "<group>"; };
+		7B9A60F2185BA4F50016BA1A /* sdl_keys.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sdl_keys.lua; sourceTree = "<group>"; };
+		7B9A60F4185BBB7C0016BA1A /* main_menu_songs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = main_menu_songs.json; sourceTree = "<group>"; };
+		7B9A60F6185BBB920016BA1A /* intro_songs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = intro_songs.json; sourceTree = "<group>"; };
 		7BE4738818454E57002EA054 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
 		7BE4738E1845547C002EA054 /* libbase64++.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libbase64++.h"; sourceTree = "<group>"; };
 		7BE473901845547C002EA054 /* mempool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mempool.h; sourceTree = "<group>"; };
@@ -275,6 +300,7 @@
 				7BE4737018454D0C002EA054 /* libs */,
 				7B342A781844686600BA2C29 /* fonts */,
 				7B342A631843E53400BA2C29 /* README.md */,
+				7B9A60E1185ADB0D0016BA1A /* images */,
 				7B342A4F183F2CDA00BA2C29 /* Game Classes */,
 				7B342A49183F0EE000BA2C29 /* main.cpp */,
 				7B342A4A183F0EE000BA2C29 /* main.h */,
@@ -355,6 +381,8 @@
 				7B9A608C184E49CC0016BA1A /* GameText.cpp */,
 				7B9A608D184E49CC0016BA1A /* GameText.h */,
 				7B9A60D41850CF990016BA1A /* lunar.h */,
+				7B9A60EC185B557C0016BA1A /* GameImage.cpp */,
+				7B9A60ED185B557C0016BA1A /* GameImage.h */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -366,6 +394,8 @@
 				7B342A54184321DB00BA2C29 /* GameState.cpp */,
 				7B342A5818439C0D00BA2C29 /* IntroState.cpp */,
 				7B342A5918439C0D00BA2C29 /* IntroState.h */,
+				7B9A60DE185A78080016BA1A /* MainMenuState.cpp */,
+				7B9A60DF185A78080016BA1A /* MainMenuState.h */,
 			);
 			name = "Game States";
 			sourceTree = "<group>";
@@ -381,6 +411,8 @@
 				7B342A6C18443AA200BA2C29 /* GameTexture.h */,
 				7B342A6E18443AAE00BA2C29 /* GameSound.cpp */,
 				7B342A6F18443AAE00BA2C29 /* GameSound.h */,
+				7B9A60EF185B8B8E0016BA1A /* GameSong.cpp */,
+				7B9A60F0185B8B8E0016BA1A /* GameSong.h */,
 			);
 			name = "Game Resources";
 			sourceTree = "<group>";
@@ -481,8 +513,19 @@
 			isa = PBXGroup;
 			children = (
 				7B9A608A184DA61F0016BA1A /* intro.lua */,
+				7B9A60EA185ADC580016BA1A /* main_menu.lua */,
+				7B9A60F2185BA4F50016BA1A /* sdl_keys.lua */,
 			);
 			path = scripts;
+			sourceTree = "<group>";
+		};
+		7B9A60E1185ADB0D0016BA1A /* images */ = {
+			isa = PBXGroup;
+			children = (
+				7B9A60E2185ADB0D0016BA1A /* cursor-left.png */,
+				7B9A60E3185ADB0D0016BA1A /* cursor-right.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 		7BE4737018454D0C002EA054 /* libs */ = {
@@ -500,6 +543,10 @@
 				7BE4738818454E57002EA054 /* fonts.json */,
 				7B9A608F184E798A0016BA1A /* intro_textures.json */,
 				7B9A6091184E79970016BA1A /* intro_sounds.json */,
+				7B9A60E6185ADBC70016BA1A /* main_menu_textures.json */,
+				7B9A60E8185ADC0E0016BA1A /* main_menu_sounds.json */,
+				7B9A60F4185BBB7C0016BA1A /* main_menu_songs.json */,
+				7B9A60F6185BBB920016BA1A /* intro_songs.json */,
 			);
 			path = resource_lists;
 			sourceTree = "<group>";
@@ -654,11 +701,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B9A60E5185ADB0D0016BA1A /* cursor-right.png in Resources */,
 				7BE4738918454E57002EA054 /* fonts.json in Resources */,
 				7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */,
+				7B9A60E9185ADC0E0016BA1A /* main_menu_sounds.json in Resources */,
+				7B9A60F5185BBB7C0016BA1A /* main_menu_songs.json in Resources */,
+				7B9A60F7185BBB920016BA1A /* intro_songs.json in Resources */,
+				7B9A60EB185ADC580016BA1A /* main_menu.lua in Resources */,
+				7B9A60E4185ADB0D0016BA1A /* cursor-left.png in Resources */,
 				7BE474A31845547C002EA054 /* License.txt in Resources */,
 				7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */,
+				7B9A60E7185ADBC70016BA1A /* main_menu_textures.json in Resources */,
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
+				7B9A60F3185BA4F50016BA1A /* sdl_keys.lua in Resources */,
 				7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */,
 				7B9A608B184DA61F0016BA1A /* intro.lua in Resources */,
 				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
@@ -697,6 +752,7 @@
 				7B9A6074184D3E810016BA1A /* lmathlib.c in Sources */,
 				7B9A6067184D3E810016BA1A /* lbitlib.c in Sources */,
 				7B342A4B183F0EE000BA2C29 /* main.cpp in Sources */,
+				7B9A60EE185B557C0016BA1A /* GameImage.cpp in Sources */,
 				7B342A6D18443AA200BA2C29 /* GameTexture.cpp in Sources */,
 				7B9A6077184D3E810016BA1A /* lobject.c in Sources */,
 				7B9A6072184D3E810016BA1A /* liolib.c in Sources */,
@@ -714,6 +770,8 @@
 				7B342A4E183F15A900BA2C29 /* GameEngine.cpp in Sources */,
 				7B9A6066184D3E810016BA1A /* lbaselib.c in Sources */,
 				7BE474401845547C002EA054 /* internalJSONNode.cpp in Sources */,
+				7B9A60F1185B8B8E0016BA1A /* GameSong.cpp in Sources */,
+				7B9A60E0185A78080016BA1A /* MainMenuState.cpp in Sources */,
 				7B342A6A18443A9100BA2C29 /* GameFont.cpp in Sources */,
 				7B342A7018443AAE00BA2C29 /* GameSound.cpp in Sources */,
 				7B9A607E184D3E810016BA1A /* ltable.c in Sources */,

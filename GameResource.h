@@ -1,6 +1,7 @@
 #ifndef __SDL03__GameResource__
 #define __SDL03__GameResource__
 
+#include <iostream>
 #include <string>
 
 class GameResource {

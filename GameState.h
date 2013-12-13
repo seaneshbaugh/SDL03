@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "SDL.h"
+#include "SDL_image.h"
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
 
@@ -16,16 +17,18 @@
 #include "GameTexture.h"
 #include "GameFont.h"
 #include "GameSound.h"
+#include "GameSong.h"
 
 #include "GameObject.h"
 #include "GameText.h"
+#include "GameImage.h"
 
 class GameState {
 public:
     GameState(SDL_Renderer* renderer);
     ~GameState();
     virtual GameState* Update(SDL_Event* event);
-    virtual void ProcessInput(SDL_Event* event);
+    virtual std::string ProcessInput(SDL_Event* event);
     virtual void Render();
 
     friend class LuaGameState;
@@ -35,12 +38,14 @@ protected:
     std::map <std::string, GameTexture*> textures;
     std::map <std::string, GameFont*> fonts;
     std::map <std::string, GameSound*> sounds;
+    std::map <std::string, GameSong*> songs;
     std::vector <GameText*> texts;
 
     bool LoadResources(std::string textureListPath, std::string fontListPath, std::string SoundListPath);
     bool LoadTextures(std::string resourceListPath);
     bool LoadFonts(std::string resourceListPath);
     bool LoadSounds(std::string resourceListPath);
+    bool LoadSongs(std::string resourceListPath);
     bool ReadFile(std::string filename, std::string &contents);
     bool ParseResourceList(std::string jsonString, std::map<std::string, std::string> &resourceList);
 };

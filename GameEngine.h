@@ -6,15 +6,19 @@
 #include <vector>
 
 #include "SDL.h"
+#include "SDL_image.h"
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
 
 #include "GameState.h"
 #include "IntroState.h"
+#include "MainMenuState.h"
 #include "GameResource.h"
 #include "GameTexture.h"
 #include "GameFont.h"
 #include "GameSound.h"
+#include "GameText.h"
+#include "GameImage.h"
 
 class GameEngine {
 public:

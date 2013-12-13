@@ -105,6 +105,10 @@ public:
         this->realObject = new GameText(text, font, x, y, color);
     }
 
+    ~LuaGameText() {
+        delete this->realObject;
+    }
+
     int getText(lua_State* L) {
         lua_pushstring(L, this->realObject->GetText().c_str());
 
@@ -119,7 +123,7 @@ public:
         return 0;
     }
 
-//    int set_font(lua_State *L) {
+//    int setFont(lua_State *L) {
 //
 //        return 0;
 //    }
@@ -184,10 +188,6 @@ public:
         this->realObject->Render();
 
         return 0;
-    }
-
-    ~LuaGameText() {
-        delete this->realObject;
     }
 private:
     GameText* realObject;
