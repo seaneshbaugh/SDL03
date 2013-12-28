@@ -2,11 +2,12 @@
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
+const int FRAMES_PER_SECOND = 60;
 
 GameEngine::GameEngine() {
-    this->screen = NULL;
+    this->screen = nullptr;
 
-    this->renderer = NULL;
+    this->renderer = nullptr;
     
     this->screenWidth = SCREEN_WIDTH;
     
@@ -42,15 +43,19 @@ bool GameEngine::Setup() {
 
     SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer);
 
-    if (this->screen == NULL || this->renderer == NULL) {
+    if (this->screen == nullptr || this->renderer == nullptr) {
         return false;
     }
+
+    SDL_SetWindowTitle(this->screen, this->windowTitle.c_str());
 
     GameTexture::renderer = this->renderer;
 
     GameText::renderer = this->renderer;
 
     GameImage::renderer = this->renderer;
+
+    GameMap::renderer = this->renderer;
 
     if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
         return false;
@@ -68,7 +73,7 @@ bool GameEngine::Setup() {
 }
 
 void GameEngine::Start() {
-    IntroState* introState = new IntroState(this->renderer);
+    IntroState* introState = new IntroState(this->renderer, nullptr);
 
     this->states.push_back(introState);
 
@@ -89,10 +94,10 @@ void GameEngine::MainLoop() {
     // events then call the update function for the current state (and quit if
     // desired).
     // This is the tricky part that I'm not convinced is a good idea: if the Update
-    // function returns NULL then we pop the current state off the end of the stack. If
-    // it returns itself we do nothing. And finally, if it returns a pointer to another
-    // GameState object then that state is pushed onto the stack and is now the current
-    // state.
+    // function returns nullptr then we pop the current state off the end of the stack.
+    // If it returns itself we do nothing. And finally, if it returns a pointer to
+    // another GameState object then that state is pushed onto the stack and is now the
+    // current state.
     // Without passing the whole GameEngine object to the update function I can't
     // really figure out a better way of telling the GameEngine to do stuff with its
     // state stack.
@@ -103,9 +108,9 @@ void GameEngine::MainLoop() {
     // objects independently.
     while (!quit) {
         if (this->states.size() > 0) {
-            int pendingEvent;
+            int startTicks = SDL_GetTicks();
 
-            pendingEvent = SDL_PollEvent(&event);
+            int pendingEvent = SDL_PollEvent(&event);
 
             GameState* currentState = this->states.back();
 
@@ -118,17 +123,21 @@ void GameEngine::MainLoop() {
 
                 nextState = currentState->Update(&event);
             } else {
-                nextState = currentState->Update(NULL);
+                nextState = currentState->Update(nullptr);
             }
 
             this->Render();
 
-            if (nextState == NULL) {
+            if (nextState == nullptr) {
                 this->states.pop_back();
             } else {
                 if (nextState != currentState) {
                     this->states.push_back(nextState);
                 }
+            }
+
+            if ((SDL_GetTicks() - startTicks) < (1000 / FRAMES_PER_SECOND)) {
+                SDL_Delay((1000 / FRAMES_PER_SECOND) - (SDL_GetTicks() - startTicks));
             }
         } else {
             quit = true;
@@ -144,6 +153,4 @@ void GameEngine::Render() {
     this->states.back()->Render();
 
     SDL_RenderPresent(this->renderer);
-
-    SDL_Delay(1000 / 60);
 }

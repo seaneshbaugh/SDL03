@@ -1,10 +1,22 @@
-#include "MainMenuState.h"
+#include "MapState.h"
 
+const char LuaMapState::className[] = "MapState";
 
-MainMenuState::MainMenuState(SDL_Renderer* renderer, std::function<void(GameState*)> callback = nullptr) : GameState(renderer, callback) {
+Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
+    {"getTexture", &LuaMapState::getTexture},
+    {"getFont", &LuaMapState::getFont},
+    {"getSound", &LuaMapState::getSound},
+    {"loadMap", &LuaMapState::loadMap},
+    {"getCurrentMap", &LuaMapState::getCurrentMap},
+    {0, 0}
+};
+
+MapState::MapState(SDL_Renderer* renderer, std::function<void(GameState*)> callback = nullptr) : GameState(renderer, callback) {
     this->renderer = renderer;
 
-    this->LoadResources("main_menu_textures.json", "fonts.json", "main_menu_sounds.json");
+    // We only load the fonts here because the textures and sounds that will be loaded
+    // are determined by the map file.
+    this->LoadFonts("fonts.json");
 
     this->luaState = luaL_newstate();
 
@@ -19,23 +31,27 @@ MainMenuState::MainMenuState(SDL_Renderer* renderer, std::function<void(GameStat
 
     Lunar<LuaGameState>::Register(this->luaState);
 
+    Lunar<LuaMapState>::Register(this->luaState);
+
     Lunar<LuaGameText>::Register(this->luaState);
 
     Lunar<LuaGameImage>::Register(this->luaState);
 
+    Lunar<LuaGameMap>::Register(this->luaState);
+
     lua_pushlightuserdata(this->luaState, (void*)this);
 
-    lua_setglobal(this->luaState, "raw_main_menu_state");
+    lua_setglobal(this->luaState, "raw_map_state");
 
     lua_settop(this->luaState, 0);
 
-    std::cout << "Loading main_menu.lua" << std::endl;
-    if (luaL_loadfile(this->luaState, "main_menu.lua")) {
+    std::cout << "Loading map.lua" << std::endl;
+    if (luaL_loadfile(this->luaState, "map.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);
     } else {
-        std::cout << "Loaded main_menu.lua" << std::endl;
+        std::cout << "Loaded map.lua" << std::endl;
     }
 
     if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
@@ -54,23 +70,28 @@ MainMenuState::MainMenuState(SDL_Renderer* renderer, std::function<void(GameStat
 
     this->pop = false;
 
+    this->currentMap = nullptr;
+
+    // This is where any initial maps should be loaded.
     if (callback) {
         callback(this);
     }
 }
 
-MainMenuState::~MainMenuState() {
+MapState::~MapState() {
     if (this->luaState) {
         lua_close(this->luaState);
     }
+
+    if (this->currentMap) {
+        delete currentMap;
+    }
 }
 
-GameState* MainMenuState::Update(SDL_Event* event) {
-    std::string nextState = "";
-
+GameState* MapState::Update(SDL_Event* event) {
     if (event) {
         if (event->type == SDL_KEYDOWN || event->type == SDL_MOUSEBUTTONDOWN) {
-            nextState = this->ProcessInput(event);
+            this->ProcessInput(event);
         }
     }
 
@@ -82,51 +103,14 @@ GameState* MainMenuState::Update(SDL_Event* event) {
         lua_pop(this->luaState, 1);
     }
 
-    // I hate this but C++ doesn't let you do switch statements for strings. Whatever.
     if (this->pop) {
         return NULL;
-    }
-
-    // Eventually this will load an initial cutscene. For now it'll just go
-    // straight to the main "world" map.
-    if (nextState == "new_game") {
-        std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
-            std::cout << "new_game" << std::endl;
-
-            static_cast<MapState*>(nextGameState)->LoadMap("world01.json");
-
-            lua_getglobal(static_cast<MapState*>(nextGameState)->luaState, "after_map_load");
-
-            if (lua_pcall(static_cast<MapState*>(nextGameState)->luaState, 0, LUA_MULTRET, 0)) {
-                std::cerr << "Error: " << lua_tostring(static_cast<MapState*>(nextGameState)->luaState, -1) << std::endl;
-
-                lua_pop(static_cast<MapState*>(nextGameState)->luaState, 1);
-            }
-        };
-
-        return new MapState(this->renderer, callback);
-    }
-
-    if (nextState == "load_game") {
-        // Switch to the load game menu.
-
-        std::cout << "load_game" << std::endl;
-
+    } else {
         return this;
     }
-
-    if (nextState == "settings") {
-        // Switch to the settings menu.
-
-        std::cout << "settings" << std::endl;
-
-        return this;
-    }
-
-    return this;
 }
 
-std::string MainMenuState::ProcessInput(SDL_Event* event) {
+std::string MapState::ProcessInput(SDL_Event* event) {
     lua_getglobal(this->luaState, "process_input");
 
     lua_pushinteger(this->luaState, event->key.keysym.sym);
@@ -142,6 +126,8 @@ std::string MainMenuState::ProcessInput(SDL_Event* event) {
     // Now that I think about it I'm probably just going make it so the main processing
     // of input happens in C++ and then only input relevant to a given state is passed
     // down to Lua.
+    // The intro state should just go to the next state immediately upon any keyboard
+    // input.
     std::string result = "";
 
     if (!lua_isstring(this->luaState, -1)) {
@@ -155,12 +141,48 @@ std::string MainMenuState::ProcessInput(SDL_Event* event) {
     return result;
 }
 
-void MainMenuState::Render() {
+void MapState::Render() {
     lua_getglobal(this->luaState, "render");
 
     if (lua_pcall(this->luaState, 0, 0, 0)) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);
+    }
+}
+
+bool MapState::LoadMap(std::string filename) {
+    if (this->currentMap) {
+        delete this->currentMap;
+    }
+
+    this->currentMap = new GameMap();
+
+    if (this->currentMap->Load(filename)) {
+        for (std::map<int, GameMapTile*>::iterator tile = this->currentMap->tiles.begin(); tile != this->currentMap->tiles.end(); tile++) {
+            GameTexture* texture = new GameTexture();
+
+            if (!texture->Load(tile->second->filename)) {
+                return false;
+            }
+
+            size_t extensionIndex = tile->second->filename.find(".png");
+
+            if (extensionIndex != std::string::npos) {
+                std::cout << tile->second->filename.substr(0, extensionIndex) << std::endl;
+
+                this->textures[tile->second->filename.substr(0, extensionIndex)] = texture;
+            } else {
+                std::cout << tile->second->filename << std::endl;
+
+                this->textures[tile->second->filename] = texture;
+            }
+
+            tile->second->texture = texture;
+        }
+
+        return true;
+    } else {
+        return false;
     }
 }

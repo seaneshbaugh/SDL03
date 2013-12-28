@@ -1,11 +1,9 @@
 #include "IntroState.h"
 
-IntroState::IntroState(SDL_Renderer* renderer) : GameState(renderer) {
+IntroState::IntroState(SDL_Renderer* renderer, std::function<void(GameState*)> callback = nullptr) : GameState(renderer, callback) {
     this->renderer = renderer;
 
     this->LoadResources("intro_textures.json", "fonts.json", "intro_sounds.json");
-
-    //this->texts.push_back(new GameText("Hello, world!", this->fonts["DroidSans"], 100, 100, {255, 0, 0}));
 
     this->luaState = luaL_newstate();
 
@@ -52,6 +50,10 @@ IntroState::IntroState(SDL_Renderer* renderer) : GameState(renderer) {
     }
 
     this->pop = false;
+
+    if (callback) {
+        callback(this);
+    }
 }
 
 IntroState::~IntroState() {
@@ -79,25 +81,30 @@ GameState* IntroState::Update(SDL_Event* event) {
 
     // I hate this but C++ doesn't let you do switch statements for strings. Whatever.
     if (this->pop) {
-        return NULL;
+        return nullptr;
     }
 
     if (nextState == "main_menu") {
-        return new MainMenuState(this->renderer);
+//        std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
+//            std::cout << "This is the main menu callback." << std::endl;
+//        };
+
+        return new MainMenuState(this->renderer, nullptr);
     }
 
     return this;
 }
 
-// Right now the Lua proccess_input function does nothing. Eventually the C++
-// function will take the raw SDL event and then pass along something to the Lua
-// function to indicate what happened.
+// For the intro state the Lua process_input function does nothing. This is because
+// any keyboard input just immediately causes a transition to the main menu state.
+// Honestly it doesn't even make sense to call the Lua function at all, but I'm
+// leaving it in for consistency's sake.
 std::string IntroState::ProcessInput(SDL_Event* event) {
     lua_getglobal(this->luaState, "process_input");
 
-//    lua_pushinteger(this->luaState, event->key.keysym.sym);
+    lua_pushinteger(this->luaState, event->key.keysym.sym);
 
-    if (lua_pcall(this->luaState, 0, 1, 0)) {
+    if (lua_pcall(this->luaState, 1, 1, 0)) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);
@@ -121,8 +128,6 @@ std::string IntroState::ProcessInput(SDL_Event* event) {
     lua_pop(this->luaState, 1);
 
     if (event->type == SDL_KEYDOWN) {
-//        this->pop = true;
-
         result = "main_menu";
     }
 
@@ -136,12 +141,5 @@ void IntroState::Render() {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);
-    }
-
-    // For now the C++ object has its own array of text objects. Eventually this should
-    // go away since I'd really rather keep as much of the game objects in Lua. I'm
-    // keeping this here just to sort of show it's possible.
-    for (int i = 0; i < this->texts.size(); i++) {
-        this->texts[i]->Render();
     }
 }

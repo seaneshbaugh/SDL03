@@ -9,7 +9,7 @@ Lunar<LuaGameState>::RegType LuaGameState::methods[] = {
     {0, 0}
 };
 
-GameState::GameState(SDL_Renderer* renderer) {
+GameState::GameState(SDL_Renderer* renderer, std::function<void(GameState*)> callback = nullptr) {
     this->renderer = renderer;
 
     this->pop = false;
@@ -41,7 +41,7 @@ GameState* GameState::Update(SDL_Event* event) {
     }
 
     if (this->pop) {
-        return NULL;
+        return nullptr;
     } else {
         return this;
     }

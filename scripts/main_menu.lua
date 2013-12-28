@@ -14,7 +14,6 @@ menu_option = 0
 
 time = 0
 
-
 -- I probably need to make some sort of proper menu object.
 function initialize()
     font = main_menu_state:getFont("DroidSans")
@@ -45,6 +44,20 @@ function process_input(key_code)
             menu_option = menu_option + 1
         else
             menu_option = 0
+        end
+    end
+    
+    if key_code == SDLK_RETURN then
+        if menu_option == 0 then
+            return "new_game"
+        end
+        
+        if menu_option == 1 then
+            return "load_game"
+        end
+        
+        if menu_option == 2 then
+            return "settings"
         end
     end
 

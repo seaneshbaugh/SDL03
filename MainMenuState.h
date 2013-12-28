@@ -3,10 +3,11 @@
 
 #include "GameState.h"
 #include "IntroState.h"
+#include "MapState.h"
 
 class MainMenuState : public GameState {
 public:
-    MainMenuState(SDL_Renderer* renderer);
+    MainMenuState(SDL_Renderer* renderer, std::function<void(GameState*)> callback);
     ~MainMenuState();
     GameState* Update(SDL_Event* event);
     std::string ProcessInput(SDL_Event* event);

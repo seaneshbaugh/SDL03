@@ -34,3 +34,7 @@ Right now this "game" doesn't do anything. Eventually it might.
 * http://lua-users.org/wiki/MathLibraryTutorial
 * http://www.dribin.org/dave/blog/archives/2009/11/15/rpath/
 * http://psdfreemium.com/hand-cursor-for-web-designer/
+* http://stackoverflow.com/questions/14531993/can-lambda-functions-be-recursive
+* http://www.cprogramming.com/c++11/c++11-lambda-closures.html
+* http://eli.thegreenplace.net/2011/11/14/anonymous-functions-lambdas-in-c11/
+* http://www.mapeditor.org/

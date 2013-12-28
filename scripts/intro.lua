@@ -41,7 +41,7 @@ function initialize()
     end
 end
 
-function process_input()
+function process_input(key_code)
     return ""
 end
 

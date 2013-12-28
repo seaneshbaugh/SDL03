@@ -13,12 +13,15 @@
 #include "GameState.h"
 #include "IntroState.h"
 #include "MainMenuState.h"
+#include "MapState.h"
 #include "GameResource.h"
 #include "GameTexture.h"
 #include "GameFont.h"
 #include "GameSound.h"
 #include "GameText.h"
 #include "GameImage.h"
+#include "GameMap.h"
+#include "GameMapTile.h"
 
 class GameEngine {
 public:
