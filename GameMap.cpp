@@ -219,7 +219,7 @@ bool GameMap::Load(std::string filename) {
     return true;
 }
 
-void GameMap::Render(int xOffset, int yOffset) {
+void GameMap::Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset) {
     if (xOffset < 0) {
         xOffset = 0;
     } else {
@@ -248,7 +248,15 @@ void GameMap::Render(int xOffset, int yOffset) {
                 y++;
             }
 
-            SDL_Rect tilePosition = {(x - xOffset) * 32, (y - yOffset) * 32, 32, 32};
+//            if (xMovementOffset != 0) {
+//                std::cout << "x movement offset = " << xMovementOffset << std::endl;
+//            }
+//
+//            if (yMovementOffset != 0) {
+//                std::cout << "y movement offset = " << yMovementOffset << std::endl;
+//            }
+
+            SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
 
             SDL_RenderCopy(this->renderer, this->tiles[*tile]->texture->texture, NULL, &tilePosition);
 

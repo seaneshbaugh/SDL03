@@ -29,7 +29,7 @@ public:
     bool ReadFile(std::string filename, std::string &contents);
     bool ParseMapFile(std::string jsonString);
     bool Load(std::string filename);
-    void Render(int xOffset, int yOffset);
+    void Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset);
 private:
 };
 
@@ -69,7 +69,11 @@ public:
 
         int yOffset = (int)luaL_checkinteger(L, 2);
 
-        this->realObject->Render(xOffset, yOffset);
+        int xMovementOffset = (int)luaL_checkinteger(L, 3);
+
+        int yMovementOffset = (int)luaL_checkinteger(L, 4);
+
+        this->realObject->Render(xOffset, yOffset, xMovementOffset, yMovementOffset);
 
         return 0;
     }
