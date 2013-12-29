@@ -169,12 +169,8 @@ bool MapState::LoadMap(std::string filename) {
             size_t extensionIndex = tile->second->filename.find(".png");
 
             if (extensionIndex != std::string::npos) {
-                std::cout << tile->second->filename.substr(0, extensionIndex) << std::endl;
-
                 this->textures[tile->second->filename.substr(0, extensionIndex)] = texture;
             } else {
-                std::cout << tile->second->filename << std::endl;
-
                 this->textures[tile->second->filename] = texture;
             }
 

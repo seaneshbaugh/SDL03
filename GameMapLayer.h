@@ -15,6 +15,7 @@ enum GameMapLayerType {
 
 class GameMapLayer : public GameObject {
 public:
+    std::string name;
     bool visible;
     GameMapLayerType type;
     std::vector <int> tiles;

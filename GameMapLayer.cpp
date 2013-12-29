@@ -1,6 +1,8 @@
 #include "GameMapLayer.h"
 
 GameMapLayer::GameMapLayer() {
+    this->name = "";
+
     this->visible = true;
 }
 

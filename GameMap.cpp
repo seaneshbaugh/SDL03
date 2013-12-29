@@ -80,8 +80,6 @@ bool GameMap::ParseMapFile(std::string jsonString) {
 
         while (i != node.end()) {
             if (layer == nullptr && i->type() == JSON_NODE) {
-                std::cout << "NEW LAYER" << std::endl;
-
                 GameMapLayer* newLayer = new GameMapLayer();
 
                 parseLayers(*i, newLayer);
@@ -91,6 +89,10 @@ bool GameMap::ParseMapFile(std::string jsonString) {
 
             if (i->name() == "data" && i->type() == JSON_ARRAY) {
                 parseLayerData(*i, layer);
+            }
+
+            if (i->name() == "name" && i->type() == JSON_STRING && layer != nullptr) {
+                layer->name = i->as_string();
             }
 
             i++;
@@ -237,30 +239,24 @@ void GameMap::Render(int xOffset, int yOffset, int xMovementOffset, int yMovemen
     }
 
     for (std::vector<GameMapLayer*>::iterator layer = this->layers.begin(); layer != this->layers.end(); layer++) {
-        int x = 0;
+        if ((*layer)->name != "walkability") {
+            int x = 0;
 
-        int y = 0;
+            int y = 0;
 
-        for (std::vector<int>::iterator tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); tile++) {
-            if (x >= this->width) {
-                x = 0;
+            for (std::vector<int>::iterator tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); tile++) {
+                if (x >= this->width) {
+                    x = 0;
 
-                y++;
+                    y++;
+                }
+
+                SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
+
+                SDL_RenderCopy(this->renderer, this->tiles[*tile]->texture->texture, NULL, &tilePosition);
+                
+                x++;
             }
-
-//            if (xMovementOffset != 0) {
-//                std::cout << "x movement offset = " << xMovementOffset << std::endl;
-//            }
-//
-//            if (yMovementOffset != 0) {
-//                std::cout << "y movement offset = " << yMovementOffset << std::endl;
-//            }
-
-            SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
-
-            SDL_RenderCopy(this->renderer, this->tiles[*tile]->texture->texture, NULL, &tilePosition);
-
-            x++;
         }
     }
 }
