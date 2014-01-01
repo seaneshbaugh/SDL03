@@ -30,6 +30,7 @@ public:
     bool ParseMapFile(std::string jsonString);
     bool Load(std::string filename);
     void Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset);
+    bool GetWalkability(int x, int y);
 private:
 };
 
@@ -76,6 +77,16 @@ public:
         this->realObject->Render(xOffset, yOffset, xMovementOffset, yMovementOffset);
 
         return 0;
+    }
+
+    int getWalkability(lua_State *L) {
+        int x = (int)luaL_checkinteger(L, 1);
+
+        int y = (int)luaL_checkinteger(L, 2);
+
+        lua_pushboolean(L, this->realObject->GetWalkability(x, y));
+
+        return 1;
     }
 private:
     GameMap* realObject;

@@ -81,6 +81,24 @@ public:
 
         return 1;
     }
+
+    int loadTexture(lua_State *L) {
+        std::string textureName = luaL_checkstring(L, 1);
+
+        std::string textureFilename = luaL_checkstring(L, 2);
+
+        GameTexture* texture = new GameTexture();
+
+        if (texture->Load(textureFilename)) {
+            this->realObject->textures[textureFilename] = texture;
+
+            lua_pushlightuserdata(L, (void*)texture);
+        } else {
+            lua_pushnil(L);
+        }
+        
+        return 1;
+    }
     
 private:
     MapState* realObject;

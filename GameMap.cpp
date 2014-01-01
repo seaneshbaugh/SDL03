@@ -8,6 +8,7 @@ Lunar<LuaGameMap>::RegType LuaGameMap::methods[] = {
     {"getWidth", &LuaGameMap::getWidth},
     {"getHeight", &LuaGameMap::getHeight},
     {"render", &LuaGameMap::render},
+    {"getWalkability", &LuaGameMap::getWalkability},
     {0, 0}
 };
 
@@ -259,4 +260,20 @@ void GameMap::Render(int xOffset, int yOffset, int xMovementOffset, int yMovemen
             }
         }
     }
+}
+
+// This whole thing is a horrible hack for right now.
+bool GameMap::GetWalkability(int x, int y) {
+    if (x < 0 || y < 0 || x > this->width || y > this->height) {
+        return false;
+    }
+
+    for (std::vector<GameMapLayer*>::iterator layer = this->layers.begin(); layer != this->layers.end(); layer++) {
+        if ((*layer)->name == "walkability") {
+            // omg what am I even doing here.
+            return this->tiles[(*layer)->tiles[(y * this->width) + x]]->filename == "walkable.png";
+        }
+    }
+
+    return false;
 }

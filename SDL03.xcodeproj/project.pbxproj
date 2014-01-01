@@ -26,6 +26,7 @@
 		7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7A1844686600BA2C29 /* Apache License.txt */; };
 		7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7B1844686600BA2C29 /* DroidSans-Bold.ttf */; };
 		7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7C1844686600BA2C29 /* DroidSans.ttf */; };
+		7B53C15A1870F1B500756488 /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C1591870F1B500756488 /* dot.png */; };
 		7B9A6063184D3E810016BA1A /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A6025184D3E810016BA1A /* README */; };
 		7B9A6064184D3E810016BA1A /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6027184D3E810016BA1A /* lapi.c */; };
 		7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6029184D3E810016BA1A /* lauxlib.c */; };
@@ -162,6 +163,7 @@
 		7B342A7A1844686600BA2C29 /* Apache License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
 		7B342A7B1844686600BA2C29 /* DroidSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DroidSans-Bold.ttf"; sourceTree = "<group>"; };
 		7B342A7C1844686600BA2C29 /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
+		7B53C1591870F1B500756488 /* dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dot.png; sourceTree = "<group>"; };
 		7B9A6025184D3E810016BA1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		7B9A6027184D3E810016BA1A /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		7B9A6028184D3E810016BA1A /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 		7B9A60E1185ADB0D0016BA1A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				7B53C1591870F1B500756488 /* dot.png */,
 				7BB382A018709FFD00391DC5 /* not-walkable.png */,
 				7BB382A118709FFD00391DC5 /* walkable.png */,
 				7BB382501861453100391DC5 /* grass-1.png */,
@@ -771,6 +774,7 @@
 				7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */,
 				7B9A608B184DA61F0016BA1A /* intro.lua in Resources */,
 				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
+				7B53C15A1870F1B500756488 /* dot.png in Resources */,
 				7B9A6092184E79970016BA1A /* intro_sounds.json in Resources */,
 				7B9A6153186029E70016BA1A /* map.lua in Resources */,
 				7BB3825718634B5B00391DC5 /* world01.json in Resources */,

@@ -6,6 +6,7 @@ Lunar<LuaGameState>::RegType LuaGameState::methods[] = {
     {"getTexture", &LuaGameState::getTexture},
     {"getFont", &LuaGameState::getFont},
     {"getSound", &LuaGameState::getSound},
+    {"loadTexture", &LuaGameState::loadTexture},
     {0, 0}
 };
 

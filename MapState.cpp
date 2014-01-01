@@ -8,6 +8,7 @@ Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
     {"getSound", &LuaMapState::getSound},
     {"loadMap", &LuaMapState::loadMap},
     {"getCurrentMap", &LuaMapState::getCurrentMap},
+    {"loadTexture", &LuaMapState::loadTexture},
     {0, 0}
 };
 
