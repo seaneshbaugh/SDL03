@@ -31,6 +31,7 @@ public:
     bool Load(std::string filename);
     void Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset);
     bool GetWalkability(int x, int y);
+    std::vector <GameMapObject*> GetObjects(int x, int y);
 private:
 };
 
@@ -88,6 +89,25 @@ public:
 
         return 1;
     }
+
+    int getObjects(lua_State *L) {
+        int x = (int)luaL_checkinteger(L, 1);
+
+        int y = (int)luaL_checkinteger(L, 2);
+
+        std::vector<GameMapObject*> result = this->realObject->GetObjects(x, y);
+
+        lua_newtable(L);
+
+        for(std::vector<GameMapObject*>::iterator object = result.begin(); object != result.end(); object++) {
+            lua_pushlightuserdata(L, (void*)(*object));
+
+            lua_rawseti(L, -2, 1);
+        }
+
+        return 1;
+    }
+
 private:
     GameMap* realObject;
 };

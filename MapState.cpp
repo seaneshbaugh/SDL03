@@ -40,6 +40,8 @@ MapState::MapState(SDL_Renderer* renderer, std::function<void(GameState*)> callb
 
     Lunar<LuaGameMap>::Register(this->luaState);
 
+    Lunar<LuaGameMapObject>::Register(this->luaState);
+
     lua_pushlightuserdata(this->luaState, (void*)this);
 
     lua_setglobal(this->luaState, "raw_map_state");

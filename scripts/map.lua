@@ -129,6 +129,48 @@ function process_input(key_code)
     return ""
 end
 
+function step(x, y)
+    objects = current_map:getObjects(x, y)
+
+    for i, v in ipairs(current_map:getObjects(x, y)) do
+        object = GameMapObject(v)
+
+        map = object:getProperty("map")
+
+        if map then
+            map_state:loadMap(map .. ".json")
+            
+            current_map = GameMap(map_state:getCurrentMap())
+            
+            player_current_x = tonumber(object:getProperty("x"))
+
+            player_current_y = tonumber(object:getProperty("y"))
+
+            player_screen_x_position = 320
+            
+            player_screen_y_position = 224
+
+            if player_current_x < 7 then
+                player_screen_x_position = player_current_x * 32
+            end
+            
+            if player_current_x > 93 then
+                player_screen_x_position = (100 - player_current_x) * 32
+            end
+            
+            if player_current_y < 7 then
+                player_screen_y_position = player_current_y * 32
+            end
+            
+            if player_current_y > 93 then
+                player_screen_y_position = (100 - player_current_y) * 32
+            end
+
+            player:setPosition(player_screen_x_position, player_screen_y_position)
+        end
+    end
+end
+
 function update()
     screen_x_movement_offset = screen_x_movement_offset + screen_x_velocity
     
@@ -142,6 +184,8 @@ function update()
         player_current_x = player_current_x + 1
         
         screen_moving = false
+        
+        step(player_current_x, player_current_y)
     end
 
     if screen_x_velocity > 0 and screen_x_movement_offset >= 32 then
@@ -152,6 +196,8 @@ function update()
         player_current_x = player_current_x - 1
         
         screen_moving = false
+        
+        step(player_current_x, player_current_y)
     end
     
     if screen_y_velocity < 0 and screen_y_movement_offset <= -32 then
@@ -162,6 +208,8 @@ function update()
         player_current_y = player_current_y + 1
         
         screen_moving = false
+        
+        step(player_current_x, player_current_y)
     end
 
     if screen_y_velocity > 0 and screen_y_movement_offset >= 32 then
@@ -172,6 +220,8 @@ function update()
         player_current_y = player_current_y - 1
         
         screen_moving = false
+        
+        step(player_current_x, player_current_y)
     end
 
     player_screen_x_position = player_screen_x_position + player_x_velocity
@@ -192,6 +242,8 @@ function update()
         player_current_x = player_current_x - 1
         
         player_moving = false
+        
+        step(player_current_x, player_current_y)
     end
     
     if player_x_velocity > 0 and player_x_movement_offset >= 32 then
@@ -202,6 +254,8 @@ function update()
         player_current_x = player_current_x + 1
         
         player_moving = false
+        
+        step(player_current_x, player_current_y)
     end
 
     if player_y_velocity < 0 and player_y_movement_offset <= -32 then
@@ -212,6 +266,8 @@ function update()
         player_current_y = player_current_y - 1
         
         player_moving = false
+        
+        step(player_current_x, player_current_y)
     end
     
     if player_y_velocity > 0 and player_y_movement_offset >= 32 then
@@ -222,6 +278,8 @@ function update()
         player_current_y = player_current_y + 1
         
         player_moving = false
+        
+        step(player_current_x, player_current_y)
     end
 end
 

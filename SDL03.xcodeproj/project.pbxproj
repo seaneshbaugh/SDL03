@@ -27,6 +27,11 @@
 		7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7B1844686600BA2C29 /* DroidSans-Bold.ttf */; };
 		7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A7C1844686600BA2C29 /* DroidSans.ttf */; };
 		7B53C15A1870F1B500756488 /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C1591870F1B500756488 /* dot.png */; };
+		7B53C15E187666B400756488 /* brick-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C15D187666B400756488 /* brick-1.png */; };
+		7B53C160187666C600756488 /* town01.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C15F187666C600756488 /* town01.tmx */; };
+		7B53C162187666E100756488 /* town01.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C161187666E100756488 /* town01.json */; };
+		7B53C164187A440700756488 /* town.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C163187A440700756488 /* town.png */; };
+		7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B53C168187A4BA700756488 /* GameMapObject.cpp */; };
 		7B9A6063184D3E810016BA1A /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A6025184D3E810016BA1A /* README */; };
 		7B9A6064184D3E810016BA1A /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6027184D3E810016BA1A /* lapi.c */; };
 		7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6029184D3E810016BA1A /* lauxlib.c */; };
@@ -164,6 +169,12 @@
 		7B342A7B1844686600BA2C29 /* DroidSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DroidSans-Bold.ttf"; sourceTree = "<group>"; };
 		7B342A7C1844686600BA2C29 /* DroidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DroidSans.ttf; sourceTree = "<group>"; };
 		7B53C1591870F1B500756488 /* dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dot.png; sourceTree = "<group>"; };
+		7B53C15D187666B400756488 /* brick-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-1.png"; sourceTree = "<group>"; };
+		7B53C15F187666C600756488 /* town01.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = town01.tmx; sourceTree = "<group>"; };
+		7B53C161187666E100756488 /* town01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = town01.json; sourceTree = "<group>"; };
+		7B53C163187A440700756488 /* town.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = town.png; sourceTree = "<group>"; };
+		7B53C168187A4BA700756488 /* GameMapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapObject.cpp; sourceTree = "<group>"; };
+		7B53C169187A4BA700756488 /* GameMapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapObject.h; sourceTree = "<group>"; };
 		7B9A6025184D3E810016BA1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		7B9A6027184D3E810016BA1A /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		7B9A6028184D3E810016BA1A /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
@@ -418,6 +429,8 @@
 				7B9A60FC185EBD850016BA1A /* GameMap.h */,
 				7BB38258186353A900391DC5 /* GameMapLayer.cpp */,
 				7BB38259186353A900391DC5 /* GameMapLayer.h */,
+				7B53C168187A4BA700756488 /* GameMapObject.cpp */,
+				7B53C169187A4BA700756488 /* GameMapObject.h */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -560,6 +573,8 @@
 		7B9A60E1185ADB0D0016BA1A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				7B53C163187A440700756488 /* town.png */,
+				7B53C15D187666B400756488 /* brick-1.png */,
 				7B53C1591870F1B500756488 /* dot.png */,
 				7BB382A018709FFD00391DC5 /* not-walkable.png */,
 				7BB382A118709FFD00391DC5 /* walkable.png */,
@@ -574,6 +589,8 @@
 		7B9A6101185F39290016BA1A /* maps */ = {
 			isa = PBXGroup;
 			children = (
+				7B53C161187666E100756488 /* town01.json */,
+				7B53C15F187666C600756488 /* town01.tmx */,
 				7BB3825B1864C80900391DC5 /* world01.tmx */,
 				7BB3825618634B5B00391DC5 /* world01.json */,
 			);
@@ -755,6 +772,7 @@
 			files = (
 				7B9A60E5185ADB0D0016BA1A /* cursor-right.png in Resources */,
 				7BE4738918454E57002EA054 /* fonts.json in Resources */,
+				7B53C162187666E100756488 /* town01.json in Resources */,
 				7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */,
 				7B9A60E9185ADC0E0016BA1A /* main_menu_sounds.json in Resources */,
 				7BB3825C1864C80900391DC5 /* world01.tmx in Resources */,
@@ -763,15 +781,18 @@
 				7BB382A318709FFD00391DC5 /* walkable.png in Resources */,
 				7B9A60F7185BBB920016BA1A /* intro_songs.json in Resources */,
 				7BB382521861453100391DC5 /* grass-1.png in Resources */,
+				7B53C164187A440700756488 /* town.png in Resources */,
 				7B9A60EB185ADC580016BA1A /* main_menu.lua in Resources */,
 				7B9A60E4185ADB0D0016BA1A /* cursor-left.png in Resources */,
 				7BE474A31845547C002EA054 /* License.txt in Resources */,
 				7BB382A218709FFD00391DC5 /* not-walkable.png in Resources */,
 				7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */,
+				7B53C15E187666B400756488 /* brick-1.png in Resources */,
 				7B9A60E7185ADBC70016BA1A /* main_menu_textures.json in Resources */,
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
 				7B9A60F3185BA4F50016BA1A /* sdl_keys.lua in Resources */,
 				7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */,
+				7B53C160187666C600756488 /* town01.tmx in Resources */,
 				7B9A608B184DA61F0016BA1A /* intro.lua in Resources */,
 				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
 				7B53C15A1870F1B500756488 /* dot.png in Resources */,
@@ -797,6 +818,7 @@
 				7B9A606B184D3E810016BA1A /* ldblib.c in Sources */,
 				7B9A6084184D3E810016BA1A /* lvm.c in Sources */,
 				7B342A53183F2D6900BA2C29 /* GameObject.cpp in Sources */,
+				7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */,
 				7B9A6083184D3E810016BA1A /* lundump.c in Sources */,
 				7B9A6069184D3E810016BA1A /* lcorolib.c in Sources */,
 				7BE4744D1845547C002EA054 /* libjson.cpp in Sources */,

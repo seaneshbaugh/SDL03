@@ -9,6 +9,7 @@ Lunar<LuaGameMap>::RegType LuaGameMap::methods[] = {
     {"getHeight", &LuaGameMap::getHeight},
     {"render", &LuaGameMap::render},
     {"getWalkability", &LuaGameMap::getWalkability},
+    {"getObjects", &LuaGameMap::getObjects},
     {0, 0}
 };
 
@@ -27,11 +28,7 @@ GameMap::GameMap(std::string filename) {
 }
 
 GameMap::~GameMap() {
-    for (std::map<int, GameMapTile*>::iterator tile = this->tiles.begin(); tile != this->tiles.end(); tile++) {
-        if (tile->second) {
-            delete tile->second;
-        }
-    }
+
 }
 
 bool GameMap::ReadFile(std::string filename, std::string &contents) {
@@ -76,24 +73,74 @@ bool GameMap::ParseMapFile(std::string jsonString) {
         }
     };
 
-    std::function<void(const JSONNode&, GameMapLayer*)> parseLayers = [&] (const JSONNode &node, GameMapLayer* layer) {
+    std::function<void(const JSONNode&, GameMapLayer* layer)> parseLayerObjects = [&] (const JSONNode &node, GameMapLayer* layer) {
         JSONNode::const_iterator i = node.begin();
 
         while (i != node.end()) {
-            if (layer == nullptr && i->type() == JSON_NODE) {
-                GameMapLayer* newLayer = new GameMapLayer();
+            JSONNode::const_iterator j = i->begin();
 
-                parseLayers(*i, newLayer);
+            GameMapObject* object = new GameMapObject();
 
-                this->layers.push_back(newLayer);
+            while (j != i->end()) {
+                // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
+                if (j->name() == "x" && j->type() == JSON_NUMBER) {
+                    object->x = (int)j->as_int() / 32;
+                }
+
+                if (j->name() == "y" && j->type() == JSON_NUMBER) {
+                    object->y = (int)j->as_int() / 32;
+                }
+
+                if (j->name() == "properties" && i->type() == JSON_NODE) {
+                    JSONNode::const_iterator k = j->begin();
+
+                    while (k != j->end()) {
+                        object->properties[k->name()] = k->as_string();
+
+                        k++;
+                    }
+                }
+
+                j++;
             }
 
+            layer->objects.push_back(object);
+
+            i++;
+        }
+    };
+
+    std::function<void(const JSONNode&)> parseLayer = [&] (const JSONNode &node) {
+        GameMapLayer* layer = new GameMapLayer();
+
+
+        JSONNode::const_iterator i = node.begin();
+
+        while (i != node.end()) {
             if (i->name() == "data" && i->type() == JSON_ARRAY) {
                 parseLayerData(*i, layer);
             }
 
-            if (i->name() == "name" && i->type() == JSON_STRING && layer != nullptr) {
+            if (i->name() == "objects" && i->type() == JSON_ARRAY) {
+                parseLayerObjects(*i, layer);
+            }
+
+            if (i->name() == "name" && i->type() == JSON_STRING) {
                 layer->name = i->as_string();
+            }
+
+            i++;
+        }
+
+        this->layers.push_back(layer);
+    };
+
+    std::function<void(const JSONNode&, GameMapLayer*)> parseLayers = [&] (const JSONNode &node, GameMapLayer* layer) {
+        JSONNode::const_iterator i = node.begin();
+
+        while (i != node.end()) {
+            if (i->type() == JSON_NODE) {
+                parseLayer(*i);
             }
 
             i++;
@@ -252,9 +299,11 @@ void GameMap::Render(int xOffset, int yOffset, int xMovementOffset, int yMovemen
                     y++;
                 }
 
-                SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
+                if (*tile != 0) {
+                    SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
 
-                SDL_RenderCopy(this->renderer, this->tiles[*tile]->texture->texture, NULL, &tilePosition);
+                    SDL_RenderCopy(this->renderer, this->tiles[*tile]->texture->texture, NULL, &tilePosition);
+                }
                 
                 x++;
             }
@@ -276,4 +325,18 @@ bool GameMap::GetWalkability(int x, int y) {
     }
 
     return false;
+}
+
+std::vector<GameMapObject*> GameMap::GetObjects(int x, int y) {
+    std::vector<GameMapObject*> result;
+
+    for (std::vector<GameMapLayer*>::iterator layer = this->layers.begin(); layer != this->layers.end(); layer++) {
+        for (std::vector<GameMapObject*>::iterator object = (*layer)->objects.begin(); object != (*layer)->objects.end(); object++) {
+            if ((*object)->x == x && (*object)->y == y) {
+                result.push_back(*object);
+            }
+        }
+    }
+
+    return result;
 }

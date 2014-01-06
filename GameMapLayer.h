@@ -5,6 +5,8 @@
 
 #include "GameObject.h"
 #include "GameMapTile.h"
+#include "GameMapObject.h"
+#include "GameMapLoadPoint.h"
 
 enum GameMapLayerType {
     Terrain,
@@ -19,6 +21,7 @@ public:
     bool visible;
     GameMapLayerType type;
     std::vector <int> tiles;
+    std::vector <GameMapObject*> objects;
 
     GameMapLayer();
     ~GameMapLayer();
