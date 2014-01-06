@@ -6,7 +6,6 @@
 #include "GameObject.h"
 #include "GameMapTile.h"
 #include "GameMapObject.h"
-#include "GameMapLoadPoint.h"
 
 enum GameMapLayerType {
     Terrain,
