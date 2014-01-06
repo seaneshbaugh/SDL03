@@ -1,8 +1,6 @@
 #include "IntroState.h"
 
-IntroState::IntroState(SDL_Renderer* renderer, std::function<void(GameState*)> callback = nullptr) : GameState(renderer, callback) {
-    this->renderer = renderer;
-
+IntroState::IntroState(std::function<void(GameState*)> callback) : GameState(callback) {
     this->LoadResources("intro_textures.json", "fonts.json", "intro_sounds.json");
 
     this->luaState = luaL_newstate();
@@ -89,7 +87,7 @@ GameState* IntroState::Update(SDL_Event* event) {
 //            std::cout << "This is the main menu callback." << std::endl;
 //        };
 
-        return new MainMenuState(this->renderer, nullptr);
+        return new MainMenuState(nullptr);
     }
 
     return this;

@@ -12,9 +12,7 @@ Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
     {0, 0}
 };
 
-MapState::MapState(SDL_Renderer* renderer, std::function<void(GameState*)> callback = nullptr) : GameState(renderer, callback) {
-    this->renderer = renderer;
-
+MapState::MapState(std::function<void(GameState*)> callback) : GameState(callback) {
     // We only load the fonts here because the textures and sounds that will be loaded
     // are determined by the map file.
     this->LoadFonts("fonts.json");

@@ -49,6 +49,8 @@ bool GameEngine::Setup() {
 
     SDL_SetWindowTitle(this->screen, this->windowTitle.c_str());
 
+    GameState::renderer = this->renderer;
+
     GameTexture::renderer = this->renderer;
 
     GameText::renderer = this->renderer;
@@ -73,7 +75,7 @@ bool GameEngine::Setup() {
 }
 
 void GameEngine::Start() {
-    IntroState* introState = new IntroState(this->renderer, nullptr);
+    IntroState* introState = new IntroState(nullptr);
 
     this->states.push_back(introState);
 

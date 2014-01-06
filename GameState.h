@@ -25,7 +25,9 @@
 
 class GameState {
 public:
-    GameState(SDL_Renderer* renderer, std::function<void(GameState*)> callback);
+    static SDL_Renderer* renderer;
+
+    GameState(std::function<void(GameState*)> callback);
     ~GameState();
     virtual GameState* Update(SDL_Event* event);
     virtual std::string ProcessInput(SDL_Event* event);
@@ -33,7 +35,6 @@ public:
 
     friend class LuaGameState;
 protected:
-    SDL_Renderer* renderer;
     bool pop;
     std::map <std::string, GameTexture*> textures;
     std::map <std::string, GameFont*> fonts;

@@ -6,7 +6,7 @@
 
 class IntroState : public GameState {
 public:
-    IntroState(SDL_Renderer* renderer, std::function<void(GameState*)> callback);
+    IntroState(std::function<void(GameState*)> callback);
     ~IntroState();
     GameState* Update(SDL_Event* event);
     std::string ProcessInput(SDL_Event* event);

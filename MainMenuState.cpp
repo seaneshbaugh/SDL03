@@ -1,9 +1,7 @@
 #include "MainMenuState.h"
 
 
-MainMenuState::MainMenuState(SDL_Renderer* renderer, std::function<void(GameState*)> callback = nullptr) : GameState(renderer, callback) {
-    this->renderer = renderer;
-
+MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameState(callback) {
     this->LoadResources("main_menu_textures.json", "fonts.json", "main_menu_sounds.json");
 
     this->luaState = luaL_newstate();
@@ -104,7 +102,7 @@ GameState* MainMenuState::Update(SDL_Event* event) {
             }
         };
 
-        return new MapState(this->renderer, callback);
+        return new MapState(callback);
     }
 
     if (nextState == "load_game") {
