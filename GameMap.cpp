@@ -91,6 +91,14 @@ bool GameMap::ParseMapFile(std::string jsonString) {
                     object->y = (int)j->as_int() / 32;
                 }
 
+                if (j->name() == "width" && j->type() == JSON_NUMBER) {
+                    object->width = (int)j->as_int() / 32;
+                }
+
+                if (j->name() == "height" && j->type() == JSON_NUMBER) {
+                    object->height = (int)j->as_int() / 32;
+                }
+
                 if (j->name() == "properties" && i->type() == JSON_NODE) {
                     JSONNode::const_iterator k = j->begin();
 
@@ -332,7 +340,7 @@ std::vector<GameMapObject*> GameMap::GetObjects(int x, int y) {
 
     for (std::vector<GameMapLayer*>::iterator layer = this->layers.begin(); layer != this->layers.end(); layer++) {
         for (std::vector<GameMapObject*>::iterator object = (*layer)->objects.begin(); object != (*layer)->objects.end(); object++) {
-            if ((*object)->x == x && (*object)->y == y) {
+            if (x >= (*object)->x && x < ((*object)->x + (*object)->width) <= x && y >= (*object)->y && y < ((*object)->y + (*object)->height)) {
                 result.push_back(*object);
             }
         }

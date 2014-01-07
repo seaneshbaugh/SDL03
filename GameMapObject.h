@@ -10,6 +10,8 @@ class GameMapObject : public GameObject {
 public:
     int x;
     int y;
+    int width;
+    int height;
     std::map<std::string, std::string> properties;
 
     GameMapObject();
