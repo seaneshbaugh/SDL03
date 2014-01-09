@@ -43,6 +43,8 @@ function initialize()
     dot = map_state:loadTexture("dot", "dot.png")
     
     player = GameImage(dot, 320, 224)
+    
+    math.randomseed(os.time())
 end
 
 function after_map_load()
@@ -135,9 +137,11 @@ function step(x, y)
     for i, v in ipairs(current_map:getObjects(x, y)) do
         object = GameMapObject(v)
 
-        map = object:getProperty("map")
+        type = object:type()
 
-        if map then
+        if type == "map" then
+            map = object:getProperty("map")
+
             map_state:loadMap(map .. ".json")
             
             current_map = GameMap(map_state:getCurrentMap())
@@ -168,10 +172,20 @@ function step(x, y)
 
             player:setPosition(player_screen_x_position, player_screen_y_position)
         end
+        
+        if type == "encounter_area" then
+            if math.random(0, 10) == 0 then
+                return "battle"
+            end
+        end
     end
+    
+    return ""
 end
 
 function update()
+    done_moving = false
+
     screen_x_movement_offset = screen_x_movement_offset + screen_x_velocity
     
     screen_y_movement_offset = screen_y_movement_offset + screen_y_velocity
@@ -185,7 +199,9 @@ function update()
         
         screen_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
+        
+        done_moving = true
     end
 
     if screen_x_velocity > 0 and screen_x_movement_offset >= 32 then
@@ -197,7 +213,7 @@ function update()
         
         screen_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
     end
     
     if screen_y_velocity < 0 and screen_y_movement_offset <= -32 then
@@ -209,7 +225,7 @@ function update()
         
         screen_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
     end
 
     if screen_y_velocity > 0 and screen_y_movement_offset >= 32 then
@@ -221,7 +237,7 @@ function update()
         
         screen_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
     end
 
     player_screen_x_position = player_screen_x_position + player_x_velocity
@@ -243,7 +259,7 @@ function update()
         
         player_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
     end
     
     if player_x_velocity > 0 and player_x_movement_offset >= 32 then
@@ -255,7 +271,7 @@ function update()
         
         player_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
     end
 
     if player_y_velocity < 0 and player_y_movement_offset <= -32 then
@@ -267,7 +283,7 @@ function update()
         
         player_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
     end
     
     if player_y_velocity > 0 and player_y_movement_offset >= 32 then
@@ -279,7 +295,13 @@ function update()
         
         player_moving = false
         
-        step(player_current_x, player_current_y)
+        done_moving = true
+    end
+    
+    if done_moving then
+        return step(player_current_x, player_current_y)
+    else
+        return ""
     end
 end
 

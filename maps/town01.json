@@ -48,7 +48,7 @@
                      "y":"5"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"map",
                  "visible":true,
                  "width":32,
                  "x":96,
@@ -64,7 +64,7 @@
                      "y":"5"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"map",
                  "visible":true,
                  "width":32,
                  "x":128,
@@ -80,7 +80,7 @@
                      "y":"6"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"map",
                  "visible":true,
                  "width":32,
                  "x":3168,
@@ -96,7 +96,7 @@
                      "y":"6"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"map",
                  "visible":true,
                  "width":32,
                  "x":3168,
@@ -112,7 +112,7 @@
                      "y":"6"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"map",
                  "visible":true,
                  "width":32,
                  "x":3168,
@@ -128,7 +128,7 @@
                      "y":"6"
                     },
                  "rotation":0,
-                 "type":"",
+                 "type":"map",
                  "visible":true,
                  "width":32,
                  "x":3168,

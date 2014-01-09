@@ -6,6 +6,7 @@ Lunar<LuaGameMapObject>::RegType LuaGameMapObject::methods[] = {
     {"getX", &LuaGameMapObject::getX},
     {"getY", &LuaGameMapObject::getY},
     {"setPosition", &LuaGameMapObject::setPosition},
+    {"type", &LuaGameMapObject::type},
     {"getProperty", &LuaGameMapObject::getProperty},
     {"setProperty", &LuaGameMapObject::setProperty},
     {0, 0}

@@ -131,6 +131,8 @@ void GameEngine::MainLoop() {
             this->Render();
 
             if (nextState == nullptr) {
+                delete currentState;
+
                 this->states.pop_back();
             } else {
                 if (nextState != currentState) {

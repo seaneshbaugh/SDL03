@@ -5,6 +5,7 @@ SDL_Renderer* GameState::renderer;
 const char LuaGameState::className[] = "GameState";
 
 Lunar<LuaGameState>::RegType LuaGameState::methods[] = {
+    {"pop", &LuaGameState::pop},
     {"getTexture", &LuaGameState::getTexture},
     {"getFont", &LuaGameState::getFont},
     {"getSound", &LuaGameState::getSound},

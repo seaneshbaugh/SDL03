@@ -99,7 +99,7 @@ bool GameMap::ParseMapFile(std::string jsonString) {
                     object->height = (int)j->as_int() / 32;
                 }
 
-                if (j->name() == "properties" && i->type() == JSON_NODE) {
+                if (j->name() == "properties" && j->type() == JSON_NODE) {
                     JSONNode::const_iterator k = j->begin();
 
                     while (k != j->end()) {
@@ -107,6 +107,10 @@ bool GameMap::ParseMapFile(std::string jsonString) {
 
                         k++;
                     }
+                }
+
+                if (j->name() == "type" && j->type() == JSON_STRING) {
+                    object->type = std::string(j->as_string());
                 }
 
                 j++;

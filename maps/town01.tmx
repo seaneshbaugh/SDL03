@@ -30045,42 +30045,42 @@
   </data>
  </layer>
  <objectgroup draworder="topdown" name="load_points" width="100" height="100">
-  <object x="96" y="0" width="32" height="32">
+  <object type="map" x="96" y="0" width="32" height="32">
    <properties>
     <property name="map" value="world01"/>
     <property name="x" value="17"/>
     <property name="y" value="5"/>
    </properties>
   </object>
-  <object x="128" y="0" width="32" height="32">
+  <object type="map" x="128" y="0" width="32" height="32">
    <properties>
     <property name="map" value="world01"/>
     <property name="x" value="17"/>
     <property name="y" value="5"/>
    </properties>
   </object>
-  <object x="3168" y="2016" width="32" height="32">
+  <object type="map" x="3168" y="2016" width="32" height="32">
    <properties>
     <property name="map" value="world01"/>
     <property name="x" value="18"/>
     <property name="y" value="6"/>
    </properties>
   </object>
-  <object x="3168" y="2048" width="32" height="32">
+  <object type="map" x="3168" y="2048" width="32" height="32">
    <properties>
     <property name="map" value="world01"/>
     <property name="x" value="18"/>
     <property name="y" value="6"/>
    </properties>
   </object>
-  <object x="3168" y="2080" width="32" height="32">
+  <object type="map" x="3168" y="2080" width="32" height="32">
    <properties>
     <property name="map" value="world01"/>
     <property name="x" value="18"/>
     <property name="y" value="6"/>
    </properties>
   </object>
-  <object x="3168" y="2112" width="32" height="32">
+  <object type="map" x="3168" y="2112" width="32" height="32">
    <properties>
     <property name="map" value="world01"/>
     <property name="x" value="18"/>

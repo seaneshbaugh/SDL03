@@ -30045,12 +30045,15 @@
   </data>
  </layer>
  <objectgroup draworder="topdown" name="load_points" width="100" height="100">
-  <object x="544" y="192" width="32" height="32">
+  <object type="map" x="544" y="192" width="32" height="32">
    <properties>
     <property name="map" value="town01"/>
     <property name="x" value="3"/>
     <property name="y" value="3"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup draworder="topdown" name="encounter_areas" width="100" height="100">
+  <object type="encounter_area" x="416" y="32" width="448" height="320"/>
  </objectgroup>
 </map>

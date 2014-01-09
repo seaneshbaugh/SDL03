@@ -32,6 +32,7 @@
 		7B53C162187666E100756488 /* town01.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C161187666E100756488 /* town01.json */; };
 		7B53C164187A440700756488 /* town.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C163187A440700756488 /* town.png */; };
 		7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B53C168187A4BA700756488 /* GameMapObject.cpp */; };
+		7B890821187F4F7300C1E072 /* GameInputHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B89081F187F4F7300C1E072 /* GameInputHandler.cpp */; };
 		7B9A6063184D3E810016BA1A /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A6025184D3E810016BA1A /* README */; };
 		7B9A6064184D3E810016BA1A /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6027184D3E810016BA1A /* lapi.c */; };
 		7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6029184D3E810016BA1A /* lauxlib.c */; };
@@ -96,6 +97,10 @@
 		7BB3825C1864C80900391DC5 /* world01.tmx in Resources */ = {isa = PBXBuildFile; fileRef = 7BB3825B1864C80900391DC5 /* world01.tmx */; };
 		7BB382A218709FFD00391DC5 /* not-walkable.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB382A018709FFD00391DC5 /* not-walkable.png */; };
 		7BB382A318709FFD00391DC5 /* walkable.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB382A118709FFD00391DC5 /* walkable.png */; };
+		7BB8B97C187CBF1D0078B7A1 /* battle-background-001.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB8B97B187CBF1D0078B7A1 /* battle-background-001.png */; };
+		7BB8B97F187E48850078B7A1 /* BattleState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB8B97D187E48850078B7A1 /* BattleState.cpp */; };
+		7BB8B981187E58600078B7A1 /* battle.lua in Resources */ = {isa = PBXBuildFile; fileRef = 7BB8B980187E58600078B7A1 /* battle.lua */; };
+		7BDB5BE7187F488D0039F9AA /* PauseMenuState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB5BE5187F488D0039F9AA /* PauseMenuState.cpp */; };
 		7BE4738918454E57002EA054 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BE4738818454E57002EA054 /* fonts.json */; };
 		7BE474401845547C002EA054 /* internalJSONNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473921845547C002EA054 /* internalJSONNode.cpp */; };
 		7BE474411845547C002EA054 /* JSONAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473951845547C002EA054 /* JSONAllocator.cpp */; };
@@ -175,6 +180,8 @@
 		7B53C163187A440700756488 /* town.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = town.png; sourceTree = "<group>"; };
 		7B53C168187A4BA700756488 /* GameMapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapObject.cpp; sourceTree = "<group>"; };
 		7B53C169187A4BA700756488 /* GameMapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapObject.h; sourceTree = "<group>"; };
+		7B89081F187F4F7300C1E072 /* GameInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameInputHandler.cpp; sourceTree = "<group>"; };
+		7B890820187F4F7300C1E072 /* GameInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInputHandler.h; sourceTree = "<group>"; };
 		7B9A6025184D3E810016BA1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		7B9A6027184D3E810016BA1A /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		7B9A6028184D3E810016BA1A /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
@@ -269,6 +276,12 @@
 		7BB3825B1864C80900391DC5 /* world01.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = world01.tmx; sourceTree = "<group>"; };
 		7BB382A018709FFD00391DC5 /* not-walkable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "not-walkable.png"; sourceTree = "<group>"; };
 		7BB382A118709FFD00391DC5 /* walkable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walkable.png; sourceTree = "<group>"; };
+		7BB8B97B187CBF1D0078B7A1 /* battle-background-001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battle-background-001.png"; sourceTree = "<group>"; };
+		7BB8B97D187E48850078B7A1 /* BattleState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleState.cpp; sourceTree = "<group>"; };
+		7BB8B97E187E48850078B7A1 /* BattleState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleState.h; sourceTree = "<group>"; };
+		7BB8B980187E58600078B7A1 /* battle.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = battle.lua; sourceTree = "<group>"; };
+		7BDB5BE5187F488D0039F9AA /* PauseMenuState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PauseMenuState.cpp; sourceTree = "<group>"; };
+		7BDB5BE6187F488D0039F9AA /* PauseMenuState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseMenuState.h; sourceTree = "<group>"; };
 		7BE4738818454E57002EA054 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
 		7BE4738E1845547C002EA054 /* libbase64++.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libbase64++.h"; sourceTree = "<group>"; };
 		7BE473901845547C002EA054 /* mempool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mempool.h; sourceTree = "<group>"; };
@@ -431,6 +444,8 @@
 				7BB38259186353A900391DC5 /* GameMapLayer.h */,
 				7B53C168187A4BA700756488 /* GameMapObject.cpp */,
 				7B53C169187A4BA700756488 /* GameMapObject.h */,
+				7B89081F187F4F7300C1E072 /* GameInputHandler.cpp */,
+				7B890820187F4F7300C1E072 /* GameInputHandler.h */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -446,6 +461,10 @@
 				7B9A60DF185A78080016BA1A /* MainMenuState.h */,
 				7B9A614F186025030016BA1A /* MapState.cpp */,
 				7B9A6150186025030016BA1A /* MapState.h */,
+				7BB8B97D187E48850078B7A1 /* BattleState.cpp */,
+				7BB8B97E187E48850078B7A1 /* BattleState.h */,
+				7BDB5BE5187F488D0039F9AA /* PauseMenuState.cpp */,
+				7BDB5BE6187F488D0039F9AA /* PauseMenuState.h */,
 			);
 			name = "Game States";
 			sourceTree = "<group>";
@@ -566,6 +585,7 @@
 				7B9A60EA185ADC580016BA1A /* main_menu.lua */,
 				7B9A60F2185BA4F50016BA1A /* sdl_keys.lua */,
 				7B9A6152186029E70016BA1A /* map.lua */,
+				7BB8B980187E58600078B7A1 /* battle.lua */,
 			);
 			path = scripts;
 			sourceTree = "<group>";
@@ -573,6 +593,7 @@
 		7B9A60E1185ADB0D0016BA1A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				7BB8B97B187CBF1D0078B7A1 /* battle-background-001.png */,
 				7B53C163187A440700756488 /* town.png */,
 				7B53C15D187666B400756488 /* brick-1.png */,
 				7B53C1591870F1B500756488 /* dot.png */,
@@ -792,6 +813,7 @@
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
 				7B9A60F3185BA4F50016BA1A /* sdl_keys.lua in Resources */,
 				7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */,
+				7BB8B981187E58600078B7A1 /* battle.lua in Resources */,
 				7B53C160187666C600756488 /* town01.tmx in Resources */,
 				7B9A608B184DA61F0016BA1A /* intro.lua in Resources */,
 				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
@@ -800,6 +822,7 @@
 				7B9A6153186029E70016BA1A /* map.lua in Resources */,
 				7BB3825718634B5B00391DC5 /* world01.json in Resources */,
 				7B9A6063184D3E810016BA1A /* README in Resources */,
+				7BB8B97C187CBF1D0078B7A1 /* battle-background-001.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,10 +872,12 @@
 				7BE474481845547C002EA054 /* JSONPreparse.cpp in Sources */,
 				7BE4744C1845547C002EA054 /* JSONWriter.cpp in Sources */,
 				7B9A6079184D3E810016BA1A /* loslib.c in Sources */,
+				7B890821187F4F7300C1E072 /* GameInputHandler.cpp in Sources */,
 				7BE4744A1845547C002EA054 /* JSONValidator.cpp in Sources */,
 				7B9A606D184D3E810016BA1A /* ldo.c in Sources */,
 				7BE474411845547C002EA054 /* JSONAllocator.cpp in Sources */,
 				7B342A4E183F15A900BA2C29 /* GameEngine.cpp in Sources */,
+				7BDB5BE7187F488D0039F9AA /* PauseMenuState.cpp in Sources */,
 				7B9A6066184D3E810016BA1A /* lbaselib.c in Sources */,
 				7BE474401845547C002EA054 /* internalJSONNode.cpp in Sources */,
 				7B9A60F1185B8B8E0016BA1A /* GameSong.cpp in Sources */,
@@ -871,6 +896,7 @@
 				7BE474461845547C002EA054 /* JSONNode.cpp in Sources */,
 				7BE474A41845547C002EA054 /* makefile in Sources */,
 				7BE4744B1845547C002EA054 /* JSONWorker.cpp in Sources */,
+				7BB8B97F187E48850078B7A1 /* BattleState.cpp in Sources */,
 				7B9A606A184D3E810016BA1A /* lctype.c in Sources */,
 				7BE474491845547C002EA054 /* JSONStream.cpp in Sources */,
 				7B342A5A18439C0D00BA2C29 /* IntroState.cpp in Sources */,

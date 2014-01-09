@@ -68,6 +68,12 @@ public:
         this->realObject = (GameState*)lua_touserdata(L, 1);
     }
 
+    int pop(lua_State *L) {
+        this->realObject->pop = true;
+
+        return 0;
+    }
+
     int getTexture(lua_State *L) {
         std::string textureName = luaL_checkstring(L, 1);
 

@@ -12,6 +12,7 @@ public:
     int y;
     int width;
     int height;
+    std::string type;
     std::map<std::string, std::string> properties;
 
     GameMapObject();
@@ -65,6 +66,12 @@ public:
         this->realObject->SetPosition(x, y);
 
         return 0;
+    }
+
+    int type(lua_State *L) {
+        lua_pushstring(L, this->realObject->type.c_str());
+
+        return 1;
     }
 
     int getProperty(lua_State *L) {

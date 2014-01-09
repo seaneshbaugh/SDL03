@@ -3,6 +3,7 @@
 const char LuaMapState::className[] = "MapState";
 
 Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
+    {"pop", &LuaMapState::pop},
     {"getTexture", &LuaMapState::getTexture},
     {"getFont", &LuaMapState::getFont},
     {"getSound", &LuaMapState::getSound},
@@ -90,6 +91,8 @@ MapState::~MapState() {
 }
 
 GameState* MapState::Update(SDL_Event* event) {
+    std::string nextState = "";
+
     if (event) {
         if (event->type == SDL_KEYDOWN || event->type == SDL_MOUSEBUTTONDOWN) {
             this->ProcessInput(event);
@@ -98,17 +101,31 @@ GameState* MapState::Update(SDL_Event* event) {
 
     lua_getglobal(this->luaState, "update");
 
-    if (lua_pcall(this->luaState, 0, 0, 0)) {
+    if (lua_pcall(this->luaState, 0, 1, 0)) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);
     }
 
-    if (this->pop) {
-        return NULL;
+    if (!lua_isstring(this->luaState, -1)) {
+        std::cerr << "Error: expected update to return a string." << std::endl;
     } else {
-        return this;
+        nextState = lua_tostring(this->luaState, -1);
     }
+
+    if (this->pop) {
+        return nullptr;
+    }
+
+    if (nextState == "battle") {
+        std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
+
+        };
+        
+        return new BattleState(callback);
+    }
+
+    return this;
 }
 
 std::string MapState::ProcessInput(SDL_Event* event) {
@@ -132,7 +149,7 @@ std::string MapState::ProcessInput(SDL_Event* event) {
     std::string result = "";
 
     if (!lua_isstring(this->luaState, -1)) {
-        std::cerr << "Error: " << "expected process_input to return a string." << std::endl;
+        std::cerr << "Error: expected process_input to return a string." << std::endl;
     } else {
         result = lua_tostring(this->luaState, -1);
     }

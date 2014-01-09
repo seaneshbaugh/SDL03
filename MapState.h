@@ -2,6 +2,7 @@
 #define __SDL03__MapState__
 
 #include "GameState.h"
+#include "BattleState.h"
 #include "GameMap.h"
 
 class MapState : public GameState {
@@ -34,6 +35,12 @@ public:
 
     void setObject(lua_State *L) {
         this->realObject = (MapState*)lua_touserdata(L, 1);
+    }
+
+    int pop(lua_State *L) {
+        this->realObject->pop = true;
+
+        return 0;
     }
 
     int getTexture(lua_State *L) {
