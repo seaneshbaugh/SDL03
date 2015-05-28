@@ -99,10 +99,14 @@ public:
 
         lua_newtable(L);
 
-        for(std::vector<GameMapObject*>::iterator object = result.begin(); object != result.end(); object++) {
+        int n = 1;
+
+        for (std::vector<GameMapObject*>::iterator object = result.begin(); object != result.end(); object++) {
             lua_pushlightuserdata(L, (void*)(*object));
 
-            lua_rawseti(L, -2, 1);
+            lua_rawseti(L, -2, n);
+
+            n += 1;
         }
 
         return 1;

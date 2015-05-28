@@ -344,7 +344,7 @@ std::vector<GameMapObject*> GameMap::GetObjects(int x, int y) {
 
     for (std::vector<GameMapLayer*>::iterator layer = this->layers.begin(); layer != this->layers.end(); layer++) {
         for (std::vector<GameMapObject*>::iterator object = (*layer)->objects.begin(); object != (*layer)->objects.end(); object++) {
-            if (x >= (*object)->x && x < ((*object)->x + (*object)->width) <= x && y >= (*object)->y && y < ((*object)->y + (*object)->height)) {
+            if (x >= (*object)->x && x < ((*object)->x + (*object)->width) && y >= (*object)->y && y < ((*object)->y + (*object)->height)) {
                 result.push_back(*object);
             }
         }

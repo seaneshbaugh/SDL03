@@ -134,7 +134,7 @@ end
 function step(x, y)
     objects = current_map:getObjects(x, y)
 
-    for i, v in ipairs(current_map:getObjects(x, y)) do
+    for i, v in ipairs(objects) do
         object = GameMapObject(v)
 
         type = object:type()
