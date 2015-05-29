@@ -14,6 +14,8 @@
 #include "libs/lua/src/lua.hpp"
 #include "libs/lua/src/lua.h"
 
+#include "GameInputMapper.h"
+
 #include "GameTexture.h"
 #include "GameFont.h"
 #include "GameSound.h"
@@ -26,6 +28,7 @@
 class GameState {
 public:
     static SDL_Renderer* renderer;
+    static GameInputMapper* inputMapper;
 
     GameState(std::function<void(GameState*)> callback);
     ~GameState();

@@ -19,6 +19,7 @@
 #include "IntroState.h"
 #include "MainMenuState.h"
 #include "MapState.h"
+#include "GameInputMapper.h"
 #include "GameResource.h"
 #include "GameTexture.h"
 #include "GameFont.h"
@@ -42,6 +43,7 @@ private:
     int screenHeight;
     std::string windowTitle;
     std::vector <GameState*> states;
+    GameInputMapper inputMapper;
 
     void MainLoop();
     void Render();

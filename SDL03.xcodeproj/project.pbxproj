@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		730B279C1B182841002629F8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 730B279A1B182841002629F8 /* sqlite3.c */; };
+		730B279E1B18EBB3002629F8 /* GameInputMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */; };
 		7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
@@ -33,7 +34,6 @@
 		7B53C162187666E100756488 /* town01.json in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C161187666E100756488 /* town01.json */; };
 		7B53C164187A440700756488 /* town.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B53C163187A440700756488 /* town.png */; };
 		7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B53C168187A4BA700756488 /* GameMapObject.cpp */; };
-		7B890821187F4F7300C1E072 /* GameInputHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B89081F187F4F7300C1E072 /* GameInputHandler.cpp */; };
 		7B9A6063184D3E810016BA1A /* README in Resources */ = {isa = PBXBuildFile; fileRef = 7B9A6025184D3E810016BA1A /* README */; };
 		7B9A6064184D3E810016BA1A /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6027184D3E810016BA1A /* lapi.c */; };
 		7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6029184D3E810016BA1A /* lauxlib.c */; };
@@ -140,6 +140,7 @@
 /* Begin PBXFileReference section */
 		730B279A1B182841002629F8 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		730B279B1B182841002629F8 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameInputMapper.cpp; sourceTree = "<group>"; };
 		7B342A07183F09E000BA2C29 /* SDL03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A0A183F09E000BA2C29 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7B342A0D183F09E000BA2C29 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -183,8 +184,7 @@
 		7B53C163187A440700756488 /* town.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = town.png; sourceTree = "<group>"; };
 		7B53C168187A4BA700756488 /* GameMapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapObject.cpp; sourceTree = "<group>"; };
 		7B53C169187A4BA700756488 /* GameMapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapObject.h; sourceTree = "<group>"; };
-		7B89081F187F4F7300C1E072 /* GameInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameInputHandler.cpp; sourceTree = "<group>"; };
-		7B890820187F4F7300C1E072 /* GameInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInputHandler.h; sourceTree = "<group>"; };
+		7B890820187F4F7300C1E072 /* GameInputMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInputMapper.h; sourceTree = "<group>"; };
 		7B9A6025184D3E810016BA1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		7B9A6027184D3E810016BA1A /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		7B9A6028184D3E810016BA1A /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
@@ -456,8 +456,8 @@
 				7BB38259186353A900391DC5 /* GameMapLayer.h */,
 				7B53C168187A4BA700756488 /* GameMapObject.cpp */,
 				7B53C169187A4BA700756488 /* GameMapObject.h */,
-				7B89081F187F4F7300C1E072 /* GameInputHandler.cpp */,
-				7B890820187F4F7300C1E072 /* GameInputHandler.h */,
+				730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */,
+				7B890820187F4F7300C1E072 /* GameInputMapper.h */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -856,6 +856,7 @@
 				7B342A53183F2D6900BA2C29 /* GameObject.cpp in Sources */,
 				7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */,
 				7B9A6083184D3E810016BA1A /* lundump.c in Sources */,
+				730B279E1B18EBB3002629F8 /* GameInputMapper.cpp in Sources */,
 				7B9A6069184D3E810016BA1A /* lcorolib.c in Sources */,
 				7BE4744D1845547C002EA054 /* libjson.cpp in Sources */,
 				7B9A60FD185EBD850016BA1A /* GameMap.cpp in Sources */,
@@ -886,7 +887,6 @@
 				7BE474481845547C002EA054 /* JSONPreparse.cpp in Sources */,
 				7BE4744C1845547C002EA054 /* JSONWriter.cpp in Sources */,
 				7B9A6079184D3E810016BA1A /* loslib.c in Sources */,
-				7B890821187F4F7300C1E072 /* GameInputHandler.cpp in Sources */,
 				7BE4744A1845547C002EA054 /* JSONValidator.cpp in Sources */,
 				7B9A606D184D3E810016BA1A /* ldo.c in Sources */,
 				7BE474411845547C002EA054 /* JSONAllocator.cpp in Sources */,

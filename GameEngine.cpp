@@ -3,6 +3,7 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 const int FRAMES_PER_SECOND = 60;
+const std::string APPLICATION_NAME = "SDL03";
 
 GameEngine::GameEngine() {
     this->screen = nullptr;
@@ -70,6 +71,10 @@ bool GameEngine::Setup() {
     if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
         return false;
     }
+
+    this->inputMapper = GameInputMapper();
+
+    GameState::inputMapper = &this->inputMapper;
 
     return true;
 }

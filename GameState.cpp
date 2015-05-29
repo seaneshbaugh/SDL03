@@ -2,6 +2,8 @@
 
 SDL_Renderer* GameState::renderer;
 
+GameInputMapper* GameState::inputMapper;
+
 const char LuaGameState::className[] = "GameState";
 
 Lunar<LuaGameState>::RegType LuaGameState::methods[] = {
