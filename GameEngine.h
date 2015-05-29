@@ -1,6 +1,9 @@
 #ifndef __SDL03__GameEngine__
 #define __SDL03__GameEngine__
 
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <map>
 #include <string>
 #include <vector>
@@ -9,6 +12,8 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
+
+#include "sqlite3.h"
 
 #include "GameState.h"
 #include "IntroState.h"

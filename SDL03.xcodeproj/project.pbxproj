@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		730B279C1B182841002629F8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 730B279A1B182841002629F8 /* sqlite3.c */; };
 		7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
@@ -137,6 +138,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		730B279A1B182841002629F8 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		730B279B1B182841002629F8 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		7B342A07183F09E000BA2C29 /* SDL03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A0A183F09E000BA2C29 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7B342A0D183F09E000BA2C29 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -344,6 +347,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		730B27991B182841002629F8 /* sqlite */ = {
+			isa = PBXGroup;
+			children = (
+				730B279A1B182841002629F8 /* sqlite3.c */,
+				730B279B1B182841002629F8 /* sqlite3.h */,
+			);
+			path = sqlite;
+			sourceTree = "<group>";
+		};
 		7B3429FE183F09E000BA2C29 = {
 			isa = PBXGroup;
 			children = (
@@ -621,6 +633,7 @@
 		7BE4737018454D0C002EA054 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				730B27991B182841002629F8 /* sqlite */,
 				7B9A6024184D3E810016BA1A /* lua */,
 				7BE4738A1845547C002EA054 /* libjson */,
 			);
@@ -852,6 +865,7 @@
 				7BE474451845547C002EA054 /* JSONMemory.cpp in Sources */,
 				7B9A608E184E49CC0016BA1A /* GameText.cpp in Sources */,
 				7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */,
+				730B279C1B182841002629F8 /* sqlite3.c in Sources */,
 				7B9A6086184D3E810016BA1A /* Makefile in Sources */,
 				7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */,
 				7B9A6080184D3E810016BA1A /* ltm.c in Sources */,
