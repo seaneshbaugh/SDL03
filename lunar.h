@@ -118,7 +118,7 @@ public:
     }
 
     // get userdata from Lua stack and return pointer to T object
-    static T *check(lua_State *L, int narg) {
+    static T *checkStack(lua_State *L, int narg) {
         userdataType *ud =
         static_cast<userdataType*>(luaL_checkudata(L, narg, T::className));
         if(!ud) {
@@ -136,7 +136,7 @@ private:
     // member function dispatcher
     static int thunk(lua_State *L) {
         // stack has userdata, followed by method args
-        T *obj = check(L, 1);  // get 'self', or if you prefer, 'this'
+        T *obj = checkStack(L, 1);  // get 'self', or if you prefer, 'this'
         lua_remove(L, 1);  // remove self so member function args start at index 1
         // get member function from upvalue
         RegType *l = static_cast<RegType*>(lua_touserdata(L, lua_upvalueindex(1)));
