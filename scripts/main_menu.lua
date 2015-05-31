@@ -1,4 +1,4 @@
-dofile "sdl_keys.lua"
+dofile "keys.lua"
 
 main_menu_state = GameState(raw_main_menu_state)
 
@@ -30,7 +30,7 @@ function initialize()
 end
 
 function process_input(key_code)
-    if key_code == SDLK_UP then
+    if key_code == UP_KEY then
         if menu_option > 0 then
             menu_option = menu_option - 1
         else
@@ -39,15 +39,15 @@ function process_input(key_code)
     end
 
     -- What genius thought ~= would be a good idea for "not equal"?
-    if key_code == SDLK_DOWN then
+    if key_code == DOWN_KEY then
         if menu_option < 2 then
             menu_option = menu_option + 1
         else
             menu_option = 0
         end
     end
-    
-    if key_code == SDLK_RETURN then
+
+    if key_code == CONFIRM_KEY then
         if menu_option == 0 then
             return "new_game"
         end

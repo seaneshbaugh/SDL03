@@ -39,9 +39,9 @@ GameState::~GameState() {
     }
 }
 
-GameState* GameState::Update(SDL_Event* event) {
-    if (event) {
-        this->ProcessInput(event);
+GameState* GameState::Update(int key) {
+    if (key != NO_KEY) {
+        this->ProcessInput(key);
     }
 
     if (this->pop) {
@@ -51,7 +51,7 @@ GameState* GameState::Update(SDL_Event* event) {
     }
 }
 
-std::string GameState::ProcessInput(SDL_Event* event) {
+std::string GameState::ProcessInput(int key) {
     return "";
 }
 

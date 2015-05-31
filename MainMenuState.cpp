@@ -63,13 +63,11 @@ MainMenuState::~MainMenuState() {
     }
 }
 
-GameState* MainMenuState::Update(SDL_Event* event) {
+GameState* MainMenuState::Update(int key) {
     std::string nextState = "";
 
-    if (event) {
-        if (event->type == SDL_KEYDOWN || event->type == SDL_MOUSEBUTTONDOWN) {
-            nextState = this->ProcessInput(event);
-        }
+    if (key != NO_KEY) {
+        nextState = this->ProcessInput(key);
     }
 
     lua_getglobal(this->luaState, "update");
@@ -124,10 +122,10 @@ GameState* MainMenuState::Update(SDL_Event* event) {
     return this;
 }
 
-std::string MainMenuState::ProcessInput(SDL_Event* event) {
+std::string MainMenuState::ProcessInput(int key) {
     lua_getglobal(this->luaState, "process_input");
 
-    lua_pushinteger(this->luaState, event->key.keysym.sym);
+    lua_pushinteger(this->luaState, key);
 
     if (lua_pcall(this->luaState, 1, 1, 0)) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;

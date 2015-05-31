@@ -12,8 +12,8 @@ public:
 
     MapState(std::function<void(GameState*)> callback);
     ~MapState();
-    GameState* Update(SDL_Event* event);
-    std::string ProcessInput(SDL_Event* event);
+    GameState* Update(int key);
+    std::string ProcessInput(int keyt);
     void Render();
     bool LoadMap(std::string filename);
 

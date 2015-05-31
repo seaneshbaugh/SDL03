@@ -1,4 +1,4 @@
-dofile "sdl_keys.lua"
+dofile "keys.lua"
 
 map_state = MapState(raw_map_state)
 
@@ -53,7 +53,7 @@ end
 
 function process_input(key_code)
     if screen_moving == false and player_moving == false then
-        if key_code == SDLK_UP then
+        if key_code == UP_KEY then
             if current_map:getWalkability(player_current_x, player_current_y - 1) then
                 if player_current_y > 7 and player_current_y < 93 then
                     screen_y_velocity = 4
@@ -71,7 +71,7 @@ function process_input(key_code)
             end
         end
         
-        if key_code == SDLK_DOWN then
+        if key_code == DOWN_KEY then
             -- load map height here, for now assume 100 (with screen height of 15 tiles)
             if current_map:getWalkability(player_current_x, player_current_y + 1) then
                 if player_current_y >= 7 and player_current_y <= 93 then
@@ -90,7 +90,7 @@ function process_input(key_code)
             end
         end
         
-        if key_code == SDLK_LEFT then
+        if key_code == LEFT_KEY then
             if current_map:getWalkability(player_current_x - 1, player_current_y) then
                 if player_current_x > 10 and player_current_x < 90 then
                     screen_x_velocity = 4
@@ -108,7 +108,7 @@ function process_input(key_code)
             end
         end
         
-        if key_code == SDLK_RIGHT then
+        if key_code == RIGHT_KEY then
             -- load height here, for now assume 100 (with screen width of 20 tiles)
             if current_map:getWalkability(player_current_x + 1, player_current_y) then
                 if player_current_x >= 10 and player_current_x <= 90 then

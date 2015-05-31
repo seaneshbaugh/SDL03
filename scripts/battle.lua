@@ -1,4 +1,4 @@
-dofile "sdl_keys.lua"
+dofile "keys.lua"
 
 battle_state = GameState(raw_battle_state)
 

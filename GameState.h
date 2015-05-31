@@ -32,8 +32,8 @@ public:
 
     GameState(std::function<void(GameState*)> callback);
     ~GameState();
-    virtual GameState* Update(SDL_Event* event);
-    virtual std::string ProcessInput(SDL_Event* event);
+    virtual GameState* Update(int key);
+    virtual std::string ProcessInput(int key);
     virtual void Render();
 
     friend class LuaGameState;

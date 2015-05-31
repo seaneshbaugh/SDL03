@@ -92,6 +92,8 @@ void GameEngine::MainLoop() {
 
     bool quit = false;
 
+    unsigned long long frameCount = 0;
+
     // The way this works right now is very tentative and is probably very bad. I have
     // no idea what I'm doing, but I think this should work while things are still
     // simple.
@@ -117,21 +119,23 @@ void GameEngine::MainLoop() {
         if (this->states.size() > 0) {
             int startTicks = SDL_GetTicks();
 
-            int pendingEvent = SDL_PollEvent(&event);
-
             GameState* currentState = this->states.back();
 
             GameState* nextState = currentState;
+
+            int pendingEvent = SDL_PollEvent(&event);
+
+            int key = NO_KEY;
 
             if (pendingEvent) {
                 if (event.type == SDL_QUIT) {
                     quit = true;
                 }
 
-                nextState = currentState->Update(&event);
-            } else {
-                nextState = currentState->Update(nullptr);
+                key = this->inputMapper.GetInputMapKey(&event);
             }
+
+            nextState = currentState->Update(key);
 
             this->Render();
 
@@ -151,6 +155,8 @@ void GameEngine::MainLoop() {
         } else {
             quit = true;
         }
+
+        frameCount++;
     }
 }
 

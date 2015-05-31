@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		730B279C1B182841002629F8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 730B279A1B182841002629F8 /* sqlite3.c */; };
 		730B279E1B18EBB3002629F8 /* GameInputMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */; };
+		730B27A01B19164F002629F8 /* keys.lua in Resources */ = {isa = PBXBuildFile; fileRef = 730B279F1B19164F002629F8 /* keys.lua */; };
 		7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
@@ -141,6 +142,7 @@
 		730B279A1B182841002629F8 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		730B279B1B182841002629F8 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameInputMapper.cpp; sourceTree = "<group>"; };
+		730B279F1B19164F002629F8 /* keys.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keys.lua; sourceTree = "<group>"; };
 		7B342A07183F09E000BA2C29 /* SDL03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A0A183F09E000BA2C29 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7B342A0D183F09E000BA2C29 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -593,6 +595,7 @@
 		7B9A6089184DA61F0016BA1A /* scripts */ = {
 			isa = PBXGroup;
 			children = (
+				730B279F1B19164F002629F8 /* keys.lua */,
 				7B9A608A184DA61F0016BA1A /* intro.lua */,
 				7B9A60EA185ADC580016BA1A /* main_menu.lua */,
 				7B9A60F2185BA4F50016BA1A /* sdl_keys.lua */,
@@ -823,6 +826,7 @@
 				7B342A7E1844686600BA2C29 /* DroidSans-Bold.ttf in Resources */,
 				7B53C15E187666B400756488 /* brick-1.png in Resources */,
 				7B9A60E7185ADBC70016BA1A /* main_menu_textures.json in Resources */,
+				730B27A01B19164F002629F8 /* keys.lua in Resources */,
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
 				7B9A60F3185BA4F50016BA1A /* sdl_keys.lua in Resources */,
 				7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */,

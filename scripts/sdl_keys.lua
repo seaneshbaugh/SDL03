@@ -1,3 +1,5 @@
+-- This should not be needed any longer. I'm keeping it just because.
+
 --[[
  *  The SDL keyboard scancode representation.
  *

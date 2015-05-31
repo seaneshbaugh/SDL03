@@ -90,13 +90,11 @@ MapState::~MapState() {
     }
 }
 
-GameState* MapState::Update(SDL_Event* event) {
+GameState* MapState::Update(int key) {
     std::string nextState = "";
 
-    if (event) {
-        if (event->type == SDL_KEYDOWN || event->type == SDL_MOUSEBUTTONDOWN) {
-            this->ProcessInput(event);
-        }
+    if (key != NO_KEY) {
+        this->ProcessInput(key);
     }
 
     lua_getglobal(this->luaState, "update");
@@ -128,10 +126,10 @@ GameState* MapState::Update(SDL_Event* event) {
     return this;
 }
 
-std::string MapState::ProcessInput(SDL_Event* event) {
+std::string MapState::ProcessInput(int key) {
     lua_getglobal(this->luaState, "process_input");
 
-    lua_pushinteger(this->luaState, event->key.keysym.sym);
+    lua_pushinteger(this->luaState, key);
 
     if (lua_pcall(this->luaState, 1, 1, 0)) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;

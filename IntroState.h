@@ -8,8 +8,8 @@ class IntroState : public GameState {
 public:
     IntroState(std::function<void(GameState*)> callback);
     ~IntroState();
-    GameState* Update(SDL_Event* event);
-    std::string ProcessInput(SDL_Event* event);
+    GameState* Update(int key);
+    std::string ProcessInput(int key);
     void Render();
 protected:
     lua_State *luaState;

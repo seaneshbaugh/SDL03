@@ -60,13 +60,11 @@ IntroState::~IntroState() {
     }
 }
 
-GameState* IntroState::Update(SDL_Event* event) {
+GameState* IntroState::Update(int key) {
     std::string nextState = "";
 
-    if (event) {
-        if (event->type == SDL_KEYDOWN || event->type == SDL_MOUSEBUTTONDOWN) {
-            nextState = this->ProcessInput(event);
-        }
+    if (key != NO_KEY) {
+        nextState = this->ProcessInput(key);
     }
 
     lua_getglobal(this->luaState, "update");
@@ -97,10 +95,12 @@ GameState* IntroState::Update(SDL_Event* event) {
 // any keyboard input just immediately causes a transition to the main menu state.
 // Honestly it doesn't even make sense to call the Lua function at all, but I'm
 // leaving it in for consistency's sake.
-std::string IntroState::ProcessInput(SDL_Event* event) {
+std::string IntroState::ProcessInput(int key) {
+    std::cout << "PROCESS INPUT " << key << std::endl;
+
     lua_getglobal(this->luaState, "process_input");
 
-    lua_pushinteger(this->luaState, event->key.keysym.sym);
+    lua_pushinteger(this->luaState, key);
 
     if (lua_pcall(this->luaState, 1, 1, 0)) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
@@ -125,7 +125,7 @@ std::string IntroState::ProcessInput(SDL_Event* event) {
 
     lua_pop(this->luaState, 1);
 
-    if (event->type == SDL_KEYDOWN) {
+    if (key != NO_KEY) {
         result = "main_menu";
     }
 

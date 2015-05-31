@@ -36,7 +36,11 @@ int GameInputMapper::SetInputMapKey(int rawKeyValue, int inputValue) {
 
 int GameInputMapper::GetInputMapKey(SDL_Event* event) {
     try {
-        return this->inputMap.at(event->key.keysym.sym);
+        if (event->type == SDL_KEYDOWN) {
+            return this->inputMap.at(event->key.keysym.sym);
+        } else {
+            return NO_KEY;
+        }
     } catch (const std::out_of_range& exception) {
         return NO_KEY;
     }
