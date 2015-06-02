@@ -10,6 +10,9 @@
 		730B279C1B182841002629F8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 730B279A1B182841002629F8 /* sqlite3.c */; };
 		730B279E1B18EBB3002629F8 /* GameInputMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */; };
 		730B27A01B19164F002629F8 /* keys.lua in Resources */ = {isa = PBXBuildFile; fileRef = 730B279F1B19164F002629F8 /* keys.lua */; };
+		730B27AA1B1C12DB002629F8 /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 730B27A81B1C12DB002629F8 /* GameSettings.cpp */; };
+		730B27B11B1C2DB3002629F8 /* AppleFileSystemHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 730B27AF1B1C2DB3002629F8 /* AppleFileSystemHelpers.cpp */; };
+		730B27B41B1CAA4D002629F8 /* StringHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 730B27B21B1CAA4D002629F8 /* StringHelpers.cpp */; };
 		7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
@@ -143,6 +146,13 @@
 		730B279B1B182841002629F8 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameInputMapper.cpp; sourceTree = "<group>"; };
 		730B279F1B19164F002629F8 /* keys.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = keys.lua; sourceTree = "<group>"; };
+		730B27A81B1C12DB002629F8 /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSettings.cpp; sourceTree = "<group>"; };
+		730B27A91B1C12DB002629F8 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
+		730B27AD1B1C2CE1002629F8 /* FileSystemHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystemHelpers.h; sourceTree = "<group>"; };
+		730B27AF1B1C2DB3002629F8 /* AppleFileSystemHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppleFileSystemHelpers.cpp; sourceTree = "<group>"; };
+		730B27B01B1C2DB3002629F8 /* AppleFileSystemHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleFileSystemHelpers.h; sourceTree = "<group>"; };
+		730B27B21B1CAA4D002629F8 /* StringHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringHelpers.cpp; sourceTree = "<group>"; };
+		730B27B31B1CAA4D002629F8 /* StringHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringHelpers.h; sourceTree = "<group>"; };
 		7B342A07183F09E000BA2C29 /* SDL03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A0A183F09E000BA2C29 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7B342A0D183F09E000BA2C29 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -358,6 +368,18 @@
 			path = sqlite;
 			sourceTree = "<group>";
 		};
+		730B27AB1B1C2CCF002629F8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				730B27AD1B1C2CE1002629F8 /* FileSystemHelpers.h */,
+				730B27AF1B1C2DB3002629F8 /* AppleFileSystemHelpers.cpp */,
+				730B27B01B1C2DB3002629F8 /* AppleFileSystemHelpers.h */,
+				730B27B21B1CAA4D002629F8 /* StringHelpers.cpp */,
+				730B27B31B1CAA4D002629F8 /* StringHelpers.h */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		7B3429FE183F09E000BA2C29 = {
 			isa = PBXGroup;
 			children = (
@@ -431,6 +453,7 @@
 		7B342A4F183F2CDA00BA2C29 /* Game Classes */ = {
 			isa = PBXGroup;
 			children = (
+				730B27AB1B1C2CCF002629F8 /* Helpers */,
 				7B342A671844393E00BA2C29 /* Game Resources */,
 				7B342A5718439B2500BA2C29 /* Game States */,
 				7B342A50183F2D3A00BA2C29 /* Game Objects */,
@@ -460,6 +483,8 @@
 				7B53C169187A4BA700756488 /* GameMapObject.h */,
 				730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */,
 				7B890820187F4F7300C1E072 /* GameInputMapper.h */,
+				730B27A81B1C12DB002629F8 /* GameSettings.cpp */,
+				730B27A91B1C12DB002629F8 /* GameSettings.h */,
 			);
 			name = "Game Objects";
 			sourceTree = "<group>";
@@ -883,6 +908,7 @@
 				7B9A6077184D3E810016BA1A /* lobject.c in Sources */,
 				7B9A6072184D3E810016BA1A /* liolib.c in Sources */,
 				7B9A6151186025030016BA1A /* MapState.cpp in Sources */,
+				730B27B41B1CAA4D002629F8 /* StringHelpers.cpp in Sources */,
 				7BE474471845547C002EA054 /* JSONNode_Mutex.cpp in Sources */,
 				7B9A6070184D3E810016BA1A /* lgc.c in Sources */,
 				7B9A6068184D3E810016BA1A /* lcode.c in Sources */,
@@ -911,6 +937,8 @@
 				7B9A6085184D3E810016BA1A /* lzio.c in Sources */,
 				7B9A6078184D3E810016BA1A /* lopcodes.c in Sources */,
 				7B9A607A184D3E810016BA1A /* lparser.c in Sources */,
+				730B27B11B1C2DB3002629F8 /* AppleFileSystemHelpers.cpp in Sources */,
+				730B27AA1B1C12DB002629F8 /* GameSettings.cpp in Sources */,
 				7BE474461845547C002EA054 /* JSONNode.cpp in Sources */,
 				7BE474A41845547C002EA054 /* makefile in Sources */,
 				7BE4744B1845547C002EA054 /* JSONWorker.cpp in Sources */,

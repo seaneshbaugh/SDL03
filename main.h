@@ -4,7 +4,6 @@
 #define NDEBUG
 
 #include <CoreFoundation/CoreFoundation.h>
-#include <CoreServices/CoreServices.h>
 #include <sys/param.h>
 #include <unistd.h>
 

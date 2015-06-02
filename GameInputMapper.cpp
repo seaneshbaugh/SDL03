@@ -21,11 +21,21 @@ GameInputMapper::~GameInputMapper() {
 
 }
 
+std::map<int, int>::size_type GameInputMapper::MapKeys(std::map<int, int> keys) {
+    for (std::map<int, int>::iterator key = keys.begin(); key != keys.end(); key++) {
+        this->SetInputMapKey(key->first, key->second);
+    }
+
+    return keys.size();
+}
+
 // This probably needs some sort of error checking to make sure rawKeyValue is an actual SDL key.
 int GameInputMapper::SetInputMapKey(int rawKeyValue, int inputValue) {
-    for (std::map<int, int>::iterator it = this->inputMap.begin(); it != this->inputMap.end(); it++) {
-        if (it->second == inputValue) {
-            inputMap.erase(it);
+    for (std::map<int, int>::iterator key = this->inputMap.begin(); key != this->inputMap.end();) {
+        if (key->second == inputValue) {
+            this->inputMap.erase(key++);
+        } else {
+            ++key;
         }
     }
 

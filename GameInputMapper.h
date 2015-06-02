@@ -18,6 +18,7 @@ class GameInputMapper {
 public:
     GameInputMapper();
     ~GameInputMapper();
+    std::map<int, int>::size_type MapKeys(std::map<int, int> keys);
     int SetInputMapKey(int rawKeyValue, int inputValue);
     int GetInputMapKey(SDL_Event* event);
 private:

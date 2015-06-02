@@ -96,8 +96,6 @@ GameState* IntroState::Update(int key) {
 // Honestly it doesn't even make sense to call the Lua function at all, but I'm
 // leaving it in for consistency's sake.
 std::string IntroState::ProcessInput(int key) {
-    std::cout << "PROCESS INPUT " << key << std::endl;
-
     lua_getglobal(this->luaState, "process_input");
 
     lua_pushinteger(this->luaState, key);

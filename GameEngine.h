@@ -15,6 +15,8 @@
 
 #include "sqlite3.h"
 
+#include "FileSystemHelpers.h"
+#include "GameSettings.h"
 #include "GameState.h"
 #include "IntroState.h"
 #include "MainMenuState.h"
@@ -43,6 +45,8 @@ private:
     int screenHeight;
     std::string windowTitle;
     std::vector <GameState*> states;
+    std::string applicationDataDiretory;
+    GameSettings *settings;
     GameInputMapper inputMapper;
 
     void MainLoop();

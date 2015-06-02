@@ -15,6 +15,8 @@ GameEngine::GameEngine() {
     this->screenHeight = SCREEN_HEIGHT;
 
     this->windowTitle = "Hello, world!";
+
+    this->settings = new GameSettings(APPLICATION_NAME);
 }
 
 GameEngine::~GameEngine() {
@@ -35,6 +37,8 @@ GameEngine::~GameEngine() {
     IMG_Quit();
 
     SDL_Quit();
+
+    delete this->settings;
 }
 
 bool GameEngine::Setup() {
@@ -72,7 +76,11 @@ bool GameEngine::Setup() {
         return false;
     }
 
-    this->inputMapper = GameInputMapper();
+    if (!this->settings->LoadSettings()) {
+        return false;
+    }
+
+    this->inputMapper.MapKeys(this->settings->InputSettings());
 
     GameState::inputMapper = &this->inputMapper;
 
