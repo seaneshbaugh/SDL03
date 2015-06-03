@@ -28,6 +28,7 @@ MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameSta
     lua_settop(this->luaState, 0);
 
     std::cout << "Loading main_menu.lua" << std::endl;
+
     if (luaL_loadfile(this->luaState, "main_menu.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
@@ -103,20 +104,20 @@ GameState* MainMenuState::Update(int key) {
         return new MapState(callback);
     }
 
+    // Switch to the load game menu.
     if (nextState == "load_game") {
-        // Switch to the load game menu.
-
         std::cout << "load_game" << std::endl;
 
         return this;
     }
 
+    // Switch to the settings menu.
     if (nextState == "settings") {
-        // Switch to the settings menu.
+        std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
+            std::cout << "settings" << std::endl;
+        };
 
-        std::cout << "settings" << std::endl;
-
-        return this;
+        return new SettingsMenuState(callback);
     }
 
     return this;

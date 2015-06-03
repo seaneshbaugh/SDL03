@@ -4,6 +4,7 @@
 #include "GameState.h"
 #include "IntroState.h"
 #include "MapState.h"
+#include "SettingsMenuState.h"
 
 class MainMenuState : public GameState {
 public:
