@@ -8,6 +8,7 @@ public:
     SettingsMenuState(std::function<void(GameState*)> callback);
     ~SettingsMenuState();
     GameState* Update(int key);
+    GameState* Update(SDL_Event* event);
     std::string ProcessInput(int);
     void Render();
 
@@ -35,6 +36,18 @@ public:
 
     int pop(lua_State *L) {
         this->realObject->pop = true;
+
+        return 0;
+    }
+
+    int enableRawInput(lua_State *L) {
+        this->realObject->acceptRawInput = true;
+
+        return 0;
+    }
+
+    int disableRawInput(lua_State *L) {
+        this->realObject->acceptRawInput = false;
 
         return 0;
     }

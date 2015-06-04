@@ -4,6 +4,12 @@ const char LuaSettingsMenuState::className[] = "SettingsMenuState";
 
 Lunar<LuaSettingsMenuState>::RegType LuaSettingsMenuState::methods[] = {
     {"pop", &LuaSettingsMenuState::pop},
+    {"getTexture", &LuaGameState::getTexture},
+    {"getFont", &LuaGameState::getFont},
+    {"getSound", &LuaGameState::getSound},
+    {"loadTexture", &LuaGameState::loadTexture},
+    {"enableRawInput", &LuaSettingsMenuState::enableRawInput},
+    {"disableRawInput", &LuaSettingsMenuState::disableRawInput},
     {0, 0}
 };
 
@@ -26,6 +32,8 @@ SettingsMenuState::SettingsMenuState(std::function<void(GameState*)> callback) :
     Lunar<LuaGameText>::Register(this->luaState);
 
     Lunar<LuaGameImage>::Register(this->luaState);
+
+    Lunar<LuaSettingsMenuState>::Register(this->luaState);
 
     lua_pushlightuserdata(this->luaState, (void*)this);
 
@@ -59,6 +67,8 @@ SettingsMenuState::SettingsMenuState(std::function<void(GameState*)> callback) :
 
     this->pop = false;
 
+    this->acceptRawInput = false;
+
     if (callback) {
         callback(this);
     }
@@ -87,6 +97,24 @@ GameState* SettingsMenuState::Update(int key) {
 
     if (this->pop) {
         return nullptr;
+    }
+
+    return this;
+}
+
+GameState* SettingsMenuState::Update(SDL_Event* event) {
+    if (event) {
+        if (event->type == SDL_KEYDOWN) {
+            this->ProcessInput(event->key.keysym.sym);
+        }
+    }
+
+    lua_getglobal(this->luaState, "update");
+
+    if (lua_pcall(this->luaState, 0, 0, 0)) {
+        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+
+        lua_pop(this->luaState, 1);
     }
 
     return this;

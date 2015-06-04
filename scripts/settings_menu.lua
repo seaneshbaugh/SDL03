@@ -1,6 +1,6 @@
 dofile "keys.lua"
 
-settings_menu_state = GameState(raw_settings_menu_state)
+settings_menu_state = SettingsMenuState(raw_settings_menu_state)
 
 video_settings_menu = {
     label = "Video Settings";
@@ -38,6 +38,8 @@ images = {}
 
 hand = nil
 
+accept_raw_input = false
+
 function initialize()
     font = settings_menu_state:getFont("DroidSans")
 
@@ -51,32 +53,48 @@ function initialize()
 end
 
 function process_input(key_code)
-    number_of_options = 0
+    if accept_raw_input then
+        print(string.format("recieved raw key %d\n", key_code))
 
-    for k, v in pairs(current_menu["options"]) do
-        number_of_options = number_of_options + 1
-    end
+        settings_menu_state:disableRawInput()
 
-    if key_code == UP_KEY then
-        if current_menu["current_option"] > 0 then
-            current_menu["current_option"] = current_menu["current_option"] - 1
-        else
-            current_menu["current_option"] = number_of_options - 1
+        accept_raw_input = false
+    else
+        number_of_options = 0
+
+        for k, v in pairs(current_menu["options"]) do
+            number_of_options = number_of_options + 1
         end
-    end
 
-    if key_code == DOWN_KEY then
-        if current_menu["current_option"] < number_of_options - 1 then
-            current_menu["current_option"] = current_menu["current_option"] + 1
-        else
-            current_menu["current_option"] = 0
+        if key_code == UP_KEY then
+            if current_menu["current_option"] > 0 then
+                current_menu["current_option"] = current_menu["current_option"] - 1
+            else
+                current_menu["current_option"] = number_of_options - 1
+            end
+
+            hand:setPosition(175, 150 + (50 * current_menu["current_option"]))
         end
-    end
 
-    hand:setPosition(175, 150 + (50 * current_menu["current_option"]))
+        if key_code == DOWN_KEY then
+            if current_menu["current_option"] < number_of_options - 1 then
+                current_menu["current_option"] = current_menu["current_option"] + 1
+            else
+                current_menu["current_option"] = 0
+            end
 
-    if key_code == CANCEL_KEY then
-        settings_menu_state:pop()
+            hand:setPosition(175, 150 + (50 * current_menu["current_option"]))
+        end
+
+        if key_code == CONFIRM_KEY then
+            settings_menu_state:enableRawInput()
+
+            accept_raw_input = true
+        end
+
+        if key_code == CANCEL_KEY then
+            settings_menu_state:pop()
+        end
     end
 
     return ""

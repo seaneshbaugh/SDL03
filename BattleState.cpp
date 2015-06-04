@@ -53,6 +53,8 @@ BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(c
 
     this->pop = false;
 
+    this->acceptRawInput = false;
+
     if (callback) {
         callback(this);
     }

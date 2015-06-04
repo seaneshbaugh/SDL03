@@ -49,6 +49,8 @@ IntroState::IntroState(std::function<void(GameState*)> callback) : GameState(cal
 
     this->pop = false;
 
+    this->acceptRawInput = false;
+
     if (callback) {
         callback(this);
     }

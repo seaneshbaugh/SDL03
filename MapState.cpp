@@ -72,6 +72,8 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
 
     this->pop = false;
 
+    this->acceptRawInput = false;
+
     this->currentMap = nullptr;
 
     // This is where any initial maps should be loaded.

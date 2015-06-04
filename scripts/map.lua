@@ -74,7 +74,7 @@ function process_input(key_code)
         if key_code == DOWN_KEY then
             -- load map height here, for now assume 100 (with screen height of 15 tiles)
             if current_map:getWalkability(player_current_x, player_current_y + 1) then
-                if player_current_y >= 7 and player_current_y <= 93 then
+                if player_current_y > 6 and player_current_y < 92 then
                     screen_y_velocity = -4
                     
                     screen_y_movement_offset = 0
@@ -92,7 +92,7 @@ function process_input(key_code)
         
         if key_code == LEFT_KEY then
             if current_map:getWalkability(player_current_x - 1, player_current_y) then
-                if player_current_x > 10 and player_current_x < 90 then
+                if player_current_x > 10 and player_current_x <= 90 then
                     screen_x_velocity = 4
                     
                     screen_x_movement_offset = 0
@@ -111,7 +111,7 @@ function process_input(key_code)
         if key_code == RIGHT_KEY then
             -- load height here, for now assume 100 (with screen width of 20 tiles)
             if current_map:getWalkability(player_current_x + 1, player_current_y) then
-                if player_current_x >= 10 and player_current_x <= 90 then
+                if player_current_x >= 10 and player_current_x < 90 then
                     screen_x_velocity = -4
                     
                     screen_x_movement_offset = 0
@@ -143,30 +143,30 @@ function step(x, y)
             map = object:getProperty("map")
 
             map_state:loadMap(map .. ".json")
-            
+
             current_map = GameMap(map_state:getCurrentMap())
-            
+
             player_current_x = tonumber(object:getProperty("x"))
 
             player_current_y = tonumber(object:getProperty("y"))
 
             player_screen_x_position = 320
-            
+
             player_screen_y_position = 224
 
             if player_current_x < 7 then
                 player_screen_x_position = player_current_x * 32
             end
-            
-            if player_current_x > 93 then
+
+            if player_current_x > 92 then
                 player_screen_x_position = (100 - player_current_x) * 32
             end
-            
+
             if player_current_y < 7 then
                 player_screen_y_position = player_current_y * 32
             end
-            
-            if player_current_y > 93 then
+
+            if player_current_y > 92 then
                 player_screen_y_position = (100 - player_current_y) * 32
             end
 
@@ -179,7 +179,7 @@ function step(x, y)
             end
         end
     end
-    
+
     return ""
 end
 
@@ -198,8 +198,6 @@ function update()
         player_current_x = player_current_x + 1
         
         screen_moving = false
-        
-        done_moving = true
         
         done_moving = true
     end
@@ -236,18 +234,18 @@ function update()
         player_current_y = player_current_y - 1
         
         screen_moving = false
-        
+
         done_moving = true
     end
 
     player_screen_x_position = player_screen_x_position + player_x_velocity
-    
+
     player_x_movement_offset = player_x_movement_offset + player_x_velocity
 
     player_screen_y_position = player_screen_y_position + player_y_velocity
-    
+
     player_y_movement_offset = player_y_movement_offset + player_y_velocity
-    
+
     player:setPosition(player_screen_x_position, player_screen_y_position)
 
     if player_x_velocity < 0 and player_x_movement_offset <= -32 then
@@ -297,7 +295,7 @@ function update()
         
         done_moving = true
     end
-    
+
     if done_moving then
         return step(player_current_x, player_current_y)
     else

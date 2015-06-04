@@ -53,6 +53,8 @@ MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameSta
 
     this->pop = false;
 
+    this->acceptRawInput = false;
+
     if (callback) {
         callback(this);
     }

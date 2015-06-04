@@ -143,7 +143,11 @@ void GameEngine::MainLoop() {
                 key = this->inputMapper.GetInputMapKey(&event);
             }
 
-            nextState = currentState->Update(key);
+            if (currentState->acceptRawInput) {
+                nextState = currentState->Update(&event);
+            } else {
+                nextState = currentState->Update(key);
+            }
 
             this->Render();
 

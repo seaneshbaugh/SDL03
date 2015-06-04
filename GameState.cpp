@@ -17,6 +17,8 @@ Lunar<LuaGameState>::RegType LuaGameState::methods[] = {
 
 GameState::GameState(std::function<void(GameState*)> callback) {
     this->pop = false;
+
+    this->acceptRawInput = false;
 }
 
 GameState::~GameState() {
@@ -49,6 +51,16 @@ GameState* GameState::Update(int key) {
     } else {
         return this;
     }
+}
+
+GameState* GameState::Update(SDL_Event* event) {
+    if (event) {
+        if (event->type == SDL_KEYDOWN) {
+            this->ProcessInput(event->key.keysym.sym);
+        }
+    }
+
+    return this;
 }
 
 std::string GameState::ProcessInput(int key) {
