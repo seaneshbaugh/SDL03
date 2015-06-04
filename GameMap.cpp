@@ -325,29 +325,16 @@ void GameMap::Render(int xOffset, int yOffset, int xMovementOffset, int yMovemen
 
 // This whole thing is a horrible hack for right now.
 bool GameMap::GetWalkability(int x, int y) {
-    std::cout << "Checking walkability for (" << x << "," << y << ")";
-
     if (x < 0 || y < 0 || x > this->width - 1 || y > this->height - 1) {
-        std::cout << "... false" << std::endl;
-
         return false;
     }
 
     for (std::vector<GameMapLayer*>::iterator layer = this->layers.begin(); layer != this->layers.end(); layer++) {
         if ((*layer)->name == "walkability") {
             // omg what am I even doing here.
-            if (this->tiles[(*layer)->tiles[(y * this->width) + x]]->filename == "walkable.png") {
-                std::cout << "... true" << std::endl;
-            } else {
-                std::cout << "... false" << std::endl;
-            }
-
-
             return this->tiles[(*layer)->tiles[(y * this->width) + x]]->filename == "walkable.png";
         }
     }
-
-    std::cout << "... false" << std::endl;
 
     return false;
 }
