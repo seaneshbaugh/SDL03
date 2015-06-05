@@ -101,6 +101,10 @@ GameState* MainMenuState::Update(int key) {
 
                 lua_pop(static_cast<MapState*>(nextGameState)->luaState, 1);
             }
+
+            GameState::party = new GameParty();
+
+            (*GameState::party) << GameCharacter();
         };
 
         return new MapState(callback);

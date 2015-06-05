@@ -39,6 +39,10 @@ GameEngine::~GameEngine() {
     SDL_Quit();
 
     delete this->settings;
+
+    if (GameState::party) {
+        delete GameState::party;
+    }
 }
 
 bool GameEngine::Setup() {

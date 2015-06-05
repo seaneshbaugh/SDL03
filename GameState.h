@@ -25,10 +25,13 @@
 #include "GameText.h"
 #include "GameImage.h"
 
+#include "GameParty.h"
+
 class GameState {
 public:
     static SDL_Renderer* renderer;
     static GameInputMapper* inputMapper;
+    static GameParty* party;
 
     bool acceptRawInput;
 

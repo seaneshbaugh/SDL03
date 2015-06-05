@@ -4,6 +4,8 @@ SDL_Renderer* GameState::renderer;
 
 GameInputMapper* GameState::inputMapper;
 
+GameParty* GameState::party = nullptr;
+
 const char LuaGameState::className[] = "GameState";
 
 Lunar<LuaGameState>::RegType LuaGameState::methods[] = {
