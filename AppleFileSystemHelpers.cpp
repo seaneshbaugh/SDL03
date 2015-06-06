@@ -78,4 +78,28 @@ bool AppleFileSystemHelpers::CreateDirectory(std::string path, mode_t mode = 075
     }
 }
 
+bool AppleFileSystemHelpers::ReadFile(std::string filename, std::string &contents) {
+    std::ifstream file(filename.c_str(), std::ios::in | std::ios::binary);
+
+    try {
+        if (file) {
+            file.seekg(0, std::ios::end);
+
+            contents.resize(file.tellg());
+
+            file.seekg(0, std::ios::beg);
+
+            file.read(&contents[0], contents.size());
+
+            file.close();
+
+            return true;
+        } else {
+            return false;
+        }
+    } catch (int exception) {
+        return false;
+    }
+}
+
 #endif

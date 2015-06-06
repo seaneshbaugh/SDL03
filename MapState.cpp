@@ -119,7 +119,29 @@ GameState* MapState::Update(int key) {
 
     if (nextState == "battle") {
         std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
+            std::random_device rd;
 
+            std::mt19937 mt(rd());
+
+            std::uniform_int_distribution<int> dist(1, 6);
+
+            int numberOfMonsters = dist(mt);
+
+            for (int i = 0; i < numberOfMonsters; i++) {
+                GameMonster* monster = new GameMonster();
+
+                monster->Load("slime.json");
+
+                static_cast<BattleState*>(nextGameState)->monsters.push_back(monster);
+            }
+
+            lua_getglobal(static_cast<BattleState*>(nextGameState)->luaState, "after_battle_load");
+
+            if (lua_pcall(static_cast<BattleState*>(nextGameState)->luaState, 0, LUA_MULTRET, 0)) {
+                std::cerr << "Error: " << lua_tostring(static_cast<BattleState*>(nextGameState)->luaState, -1) << std::endl;
+
+                lua_pop(static_cast<BattleState*>(nextGameState)->luaState, 1);
+            }
         };
         
         return new BattleState(callback);

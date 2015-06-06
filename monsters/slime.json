@@ -1,0 +1,8 @@
+{
+    "name":"Slime",
+    "level":1,
+    "hitPoints":4,
+    "magicPoints":0,
+    "abilities":["attack"],
+    "sprite":"slime.png"
+}

@@ -3,13 +3,13 @@
 SDL_Renderer* GameTexture::renderer;
 
 GameTexture::GameTexture() {
-    this->texture = NULL;
+    this->texture = nullptr;
 
     this->filename = "";
 }
 
 GameTexture::GameTexture(std::string filename) {
-    this->texture = NULL;
+    this->texture = nullptr;
 
     this->filename = "";
 
@@ -26,7 +26,7 @@ bool GameTexture::Load(std::string filename) {
     if (this->texture) {
         SDL_DestroyTexture(this->texture);
 
-        this->texture = NULL;
+        this->texture = nullptr;
     }
 
     this->filename = filename;

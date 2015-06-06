@@ -1,0 +1,8 @@
+{
+    "name":"Sean",
+    "level":1,
+    "hitPoints":24,
+    "magicPoints":0,
+    "abilities":["attack"],
+    "sprite":"sean.png"
+}

@@ -5,6 +5,8 @@
 
 #include "lunar.h"
 
+#include "FileSystemHelpers.h"
+
 class GameObject {
 public:
     GameObject();

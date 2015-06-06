@@ -1,6 +1,6 @@
 dofile "keys.lua"
 
-battle_state = GameState(raw_battle_state)
+battle_state = BattleState(raw_battle_state)
 
 time = 0
 
@@ -10,12 +10,24 @@ background = nil
 
 texts = {}
 
+monsters = {}
+
 function initialize()
     font = battle_state:getFont("DroidSans")
 
     background = GameImage(battle_state:loadTexture("background", "battle-background-001.png"), 0, 0)
 
     table.insert(texts, GameText("Battle State: 5 seconds remaining...", font, 200, 150, 255, 255, 0))
+end
+
+function after_battle_load()
+    objects = battle_state:getMonsters()
+
+    for i, v in ipairs(objects) do
+        monster = GameMonster(v)
+
+        table.insert(monsters, monster)
+    end
 end
 
 function process_input(key_code)
@@ -37,6 +49,14 @@ end
 function render()
     if background then
         background:render()
+    end
+
+    x = 120
+
+    for i, v in ipairs(monsters) do
+        v:render(x, 200)
+
+        x = x + 50
     end
 
     for i, v in ipairs(texts) do

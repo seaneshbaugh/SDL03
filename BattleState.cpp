@@ -1,5 +1,17 @@
 #include "BattleState.h"
 
+const char LuaBattleState::className[] = "BattleState";
+
+Lunar<LuaBattleState>::RegType LuaBattleState::methods[] = {
+    {"pop", &LuaBattleState::pop},
+    {"getTexture", &LuaBattleState::getTexture},
+    {"getFont", &LuaBattleState::getFont},
+    {"getSound", &LuaBattleState::getSound},
+    {"loadTexture", &LuaBattleState::loadTexture},
+    {"getMonsters", &LuaBattleState::getMonsters},
+    {0, 0}
+};
+
 BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(callback) {
     // We only load the fonts here because the textures and sounds that will be loaded
     // are determined by the map file.
@@ -18,9 +30,15 @@ BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(c
 
     Lunar<LuaGameState>::Register(this->luaState);
 
+    Lunar<LuaBattleState>::Register(this->luaState);
+
     Lunar<LuaGameText>::Register(this->luaState);
 
     Lunar<LuaGameImage>::Register(this->luaState);
+
+    Lunar<LuaGameCharacter>::Register(this->luaState);
+
+    Lunar<LuaGameMonster>::Register(this->luaState);
 
     lua_pushlightuserdata(this->luaState, (void*)this);
 
@@ -29,6 +47,7 @@ BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(c
     lua_settop(this->luaState, 0);
 
     std::cout << "Loading battle.lua" << std::endl;
+
     if (luaL_loadfile(this->luaState, "battle.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
@@ -65,6 +84,10 @@ BattleState::~BattleState() {
         lua_gc(this->luaState, LUA_GCCOLLECT, 0);
 
         lua_close(this->luaState);
+    }
+
+    for (std::vector<GameMonster*>::iterator monster = this->monsters.begin(); monster != this->monsters.end(); monster++) {
+        delete (*monster);
     }
 }
 

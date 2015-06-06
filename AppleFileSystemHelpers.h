@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -22,6 +23,7 @@ namespace AppleFileSystemHelpers {
     bool IsDirectory(std::string path);
     bool IsFile(std::string path);
     bool CreateDirectory(std::string path, mode_t mode, bool recursive);
+    bool ReadFile(std::string filename, std::string &contents);
 }
 
 #endif

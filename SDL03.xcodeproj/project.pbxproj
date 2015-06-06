@@ -20,6 +20,12 @@
 		7377F2CF1B2142E700D43B66 /* GameParty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7377F2CD1B2142E700D43B66 /* GameParty.cpp */; };
 		7377F2D21B21430D00D43B66 /* GameCharacter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7377F2D01B21430D00D43B66 /* GameCharacter.cpp */; };
 		7377F2D51B21433500D43B66 /* GameMonster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7377F2D31B21433500D43B66 /* GameMonster.cpp */; };
+		7384E4201B22123700D956F0 /* slime.json in Resources */ = {isa = PBXBuildFile; fileRef = 7384E41F1B22123700D956F0 /* slime.json */; };
+		7384E4231B22529B00D956F0 /* slime.png in Resources */ = {isa = PBXBuildFile; fileRef = 7384E4221B22529B00D956F0 /* slime.png */; };
+		7384E4261B22D23600D956F0 /* character01.json in Resources */ = {isa = PBXBuildFile; fileRef = 7384E4241B22D23600D956F0 /* character01.json */; };
+		7384E4271B22D23600D956F0 /* character02.json in Resources */ = {isa = PBXBuildFile; fileRef = 7384E4251B22D23600D956F0 /* character02.json */; };
+		7384E42B1B22E29700D956F0 /* casie.png in Resources */ = {isa = PBXBuildFile; fileRef = 7384E4291B22E29700D956F0 /* casie.png */; };
+		7384E42C1B22E29700D956F0 /* sean.png in Resources */ = {isa = PBXBuildFile; fileRef = 7384E42A1B22E29700D956F0 /* sean.png */; };
 		7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
@@ -171,6 +177,12 @@
 		7377F2D11B21430D00D43B66 /* GameCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCharacter.h; sourceTree = "<group>"; };
 		7377F2D31B21433500D43B66 /* GameMonster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMonster.cpp; sourceTree = "<group>"; };
 		7377F2D41B21433500D43B66 /* GameMonster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMonster.h; sourceTree = "<group>"; };
+		7384E41F1B22123700D956F0 /* slime.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = slime.json; path = monsters/slime.json; sourceTree = "<group>"; };
+		7384E4221B22529B00D956F0 /* slime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = slime.png; path = images/monsters/slime.png; sourceTree = "<group>"; };
+		7384E4241B22D23600D956F0 /* character01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = character01.json; path = characters/character01.json; sourceTree = "<group>"; };
+		7384E4251B22D23600D956F0 /* character02.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = character02.json; path = characters/character02.json; sourceTree = "<group>"; };
+		7384E4291B22E29700D956F0 /* casie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = casie.png; path = characters/casie.png; sourceTree = "<group>"; };
+		7384E42A1B22E29700D956F0 /* sean.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sean.png; path = characters/sean.png; sourceTree = "<group>"; };
 		7B342A07183F09E000BA2C29 /* SDL03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SDL03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B342A0A183F09E000BA2C29 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		7B342A0D183F09E000BA2C29 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -401,6 +413,8 @@
 		7377F2CB1B21420000D43B66 /* characters */ = {
 			isa = PBXGroup;
 			children = (
+				7384E4241B22D23600D956F0 /* character01.json */,
+				7384E4251B22D23600D956F0 /* character02.json */,
 			);
 			name = characters;
 			sourceTree = "<group>";
@@ -408,8 +422,27 @@
 		7377F2CC1B21422E00D43B66 /* monsters */ = {
 			isa = PBXGroup;
 			children = (
+				7384E41F1B22123700D956F0 /* slime.json */,
 			);
 			name = monsters;
+			sourceTree = "<group>";
+		};
+		7384E4211B22522700D956F0 /* monsters */ = {
+			isa = PBXGroup;
+			children = (
+				7384E4221B22529B00D956F0 /* slime.png */,
+			);
+			name = monsters;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		7384E4281B22E27400D956F0 /* characters */ = {
+			isa = PBXGroup;
+			children = (
+				7384E4291B22E29700D956F0 /* casie.png */,
+				7384E42A1B22E29700D956F0 /* sean.png */,
+			);
+			name = characters;
 			sourceTree = "<group>";
 		};
 		7B3429FE183F09E000BA2C29 = {
@@ -676,6 +709,8 @@
 		7B9A60E1185ADB0D0016BA1A /* images */ = {
 			isa = PBXGroup;
 			children = (
+				7384E4281B22E27400D956F0 /* characters */,
+				7384E4211B22522700D956F0 /* monsters */,
 				7BB8B97B187CBF1D0078B7A1 /* battle-background-001.png */,
 				7B53C15D187666B400756488 /* brick-1.png */,
 				7B9A60E2185ADB0D0016BA1A /* cursor-left.png */,
@@ -879,9 +914,11 @@
 			files = (
 				7B9A60E5185ADB0D0016BA1A /* cursor-right.png in Resources */,
 				7BE4738918454E57002EA054 /* fonts.json in Resources */,
+				7384E4201B22123700D956F0 /* slime.json in Resources */,
 				730B27B91B1E35EA002629F8 /* settings_menu.lua in Resources */,
 				7B53C162187666E100756488 /* town01.json in Resources */,
 				7B342A7F1844686600BA2C29 /* DroidSans.ttf in Resources */,
+				7384E4231B22529B00D956F0 /* slime.png in Resources */,
 				7B9A60E9185ADC0E0016BA1A /* main_menu_sounds.json in Resources */,
 				7BB3825C1864C80900391DC5 /* world01.tmx in Resources */,
 				7B9A60F5185BBB7C0016BA1A /* main_menu_songs.json in Resources */,
@@ -889,8 +926,10 @@
 				7BB382A318709FFD00391DC5 /* walkable.png in Resources */,
 				7B9A60F7185BBB920016BA1A /* intro_songs.json in Resources */,
 				7BB382521861453100391DC5 /* grass-1.png in Resources */,
+				7384E42C1B22E29700D956F0 /* sean.png in Resources */,
 				7B53C164187A440700756488 /* town.png in Resources */,
 				7B9A60EB185ADC580016BA1A /* main_menu.lua in Resources */,
+				7384E4261B22D23600D956F0 /* character01.json in Resources */,
 				7B9A60E4185ADB0D0016BA1A /* cursor-left.png in Resources */,
 				7BE474A31845547C002EA054 /* License.txt in Resources */,
 				7BB382A218709FFD00391DC5 /* not-walkable.png in Resources */,
@@ -903,8 +942,10 @@
 				730B27BD1B1E3B2F002629F8 /* settings_menu_textures.json in Resources */,
 				7B9A6090184E798A0016BA1A /* intro_textures.json in Resources */,
 				7BB8B981187E58600078B7A1 /* battle.lua in Resources */,
+				7384E42B1B22E29700D956F0 /* casie.png in Resources */,
 				7B53C160187666C600756488 /* town01.tmx in Resources */,
 				7B9A608B184DA61F0016BA1A /* intro.lua in Resources */,
+				7384E4271B22D23600D956F0 /* character02.json in Resources */,
 				7B342A7D1844686600BA2C29 /* Apache License.txt in Resources */,
 				730B27BC1B1E3B2F002629F8 /* settings_menu_sounds.json in Resources */,
 				7B53C15A1870F1B500756488 /* dot.png in Resources */,

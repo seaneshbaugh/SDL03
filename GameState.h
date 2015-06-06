@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <map>
+#include <random>
 #include <vector>
 
 #include "SDL.h"
