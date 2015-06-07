@@ -30,6 +30,7 @@
 
 class GameState {
 public:
+    // LOL GLOBAL VARIABLES
     static SDL_Renderer* renderer;
     static GameInputMapper* inputMapper;
     static GameParty* party;

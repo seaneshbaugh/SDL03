@@ -37,56 +37,6 @@ GameMonster::GameMonster() {
 GameMonster::~GameMonster() {
 }
 
-bool GameMonster::ParseMonsterFile(std::string jsonString) {
-    JSONNode monsterNode = libjson::parse(jsonString);
-
-    JSONNode::const_iterator i = monsterNode.begin();
-
-    while (i != monsterNode.end()) {
-        if (i->name() == "name" && i->type() == JSON_STRING) {
-            this->name = i->as_string();
-        } else {
-            if (i->name() == "level" && i->type() == JSON_NUMBER) {
-                this->SetLevel(static_cast<unsigned long long>(i->as_int()));
-            } else {
-                if (i->name() == "hitPoints" && i->type() == JSON_NUMBER) {
-                    this->SetMaxHitPoints(static_cast<unsigned long long>(i->as_int()));
-
-                    this->SetCurrentHitPoints(static_cast<unsigned long long>(i->as_int()));
-                } else {
-                    if (i->name() == "magicPoints" && i->type() == JSON_NUMBER) {
-                        this->SetMaxMagicPoints(static_cast<unsigned long long>(i->as_int()));
-
-                        this->SetCurrentMagicPoints(static_cast<unsigned long long>(i->as_int()));
-                    } else {
-                        if (i->name() == "sprite" && i->type() == JSON_STRING) {
-                            this->sprite = new GameTexture(i->as_string());
-                        }
-                    }
-                }
-            }
-        }
-        
-        i++;
-    }
-    
-    return true;
-}
-
-bool GameMonster::Load(std::string filename) {
-    std::string jsonString;
-
-    if (!FileSystemHelpers::ReadFile(filename, jsonString)) {
-        return false;
-    }
-
-    if (!this->ParseMonsterFile(jsonString)) {
-        return false;
-    }
-
-    return true;
-}
-
 void GameMonster::Render(int x, int y) {
     int w, h;
 

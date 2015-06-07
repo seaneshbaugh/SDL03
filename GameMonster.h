@@ -7,10 +7,7 @@ class GameMonster : public GameCharacter {
 public:
     GameMonster();
     ~GameMonster();
-    bool Load(std::string filename);
     void Render(int x, int y);
-private:
-    bool ParseMonsterFile(std::string jsonString);
 };
 
 class LuaGameMonster : public LuaGameCharacter {

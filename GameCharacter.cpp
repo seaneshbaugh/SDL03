@@ -152,12 +152,68 @@ unsigned long long GameCharacter::Damage(unsigned long long damage) {
     return oldCurrentHitPoints - this->currentHitPoints;
 }
 
+bool GameCharacter::ParseCharacterFile(std::string jsonString) {
+    JSONNode characterNode = libjson::parse(jsonString);
+
+    JSONNode::const_iterator i = characterNode.begin();
+
+    while (i != characterNode.end()) {
+        if (i->name() == "name" && i->type() == JSON_STRING) {
+            this->name = i->as_string();
+        } else {
+            if (i->name() == "level" && i->type() == JSON_NUMBER) {
+                this->SetLevel(static_cast<unsigned long long>(i->as_int()));
+            } else {
+                if (i->name() == "hitPoints" && i->type() == JSON_NUMBER) {
+                    this->SetMaxHitPoints(static_cast<unsigned long long>(i->as_int()));
+
+                    this->SetCurrentHitPoints(static_cast<unsigned long long>(i->as_int()));
+                } else {
+                    if (i->name() == "magicPoints" && i->type() == JSON_NUMBER) {
+                        this->SetMaxMagicPoints(static_cast<unsigned long long>(i->as_int()));
+
+                        this->SetCurrentMagicPoints(static_cast<unsigned long long>(i->as_int()));
+                    } else {
+                        if (i->name() == "sprite" && i->type() == JSON_STRING) {
+                            this->sprite = new GameTexture(i->as_string());
+                        }
+                    }
+                }
+            }
+        }
+
+        i++;
+    }
+
+    return true;
+}
+
+bool GameCharacter::Load(std::string filename) {
+    std::string jsonString;
+
+    if (!FileSystemHelpers::ReadFile(filename, jsonString)) {
+        return false;
+    }
+
+    if (!this->ParseCharacterFile(jsonString)) {
+        return false;
+    }
+    
+    return true;
+}
+
 void GameCharacter::Render(int x, int y) {
-    int w, h;
+    SDL_Rect srcrect = {32, 32, 32, 32};
 
-    SDL_QueryTexture(this->sprite->texture, nullptr, nullptr, &w, &h);
+    // int w, h;
 
-    SDL_Rect position = {x, y, w, h};
+    // SDL_QueryTexture(this->sprite->texture, nullptr, nullptr, &w, &h);
 
-    SDL_RenderCopy(this->renderer, this->sprite->texture, nullptr, &position);
+    // Not sure how I'm going to calculate this later.
+    SDL_Rect position = {x, y, 32, 32};
+
+    if (this->sprite) {
+
+        SDL_RenderCopy(this->renderer, this->sprite->texture, &srcrect, &position);
+    }
 }

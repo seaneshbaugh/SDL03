@@ -8,6 +8,7 @@ Lunar<LuaBattleState>::RegType LuaBattleState::methods[] = {
     {"getFont", &LuaBattleState::getFont},
     {"getSound", &LuaBattleState::getSound},
     {"loadTexture", &LuaBattleState::loadTexture},
+    {"getParty", &LuaBattleState::getParty},
     {"getMonsters", &LuaBattleState::getMonsters},
     {0, 0}
 };

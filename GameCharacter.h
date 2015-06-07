@@ -29,6 +29,7 @@ public:
     unsigned long long GetMaxMagicPoints();
     unsigned long long SetMaxMagicPoints(unsigned long long newMaxMagicPoints);
     unsigned long long Damage(unsigned long long damage);
+    bool Load(std::string filename);
     void Render(int x, int y);
 protected:
     unsigned long long level;
@@ -36,6 +37,8 @@ protected:
     unsigned long long maxHitPoints;
     unsigned long long currentMagicPoints;
     unsigned long long maxMagicPoints;
+
+    bool ParseCharacterFile(std::string jsonString);
 };
 
 class LuaGameCharacter {
@@ -44,7 +47,13 @@ public:
     static Lunar<LuaGameCharacter>::RegType methods[];
 
     LuaGameCharacter(lua_State *L) {
-        this->realObject = new GameCharacter();
+        int argc = lua_gettop(L);
+
+        if (argc == 1) {
+            this->realObject = (GameCharacter*)lua_touserdata(L, 1);
+        } else {
+            this->realObject = new GameCharacter();
+        }
     }
 
     ~LuaGameCharacter() {

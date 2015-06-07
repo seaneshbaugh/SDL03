@@ -4,10 +4,7 @@ GameParty::GameParty() {
 }
 
 GameParty::~GameParty() {
-}
-
-GameParty* GameParty::operator<<(GameCharacter newCharacter) {
-    this->party.push_back(newCharacter);
-
-    return this;
+    for (std::vector<GameCharacter*>::iterator character = this->characters.begin(); character != this->characters.end(); character++) {
+        delete (*character);
+    }
 }

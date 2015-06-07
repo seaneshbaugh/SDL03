@@ -104,7 +104,17 @@ GameState* MainMenuState::Update(int key) {
 
             GameState::party = new GameParty();
 
-            (*GameState::party) << GameCharacter();
+            GameCharacter* sean = new GameCharacter();
+
+            sean->Load("character01.json");
+
+            GameState::party->characters.push_back(sean);
+
+            GameCharacter* casie = new GameCharacter();
+
+            casie->Load("character02.json");
+
+            GameState::party->characters.push_back(casie);
         };
 
         return new MapState(callback);

@@ -10,6 +10,8 @@ background = nil
 
 texts = {}
 
+party = {}
+
 monsters = {}
 
 function initialize()
@@ -27,6 +29,14 @@ function after_battle_load()
         monster = GameMonster(v)
 
         table.insert(monsters, monster)
+    end
+
+    objects = battle_state:getParty()
+
+    for i, v in ipairs(objects) do
+        character = GameCharacter(v)
+
+        table.insert(party, character)
     end
 end
 
@@ -57,6 +67,14 @@ function render()
         v:render(x, 200)
 
         x = x + 50
+    end
+
+    y = 200
+
+    for i, v in ipairs(party) do
+        v:render(400, y)
+
+        y = y + 50
     end
 
     for i, v in ipairs(texts) do

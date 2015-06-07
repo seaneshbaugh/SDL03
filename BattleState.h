@@ -44,6 +44,22 @@ public:
         return 0;
     }
 
+    int getParty(lua_State *L) {
+        lua_newtable(L);
+
+        int n = 1;
+
+        for (std::vector<GameCharacter*>::iterator character = GameState::party->characters.begin(); character != GameState::party->characters.end(); character++) {
+            lua_pushlightuserdata(L, (void*)(*character));
+
+            lua_rawseti(L, -2, n);
+
+            n += 1;
+        }
+
+        return 1;
+    }
+
     int getMonsters(lua_State *L) {
         lua_newtable(L);
 

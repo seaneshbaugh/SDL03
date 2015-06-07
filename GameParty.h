@@ -8,11 +8,10 @@
 
 class GameParty : public GameObject {
 public:
+    std::vector<GameCharacter*> characters;
+
     GameParty();
     ~GameParty();
-    GameParty* operator<<(GameCharacter newCharacter);
-private:
-    std::vector<GameCharacter> party;
 };
 
 #endif
