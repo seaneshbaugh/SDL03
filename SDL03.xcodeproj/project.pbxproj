@@ -324,7 +324,7 @@
 		7BB8B97B187CBF1D0078B7A1 /* battle-background-001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battle-background-001.png"; sourceTree = "<group>"; };
 		7BB8B97D187E48850078B7A1 /* BattleState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleState.cpp; sourceTree = "<group>"; };
 		7BB8B97E187E48850078B7A1 /* BattleState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleState.h; sourceTree = "<group>"; };
-		7BB8B980187E58600078B7A1 /* battle.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = battle.lua; sourceTree = "<group>"; };
+		7BB8B980187E58600078B7A1 /* battle.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = battle.lua; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.lua; };
 		7BDB5BE5187F488D0039F9AA /* PauseMenuState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PauseMenuState.cpp; sourceTree = "<group>"; };
 		7BDB5BE6187F488D0039F9AA /* PauseMenuState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PauseMenuState.h; sourceTree = "<group>"; };
 		7BE4738818454E57002EA054 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };

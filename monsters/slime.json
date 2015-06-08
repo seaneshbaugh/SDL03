@@ -3,6 +3,12 @@
     "level":1,
     "hitPoints":4,
     "magicPoints":0,
+    "strength":2,
+    "dexterity":2,
+    "intelligence":1,
+    "vitality":1,
+    "stamina":1,
+    "luck":1,
     "abilities":["attack"],
     "sprite":"slime.png"
 }

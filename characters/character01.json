@@ -3,6 +3,12 @@
     "level":1,
     "hitPoints":24,
     "magicPoints":0,
+    "strength":6,
+    "dexterity":4,
+    "intelligence":2,
+    "vitality":3,
+    "stamina":3,
+    "luck":1,
     "abilities":["attack"],
     "sprite":"sean.png"
 }

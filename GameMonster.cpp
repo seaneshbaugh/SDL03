@@ -15,6 +15,10 @@ Lunar<LuaGameMonster>::RegType LuaGameMonster::methods[] = {
     {"setCurrentMagicPoints", &LuaGameMonster::setCurrentMagicPoints},
     {"getMaxMagicPoints", &LuaGameMonster::getMaxMagicPoints},
     {"setMaxMagicPoints", &LuaGameMonster::setMaxMagicPoints},
+    {"getStrength", &LuaGameMonster::getStrength},
+    {"getDexterity", &LuaGameMonster::getDexterity},
+    {"getIntelligence", &LuaGameMonster::getIntelligence},
+    {"atbStart", &LuaGameCharacter::atbStart},
     {"damage", &LuaGameMonster::damage},
     {"render", &LuaGameMonster::render},
     {0, 0}

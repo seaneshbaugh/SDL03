@@ -1,6 +1,8 @@
 #ifndef __SDL03__GameCharacter__
 #define __SDL03__GameCharacter__
 
+#include <cmath>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -28,7 +30,20 @@ public:
     unsigned long long SetCurrentMagicPoints(unsigned long long newCurrentMagicPoints);
     unsigned long long GetMaxMagicPoints();
     unsigned long long SetMaxMagicPoints(unsigned long long newMaxMagicPoints);
+    unsigned long long GetStrength();
+    unsigned long long SetStrength(unsigned long long newStrength);
+    unsigned long long GetDexterity();
+    unsigned long long SetDexterity(unsigned long long newDexterity);
+    unsigned long long GetIntelligence();
+    unsigned long long SetIntelligence(unsigned long long newIntelligence);
+    unsigned long long GetVitality();
+    unsigned long long SetVitality(unsigned long long newVitality);
+    unsigned long long GetStamina();
+    unsigned long long SetStamina(unsigned long long newStamina);
+    unsigned long long GetLuck();
+    unsigned long long SetLuck(unsigned long long newLuck);
     unsigned long long Damage(unsigned long long damage);
+    int ATBStart();
     bool Load(std::string filename);
     void Render(int x, int y);
 protected:
@@ -37,6 +52,12 @@ protected:
     unsigned long long maxHitPoints;
     unsigned long long currentMagicPoints;
     unsigned long long maxMagicPoints;
+    unsigned long long strength;
+    unsigned long long dexterity;
+    unsigned long long intelligence;
+    unsigned long long vitality;
+    unsigned long long stamina;
+    unsigned long long luck;
 
     bool ParseCharacterFile(std::string jsonString);
 };
@@ -128,6 +149,30 @@ public:
 
     int setMaxMagicPoints(lua_State *L) {
         this->realObject->SetMaxMagicPoints(static_cast<unsigned long long>(luaL_checkinteger(L, 1)));
+
+        return 1;
+    }
+
+    int getStrength(lua_State *L) {
+        lua_pushnumber(L, this->realObject->GetStrength());
+
+        return 1;
+    }
+
+    int getDexterity(lua_State *L) {
+        lua_pushnumber(L, this->realObject->GetDexterity());
+
+        return 1;
+    }
+
+    int getIntelligence(lua_State *L) {
+        lua_pushnumber(L, this->realObject->GetIntelligence());
+
+        return 1;
+    }
+
+    int atbStart(lua_State *L) {
+        lua_pushnumber(L, this->realObject->ATBStart());
 
         return 1;
     }
