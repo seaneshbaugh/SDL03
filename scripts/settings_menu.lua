@@ -41,7 +41,7 @@ hand = nil
 accept_raw_input = false
 
 function initialize()
-    font = settings_menu_state:getFont("DroidSans")
+    font = settings_menu_state:getFont("PixChicago")
 
     cursor = settings_menu_state:getTexture("cursor-right")
 

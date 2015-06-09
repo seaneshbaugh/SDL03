@@ -16,7 +16,7 @@ time = 0
 
 -- I probably need to make some sort of proper menu object.
 function initialize()
-    font = main_menu_state:getFont("DroidSans")
+    font = main_menu_state:getFont("PixChicago")
 
     cursor = main_menu_state:getTexture("cursor-right")
 

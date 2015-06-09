@@ -52,6 +52,7 @@ protected:
     std::map <std::string, GameSound*> sounds;
     std::map <std::string, GameSong*> songs;
     std::vector <GameText*> texts;
+    std::map<std::string, int> fontSizes;
 
     bool LoadResources(std::string textureListPath, std::string fontListPath, std::string SoundListPath);
     bool LoadTextures(std::string resourceListPath);

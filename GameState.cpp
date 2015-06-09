@@ -171,7 +171,16 @@ bool GameState::LoadFonts(std::string resourceListPath) {
     for (std::map<std::string, std::string>::iterator fontFilename = fontList.begin(); fontFilename != fontList.end(); fontFilename++) {
         GameFont* font = new GameFont();
 
-        if (!font->Load(fontFilename->second)) {
+        // Bah.
+        int fontSize;
+
+        try {
+            fontSize = this->fontSizes.at(fontFilename->first);
+        } catch (const std::out_of_range& exception) {
+            fontSize = 10;
+        }
+
+        if (!font->Load(fontFilename->second, fontSize)) {
             return false;
         }
 

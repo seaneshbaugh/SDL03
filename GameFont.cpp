@@ -1,6 +1,6 @@
 #include "GameFont.h"
 
-const int DEFAULT_POINT_SIZE = 16;
+const int DEFAULT_POINT_SIZE = 10;
 
 GameFont::GameFont() {
     this->font = NULL;

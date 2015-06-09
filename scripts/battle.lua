@@ -27,7 +27,7 @@ current_character = nil
 
 current_action = nil
 
-font = battle_state:getFont("DroidSans")
+font = battle_state:getFont("PixChicago")
 
 character_statuses = {}
 

@@ -1,6 +1,8 @@
 #include "IntroState.h"
 
 IntroState::IntroState(std::function<void(GameState*)> callback) : GameState(callback) {
+    this->fontSizes["DroidSans"] = 16;
+
     this->LoadResources("intro_textures.json", "fonts.json", "intro_sounds.json");
 
     this->luaState = luaL_newstate();
