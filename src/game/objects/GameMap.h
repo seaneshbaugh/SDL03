@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "libs/libjson/libjson.h"
+#include "../../../lib/libjson/libjson.h"
 
 #include "GameObject.h"
 #include "GameMapLayer.h"

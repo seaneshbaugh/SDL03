@@ -11,9 +11,9 @@
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
 
-#include "libs/libjson/libjson.h"
-#include "libs/lua/src/lua.hpp"
-#include "libs/lua/src/lua.h"
+#include "../../../lib/libjson/libjson.h"
+#include "../../../lib/lua/src/lua.hpp"
+#include "../../../lib/lua/src/lua.h"
 
 #include "GameInputMapper.h"
 

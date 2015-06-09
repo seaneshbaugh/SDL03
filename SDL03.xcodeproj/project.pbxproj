@@ -413,17 +413,18 @@
 				730B27B21B1CAA4D002629F8 /* StringHelpers.cpp */,
 				730B27B31B1CAA4D002629F8 /* StringHelpers.h */,
 			);
-			name = helpers;
+			path = helpers;
 			sourceTree = "<group>";
 		};
 		73437D421B27A52200751C71 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				7BE4738718454E44002EA054 /* asset_lists */,
 				7377F2CB1B21420000D43B66 /* characters */,
 				7B9A6101185F39290016BA1A /* maps */,
 				7377F2CC1B21422E00D43B66 /* monsters */,
 			);
-			name = resources;
+			path = resources;
 			sourceTree = "<group>";
 		};
 		73437D431B27A55C00751C71 /* assets */ = {
@@ -433,7 +434,7 @@
 				7B9A60E1185ADB0D0016BA1A /* images */,
 				73437D441B27A57A00751C71 /* sounds */,
 			);
-			name = assets;
+			path = assets;
 			sourceTree = "<group>";
 		};
 		73437D441B27A57A00751C71 /* sounds */ = {
@@ -448,7 +449,7 @@
 			children = (
 				7BB8B97B187CBF1D0078B7A1 /* battle-background-001.png */,
 			);
-			name = backgrounds;
+			path = backgrounds;
 			sourceTree = "<group>";
 		};
 		73437D461B27A5B100751C71 /* map_tiles */ = {
@@ -461,7 +462,7 @@
 				7BB382A118709FFD00391DC5 /* walkable.png */,
 				7BB382511861453100391DC5 /* water-1.png */,
 			);
-			name = map_tiles;
+			path = map_tiles;
 			sourceTree = "<group>";
 		};
 		73437D471B27A6B700751C71 /* src */ = {
@@ -472,7 +473,7 @@
 				7B342A4A183F0EE000BA2C29 /* main.h */,
 				7B342A49183F0EE000BA2C29 /* main.cpp */,
 			);
-			name = src;
+			path = src;
 			sourceTree = "<group>";
 		};
 		73437D481B27A6DA00751C71 /* states */ = {
@@ -484,7 +485,7 @@
 				7B9A6152186029E70016BA1A /* map.lua */,
 				730B27B81B1E35EA002629F8 /* settings_menu.lua */,
 			);
-			name = states;
+			path = states;
 			sourceTree = "<group>";
 		};
 		73568D4A1B26A79E00181CB2 /* PixChicago */ = {
@@ -537,7 +538,6 @@
 				73437D431B27A55C00751C71 /* assets */,
 				7BE4737018454D0C002EA054 /* lib */,
 				73437D421B27A52200751C71 /* resources */,
-				7BE4738718454E44002EA054 /* resource_lists */,
 				7B9A6089184DA61F0016BA1A /* scripts */,
 				73437D471B27A6B700751C71 /* src */,
 				7B342A10183F09E000BA2C29 /* SDL03 */,
@@ -606,7 +606,7 @@
 				7B342A4C183F15A900BA2C29 /* GameEngine.cpp */,
 				7B342A4D183F15A900BA2C29 /* GameEngine.h */,
 			);
-			name = game;
+			path = game;
 			sourceTree = "<group>";
 		};
 		7B342A50183F2D3A00BA2C29 /* objects */ = {
@@ -638,7 +638,7 @@
 				7B9A608D184E49CC0016BA1A /* GameText.h */,
 				7B9A60D41850CF990016BA1A /* lunar.h */,
 			);
-			name = objects;
+			path = objects;
 			sourceTree = "<group>";
 		};
 		7B342A5718439B2500BA2C29 /* states */ = {
@@ -659,7 +659,7 @@
 				730B27B51B1E35DA002629F8 /* SettingsMenuState.cpp */,
 				730B27B61B1E35DA002629F8 /* SettingsMenuState.h */,
 			);
-			name = states;
+			path = states;
 			sourceTree = "<group>";
 		};
 		7B342A671844393E00BA2C29 /* resources */ = {
@@ -676,7 +676,7 @@
 				7B342A6B18443AA200BA2C29 /* GameTexture.cpp */,
 				7B342A6C18443AA200BA2C29 /* GameTexture.h */,
 			);
-			name = resources;
+			path = resources;
 			sourceTree = "<group>";
 		};
 		7B342A781844686600BA2C29 /* fonts */ = {
@@ -814,11 +814,10 @@
 				7B9A6024184D3E810016BA1A /* lua */,
 				730B27991B182841002629F8 /* sqlite */,
 			);
-			name = lib;
-			path = libs;
+			path = lib;
 			sourceTree = "<group>";
 		};
-		7BE4738718454E44002EA054 /* resource_lists */ = {
+		7BE4738718454E44002EA054 /* asset_lists */ = {
 			isa = PBXGroup;
 			children = (
 				73568D461B263D6600181CB2 /* battle_sounds.json */,
@@ -833,7 +832,7 @@
 				730B27BA1B1E3B2F002629F8 /* settings_menu_sounds.json */,
 				730B27BB1B1E3B2F002629F8 /* settings_menu_textures.json */,
 			);
-			path = resource_lists;
+			path = asset_lists;
 			sourceTree = "<group>";
 		};
 		7BE4738A1845547C002EA054 /* libjson */ = {
