@@ -1,5 +1,10 @@
 dofile "keys.lua"
 
+-- Yes, I'm aware this is a mess of global state. I'm not sure what I want to do yet, so keeping this
+-- so it has no structure is actually easier for now. As soon as I know what I'm doing this will be
+-- cleaned up and turned into something a bit more organized. For now I can't assume that any bit of
+-- structure will actually be helpful.
+
 battle_state = BattleState(raw_battle_state)
 
 time = 0
@@ -26,16 +31,25 @@ font = battle_state:getFont("DroidSans")
 
 character_statuses = {}
 
+cursor = battle_state:getTexture("cursor-right")
+
+current_monster_index = nil
+
+hand = nil
+
 function initialize()
     background = GameImage(battle_state:loadTexture("background", "battle-background-001.png"), 0, 0)
 
-    --table.insert(texts, GameText("Battle State: 5 seconds remaining...", font, 200, 150, 255, 255, 0))
-
-    -- I don't think I like this
+    -- I don't think I like this.
     math.randomseed(os.time())
 end
 
 function after_battle_load()
+    -- I don't know if I like how there's three tables, one for monsters, one for the party, and an awkard
+    -- one that combines them both. But since Lua table values are always references it actually kinda ends
+    -- up working just fine. I can use the combined list for all of the ATB stuff and then the separate
+    -- lists for when appropriate.
+
     objects = battle_state:getMonsters()
 
     for i, v in ipairs(objects) do
@@ -65,21 +79,89 @@ end
 
 function process_input(key_code)
     if current_character then
-        -- This where all of the menu stuff will go.
+        -- This where all of the menu stuff will go. For now we only allow selecting a monster to attack.
         if key_code == CONFIRM_KEY then
-            monster = nil
-
-            for i, v in ipairs(monsters) do
-                if v:getCurrentHitPoints() > 0 then
-                    monster = v
-                end
-            end
+            monster = monsters[current_monster_index]
 
             table.insert(action_queue, { action = "attack", source = current_character["character"], target = monster, message = string.format("%s attacks %s", current_character["character"]:getName(), monster:getName()) })
 
             current_character["atb"] = 0
 
             current_character = nil
+
+            hand = nil
+        end
+
+        if key_code == LEFT_KEY then
+            local length = #monsters
+
+            m = nil
+
+            local i = current_monster_index - 1
+
+            while i >= 1 do
+                if monsters[i]:getCurrentHitPoints() > 0 then
+                    m = i
+
+                    break
+                end
+
+                i = i - 1
+            end
+
+            if m == nil then
+                i = length
+
+                while i >= current_monster_index do
+                    if monsters[i]:getCurrentHitPoints() > 0 then
+                        m = i
+
+                        break
+                    end
+
+                    i = i - 1
+                end
+            end
+
+            current_monster_index = m
+
+            hand:setPosition(90 + ((current_monster_index - 1) * 50), 200)
+        end
+
+        if key_code == RIGHT_KEY then
+            local length = #monsters
+
+            m = nil
+
+            local i = current_monster_index + 1
+
+            while i <= length do
+                if monsters[i]:getCurrentHitPoints() > 0 then
+                    m = i
+
+                    break
+                end
+
+                i = i + 1
+            end
+
+            if m == nil then
+                i = 1
+
+                while i <= current_monster_index do
+                    if monsters[i]:getCurrentHitPoints() > 0 then
+                        m = i
+
+                        break
+                    end
+
+                    i = i + 1
+                end
+            end
+
+            current_monster_index = m
+
+            hand:setPosition(90 + ((current_monster_index - 1) * 50), 200)
         end
     end
 
@@ -88,7 +170,7 @@ end
 
 function tick()
     for i, v in ipairs(atb) do
-        if v["character"]:getCurrentHitPoints() > 0 && v["atb"] < 100 then
+        if v["character"]:getCurrentHitPoints() > 0 and v["atb"] < 100 then
             v["atb"] = v["atb"] + v["character"]:getDexterity()
 
             if v["atb"] > 100 then
@@ -125,9 +207,22 @@ function update()
                         table.insert(action_queue, { action = "ready", source = v["character"], target = nil, message = string.format("%s is ready to attack.", v["character"]:getName()) })
 
                         current_character = v
+
+                        x = 90
+
+                        for i, v in ipairs(monsters) do
+                            if v:getCurrentHitPoints() > 0 then
+                                current_monster_index = i
+
+                                break
+                            end
+
+                            x = x + 50
+                        end
+
+                        hand = GameImage(cursor, x, 200)
                     end
                 else
-                    -- This is where enemy actions would be added to the action queue.
                     n = 0
 
                     for i, v in ipairs(party) do
@@ -164,7 +259,10 @@ function process_action_queue()
 
             texts["current_action_message"] = GameText(current_action["message"], font, 25, 25, 255, 255, 0)
 
-            -- This is where the action would actually happen.
+            -- Currently the only way I can think of making this work is a series of if statements checking the value
+            -- of action. Eventually I would like something where the menu is actually labels for references to
+            -- functions and that's what's passed along as the action. That way all that this has to do is call the
+            -- function. I don't know, this is either gonna be cool or a total mess.
             if current_action["action"] == "attack" then
                 current_action["target"]:damage(current_action["source"]:getStrength())
 
@@ -176,6 +274,7 @@ function process_action_queue()
 
         -- 1.5 seconds, maybe make this configurable?
         if current_action["timer"] > 90 then
+            -- I REALLY HATE THIS. But I can't think of any other way to force this to happen at the correct time.
             if current_action["action"] == "victory" then
                 battle_state:pop()
             else
@@ -191,6 +290,10 @@ function render()
     if background then
         background:render()
     end
+
+    -- Eventually I'm going to need to have all characters (in the party and monsters) be wrapped in another table
+    -- with position data so that way I can calculate their positions based on their size and stuff during
+    -- intitialization and then just loop over it here. As it stands right now all hardcoded and awkward.
 
     x = 120
 
@@ -220,5 +323,9 @@ function render()
 
     for k, v in pairs(character_statuses) do
         v:render()
+    end
+
+    if hand then
+        hand:render()
     end
 end

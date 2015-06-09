@@ -14,9 +14,7 @@ Lunar<LuaBattleState>::RegType LuaBattleState::methods[] = {
 };
 
 BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(callback) {
-    // We only load the fonts here because the textures and sounds that will be loaded
-    // are determined by the map file.
-    this->LoadFonts("fonts.json");
+    this->LoadResources("battle_textures.json", "fonts.json", "battle_sounds.json");
 
     this->luaState = luaL_newstate();
 
