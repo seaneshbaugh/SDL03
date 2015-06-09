@@ -10,6 +10,7 @@ Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
     {"loadMap", &LuaMapState::loadMap},
     {"getCurrentMap", &LuaMapState::getCurrentMap},
     {"loadTexture", &LuaMapState::loadTexture},
+    {"setCurrentEncounterArea", &LuaMapState::setCurrentEncounterArea},
     {0, 0}
 };
 
@@ -76,6 +77,8 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
 
     this->currentMap = nullptr;
 
+    this->currentEncounterArea = nullptr;
+
     // This is where any initial maps should be loaded.
     if (callback) {
         callback(this);
@@ -118,7 +121,15 @@ GameState* MapState::Update(int key) {
     }
 
     if (nextState == "battle") {
-        std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
+        std::function<void(GameState*)> callback = [&] (GameState* nextGameState) {
+            BattleState* battleState = static_cast<BattleState*>(nextGameState);
+
+            GameTexture* background = new GameTexture();
+
+            background->Load(this->currentEncounterArea->properties["background"]);
+
+            battleState->textures["background"] = background;
+
             std::random_device rd;
 
             std::mt19937 mt(rd());
@@ -132,15 +143,15 @@ GameState* MapState::Update(int key) {
 
                 monster->Load("slime.json");
 
-                static_cast<BattleState*>(nextGameState)->monsters.push_back(monster);
+                battleState->monsters.push_back(monster);
             }
 
-            lua_getglobal(static_cast<BattleState*>(nextGameState)->luaState, "after_battle_load");
+            lua_getglobal(battleState->luaState, "after_battle_load");
 
-            if (lua_pcall(static_cast<BattleState*>(nextGameState)->luaState, 0, LUA_MULTRET, 0)) {
-                std::cerr << "Error: " << lua_tostring(static_cast<BattleState*>(nextGameState)->luaState, -1) << std::endl;
+            if (lua_pcall(battleState->luaState, 0, LUA_MULTRET, 0)) {
+                std::cerr << "Error: " << lua_tostring(battleState->luaState, -1) << std::endl;
 
-                lua_pop(static_cast<BattleState*>(nextGameState)->luaState, 1);
+                lua_pop(battleState->luaState, 1);
             }
         };
         

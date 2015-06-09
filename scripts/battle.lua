@@ -38,13 +38,13 @@ current_monster_index = nil
 hand = nil
 
 function initialize()
-    background = GameImage(battle_state:loadTexture("background", "battle-background-001.png"), 0, 0)
-
     -- I don't think I like this.
     math.randomseed(os.time())
 end
 
 function after_battle_load()
+    background = GameImage(battle_state:getTexture("background"), 0, 0)
+
     -- I don't know if I like how there's three tables, one for monsters, one for the party, and an awkard
     -- one that combines them both. But since Lua table values are always references it actually kinda ends
     -- up working just fine. I can use the combined list for all of the ATB stuff and then the separate

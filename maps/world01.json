@@ -40,6 +40,7 @@
          "objects":[
                 {
                  "height":32,
+                 "id":1,
                  "name":"",
                  "properties":
                     {
@@ -68,10 +69,11 @@
          "objects":[
                 {
                  "height":320,
+                 "id":2,
                  "name":"",
                  "properties":
                     {
-
+                     "background":"battle-background-001.png"
                     },
                  "rotation":0,
                  "type":"encounter_area",
@@ -87,11 +89,13 @@
          "x":0,
          "y":0
         }],
+ "nextobjectid":3,
  "orientation":"orthogonal",
  "properties":
     {
 
     },
+ "renderorder":"right-down",
  "tileheight":32,
  "tilesets":[
         {
@@ -125,6 +129,29 @@
              "4":
                 {
                  "filename":"town.png"
+                }
+            },
+         "tiles":
+            {
+             "0":
+                {
+                 "image":"..\/images\/grass-1.png"
+                },
+             "1":
+                {
+                 "image":"..\/images\/water-1.png"
+                },
+             "2":
+                {
+                 "image":"..\/images\/not-walkable.png"
+                },
+             "3":
+                {
+                 "image":"..\/images\/walkable.png"
+                },
+             "4":
+                {
+                 "image":"..\/images\/town.png"
                 }
             },
          "tilewidth":32

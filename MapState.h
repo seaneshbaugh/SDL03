@@ -8,7 +8,7 @@
 class MapState : public GameState {
 public:
     GameMap* currentMap;
-    lua_State *luaState;
+    lua_State* luaState;
 
     MapState(std::function<void(GameState*)> callback);
     ~MapState();
@@ -18,6 +18,8 @@ public:
     bool LoadMap(std::string filename);
 
     friend class LuaMapState;
+private:
+    GameMapObject* currentEncounterArea;
 };
 
 class LuaMapState : public LuaGameState {
@@ -104,6 +106,12 @@ public:
             lua_pushnil(L);
         }
         
+        return 1;
+    }
+
+    int setCurrentEncounterArea(lua_State *L) {
+        this->realObject->currentEncounterArea = (GameMapObject*)lua_touserdata(L, 1);
+
         return 1;
     }
     

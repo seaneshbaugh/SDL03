@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="3">
  <tileset firstgid="1" name="Tiles" tilewidth="32" tileheight="32">
   <tile id="0">
    <properties>
@@ -30044,8 +30044,8 @@
    <tile gid="0"/>
   </data>
  </layer>
- <objectgroup draworder="topdown" name="load_points" width="100" height="100">
-  <object type="map" x="544" y="192" width="32" height="32">
+ <objectgroup name="load_points">
+  <object id="1" type="map" x="544" y="192" width="32" height="32">
    <properties>
     <property name="map" value="town01"/>
     <property name="x" value="3"/>
@@ -30053,7 +30053,11 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup draworder="topdown" name="encounter_areas" width="100" height="100">
-  <object type="encounter_area" x="416" y="32" width="448" height="320"/>
+ <objectgroup name="encounter_areas">
+  <object id="2" type="encounter_area" x="416" y="32" width="448" height="320">
+   <properties>
+    <property name="background" value="battle-background-001.png"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

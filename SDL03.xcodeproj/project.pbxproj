@@ -318,7 +318,7 @@
 		7B9A60FC185EBD850016BA1A /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMap.h; sourceTree = "<group>"; };
 		7B9A614F186025030016BA1A /* MapState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapState.cpp; sourceTree = "<group>"; };
 		7B9A6150186025030016BA1A /* MapState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapState.h; sourceTree = "<group>"; };
-		7B9A6152186029E70016BA1A /* map.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map.lua; sourceTree = "<group>"; };
+		7B9A6152186029E70016BA1A /* map.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = map.lua; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.lua; };
 		7BB382501861453100391DC5 /* grass-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grass-1.png"; sourceTree = "<group>"; };
 		7BB382511861453100391DC5 /* water-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "water-1.png"; sourceTree = "<group>"; };
 		7BB3825618634B5B00391DC5 /* world01.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = world01.json; sourceTree = "<group>"; };

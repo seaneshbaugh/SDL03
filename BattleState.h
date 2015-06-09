@@ -18,6 +18,7 @@ public:
     std::string ProcessInput(int key);
     void Render();
 
+    friend class MapState;
     friend class LuaBattleState;
 };
 

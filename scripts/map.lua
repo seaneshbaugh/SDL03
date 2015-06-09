@@ -134,12 +134,12 @@ end
 function step(x, y)
     objects = current_map:getObjects(x, y)
 
-    for i, v in ipairs(objects) do
-        object = GameMapObject(v)
+    for i, raw_object in ipairs(objects) do
+        object = GameMapObject(raw_object)
 
-        type = object:type()
+        object_type = object:type()
 
-        if type == "map" then
+        if object_type == "map" then
             map = object:getProperty("map")
 
             map_state:loadMap(map .. ".json")
@@ -173,8 +173,10 @@ function step(x, y)
             player:setPosition(player_screen_x_position, player_screen_y_position)
         end
         
-        if type == "encounter_area" then
+        if object_type == "encounter_area" then
             if math.random(0, 10) == 0 then
+                map_state:setCurrentEncounterArea(raw_object)
+
                 return "battle"
             end
         end
