@@ -39,9 +39,14 @@ bool AppleFileSystemHelpers::IsDirectory(std::string path) {
     }
 }
 
-// This is probably prone to all sorts of weird edge case bugs.
 bool AppleFileSystemHelpers::IsFile(std::string path) {
-    return FileExists(path) && !IsDirectory(path);
+    struct stat fileInfo;
+
+    if (stat(path.c_str(), &fileInfo) != 0) {
+        return false;
+    } else {
+        return fileInfo.st_mode & S_IFREG;
+    }
 }
 
 // Based on http://stackoverflow.com/a/29828907/329602
