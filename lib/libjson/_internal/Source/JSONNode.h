@@ -176,17 +176,17 @@ public:
 	   void set_binary(const unsigned char * bin, size_t bytes) json_nothrow json_cold;
     #endif
 
-    JSONNode & at(json_index_t pos) json_throws(std::out_of_range);
-    const JSONNode & at(json_index_t pos) const json_throws(std::out_of_range);
+    JSONNode & at(json_index_t pos) noexcept(false);
+    const JSONNode & at(json_index_t pos) const noexcept(false);
 
     JSONNode & operator[](json_index_t pos) json_nothrow;
     const JSONNode & operator[](json_index_t pos) const json_nothrow;
 
-    JSONNode & at(const json_string & name_t) json_throws(std::out_of_range);
-    const JSONNode & at(const json_string & name_t) const json_throws(std::out_of_range);
+    JSONNode & at(const json_string & name_t) noexcept(false);
+    const JSONNode & at(const json_string & name_t) const noexcept(false);
     #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
-	   JSONNode & at_nocase(const json_string & name_t) json_throws(std::out_of_range);
-	   const JSONNode & at_nocase(const json_string & name_t) const json_throws(std::out_of_range);
+          JSONNode & at_nocase(const json_string & name_t) noexcept(false);
+          const JSONNode & at_nocase(const json_string & name_t) const noexcept(false);
     #endif
     JSONNode & operator[](const json_string & name_t) json_nothrow;
     const JSONNode & operator[](const json_string & name_t) const json_nothrow;
@@ -197,10 +197,10 @@ public:
 	   void push_back(const JSONNode & node) json_nothrow;
     #endif
     void reserve(json_index_t siz) json_nothrow;
-    JSONNode JSON_PTR_LIB pop_back(json_index_t pos) json_throws(std::out_of_range);
-    JSONNode JSON_PTR_LIB pop_back(const json_string & name_t) json_throws(std::out_of_range);
+    JSONNode JSON_PTR_LIB pop_back(json_index_t pos) noexcept(false);
+    JSONNode JSON_PTR_LIB pop_back(const json_string & name_t) noexcept(false);
     #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
-	   JSONNode JSON_PTR_LIB pop_back_nocase(const json_string & name_t) json_throws(std::out_of_range);
+          JSONNode JSON_PTR_LIB pop_back_nocase(const json_string & name_t) noexcept(false);
     #endif
 
     DECLARE_FOR_ALL_TYPES(JSONNode & operator =)

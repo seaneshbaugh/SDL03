@@ -10,10 +10,10 @@ public:
 	static json_char * RemoveWhiteSpaceAndCommentsC(const json_string & value_t, bool escapeQuotes) json_nothrow json_read_priority;
 
     #ifdef JSON_READ_PRIORITY
-	   static JSONNode parse(const json_string & json) json_throws(std::invalid_argument) json_read_priority;
-	   static JSONNode parse_unformatted(const json_string & json) json_throws(std::invalid_argument) json_read_priority;
+          static JSONNode parse(const json_string & json) noexcept(false) json_read_priority;
+          static JSONNode parse_unformatted(const json_string & json) noexcept(false) json_read_priority;
 
-		static JSONNode _parse_unformatted(const json_char * json, const json_char * const end) json_throws(std::invalid_argument) json_read_priority;
+               static JSONNode _parse_unformatted(const json_char * json, const json_char * const end) noexcept(false) json_read_priority;
 
 		static json_char * RemoveWhiteSpace(const json_string & value_t, size_t & len, bool escapeQuotes) json_nothrow json_read_priority;
 
@@ -42,8 +42,8 @@ public:
     static void UnfixString(const json_string & value_t, bool flag, json_string & res) json_nothrow;
 JSON_PRIVATE
     #ifdef JSON_READ_PRIORITY
-	   static json_char Hex(const json_char * & pos) json_nothrow;
-	   static json_uchar UTF8(const json_char * & pos, const json_char * const end) json_nothrow;
+          static json_char Hex(const json_char * & pos) json_nothrow;
+          static json_uchar UTF8(const json_char * & pos, const json_char * const end) json_nothrow;
     #endif
     #ifdef JSON_ESCAPE_WRITES
 	   static json_string toUTF8(json_uchar p) json_nothrow;
@@ -55,8 +55,8 @@ JSON_PRIVATE
 	   #endif
     #endif
     #ifdef JSON_READ_PRIORITY
-	   static void SpecialChar(const json_char * & pos, const json_char * const end, json_string & res) json_nothrow;
-	   static void NewNode(const internalJSONNode * parent, const json_string & name, const json_string & value, bool array) json_nothrow;
+          static void SpecialChar(const json_char * & pos, const json_char * const end, json_string & res) json_nothrow;
+          static void NewNode(const internalJSONNode * parent, const json_string & name, const json_string & value, bool array) json_nothrow;
     #endif
 private:
     JSONWorker(void);

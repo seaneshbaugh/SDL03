@@ -8,14 +8,14 @@ inline json_char ascii_one(void) json_nothrow {
 
 #ifdef JSON_READ_PRIORITY
 
-JSONNode JSONWorker::parse(const json_string & json) json_throws(std::invalid_argument) {
+JSONNode JSONWorker::parse(const json_string & json) noexcept(false) {
 	json_auto<json_char> s;
 	size_t len;
 	s.set(RemoveWhiteSpace(json, len, true));
 	return _parse_unformatted(s.ptr, s.ptr + len);
 }
 
-JSONNode JSONWorker::parse_unformatted(const json_string & json) json_throws(std::invalid_argument) {
+JSONNode JSONWorker::parse_unformatted(const json_string & json) noexcept(false) {
     #if defined JSON_DEBUG || defined JSON_SAFE
 	   #ifndef JSON_NO_EXCEPTIONS
 		  JSON_ASSERT_SAFE((json[0] == JSON_TEXT('{')) || (json[0] == JSON_TEXT('[')), JSON_TEXT("Not JSON!"), throw std::invalid_argument(json_global(EMPTY_STD_STRING)););
@@ -26,7 +26,7 @@ JSONNode JSONWorker::parse_unformatted(const json_string & json) json_throws(std
 	return _parse_unformatted(json.data(), json.data() + json.length());
 }
 
-JSONNode JSONWorker::_parse_unformatted(const json_char * json, const json_char * const end) json_throws(std::invalid_argument) {
+JSONNode JSONWorker::_parse_unformatted(const json_char * json, const json_char * const end) noexcept(false) {
     #ifdef JSON_COMMENTS
 	   json_char firstchar = *json;
 	   json_string _comment;

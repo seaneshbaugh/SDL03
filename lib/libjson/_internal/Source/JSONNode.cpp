@@ -161,7 +161,7 @@ JSONNode JSONNode::duplicate(void) const json_nothrow {
     return mycopy;
 }
 
-JSONNode & JSONNode::at(json_index_t pos) json_throws(std::out_of_range) {
+JSONNode & JSONNode::at(json_index_t pos) noexcept(false) {
     JSON_CHECK_INTERNAL();
     if (json_unlikely(pos >= internal -> size())){
 	   JSON_FAIL(JSON_TEXT("at() out of bounds"));
@@ -170,7 +170,7 @@ JSONNode & JSONNode::at(json_index_t pos) json_throws(std::out_of_range) {
     return (*this)[pos];
 }
 
-const JSONNode & JSONNode::at(json_index_t pos) const json_throws(std::out_of_range) {
+const JSONNode & JSONNode::at(json_index_t pos) const noexcept(false) {
     JSON_CHECK_INTERNAL();
     if (json_unlikely(pos >= internal -> size())){
 	   JSON_FAIL(JSON_TEXT("at() const out of bounds"));
@@ -192,7 +192,7 @@ const JSONNode & JSONNode::operator[](json_index_t pos) const json_nothrow {
     return *(internal -> at(pos));
 }
 
-JSONNode & JSONNode::at(const json_string & name_t) json_throws(std::out_of_range) {
+JSONNode & JSONNode::at(const json_string & name_t) noexcept(false) {
     JSON_CHECK_INTERNAL();
     JSON_ASSERT(type() == JSON_NODE, json_global(ERROR_NON_ITERATABLE) + JSON_TEXT("at"));
     makeUniqueInternal();
@@ -203,7 +203,7 @@ JSONNode & JSONNode::at(const json_string & name_t) json_throws(std::out_of_rang
     json_throw(std::out_of_range(json_global(EMPTY_STD_STRING)));
 }
 
-const JSONNode & JSONNode::at(const json_string & name_t) const json_throws(std::out_of_range) {
+const JSONNode & JSONNode::at(const json_string & name_t) const noexcept(false) {
     JSON_CHECK_INTERNAL();
     JSON_ASSERT(type() == JSON_NODE, json_global(ERROR_NON_ITERATABLE) + JSON_TEXT("at"));
     if (JSONNode ** res = internal -> at(name_t)){
@@ -214,7 +214,7 @@ const JSONNode & JSONNode::at(const json_string & name_t) const json_throws(std:
 }
 
 #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
-    JSONNode & JSONNode::at_nocase(const json_string & name_t) json_throws(std::out_of_range) {
+    JSONNode & JSONNode::at_nocase(const json_string & name_t) noexcept(false) {
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE, json_global(ERROR_NON_ITERATABLE) + JSON_TEXT("at_nocase"));
 	   makeUniqueInternal();
@@ -225,7 +225,7 @@ const JSONNode & JSONNode::at(const json_string & name_t) const json_throws(std:
 	   json_throw(std::out_of_range(json_global(EMPTY_STD_STRING)));
     }
 
-    const JSONNode & JSONNode::at_nocase(const json_string & name_t) const json_throws(std::out_of_range) {
+    const JSONNode & JSONNode::at_nocase(const json_string & name_t) const noexcept(false) {
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE, json_global(ERROR_NON_ITERATABLE) + JSON_TEXT("at_nocase"));
 	   if (JSONNode ** res = internal -> at_nocase(name_t)){
@@ -248,7 +248,7 @@ const JSONNode & JSONNode::at(const json_string & name_t) const json_throws(std:
     };
 #endif
 
-JSONNode JSON_PTR_LIB JSONNode::pop_back(json_index_t pos) json_throws(std::out_of_range) {
+JSONNode JSON_PTR_LIB JSONNode::pop_back(json_index_t pos) noexcept(false) {
     JSON_CHECK_INTERNAL();
     if (json_unlikely(pos >= internal -> size())){
 	   JSON_FAIL(JSON_TEXT("pop_back out of bounds"));
@@ -263,7 +263,7 @@ JSONNode JSON_PTR_LIB JSONNode::pop_back(json_index_t pos) json_throws(std::out_
     #endif
 }
 
-JSONNode JSON_PTR_LIB JSONNode::pop_back(const json_string & name_t) json_throws(std::out_of_range) {
+JSONNode JSON_PTR_LIB JSONNode::pop_back(const json_string & name_t) noexcept(false) {
     JSON_CHECK_INTERNAL();
     JSON_ASSERT(type() == JSON_NODE, json_global(ERROR_NON_ITERATABLE) + JSON_TEXT("pop_back"));
     #ifdef JSON_LIBRARY
@@ -279,7 +279,7 @@ JSONNode JSON_PTR_LIB JSONNode::pop_back(const json_string & name_t) json_throws
 }
 
 #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
-    JSONNode JSON_PTR_LIB JSONNode::pop_back_nocase(const json_string & name_t) json_throws(std::out_of_range) {
+    JSONNode JSON_PTR_LIB JSONNode::pop_back_nocase(const json_string & name_t) noexcept(false) {
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE, json_global(ERROR_NON_ITERATABLE) + JSON_TEXT("pop_back_no_case"));
 	   #ifdef JSON_LIBRARY

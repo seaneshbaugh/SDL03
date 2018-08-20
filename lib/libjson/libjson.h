@@ -239,7 +239,7 @@
 
 	   #ifdef JSON_READ_PRIORITY
 		  //if json is invalid, it throws a std::invalid_argument exception
-		  inline static JSONNode parse(const json_string & json) json_throws(std::invalid_argument) {
+                 inline static JSONNode parse(const json_string & json) noexcept(false) {
 			 #ifdef JSON_PREPARSE
 				size_t len;
 				json_auto<json_char> buffer(JSONWorker::RemoveWhiteSpace(json, len, false));
@@ -249,7 +249,7 @@
 			 #endif
 		  }
 
-		  inline static JSONNode parse_unformatted(const json_string & json) json_throws(std::invalid_argument) {
+                 inline static JSONNode parse_unformatted(const json_string & json) noexcept(false) {
 			 #ifdef JSON_PREPARSE
 				return JSONPreparse::isValidRoot(json);
 			 #else
@@ -284,7 +284,7 @@
 				    #error, JSON_DEPRECATED_FUNCTIONS requires JSON_NO_EXCEPTIONS be off
 				#endif
 				//if json is invalid, it throws a std::invalid_argument exception (differs from parse because this checks the entire tree)
-				inline static JSONNode json_deprecated(validate(const json_string & json), "libjson::validate is deprecated, use libjson::is_valid and libjson::parse instead");
+                               inline static JSONNode json_deprecated(validate(const json_string & json), "libjson::validate is deprecated, use libjson::is_valid and libjson::parse instead");
 			 #endif
 		  #endif
 	   #endif
