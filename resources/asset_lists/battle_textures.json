@@ -1,3 +1,15 @@
-[
-  {"cursor-right":"cursor-right.png"}
-]
+[{
+    "backgrounds": {
+        "battle": {
+            "grass-1": "assets/images/backgrounds/battle/grass-1.png"
+        }
+    }
+},
+{
+    "ui": {
+        "cursor-right": "assets/images/ui/cursor-right.png",
+        "menu": {
+            "background": "assets/images/ui/battle/menu/background.png"
+        }
+    }
+}]

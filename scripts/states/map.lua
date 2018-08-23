@@ -1,4 +1,4 @@
-dofile "keys.lua"
+dofile "scripts/keys.lua"
 
 map_state = MapState(raw_map_state)
 
@@ -40,7 +40,7 @@ player = nil
 function initialize()
     font = map_state:getFont("DroidSans")
     
-    dot = map_state:loadTexture("dot", "dot.png")
+    dot = map_state:loadTexture("dot", "assets/images/dot.png")
     
     player = GameImage(dot, 320, 224)
     
@@ -52,8 +52,11 @@ function after_map_load()
 end
 
 function process_input(key_code)
+    print(string.format("recieved key_code %d\n", key_code))
+
     if screen_moving == false and player_moving == false then
         if key_code == UP_KEY then
+print("UP_KEY pressed")
             if current_map:getWalkability(player_current_x, player_current_y - 1) then
                 if player_current_y > 7 and player_current_y < 93 then
                     screen_y_velocity = 4
@@ -142,7 +145,7 @@ function step(x, y)
         if object_type == "map" then
             map = object:getProperty("map")
 
-            map_state:loadMap(map .. ".json")
+            map_state:loadMap("resources/maps/" .. map .. ".json")
 
             current_map = GameMap(map_state:getCurrentMap())
 

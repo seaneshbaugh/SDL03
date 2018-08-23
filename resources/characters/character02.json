@@ -10,5 +10,5 @@
     "stamina":2,
     "luck":4,
     "abilities":["attack"],
-    "sprite":"casie.png"
+    "sprite":"assets/images/characters/casie.png"
 }

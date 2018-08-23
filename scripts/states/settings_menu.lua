@@ -1,4 +1,4 @@
-dofile "keys.lua"
+dofile "scripts/keys.lua"
 
 settings_menu_state = SettingsMenuState(raw_settings_menu_state)
 

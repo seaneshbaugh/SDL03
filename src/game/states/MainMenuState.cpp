@@ -2,7 +2,7 @@
 
 
 MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameState(callback) {
-    this->LoadResources("main_menu_textures.json", "fonts.json", "main_menu_sounds.json");
+    this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/main_menu_sounds.json");
 
     this->luaState = luaL_newstate();
 
@@ -29,7 +29,7 @@ MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameSta
 
     std::cout << "Loading main_menu.lua" << std::endl;
 
-    if (luaL_loadfile(this->luaState, "main_menu.lua")) {
+    if (luaL_loadfile(this->luaState, "scripts/states/main_menu.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);
@@ -92,7 +92,7 @@ GameState* MainMenuState::Update(int key) {
         std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
             std::cout << "new_game" << std::endl;
 
-            static_cast<MapState*>(nextGameState)->LoadMap("world01.json");
+            static_cast<MapState*>(nextGameState)->LoadMap("resources/maps/world01.json");
 
             lua_getglobal(static_cast<MapState*>(nextGameState)->luaState, "after_map_load");
 
@@ -106,13 +106,13 @@ GameState* MainMenuState::Update(int key) {
 
             GameCharacter* sean = new GameCharacter();
 
-            sean->Load("character01.json");
+            sean->Load("resources/characters/character01.json");
 
             GameState::party->characters.push_back(sean);
 
             GameCharacter* casie = new GameCharacter();
 
-            casie->Load("character02.json");
+            casie->Load("resources/characters/character02.json");
 
             GameState::party->characters.push_back(casie);
         };

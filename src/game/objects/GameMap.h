@@ -12,6 +12,8 @@
 #include "GameMapLayer.h"
 #include "GameMapTile.h"
 
+class MapParser;
+
 class GameMap : public GameObject {
 public:
     static SDL_Renderer* renderer;
@@ -22,18 +24,22 @@ public:
     int tileheight;
     std::vector <GameMapLayer*> layers;
     std::map <int, GameMapTile*> tiles;
+    std::map <std::string, GameTexture*> textures;
+    GameMapLayer* walkabilityLayer;
     
     GameMap();
     GameMap(std::string filename);
     ~GameMap();
     bool ReadFile(std::string filename, std::string &contents);
     bool ParseMapFile(std::string jsonString);
+    bool LoadTextures();
     bool Load(std::string filename);
     void Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset);
     bool GetWalkability(int x, int y);
     std::vector <GameMapObject*> GetObjects(int x, int y);
 private:
 };
+
 
 class LuaGameMap {
 public:
@@ -84,7 +90,7 @@ public:
         int x = (int)luaL_checkinteger(L, 1);
 
         int y = (int)luaL_checkinteger(L, 2);
-
+        std::cout << "getWalkability called for (" << x << ", " << y << ")" << std::endl;
         lua_pushboolean(L, this->realObject->GetWalkability(x, y));
 
         return 1;

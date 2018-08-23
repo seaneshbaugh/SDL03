@@ -22,6 +22,8 @@
 #include "GameSound.h"
 #include "GameSong.h"
 
+#include "../parsers/AssetListParser.h"
+
 #include "GameObject.h"
 #include "GameText.h"
 #include "GameImage.h"
@@ -88,8 +90,20 @@ public:
 
     int getTexture(lua_State *L) {
         std::string textureName = luaL_checkstring(L, 1);
-
+        std::cout << "Getting texture \"" << textureName << "\"." << std::endl << std::endl;
+        
+        
+        std::cout << "Available textures:" << std::endl;
+        for (std::map<std::string, GameTexture*>::iterator i = this->realObject->textures.begin(); i != this->realObject->textures.end(); i++) {
+            std::cout << (*i).first << std::endl;
+        }
+        std::cout << std::endl;
+        
         GameTexture* texture = this->realObject->textures[textureName];
+        
+        if (!texture) {
+            std::cerr << "Failed to get texture \"" << textureName << "\"." << std::endl;
+        }
 
         lua_pushlightuserdata(L, (void*)texture);
 

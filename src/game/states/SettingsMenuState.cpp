@@ -43,7 +43,7 @@ SettingsMenuState::SettingsMenuState(std::function<void(GameState*)> callback) :
 
     std::cout << "Loading settings_menu.lua" << std::endl;
 
-    if (luaL_loadfile(this->luaState, "settings_menu.lua")) {
+    if (luaL_loadfile(this->luaState, "scripts/states/settings_menu.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);

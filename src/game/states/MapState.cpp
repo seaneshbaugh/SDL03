@@ -49,7 +49,7 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
     lua_settop(this->luaState, 0);
 
     std::cout << "Loading map.lua" << std::endl;
-    if (luaL_loadfile(this->luaState, "map.lua")) {
+    if (luaL_loadfile(this->luaState, "scripts/states/map.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);
@@ -120,6 +120,7 @@ GameState* MapState::Update(int key) {
         return nullptr;
     }
 
+    // TODO: Make all of this less hard coded and move it someplace that makes more sense.
     if (nextState == "battle") {
         std::function<void(GameState*)> callback = [&] (GameState* nextGameState) {
             BattleState* battleState = static_cast<BattleState*>(nextGameState);
@@ -141,7 +142,7 @@ GameState* MapState::Update(int key) {
             for (int i = 0; i < numberOfMonsters; i++) {
                 GameMonster* monster = new GameMonster();
 
-                monster->Load("slime.json");
+                monster->Load("resources/monsters/slime.json");
 
                 battleState->monsters.push_back(monster);
             }
@@ -162,6 +163,7 @@ GameState* MapState::Update(int key) {
 }
 
 std::string MapState::ProcessInput(int key) {
+    std::cout << "MapState::ProcessInput : key = " << key << std::endl;
     lua_getglobal(this->luaState, "process_input");
 
     lua_pushinteger(this->luaState, key);
@@ -203,31 +205,21 @@ void MapState::Render() {
 }
 
 bool MapState::LoadMap(std::string filename) {
-    if (this->currentMap) {
-        delete this->currentMap;
-    }
+    this->UnloadMap();
 
     this->currentMap = new GameMap();
 
     if (this->currentMap->Load(filename)) {
-        for (std::map<int, GameMapTile*>::iterator tile = this->currentMap->tiles.begin(); tile != this->currentMap->tiles.end(); tile++) {
-            GameTexture* texture = new GameTexture();
+        return true;
+    } else {
+        return false;
+    }
+}
 
-            if (!texture->Load(tile->second->filename)) {
-                return false;
-            }
-
-            size_t extensionIndex = tile->second->filename.find(".png");
-
-            if (extensionIndex != std::string::npos) {
-                this->textures[tile->second->filename.substr(0, extensionIndex)] = texture;
-            } else {
-                this->textures[tile->second->filename] = texture;
-            }
-
-            tile->second->texture = texture;
-        }
-
+bool MapState::UnloadMap() {
+    if (this->currentMap) {
+        delete this->currentMap;
+        
         return true;
     } else {
         return false;

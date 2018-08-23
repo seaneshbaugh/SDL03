@@ -1,4 +1,4 @@
-dofile "keys.lua"
+dofile "scripts/keys.lua"
 
 main_menu_state = GameState(raw_main_menu_state)
 

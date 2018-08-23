@@ -2,6 +2,7 @@
 #define __SDL03__main__
 
 #define NDEBUG
+#define JSON_ISO_STRICT
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/param.h>

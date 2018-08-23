@@ -10,6 +10,7 @@ class GameMapTile: public GameObject {
 public:
     int id;
     std::string filename;
+    std::string name;
     GameTexture* texture;
 
     GameMapTile();

@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'colorize'
+
+raise ArgumentError, 'map(s) file required' unless ARGV.length > 0
+
+def colorize_number(n, highlight)
+  return n.to_s.black.on_light_cyan.blink if highlight
+
+  case n
+  when 0
+    '0'.white.on_yellow
+  when 1
+    '1'.white.on_blue
+  when 2
+    '2'.white.on_light_magenta
+  when 3
+    '3'.white.on_light_blue
+  when 4
+    '4'.light_blue.on_red
+  else
+    n.to_s
+  end
+end
+
+ARGV.each do |map_file_path|
+  map_file_contents = File.read(map_file_path)
+
+  map = JSON.parse!(map_file_contents)
+
+  # For now assume walkability layer. Maybe later let it be specified by an arg.
+  # Also for now assume a width of 100. Definitely use the actual size.
+  # Also hardcode highlighted spot for now.
+  highlight_x = 15
+  highlight_y = 9
+  highlight_offset = (highlight_y * 100) + highlight_x
+
+  map['layers'].find { |layer| layer['name'] == 'walkability' }['data']
+  .each_slice(100)
+  .map.with_index { |row, i| row.map.with_index { |n, j| colorize_number(n, (i * row.length) + j == highlight_offset) }.join(' ') }
+  .each { |row| puts row }
+end

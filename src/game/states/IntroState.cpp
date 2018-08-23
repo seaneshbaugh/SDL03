@@ -3,7 +3,7 @@
 IntroState::IntroState(std::function<void(GameState*)> callback) : GameState(callback) {
     this->fontSizes["DroidSans"] = 16;
 
-    this->LoadResources("intro_textures.json", "fonts.json", "intro_sounds.json");
+    this->LoadResources("resources/asset_lists/intro_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/intro_sounds.json");
 
     this->luaState = luaL_newstate();
 
@@ -27,7 +27,7 @@ IntroState::IntroState(std::function<void(GameState*)> callback) : GameState(cal
     lua_settop(this->luaState, 0);
 
     std::cout << "Loading intro.lua" << std::endl;
-    if (luaL_loadfile(this->luaState, "intro.lua")) {
+    if (luaL_loadfile(this->luaState, "scripts/states/intro.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);

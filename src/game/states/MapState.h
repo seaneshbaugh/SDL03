@@ -1,6 +1,8 @@
 #ifndef __SDL03__MapState__
 #define __SDL03__MapState__
 
+#include "../parsers/AssetListParser.h"
+
 #include "GameState.h"
 #include "BattleState.h"
 #include "GameMap.h"
@@ -16,6 +18,7 @@ public:
     std::string ProcessInput(int keyt);
     void Render();
     bool LoadMap(std::string filename);
+    bool UnloadMap();
 
     friend class LuaMapState;
 private:

@@ -94,7 +94,37 @@ bool GameEngine::Setup() {
 }
 
 void GameEngine::Start() {
-    IntroState* introState = new IntroState(nullptr);
+    //IntroState* introState = new IntroState(nullptr);
+    
+    std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
+        std::cout << "new_game" << std::endl;
+        
+        static_cast<MapState*>(nextGameState)->LoadMap("resources/maps/world01.json");
+        
+        lua_getglobal(static_cast<MapState*>(nextGameState)->luaState, "after_map_load");
+        
+        if (lua_pcall(static_cast<MapState*>(nextGameState)->luaState, 0, LUA_MULTRET, 0)) {
+            std::cerr << "Error: " << lua_tostring(static_cast<MapState*>(nextGameState)->luaState, -1) << std::endl;
+            
+            lua_pop(static_cast<MapState*>(nextGameState)->luaState, 1);
+        }
+        
+        GameState::party = new GameParty();
+        
+        GameCharacter* sean = new GameCharacter();
+        
+        sean->Load("resources/characters/character01.json");
+        
+        GameState::party->characters.push_back(sean);
+        
+        GameCharacter* casie = new GameCharacter();
+        
+        casie->Load("resources/characters/character02.json");
+        
+        GameState::party->characters.push_back(casie);
+    };
+    
+    MapState* introState = new MapState(callback);
 
     this->states.push_back(introState);
 
@@ -143,7 +173,7 @@ void GameEngine::MainLoop() {
 
             if (pendingEvent) {
                 if (event.type == SDL_QUIT) {
-                    quit = true;
+                    break;
                 }
 
                 key = this->inputMapper.GetInputMapKey(&event);

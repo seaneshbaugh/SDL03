@@ -1,5 +1,5 @@
 [
- {"DroidSans":"DroidSans.ttf"},
- {"DroidSans-Bold":"DroidSans-Bold.ttf"},
- {"PixChicago":"PixChicago.ttf"}
+ {"DroidSans":"assets/fonts/DroidSans/DroidSans.ttf"},
+ {"DroidSans-Bold":"assets/fonts/DroidSans/DroidSans-Bold.ttf"},
+ {"PixChicago":"assets/fonts/PixChicago/PixChicago.ttf"}
 ]

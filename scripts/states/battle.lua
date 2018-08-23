@@ -1,4 +1,4 @@
-dofile "keys.lua"
+dofile "scripts/keys.lua"
 
 -- Yes, I'm aware this is a mess of global state. I'm not sure what I want to do yet, so keeping this
 -- so it has no structure is actually easier for now. As soon as I know what I'm doing this will be
@@ -31,11 +31,13 @@ font = battle_state:getFont("PixChicago")
 
 character_statuses = {}
 
-cursor = battle_state:getTexture("cursor-right")
+cursor = battle_state:getTexture("ui.cursor-right")
 
 current_monster_index = nil
 
 hand = nil
+
+menu_background = GameImage(battle_state:getTexture("ui.menu.background"), 0, 240)
 
 function initialize()
     -- I don't think I like this.
@@ -289,6 +291,10 @@ end
 function render()
     if background then
         background:render()
+    end
+
+    if menu_background then
+        menu_background:render(0, 240)
     end
 
     -- Eventually I'm going to need to have all characters (in the party and monsters) be wrapped in another table

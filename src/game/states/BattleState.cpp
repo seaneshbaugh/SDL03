@@ -14,7 +14,7 @@ Lunar<LuaBattleState>::RegType LuaBattleState::methods[] = {
 };
 
 BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(callback) {
-    this->LoadResources("battle_textures.json", "fonts.json", "battle_sounds.json");
+    this->LoadResources("resources/asset_lists/battle_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/battle_sounds.json");
 
     this->luaState = luaL_newstate();
 
@@ -47,7 +47,7 @@ BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(c
 
     std::cout << "Loading battle.lua" << std::endl;
 
-    if (luaL_loadfile(this->luaState, "battle.lua")) {
+    if (luaL_loadfile(this->luaState, "scripts/states/battle.lua")) {
         std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
 
         lua_pop(this->luaState, 1);

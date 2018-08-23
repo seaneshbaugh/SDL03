@@ -50,12 +50,16 @@ bool GameFont::Load(std::string filename, int pointSize) {
     this->filename = filename;
 
     this->pointSize = pointSize;
+    
+    std::cout << "Loading font \"" << filename << "\"." << std::endl;
 
     this->font = TTF_OpenFont(filename.c_str(), this->pointSize);
 
     if (this->font != NULL) {
+        std::cout << "Successfully loaded font." << std::endl;
         return true;
     } else {
+        std::cout << "Failed to loaded font." << std::endl;
         return false;
     }
 }
