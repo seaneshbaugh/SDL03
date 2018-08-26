@@ -17,6 +17,8 @@ GameEngine::GameEngine() {
     this->windowTitle = "Hello, world!";
 
     this->settings = new GameSettings(APPLICATION_NAME);
+
+    this->logger = nullptr;
 }
 
 GameEngine::~GameEngine() {
@@ -46,15 +48,23 @@ GameEngine::~GameEngine() {
 }
 
 bool GameEngine::Setup() {
-    if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
+    this->SetupLogging();
+
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        this->logger->critic() << "Failed to initialize SDL. " << SDL_GetError();
+
         return false;
     }
 
-    SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer);
+    this->logger->info() << "SDL initialized.";
 
-    if (this->screen == nullptr || this->renderer == nullptr) {
+    if (SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer)) {
+        this->logger->critic() << "Failed to create window and renderer. " << SDL_GetError();
+
         return false;
     }
+
+    this->logger->info() << "Window and render created.";
 
     SDL_SetWindowTitle(this->screen, this->windowTitle.c_str());
 
@@ -71,24 +81,79 @@ bool GameEngine::Setup() {
     GameCharacter::renderer = this->renderer;
 
     if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
+        this->logger->critic() << "Failed to initialize SDL_image. " << IMG_GetError();
+
         return false;
     }
+
+    this->logger->info() << "SDL_image initialized.";
 
     if (TTF_Init() == -1) {
+        this->logger->critic() << "Failed to initialize SDL_ttf. " << TTF_GetError();
+
         return false;
     }
+
+    this->logger->info() << "SDL_ttf initialized.";
 
     if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
+        this->logger->critic() << "Failed to initialize SDL_mixer. " << Mix_GetError();
+
         return false;
     }
 
+    this->logger->info() << "SDL_mixer initialized.";
+
     if (!this->settings->LoadSettings()) {
+        this->logger->critic() << "Failed to load settings.";
+
         return false;
     }
+
+    this->logger->info() << "Settings loaded.";
 
     this->inputMapper.MapKeys(this->settings->InputSettings());
 
     GameState::inputMapper = &this->inputMapper;
+
+    return true;
+}
+
+bool GameEngine::SetupLogging() {
+#ifndef NDEBUG
+    Log::Manager::setDefaultLevel(Log::Log::eDebug);
+#else
+    Log::Manager::setDefaultLevel(Log::Log::eError);
+#endif
+
+    const std::string logDirectory = FileSystemHelpers::GetLogDirectory();
+    Log::Config::Vector configList;
+
+    Log::Config::addOutput(configList, "OutputConsole");
+    Log::Config::addOutput(configList, "OutputFile");
+    Log::Config::setOption(configList, "filename", (logDirectory + "/SDL03.log").c_str());
+    Log::Config::setOption(configList, "filename_old", (logDirectory + "/SDL03.old.log").c_str());
+    Log::Config::setOption(configList, "max_startup_size", "0");
+    Log::Config::setOption(configList, "max_size", "16777216");
+
+    Log::Manager::configure(configList);
+
+    // TODO: maybe add the ability to set this via a config file?
+    Log::Manager::get("main")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("settings")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("json")->setLevel(Log::Log::eError);
+    Log::Manager::get("states.intro")->setLevel(Log::Log::eWarning);
+    Log::Manager::get("states.main_menu")->setLevel(Log::Log::eWarning);
+    Log::Manager::get("states.map")->setLevel(Log::Log::eWarning);
+    Log::Manager::get("states.battle")->setLevel(Log::Log::eWarning);
+    Log::Manager::get("assets.fonts")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("assets.songs")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("assets.sounds")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("assets.texures")->setLevel(Log::Log::eDebug);
+
+    this->logger = new Log::Logger("main");
+
+    logger->info() << "Logger initialized.";
 
     return true;
 }

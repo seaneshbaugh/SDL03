@@ -2,6 +2,33 @@
 
 #include "AppleFileSystemHelpers.h"
 
+std::string AppleFileSystemHelpers::GetHomeDirectory() {
+    uid_t uid = getuid();
+    const char* home = std::getenv("HOME");
+
+    if (uid != 0 && home) {
+        return std::string(home);
+    }
+
+    struct passwd* pw = getpwuid(uid);
+
+    if (!pw) {
+        throw std::runtime_error("Unable to get passwd struct.");
+    }
+
+    const char* result = pw->pw_dir;
+
+    if (!result) {
+        throw std::runtime_error("User has no home directory");
+    }
+
+    return result;
+}
+
+std::string AppleFileSystemHelpers::GetLogDirectory() {
+    return GetHomeDirectory() + "/Library/Logs";
+}
+
 // Apparently FSFindFolder and FSRefMakePath are depricated as of OSX 10.8.
 std::string AppleFileSystemHelpers::GetApplicationDataDirectory() {
     FSRef ref;

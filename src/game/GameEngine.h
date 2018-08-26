@@ -14,6 +14,7 @@
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
 
+#include "LoggerCpp.h"
 #include "sqlite3.h"
 
 #include "FileSystemHelpers.h"
@@ -49,6 +50,9 @@ private:
     std::string applicationDataDiretory;
     GameSettings *settings;
     GameInputMapper inputMapper;
+    Log::Logger *logger;
+
+    bool SetupLogging();
 
     void MainLoop();
     void Render();

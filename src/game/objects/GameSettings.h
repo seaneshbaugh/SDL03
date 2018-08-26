@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 
+#include "LoggerCpp.h"
 #include "SDL.h"
 #include "sqlite3.h"
 
@@ -25,6 +26,7 @@ private:
     std::string settingsDirectoryPath;
     std::string settingsFilePath;
     std::map<int, int> inputSettings;
+    Log::Logger *logger;
 
     std::string GetSettingsDirectoryPath();
     bool CreateSettingsDirectory();

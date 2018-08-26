@@ -1,6 +1,5 @@
 #include "MainMenuState.h"
 
-
 MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameState(callback) {
     this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/main_menu_sounds.json");
 

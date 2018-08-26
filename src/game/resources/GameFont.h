@@ -3,6 +3,8 @@
 
 #include "SDL_ttf.h"
 
+#include "LoggerCpp.h"
+
 #include "GameResource.h"
 
 class GameFont : public GameResource {
@@ -19,6 +21,9 @@ public:
 private:
     std::string filename;
     int pointSize;
+    Log::Logger* logger;
+
+    bool DestroyFont();
 };
 
 #endif

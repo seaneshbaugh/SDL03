@@ -19,7 +19,6 @@
 		7B342A0B183F09E000BA2C29 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A0A183F09E000BA2C29 /* Cocoa.framework */; };
 		7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7B342A13183F09E000BA2C29 /* InfoPlist.strings */; };
 		7B342A42183F0CF600BA2C29 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B342A41183F0CF500BA2C29 /* OpenGL.framework */; };
-		7B342A4B183F0EE000BA2C29 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A49183F0EE000BA2C29 /* main.cpp */; };
 		7B342A4E183F15A900BA2C29 /* GameEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A4C183F15A900BA2C29 /* GameEngine.cpp */; };
 		7B342A53183F2D6900BA2C29 /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A51183F2D6900BA2C29 /* GameObject.cpp */; };
 		7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A54184321DB00BA2C29 /* GameState.cpp */; };
@@ -98,6 +97,15 @@
 		7BE4744B1845547C002EA054 /* JSONWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473B21845547C002EA054 /* JSONWorker.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		7BE4744C1845547C002EA054 /* JSONWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473B41845547C002EA054 /* JSONWriter.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		7BE4744D1845547C002EA054 /* libjson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE473B51845547C002EA054 /* libjson.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		7BE70174212FBACC00B084A5 /* OutputDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7016C212FBACC00B084A5 /* OutputDebug.cpp */; };
+		7BE70175212FBACC00B084A5 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7016D212FBACC00B084A5 /* Log.cpp */; };
+		7BE70176212FBACC00B084A5 /* Manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7016E212FBACC00B084A5 /* Manager.cpp */; };
+		7BE70177212FBACC00B084A5 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE7016F212FBACC00B084A5 /* Config.cpp */; };
+		7BE70178212FBACC00B084A5 /* OutputConsole.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE70170212FBACC00B084A5 /* OutputConsole.cpp */; };
+		7BE70179212FBACC00B084A5 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE70171212FBACC00B084A5 /* Logger.cpp */; };
+		7BE7017A212FBACC00B084A5 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE70172212FBACC00B084A5 /* DateTime.cpp */; };
+		7BE7017B212FBACC00B084A5 /* OutputFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BE70173212FBACC00B084A5 /* OutputFile.cpp */; };
+		7BE7017C212FC42900B084A5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B342A49183F0EE000BA2C29 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -300,6 +308,29 @@
 		7BE4743C1845547C002EA054 /* libjson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libjson.h; sourceTree = "<group>"; };
 		7BE4743E1845547C002EA054 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		7BE4743F1845547C002EA054 /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		7BE7015C212FBACC00B084A5 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		7BE7015D212FBACC00B084A5 /* Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Channel.h; sourceTree = "<group>"; };
+		7BE7015E212FBACC00B084A5 /* LoggerCpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCpp.h; sourceTree = "<group>"; };
+		7BE7015F212FBACC00B084A5 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		7BE70160212FBACC00B084A5 /* Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manager.h; sourceTree = "<group>"; };
+		7BE70161212FBACC00B084A5 /* Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Formatter.h; sourceTree = "<group>"; };
+		7BE70162212FBACC00B084A5 /* DateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTime.h; sourceTree = "<group>"; };
+		7BE70163212FBACC00B084A5 /* OutputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputFile.h; sourceTree = "<group>"; };
+		7BE70164212FBACC00B084A5 /* Output.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Output.h; sourceTree = "<group>"; };
+		7BE70165212FBACC00B084A5 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		7BE70166212FBACC00B084A5 /* OutputConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputConsole.h; sourceTree = "<group>"; };
+		7BE70167212FBACC00B084A5 /* shared_ptr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shared_ptr.hpp; sourceTree = "<group>"; };
+		7BE70168212FBACC00B084A5 /* OutputDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputDebug.h; sourceTree = "<group>"; };
+		7BE70169212FBACC00B084A5 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
+		7BE7016A212FBACC00B084A5 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
+		7BE7016C212FBACC00B084A5 /* OutputDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputDebug.cpp; sourceTree = "<group>"; };
+		7BE7016D212FBACC00B084A5 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
+		7BE7016E212FBACC00B084A5 /* Manager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Manager.cpp; sourceTree = "<group>"; };
+		7BE7016F212FBACC00B084A5 /* Config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Config.cpp; sourceTree = "<group>"; };
+		7BE70170212FBACC00B084A5 /* OutputConsole.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputConsole.cpp; sourceTree = "<group>"; };
+		7BE70171212FBACC00B084A5 /* Logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
+		7BE70172212FBACC00B084A5 /* DateTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DateTime.cpp; sourceTree = "<group>"; };
+		7BE70173212FBACC00B084A5 /* OutputFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputFile.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -588,6 +619,7 @@
 		7BE4737018454D0C002EA054 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7BE70159212FBACC00B084A5 /* LoggerCpp */,
 				7BE4738A1845547C002EA054 /* libjson */,
 				7B9A6024184D3E810016BA1A /* lua */,
 				730B27991B182841002629F8 /* sqlite */,
@@ -692,6 +724,60 @@
 			path = JSONDefs;
 			sourceTree = "<group>";
 		};
+		7BE70159212FBACC00B084A5 /* LoggerCpp */ = {
+			isa = PBXGroup;
+			children = (
+				7BE7015A212FBACC00B084A5 /* include */,
+				7BE7016B212FBACC00B084A5 /* src */,
+			);
+			path = LoggerCpp;
+			sourceTree = "<group>";
+		};
+		7BE7015A212FBACC00B084A5 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7BE7015B212FBACC00B084A5 /* LoggerCpp */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		7BE7015B212FBACC00B084A5 /* LoggerCpp */ = {
+			isa = PBXGroup;
+			children = (
+				7BE7015C212FBACC00B084A5 /* Utils.h */,
+				7BE7015D212FBACC00B084A5 /* Channel.h */,
+				7BE7015E212FBACC00B084A5 /* LoggerCpp.h */,
+				7BE7015F212FBACC00B084A5 /* Config.h */,
+				7BE70160212FBACC00B084A5 /* Manager.h */,
+				7BE70161212FBACC00B084A5 /* Formatter.h */,
+				7BE70162212FBACC00B084A5 /* DateTime.h */,
+				7BE70163212FBACC00B084A5 /* OutputFile.h */,
+				7BE70164212FBACC00B084A5 /* Output.h */,
+				7BE70165212FBACC00B084A5 /* Log.h */,
+				7BE70166212FBACC00B084A5 /* OutputConsole.h */,
+				7BE70167212FBACC00B084A5 /* shared_ptr.hpp */,
+				7BE70168212FBACC00B084A5 /* OutputDebug.h */,
+				7BE70169212FBACC00B084A5 /* Logger.h */,
+				7BE7016A212FBACC00B084A5 /* Exception.h */,
+			);
+			path = LoggerCpp;
+			sourceTree = "<group>";
+		};
+		7BE7016B212FBACC00B084A5 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				7BE7016C212FBACC00B084A5 /* OutputDebug.cpp */,
+				7BE7016D212FBACC00B084A5 /* Log.cpp */,
+				7BE7016E212FBACC00B084A5 /* Manager.cpp */,
+				7BE7016F212FBACC00B084A5 /* Config.cpp */,
+				7BE70170212FBACC00B084A5 /* OutputConsole.cpp */,
+				7BE70171212FBACC00B084A5 /* Logger.cpp */,
+				7BE70172212FBACC00B084A5 /* DateTime.cpp */,
+				7BE70173212FBACC00B084A5 /* OutputFile.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -759,12 +845,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B342A4B183F0EE000BA2C29 /* main.cpp in Sources */,
+				7BE7017C212FC42900B084A5 /* main.cpp in Sources */,
 				7B9A606F184D3E810016BA1A /* lfunc.c in Sources */,
 				7B9A6064184D3E810016BA1A /* lapi.c in Sources */,
 				7377F2D51B21433500D43B66 /* GameMonster.cpp in Sources */,
 				7B4ED88B212C64C8007559AC /* MapParser.cpp in Sources */,
 				7BB3825A186353A900391DC5 /* GameMapLayer.cpp in Sources */,
+				7BE70174212FBACC00B084A5 /* OutputDebug.cpp in Sources */,
+				7BE70176212FBACC00B084A5 /* Manager.cpp in Sources */,
 				7B9A607D184D3E810016BA1A /* lstrlib.c in Sources */,
 				7BE474421845547C002EA054 /* JSONChildren.cpp in Sources */,
 				7B9A606B184D3E810016BA1A /* ldblib.c in Sources */,
@@ -772,6 +860,7 @@
 				7B342A53183F2D6900BA2C29 /* GameObject.cpp in Sources */,
 				7B4ED88E212E0755007559AC /* AssetListParser.cpp in Sources */,
 				7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */,
+				7BE70177212FBACC00B084A5 /* Config.cpp in Sources */,
 				7B9A6083184D3E810016BA1A /* lundump.c in Sources */,
 				730B279E1B18EBB3002629F8 /* GameInputMapper.cpp in Sources */,
 				7B9A6069184D3E810016BA1A /* lcorolib.c in Sources */,
@@ -784,13 +873,16 @@
 				7BE474451845547C002EA054 /* JSONMemory.cpp in Sources */,
 				7B9A608E184E49CC0016BA1A /* GameText.cpp in Sources */,
 				7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */,
+				7BE70175212FBACC00B084A5 /* Log.cpp in Sources */,
 				730B279C1B182841002629F8 /* sqlite3.c in Sources */,
 				7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */,
 				7B9A6080184D3E810016BA1A /* ltm.c in Sources */,
+				7BE7017B212FBACC00B084A5 /* OutputFile.cpp in Sources */,
 				7B9A606E184D3E810016BA1A /* ldump.c in Sources */,
 				7B9A6074184D3E810016BA1A /* lmathlib.c in Sources */,
 				7B9A6067184D3E810016BA1A /* lbitlib.c in Sources */,
 				7B9A60EE185B557C0016BA1A /* GameImage.cpp in Sources */,
+				7BE70178212FBACC00B084A5 /* OutputConsole.cpp in Sources */,
 				7B342A6D18443AA200BA2C29 /* GameTexture.cpp in Sources */,
 				7B9A6077184D3E810016BA1A /* lobject.c in Sources */,
 				730B27B71B1E35DA002629F8 /* SettingsMenuState.cpp in Sources */,
@@ -800,6 +892,7 @@
 				7BE474471845547C002EA054 /* JSONNode_Mutex.cpp in Sources */,
 				7B9A6070184D3E810016BA1A /* lgc.c in Sources */,
 				7B9A6068184D3E810016BA1A /* lcode.c in Sources */,
+				7BE7017A212FBACC00B084A5 /* DateTime.cpp in Sources */,
 				7B342A66184430B300BA2C29 /* GameResource.cpp in Sources */,
 				7B9A6073184D3E810016BA1A /* llex.c in Sources */,
 				7BE474481845547C002EA054 /* JSONPreparse.cpp in Sources */,
@@ -821,6 +914,7 @@
 				7B9A606C184D3E810016BA1A /* ldebug.c in Sources */,
 				7B9A6071184D3E810016BA1A /* linit.c in Sources */,
 				7B9A6075184D3E810016BA1A /* lmem.c in Sources */,
+				7BE70179212FBACC00B084A5 /* Logger.cpp in Sources */,
 				7B9A607B184D3E810016BA1A /* lstate.c in Sources */,
 				7B9A60FA185EBD6F0016BA1A /* GameMapTile.cpp in Sources */,
 				7B9A6085184D3E810016BA1A /* lzio.c in Sources */,

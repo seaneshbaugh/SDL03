@@ -4,6 +4,8 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
+#include "LoggerCpp.h"
+
 #include "GameResource.h"
 
 class GameTexture : public GameResource {
@@ -18,6 +20,9 @@ public:
 
 private:
     std::string filename;
+    Log::Logger* logger;
+
+    bool DestroyTexture();
 };
 
 #endif

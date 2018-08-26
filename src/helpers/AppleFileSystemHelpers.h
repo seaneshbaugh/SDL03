@@ -5,10 +5,12 @@
 
 #include <CoreServices/CoreServices.h>
 
+#include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -16,6 +18,10 @@
 #include "StringHelpers.h"
 
 namespace AppleFileSystemHelpers {
+    // TODO: Consider moving directory finding functions to their own namespace.
+    // See: https://github.com/sago007/PlatformFolders
+    std::string GetHomeDirectory();
+    std::string GetLogDirectory();
     std::string GetApplicationDataDirectory();
     bool FileExists(std::string path);
     bool FileIsReadable(std::string path);

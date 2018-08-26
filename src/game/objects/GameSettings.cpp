@@ -4,11 +4,13 @@ GameSettings::GameSettings(std::string applicationName) {
     this->applicationName = applicationName;
 
     this->settingsDB = nullptr;
+
+    this->logger = new Log::Logger("settings");
 }
 
 GameSettings::~GameSettings() {
     if (this->settingsDB) {
-        std::cout << "Closing settings database." << std::endl;
+        this->logger->info() << "Closing settings database.";
 
         sqlite3_close(this->settingsDB);
     }
@@ -54,10 +56,10 @@ bool GameSettings::CreateSettingsDirectory() {
 }
 
 bool GameSettings::OpenSettingsDatabase() {
-    std::cout << "Opening settings database." << std::endl;
+    this->logger->info() << "Opening settings database \"" << this->settingsFilePath.c_str() << "\".";
 
     if (sqlite3_open_v2(this->settingsFilePath.c_str(), &this->settingsDB, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, nullptr)) {
-        std::cerr << "Error: Could not open settings database file. Got error message: \"" << sqlite3_errmsg(this->settingsDB) << "\"" << std::endl;
+        this->logger->error() << "Could not open settings database file. " << sqlite3_errmsg(this->settingsDB);
 
         sqlite3_close(this->settingsDB);
 
@@ -72,10 +74,12 @@ bool GameSettings::CreateInputSettingsTable() {
         return 0;
     };
 
+    constexpr const char* query = "CREATE TABLE IF NOT EXISTS input_settings(key INTEGER PRIMARY KEY, value INTEGER)";
+
     char *errorMessage = nullptr;
 
-    if (sqlite3_exec(this->settingsDB, "CREATE TABLE IF NOT EXISTS input_settings(key INTEGER PRIMARY KEY, value INTEGER)", createInputSettingsTableCallback, 0, &errorMessage) != SQLITE_OK) {
-        std::cerr << "Error: Could not create input_settings table. Got error message: \"" << errorMessage << "\"" << std::endl;
+    if (sqlite3_exec(this->settingsDB, query, createInputSettingsTableCallback, 0, &errorMessage) != SQLITE_OK) {
+        this->logger->error() << "Could not create input_settings table. " << errorMessage;
 
         sqlite3_free(errorMessage);
 
@@ -100,9 +104,11 @@ bool GameSettings::LoadInputSettings() {
         return 0;
     };
 
+    constexpr const char* query = "SELECT * FROM input_settings";
+
     char *errorMessage = nullptr;
 
-    if (sqlite3_exec(this->settingsDB, "SELECT * FROM input_settings", loadInputSettingsCallback, static_cast<void*>(&inputSettings), &errorMessage) != SQLITE_OK) {
+    if (sqlite3_exec(this->settingsDB, query, loadInputSettingsCallback, static_cast<void*>(&inputSettings), &errorMessage) != SQLITE_OK) {
         std::cerr << "SQL error: " << errorMessage << std::endl;
 
         sqlite3_free(errorMessage);
@@ -141,7 +147,7 @@ bool GameSettings::SaveInputSettings() {
     char *errorMessage = nullptr;
 
     if (sqlite3_exec(this->settingsDB, query.str().c_str(), saveInputSettingsCallback, 0, &errorMessage) != SQLITE_OK) {
-        std::cerr << "SQL error: " << errorMessage << std::endl;
+        this->logger->error() << "SQL error: " << errorMessage;
 
         sqlite3_free(errorMessage);
 
