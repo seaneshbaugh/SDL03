@@ -14,6 +14,8 @@ Lunar<LuaSettingsMenuState>::RegType LuaSettingsMenuState::methods[] = {
 };
 
 SettingsMenuState::SettingsMenuState(std::function<void(GameState*)> callback) : GameState(callback) {
+    this->logger = new Log::Logger("states.settings_menu");
+
     this->LoadResources("settings_menu_textures.json", "fonts.json", "settings_menu_sounds.json");
 
     this->luaState = luaL_newstate();

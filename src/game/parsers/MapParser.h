@@ -4,16 +4,20 @@
 #include <string>
 #include <vector>
 
+#include "LoggerCpp.h"
 #include "../../../lib/libjson/libjson.h"
 
-#include "../objects/GameMap.h"
-#include "../objects/GameMapLayer.h"
-#include "../objects/GameMapObject.h"
-#include "../objects/GameMapTile.h"
+#include "GameMap.h"
+#include "GameMapLayer.h"
+#include "GameMapObject.h"
+#include "GameMapEncounterArea.h"
+#include "GameMapTile.h"
 
 class MapParser {
 public:
+    MapParser();
     bool Parse(std::string json, GameMap* map);
+    Log::Logger* logger;
 
 private:
     GameMapLayer* ParseLayer(const JSONNode &node);

@@ -30,6 +30,7 @@
 #include "GameSound.h"
 #include "GameText.h"
 #include "GameImage.h"
+#include "GameWorld.h"
 #include "GameMap.h"
 #include "GameMapTile.h"
 

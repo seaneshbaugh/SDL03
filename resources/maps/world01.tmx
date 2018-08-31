@@ -30062,6 +30062,7 @@
   <object id="2" type="encounter_area" x="416" y="32" width="448" height="320">
    <properties>
     <property name="background" value="assets/images/backgrounds/battle/grass-1.png"/>
+    <property name="name" value="01"/>
    </properties>
   </object>
  </objectgroup>

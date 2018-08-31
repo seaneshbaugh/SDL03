@@ -15,6 +15,10 @@ Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
 };
 
 MapState::MapState(std::function<void(GameState*)> callback) : GameState(callback) {
+    this->logger = new Log::Logger("states.map");
+
+    this->currentMap = GameState::world->currentMap;
+
     // We only load the fonts here because the textures and sounds that will be loaded
     // are determined by the map file.
     this->LoadFonts("resources/asset_lists/fonts.json");
@@ -48,17 +52,18 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
 
     lua_settop(this->luaState, 0);
 
-    std::cout << "Loading map.lua" << std::endl;
+    this->logger->info() << "Loading map.lua";
+
     if (luaL_loadfile(this->luaState, "scripts/states/map.lua")) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     } else {
-        std::cout << "Loaded map.lua" << std::endl;
+        this->logger->info() << "Loaded map.lua";
     }
 
     if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     }
@@ -66,7 +71,7 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
     lua_getglobal(this->luaState, "initialize");
 
     if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     }
@@ -75,11 +80,8 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
 
     this->acceptRawInput = false;
 
-    this->currentMap = nullptr;
-
     this->currentEncounterArea = nullptr;
 
-    // This is where any initial maps should be loaded.
     if (callback) {
         callback(this);
     }
@@ -105,13 +107,13 @@ GameState* MapState::Update(int key) {
     lua_getglobal(this->luaState, "update");
 
     if (lua_pcall(this->luaState, 0, 1, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     }
 
     if (!lua_isstring(this->luaState, -1)) {
-        std::cerr << "Error: expected update to return a string." << std::endl;
+        this->logger->error() << "Error: expected update to return a string.";
     } else {
         nextState = lua_tostring(this->luaState, -1);
     }
@@ -122,54 +124,55 @@ GameState* MapState::Update(int key) {
 
     // TODO: Make all of this less hard coded and move it someplace that makes more sense.
     if (nextState == "battle") {
-        std::function<void(GameState*)> callback = [&] (GameState* nextGameState) {
-            BattleState* battleState = static_cast<BattleState*>(nextGameState);
+//        std::function<void(GameState*)> callback = [&] (GameState* nextGameState) {
+//            BattleState* battleState = static_cast<BattleState*>(nextGameState);
+//
+//            GameTexture* background = new GameTexture();
+//
+//            background->Load(this->currentEncounterArea->properties["background"]);
+//
+//            battleState->textures["background"] = background;
+//
+//            std::random_device rd;
+//
+//            std::mt19937 mt(rd());
+//
+//            std::uniform_int_distribution<int> dist(1, 6);
+//
+//            int numberOfMonsters = dist(mt);
+//
+//            for (int i = 0; i < numberOfMonsters; i++) {
+//                GameMonster* monster = new GameMonster();
+//
+//                monster->Load("resources/monsters/slime.json");
+//
+//                battleState->monsters.push_back(monster);
+//            }
+//
+//            lua_getglobal(battleState->luaState, "after_battle_load");
+//
+//            if (lua_pcall(battleState->luaState, 0, LUA_MULTRET, 0)) {
+//                std::cerr << "Error: " << lua_tostring(battleState->luaState, -1) << std::endl;
+//
+//                lua_pop(battleState->luaState, 1);
+//            }
+//        };
 
-            GameTexture* background = new GameTexture();
-
-            background->Load(this->currentEncounterArea->properties["background"]);
-
-            battleState->textures["background"] = background;
-
-            std::random_device rd;
-
-            std::mt19937 mt(rd());
-
-            std::uniform_int_distribution<int> dist(1, 6);
-
-            int numberOfMonsters = dist(mt);
-
-            for (int i = 0; i < numberOfMonsters; i++) {
-                GameMonster* monster = new GameMonster();
-
-                monster->Load("resources/monsters/slime.json");
-
-                battleState->monsters.push_back(monster);
-            }
-
-            lua_getglobal(battleState->luaState, "after_battle_load");
-
-            if (lua_pcall(battleState->luaState, 0, LUA_MULTRET, 0)) {
-                std::cerr << "Error: " << lua_tostring(battleState->luaState, -1) << std::endl;
-
-                lua_pop(battleState->luaState, 1);
-            }
-        };
-        
-        return new BattleState(callback);
+        return new BattleState(this->currentEncounterArea, nullptr);
     }
 
     return this;
 }
 
 std::string MapState::ProcessInput(int key) {
-    std::cout << "MapState::ProcessInput : key = " << key << std::endl;
+    this->logger->debug() << "MapState::ProcessInput : key = " << key;
+
     lua_getglobal(this->luaState, "process_input");
 
     lua_pushinteger(this->luaState, key);
 
     if (lua_pcall(this->luaState, 1, 1, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     }
@@ -184,7 +187,7 @@ std::string MapState::ProcessInput(int key) {
     std::string result = "";
 
     if (!lua_isstring(this->luaState, -1)) {
-        std::cerr << "Error: expected process_input to return a string." << std::endl;
+        this->logger->error() << "Error: expected process_input to return a string.";
     } else {
         result = lua_tostring(this->luaState, -1);
     }
@@ -198,30 +201,48 @@ void MapState::Render() {
     lua_getglobal(this->luaState, "render");
 
     if (lua_pcall(this->luaState, 0, 0, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     }
 }
 
 bool MapState::LoadMap(std::string filename) {
-    this->UnloadMap();
-
-    this->currentMap = new GameMap();
-
-    if (this->currentMap->Load(filename)) {
-        return true;
-    } else {
+    if (!GameState::world->LoadMap(filename)) {
         return false;
     }
+
+    this->currentMap = GameState::world->currentMap;
+
+    lua_getglobal(this->luaState, "after_map_load");
+
+    if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
+        this->logger->error() << lua_tostring(this->luaState, -1);
+
+        lua_pop(this->luaState, 1);
+    }
+
+    return true;
 }
 
 bool MapState::UnloadMap() {
+    GameState::world->UnloadMap();
+
+    this->currentMap = nullptr;
+
+    this->currentMap = GameState::world->currentMap;
+
     if (this->currentMap) {
-        delete this->currentMap;
-        
-        return true;
-    } else {
         return false;
     }
+
+    lua_getglobal(this->luaState, "after_map_unload");
+
+    if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
+        this->logger->error() << lua_tostring(this->luaState, -1);
+
+        lua_pop(this->luaState, 1);
+    }
+
+    return false;
 }

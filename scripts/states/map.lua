@@ -1,5 +1,4 @@
 dofile "scripts/keys.lua"
-
 map_state = MapState(raw_map_state)
 
 texts = {}
@@ -33,7 +32,7 @@ player_screen_x_position = 320
 
 player_screen_y_position = 224
 
-current_map = nil
+current_map = GameMap(map_state:getCurrentMap())
 
 player = nil
 
@@ -52,11 +51,8 @@ function after_map_load()
 end
 
 function process_input(key_code)
-    print(string.format("recieved key_code %d\n", key_code))
-
     if screen_moving == false and player_moving == false then
         if key_code == UP_KEY then
-print("UP_KEY pressed")
             if current_map:getWalkability(player_current_x, player_current_y - 1) then
                 if player_current_y > 7 and player_current_y < 93 then
                     screen_y_velocity = 4
@@ -177,9 +173,11 @@ function step(x, y)
         end
         
         if object_type == "encounter_area" then
-            if math.random(0, 10) == 0 then
-                map_state:setCurrentEncounterArea(raw_object)
+            map_state:setCurrentEncounterArea(raw_object)
 
+            -- This should be determined by a method on the encounter area. Each one should define its own
+            -- probability for a random encounter.
+            if math.random(0, 10) == 0 then
                 return "battle"
             end
         end

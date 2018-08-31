@@ -6,11 +6,17 @@
 #include <string>
 #include <vector>
 
-#include "../../../lib/libjson/libjson.h"
+#include "../../../../lib/libjson/libjson.h"
+#include "LoggerCpp.h"
+
+#include "FileSystemHelpers.h"
+#include "PathHelpers.h"
 
 #include "GameObject.h"
 #include "GameMapLayer.h"
 #include "GameMapTile.h"
+#include "GameMapEncounterArea.h"
+#include "GameMapLoadPoint.h"
 
 class MapParser;
 
@@ -18,6 +24,8 @@ class GameMap : public GameObject {
 public:
     static SDL_Renderer* renderer;
 
+    std::string name;
+    std::string filename;
     int width;
     int height;
     int tilewidth;
@@ -26,6 +34,7 @@ public:
     std::map <int, GameMapTile*> tiles;
     std::map <std::string, GameTexture*> textures;
     GameMapLayer* walkabilityLayer;
+    Log::Logger* logger;
     
     GameMap();
     GameMap(std::string filename);
@@ -38,6 +47,8 @@ public:
     bool GetWalkability(int x, int y);
     std::vector <GameMapObject*> GetObjects(int x, int y);
 private:
+    // Meh.
+    void SetNameFromFilename();
 };
 
 
@@ -46,7 +57,11 @@ public:
     static const char className[];
     static Lunar<LuaGameMap>::RegType methods[];
 
+    Log::Logger* logger;
+
     LuaGameMap(lua_State *L) {
+        this->logger = new Log::Logger("lua");
+
         int argc = lua_gettop(L);
 
         if (argc == 1) {
@@ -100,6 +115,8 @@ public:
         int x = (int)luaL_checkinteger(L, 1);
 
         int y = (int)luaL_checkinteger(L, 2);
+
+        this->logger->debug() << "LuaGameMap::getObjects (" << x << ", " << y << ")";
 
         std::vector<GameMapObject*> result = this->realObject->GetObjects(x, y);
 

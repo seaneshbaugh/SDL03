@@ -1,9 +1,9 @@
 #ifndef __SDL03__GameState__
 #define __SDL03__GameState__
 
-#include <fstream>
 #include <map>
 #include <random>
+#include <string>
 #include <vector>
 
 #include "SDL.h"
@@ -11,7 +11,6 @@
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
 
-#include "../../../lib/libjson/libjson.h"
 #include "../../../lib/lua/src/lua.hpp"
 #include "../../../lib/lua/src/lua.h"
 
@@ -29,15 +28,31 @@
 #include "GameImage.h"
 
 #include "GameParty.h"
+#include "GameWorld.h"
+
+class MapState;
+
+enum class GameStateType {
+    intro,
+    main_menu,
+    settings_menu,
+    map,
+    battle,
+    pause_menu
+};
 
 class GameState {
 public:
-    // LOL GLOBAL VARIABLES
     static SDL_Renderer* renderer;
     static GameInputMapper* inputMapper;
-    static GameParty* party;
+    static GameWorld* world;
+    static std::map<std::string, GameStateType> gameStateTypeMap;
+
+    static MapState* NewGame();
+    static GameStateType StateNameToEnum(std::string stateName);
 
     bool acceptRawInput;
+    Log::Logger* logger;
 
     GameState(std::function<void(GameState*)> callback);
     ~GameState();

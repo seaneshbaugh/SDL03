@@ -1,0 +1,22 @@
+{
+    "mobs": [
+        {
+             "enemies": ["Slime"]
+        },
+        {
+             "enemies": ["Slime", "Slime"]
+        },
+        {
+             "enemies": ["Slime", "Slime", "Slime"]
+        },
+        {
+             "enemies": ["Slime", "Slime", "Slime", "Slime"]
+        },
+        {
+             "enemies": ["Slime", "Slime", "Slime", "Slime", "Slime"]
+        },
+        {
+             "enemies": ["Slime", "Slime", "Slime", "Slime", "Slime", "Slime"]
+        }
+    ]
+}

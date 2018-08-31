@@ -22,7 +22,7 @@ public:
 
     friend class LuaMapState;
 private:
-    GameMapObject* currentEncounterArea;
+    GameMapEncounterArea* currentEncounterArea;
 };
 
 class LuaMapState : public LuaGameState {
@@ -113,7 +113,7 @@ public:
     }
 
     int setCurrentEncounterArea(lua_State *L) {
-        this->realObject->currentEncounterArea = (GameMapObject*)lua_touserdata(L, 1);
+        this->realObject->currentEncounterArea = (GameMapEncounterArea*)lua_touserdata(L, 1);
 
         return 1;
     }

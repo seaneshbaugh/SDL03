@@ -1,6 +1,8 @@
 #include "MainMenuState.h"
 
 MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameState(callback) {
+    this->logger = new Log::Logger("states.main_menu");
+
     this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/main_menu_sounds.json");
 
     this->luaState = luaL_newstate();
@@ -80,48 +82,19 @@ GameState* MainMenuState::Update(int key) {
         lua_pop(this->luaState, 1);
     }
 
-    // I hate this but C++ doesn't let you do switch statements for strings. Whatever.
     if (this->pop) {
         return nullptr;
     }
 
-    // Eventually this will load an initial cutscene. For now it'll just go
-    // straight to the main "world" map.
     if (nextState == "new_game") {
-        std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
-            std::cout << "new_game" << std::endl;
+        this->logger->info() << "new_game";
 
-            static_cast<MapState*>(nextGameState)->LoadMap("resources/maps/world01.json");
-
-            lua_getglobal(static_cast<MapState*>(nextGameState)->luaState, "after_map_load");
-
-            if (lua_pcall(static_cast<MapState*>(nextGameState)->luaState, 0, LUA_MULTRET, 0)) {
-                std::cerr << "Error: " << lua_tostring(static_cast<MapState*>(nextGameState)->luaState, -1) << std::endl;
-
-                lua_pop(static_cast<MapState*>(nextGameState)->luaState, 1);
-            }
-
-            GameState::party = new GameParty();
-
-            GameCharacter* sean = new GameCharacter();
-
-            sean->Load("resources/characters/character01.json");
-
-            GameState::party->characters.push_back(sean);
-
-            GameCharacter* casie = new GameCharacter();
-
-            casie->Load("resources/characters/character02.json");
-
-            GameState::party->characters.push_back(casie);
-        };
-
-        return new MapState(callback);
+        return GameState::NewGame();
     }
 
     // Switch to the load game menu.
     if (nextState == "load_game") {
-        std::cout << "load_game" << std::endl;
+        this->logger->info() << "load_game";
 
         return this;
     }

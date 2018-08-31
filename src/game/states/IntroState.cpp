@@ -1,6 +1,8 @@
 #include "IntroState.h"
 
 IntroState::IntroState(std::function<void(GameState*)> callback) : GameState(callback) {
+    this->logger = new Log::Logger("states.intro");
+
     this->fontSizes["DroidSans"] = 16;
 
     this->LoadResources("resources/asset_lists/intro_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/intro_sounds.json");

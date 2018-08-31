@@ -7,11 +7,16 @@
 #include "GameMapTile.h"
 #include "GameMapObject.h"
 
-enum GameMapLayerType {
+enum class GameMapLayerType {
     Terrain,
     Objects,
     Walkability,
     Effects
+};
+
+enum class GameMapObjectLayerType {
+    LoadPoint,
+    EncounterArea
 };
 
 class GameMapLayer : public GameObject {

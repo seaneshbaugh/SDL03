@@ -13,8 +13,18 @@ Lunar<LuaBattleState>::RegType LuaBattleState::methods[] = {
     {0, 0}
 };
 
-BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(callback) {
+BattleState::BattleState(GameMapEncounterArea* encounterArea, std::function<void(GameState*)> callback) : GameState(callback) {
+    this->logger = new Log::Logger("states.battle");
+
     this->LoadResources("resources/asset_lists/battle_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/battle_sounds.json");
+
+    GameTexture* background = new GameTexture();
+
+    background->Load(encounterArea->properties["background"]);
+
+    this->textures["background"] = background;
+
+    GameState::world->SetEnemyParty(encounterArea);
 
     this->luaState = luaL_newstate();
 
@@ -73,8 +83,17 @@ BattleState::BattleState(std::function<void(GameState*)> callback) : GameState(c
 
     this->acceptRawInput = false;
 
+    // I don't think this is necessary anymore.
     if (callback) {
         callback(this);
+    }
+
+    lua_getglobal(this->luaState, "after_battle_load");
+
+    if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
+        this->logger->error() << lua_tostring(this->luaState, -1);
+
+        lua_pop(this->luaState, 1);
     }
 }
 

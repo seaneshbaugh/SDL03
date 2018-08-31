@@ -1,10 +1,40 @@
 #include "GameState.h"
+#include "MapState.h"
 
-SDL_Renderer* GameState::renderer;
+// TODO: Move renderer and inputMapper to GameEngine?
+// Now that I think about it they really shouldn't be tied to the states.
+SDL_Renderer* GameState::renderer = nullptr;
 
-GameInputMapper* GameState::inputMapper;
+GameInputMapper* GameState::inputMapper = nullptr;
 
-GameParty* GameState::party = nullptr;
+// I think I want to keep this here since if we don't have a game state
+// how could/why would we have a game world?
+GameWorld* GameState::world = nullptr;
+
+std::map<std::string, GameStateType> GameState::gameStateTypeMap = {
+    {"intro", GameStateType::intro},
+    {"main_menu", GameStateType::main_menu},
+    {"settings_menu", GameStateType::settings_menu},
+    {"map", GameStateType::map},
+    {"battle", GameStateType::battle},
+    {"pause_menu", GameStateType::pause_menu}
+};
+
+// Eventually this will load an initial cutscene. For now it'll just go
+// straight to the main "world" map.
+MapState* GameState::NewGame() {
+    if (GameState::world != nullptr) {
+        delete GameState::world;
+    }
+
+    GameState::world = new GameWorld();
+
+    return new MapState(nullptr);
+}
+
+GameStateType GameState::StateNameToEnum(std::string stateName) {
+    return GameState::gameStateTypeMap[stateName];
+}
 
 const char LuaGameState::className[] = "GameState";
 

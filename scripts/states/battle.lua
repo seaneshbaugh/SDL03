@@ -37,7 +37,7 @@ current_monster_index = nil
 
 hand = nil
 
-menu_background = GameImage(battle_state:getTexture("ui.menu.background"), 0, 240)
+menu_background = GameImage(battle_state:getTexture("ui.menu.background"), 0, 280)
 
 function initialize()
     -- I don't think I like this.
@@ -64,7 +64,7 @@ function after_battle_load()
 
     objects = battle_state:getParty()
 
-    y = 400
+    y = 300
 
     for i, v in ipairs(objects) do
         character = GameCharacter(v)
@@ -73,7 +73,7 @@ function after_battle_load()
 
         table.insert(atb, { character = character, atb = character:atbStart(), party = true })
 
-        character_statuses[character:getName()] = GameText(string.format("%s: %d/%d", character:getName(), character:getCurrentHitPoints(), character:getMaxHitPoints()), font, 300, y, 255, 255, 255)
+        character_statuses[character:getName()] = GameText(string.format("%s: %d/%d", character:getName(), character:getCurrentHitPoints(), character:getMaxHitPoints()), font, 410, y, 255, 255, 255)
 
         y = y + 40
     end
@@ -311,10 +311,10 @@ function render()
         x = x + 50
     end
 
-    y = 200
+    y = 140
 
     for i, v in ipairs(party) do
-        v:render(400, y)
+        v:render(530, y)
 
         y = y + 50
     end

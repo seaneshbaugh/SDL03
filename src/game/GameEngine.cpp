@@ -41,10 +41,6 @@ GameEngine::~GameEngine() {
     SDL_Quit();
 
     delete this->settings;
-
-    if (GameState::party) {
-        delete GameState::party;
-    }
 }
 
 bool GameEngine::Setup() {
@@ -141,11 +137,12 @@ bool GameEngine::SetupLogging() {
     // TODO: maybe add the ability to set this via a config file?
     Log::Manager::get("main")->setLevel(Log::Log::eDebug);
     Log::Manager::get("settings")->setLevel(Log::Log::eDebug);
-    Log::Manager::get("json")->setLevel(Log::Log::eError);
-    Log::Manager::get("states.intro")->setLevel(Log::Log::eWarning);
-    Log::Manager::get("states.main_menu")->setLevel(Log::Log::eWarning);
-    Log::Manager::get("states.map")->setLevel(Log::Log::eWarning);
-    Log::Manager::get("states.battle")->setLevel(Log::Log::eWarning);
+    Log::Manager::get("json")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("lua")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("states.intro")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("states.main_menu")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("states.map")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("states.battle")->setLevel(Log::Log::eDebug);
     Log::Manager::get("assets.fonts")->setLevel(Log::Log::eDebug);
     Log::Manager::get("assets.songs")->setLevel(Log::Log::eDebug);
     Log::Manager::get("assets.sounds")->setLevel(Log::Log::eDebug);
@@ -159,37 +156,7 @@ bool GameEngine::SetupLogging() {
 }
 
 void GameEngine::Start() {
-    //IntroState* introState = new IntroState(nullptr);
-    
-    std::function<void(GameState*)> callback = [] (GameState* nextGameState) {
-        std::cout << "new_game" << std::endl;
-        
-        static_cast<MapState*>(nextGameState)->LoadMap("resources/maps/world01.json");
-        
-        lua_getglobal(static_cast<MapState*>(nextGameState)->luaState, "after_map_load");
-        
-        if (lua_pcall(static_cast<MapState*>(nextGameState)->luaState, 0, LUA_MULTRET, 0)) {
-            std::cerr << "Error: " << lua_tostring(static_cast<MapState*>(nextGameState)->luaState, -1) << std::endl;
-            
-            lua_pop(static_cast<MapState*>(nextGameState)->luaState, 1);
-        }
-        
-        GameState::party = new GameParty();
-        
-        GameCharacter* sean = new GameCharacter();
-        
-        sean->Load("resources/characters/character01.json");
-        
-        GameState::party->characters.push_back(sean);
-        
-        GameCharacter* casie = new GameCharacter();
-        
-        casie->Load("resources/characters/character02.json");
-        
-        GameState::party->characters.push_back(casie);
-    };
-    
-    MapState* introState = new MapState(callback);
+    IntroState* introState = new IntroState(nullptr);
 
     this->states.push_back(introState);
 
