@@ -85,6 +85,7 @@
 		7B9A6151186025030016BA1A /* MapState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A614F186025030016BA1A /* MapState.cpp */; };
 		7BACFCA621374B0E00F0FB09 /* GameItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCA421374B0E00F0FB09 /* GameItem.cpp */; };
 		7BACFCA92138527600F0FB09 /* GameMapLoadPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCA72138527600F0FB09 /* GameMapLoadPoint.cpp */; };
+		7BACFCAD213A0D9D00F0FB09 /* CharacterParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCAB213A0D9D00F0FB09 /* CharacterParser.cpp */; };
 		7BB3825A186353A900391DC5 /* GameMapLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB38258186353A900391DC5 /* GameMapLayer.cpp */; };
 		7BB8B97F187E48850078B7A1 /* BattleState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB8B97D187E48850078B7A1 /* BattleState.cpp */; };
 		7BDB5BE7187F488D0039F9AA /* PauseMenuState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB5BE5187F488D0039F9AA /* PauseMenuState.cpp */; };
@@ -276,6 +277,8 @@
 		7BACFCA521374B0E00F0FB09 /* GameItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameItem.h; sourceTree = "<group>"; };
 		7BACFCA72138527600F0FB09 /* GameMapLoadPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapLoadPoint.cpp; sourceTree = "<group>"; };
 		7BACFCA82138527600F0FB09 /* GameMapLoadPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMapLoadPoint.h; sourceTree = "<group>"; };
+		7BACFCAB213A0D9D00F0FB09 /* CharacterParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterParser.cpp; sourceTree = "<group>"; };
+		7BACFCAC213A0D9D00F0FB09 /* CharacterParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CharacterParser.h; sourceTree = "<group>"; };
 		7BB38258186353A900391DC5 /* GameMapLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapLayer.cpp; sourceTree = "<group>"; };
 		7BB38259186353A900391DC5 /* GameMapLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapLayer.h; sourceTree = "<group>"; };
 		7BB8B97D187E48850078B7A1 /* BattleState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleState.cpp; sourceTree = "<group>"; };
@@ -557,6 +560,8 @@
 				7B4ED88D212E0755007559AC /* AssetListParser.h */,
 				7B3ADF692135FCF000E5917E /* GameMapEncounterAreaParser.cpp */,
 				7B3ADF6A2135FCF000E5917E /* GameMapEncounterAreaParser.h */,
+				7BACFCAB213A0D9D00F0FB09 /* CharacterParser.cpp */,
+				7BACFCAC213A0D9D00F0FB09 /* CharacterParser.h */,
 			);
 			path = parsers;
 			sourceTree = "<group>";
@@ -913,6 +918,7 @@
 				7BE474451845547C002EA054 /* JSONMemory.cpp in Sources */,
 				7B9A608E184E49CC0016BA1A /* GameText.cpp in Sources */,
 				7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */,
+				7BACFCAD213A0D9D00F0FB09 /* CharacterParser.cpp in Sources */,
 				7BE70175212FBACC00B084A5 /* Log.cpp in Sources */,
 				730B279C1B182841002629F8 /* sqlite3.c in Sources */,
 				7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */,

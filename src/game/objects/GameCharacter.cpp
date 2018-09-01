@@ -311,64 +311,9 @@ unsigned long long GameCharacter::Damage(unsigned long long damage) {
 }
 
 bool GameCharacter::ParseCharacterFile(std::string jsonString) {
-    JSONNode characterNode = libjson::parse(jsonString);
+    CharacterParser parser = CharacterParser();
 
-    JSONNode::const_iterator i = characterNode.begin();
-
-    // What I wouldn't give for Erlang's pattern matching right now...
-    while (i != characterNode.end()) {
-        if (i->name() == "name" && i->type() == JSON_STRING) {
-            this->name = i->as_string();
-        } else {
-            if (i->name() == "level" && i->type() == JSON_NUMBER) {
-                this->SetLevel(static_cast<unsigned long long>(i->as_int()));
-            } else {
-                if (i->name() == "hitPoints" && i->type() == JSON_NUMBER) {
-                    this->SetMaxHitPoints(static_cast<unsigned long long>(i->as_int()));
-
-                    this->SetCurrentHitPoints(static_cast<unsigned long long>(i->as_int()));
-                } else {
-                    if (i->name() == "magicPoints" && i->type() == JSON_NUMBER) {
-                        this->SetMaxMagicPoints(static_cast<unsigned long long>(i->as_int()));
-
-                        this->SetCurrentMagicPoints(static_cast<unsigned long long>(i->as_int()));
-                    } else {
-                        if (i->name() == "strength" && i->type() == JSON_NUMBER) {
-                            this->SetStrength(static_cast<unsigned long long>(i->as_int()));
-                        } else {
-                            if (i->name() == "dexterity" && i->type() == JSON_NUMBER) {
-                                this->SetDexterity(static_cast<unsigned long long>(i->as_int()));
-                            } else {
-                                if (i->name() == "intelligence" && i->type() == JSON_NUMBER) {
-                                    this->SetIntelligence(static_cast<unsigned long long>(i->as_int()));
-                                } else {
-                                    if (i->name() == "vitality" && i->type() == JSON_NUMBER) {
-                                        this->SetVitality(static_cast<unsigned long long>(i->as_int()));
-                                    } else {
-                                        if (i->name() == "stamina" && i->type() == JSON_NUMBER) {
-                                            this->SetStamina(static_cast<unsigned long long>(i->as_int()));
-                                        } else {
-                                            if (i->name() == "luck" && i->type() == JSON_NUMBER) {
-                                                this->SetLuck(static_cast<unsigned long long>(i->as_int()));
-                                            } else {
-                                                if (i->name() == "sprite" && i->type() == JSON_STRING) {
-                                                    this->sprite = new GameTexture(i->as_string());
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        i++;
-    }
-
-    return true;
+    return parser.Parse(jsonString, this);
 }
 
 bool GameCharacter::Load(std::string filename) {

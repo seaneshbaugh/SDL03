@@ -11,12 +11,15 @@
 #include "GameObject.h"
 #include "GameImage.h"
 
+#include "CharacterParser.h"
+
 class GameCharacter : GameObject {
 public:
     static SDL_Renderer* renderer;
 
     std::string name;
     GameTexture* sprite;
+    GameTexture* spritesheet;
 
     GameCharacter();
     ~GameCharacter();
@@ -45,6 +48,7 @@ public:
     unsigned long long Damage(unsigned long long damage);
     int ATBStart();
     bool Load(std::string filename);
+    bool Parse(std::string jsonString);
     void Render(int x, int y);
 protected:
     unsigned long long level;

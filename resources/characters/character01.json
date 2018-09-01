@@ -10,5 +10,6 @@
     "stamina":3,
     "luck":1,
     "abilities":["attack"],
+    "spritesheet": "assets/images/characters/sean-sheet.png",
     "sprite":"assets/images/characters/sean.png"
 }
