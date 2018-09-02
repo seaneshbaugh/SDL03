@@ -14,13 +14,16 @@ public:
     GameImage();
     GameImage(GameTexture* texture, int x, int y);
     ~GameImage();
+    void SetTexture(GameTexture* texture);
     SDL_Rect GetPosition();
     void SetPosition(int x, int y);
-    void Render();
+    void Render(SDL_Rect* clip = nullptr);
 private:
     GameTexture* texture;
     int x;
     int y;
+    int width;
+    int height;
     SDL_Rect textureLocation;
 
     void UpdateTexture();
@@ -110,6 +113,19 @@ public:
     int render(lua_State *L) {
         this->realObject->Render();
         
+        return 0;
+    }
+
+    int renderWithClip(lua_State *L) {
+        int x = luaL_checkint(L, 1);
+        int y = luaL_checkint(L, 2);
+        int w = luaL_checkint(L, 3);
+        int h = luaL_checkint(L, 4);
+
+        SDL_Rect clip = {x, y, w, h};
+
+        this->realObject->Render(&clip);
+
         return 0;
     }
 private:

@@ -1,6 +1,11 @@
 dofile "scripts/keys.lua"
 map_state = MapState(raw_map_state)
 
+DIRECTION_DOWN = 0
+DIRECTION_LEFT = 1
+DIRECTION_RIGHT = 2
+DIRECTION_UP = 3
+
 texts = {}
 
 -- This should be rolled into some sort of table. LOL global variables.
@@ -30,7 +35,9 @@ player_y_movement_offset = 0
 
 player_screen_x_position = 320
 
-player_screen_y_position = 224
+player_screen_y_position = 208
+
+player_direction = DIRECTION_DOWN
 
 current_map = GameMap(map_state:getCurrentMap())
 
@@ -40,8 +47,9 @@ function initialize()
     font = map_state:getFont("DroidSans")
     
     dot = map_state:loadTexture("dot", "assets/images/dot.png")
+    player_sprite = map_state:getPlayerSprite()
     
-    player = GameImage(dot, 320, 224)
+    player = GameImage(player_sprite, 320, 224)
     
     math.randomseed(os.time())
 end
@@ -53,6 +61,9 @@ end
 function process_input(key_code)
     if screen_moving == false and player_moving == false then
         if key_code == UP_KEY then
+            player_direction = DIRECTION_UP
+
+            -- use map height here, for now assume 100 (with screen height of 15 tiles)
             if current_map:getWalkability(player_current_x, player_current_y - 1) then
                 if player_current_y > 7 and player_current_y < 93 then
                     screen_y_velocity = 4
@@ -71,7 +82,9 @@ function process_input(key_code)
         end
         
         if key_code == DOWN_KEY then
-            -- load map height here, for now assume 100 (with screen height of 15 tiles)
+            player_direction = DIRECTION_DOWN
+
+            -- use map height here, for now assume 100 (with screen height of 15 tiles)
             if current_map:getWalkability(player_current_x, player_current_y + 1) then
                 if player_current_y > 6 and player_current_y < 92 then
                     screen_y_velocity = -4
@@ -90,6 +103,9 @@ function process_input(key_code)
         end
         
         if key_code == LEFT_KEY then
+            player_direction = DIRECTION_LEFT
+
+            -- use map height here, for now assume 100 (with screen width of 20 tiles)
             if current_map:getWalkability(player_current_x - 1, player_current_y) then
                 if player_current_x > 10 and player_current_x <= 90 then
                     screen_x_velocity = 4
@@ -108,7 +124,9 @@ function process_input(key_code)
         end
         
         if key_code == RIGHT_KEY then
-            -- load height here, for now assume 100 (with screen width of 20 tiles)
+            player_direction = DIRECTION_RIGHT
+
+            -- use map height here, for now assume 100 (with screen width of 20 tiles)
             if current_map:getWalkability(player_current_x + 1, player_current_y) then
                 if player_current_x >= 10 and player_current_x < 90 then
                     screen_x_velocity = -4
@@ -321,7 +339,25 @@ function render()
 
     current_map:render(top_x, top_y, screen_x_movement_offset, screen_y_movement_offset)
 
-    player:render()
+    player_crop_x = 0
+
+    if screen_moving or player_moving then
+        -- print("player_moving")
+        print(string.format("%d mod 8 = %d == 0 = %s", math.abs(player_x_movement_offset), math.abs(player_x_movement_offset) % 8, tostring(math.abs(player_x_movement_offset) % 8 == 0)))
+        print(string.format("%d mod 8 = %d == 0 = %s", math.abs(player_y_movement_offset), math.abs(player_y_movement_offset) % 8, tostring(math.abs(player_y_movement_offset) % 8 == 0)))
+        sx = math.abs(player_x_movement_offset) > 0 and math.abs(player_x_movement_offset) % 8 == 0
+        sy = math.abs(player_y_movement_offset) > 0 and math.abs(player_y_movement_offset) % 8 == 0
+
+        if sx or sy then
+            print("player_crop_x = 32")
+            player_crop_x = 32
+        else
+            print("player_crop_x = 64")
+            player_crop_x = 64
+        end
+    end
+
+    player:renderWithClip(player_crop_x, 48 * player_direction, 32, 48)
 
     for i, v in ipairs(texts) do
         v:render()

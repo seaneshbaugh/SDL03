@@ -38,7 +38,6 @@ bool MapParser::Parse(std::string json, GameMap* map) {
                                     map->tileheight = (int)i->as_int();
                                 } else {
                                     if (i->type() == JSON_ARRAY || i->type() == JSON_NODE) {
-                                        std::cout << i->write_formatted() << std::endl;
                                         parseMap(*i);
                                     }
                                 }
@@ -173,34 +172,6 @@ void MapParser::ParseLayerObjects(const JSONNode &node, GameMapLayer* layer) {
             throw;
         }
 
-
-//        this->logger->debug() << "Parsing object attributes.";
-//        JSONNode::const_iterator j = i->begin();
-//
-//        std::map<std::string, JSONNode> objectAttributes;
-//
-//        while (j != i->end()) {
-//            if (j->type() == JSON_STRING) {
-//                JSONNode::const_iterator n = j;
-//
-//                this->logger->debug() << n->name() << "=" << n->as_string();
-//
-//                //this->logger->debug() << j->name() << "=" << j->as_string();
-//                objectAttributes[j->name()] = j->as_string();
-//            } else if (j->type() == JSON_NUMBER) {
-//                this->logger->debug() << j->name() << "=" << j->as_int();
-//                objectAttributes[j->name()] = j->as_int();
-//            } else if (j->type() == JSON_BOOL) {
-//                this->logger->debug() << j->name() << "=" << j->as_bool();
-//                objectAttributes[j->name()] = j->as_bool();
-//            } else {
-//                this->logger->debug() << j->name() << "=" << j->write_formatted();
-//                objectAttributes[j->name()] = j->as_node();
-//            }
-//
-//            j++;
-//        }
-
         // Leaving this here for when std::variant makes it to XCode (should be when XCode 10 is out of beta).
 //        std::map<std::string, std::variant<int, std::string, std::map<std::string, std::string>> objectAttributes;
 //
@@ -301,7 +272,6 @@ std::map<int, GameMapTile*> MapParser::ParseTileset(const JSONNode &node) {
                     while (k != j->end()) {
                         if (k->name() == "filename") {
                             tile->filename = k->as_string();
-                            std::cout << "filename = " << k->as_string() << std::endl;
                         } else {
                             if (k->name() == "name") {
                                 tile->name = k->as_string();

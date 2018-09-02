@@ -117,6 +117,18 @@ public:
 
         return 1;
     }
+
+    int getPlayerSprite(lua_State *L) {
+        GameTexture* playerSprite = GameState::world->playerParty->characters[0]->spritesheet;
+
+        if (playerSprite) {
+            lua_pushlightuserdata(L, (void*)playerSprite);
+        } else {
+            throw;
+        }
+
+        return 1;
+    }
     
 private:
     MapState* realObject;

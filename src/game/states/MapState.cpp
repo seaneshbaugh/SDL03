@@ -11,6 +11,7 @@ Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
     {"getCurrentMap", &LuaMapState::getCurrentMap},
     {"loadTexture", &LuaMapState::loadTexture},
     {"setCurrentEncounterArea", &LuaMapState::setCurrentEncounterArea},
+    {"getPlayerSprite", &LuaMapState::getPlayerSprite},
     {0, 0}
 };
 
@@ -122,42 +123,7 @@ GameState* MapState::Update(int key) {
         return nullptr;
     }
 
-    // TODO: Make all of this less hard coded and move it someplace that makes more sense.
     if (nextState == "battle") {
-//        std::function<void(GameState*)> callback = [&] (GameState* nextGameState) {
-//            BattleState* battleState = static_cast<BattleState*>(nextGameState);
-//
-//            GameTexture* background = new GameTexture();
-//
-//            background->Load(this->currentEncounterArea->properties["background"]);
-//
-//            battleState->textures["background"] = background;
-//
-//            std::random_device rd;
-//
-//            std::mt19937 mt(rd());
-//
-//            std::uniform_int_distribution<int> dist(1, 6);
-//
-//            int numberOfMonsters = dist(mt);
-//
-//            for (int i = 0; i < numberOfMonsters; i++) {
-//                GameMonster* monster = new GameMonster();
-//
-//                monster->Load("resources/monsters/slime.json");
-//
-//                battleState->monsters.push_back(monster);
-//            }
-//
-//            lua_getglobal(battleState->luaState, "after_battle_load");
-//
-//            if (lua_pcall(battleState->luaState, 0, LUA_MULTRET, 0)) {
-//                std::cerr << "Error: " << lua_tostring(battleState->luaState, -1) << std::endl;
-//
-//                lua_pop(battleState->luaState, 1);
-//            }
-//        };
-
         return new BattleState(this->currentEncounterArea, nullptr);
     }
 
@@ -182,8 +148,8 @@ std::string MapState::ProcessInput(int key) {
     // Now that I think about it I'm probably just going make it so the main processing
     // of input happens in C++ and then only input relevant to a given state is passed
     // down to Lua.
-    // The intro state should just go to the next state immediately upon any keyboard
-    // input.
+    // For example: the intro state should just go to the next state immediately upon
+    // any keyboard input without bothering to go to the lua process_input function.
     std::string result = "";
 
     if (!lua_isstring(this->luaState, -1)) {

@@ -138,10 +138,11 @@ bool GameEngine::SetupLogging() {
     Log::Manager::get("main")->setLevel(Log::Log::eDebug);
     Log::Manager::get("settings")->setLevel(Log::Log::eDebug);
     Log::Manager::get("json")->setLevel(Log::Log::eDebug);
-    Log::Manager::get("lua")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("lua")->setLevel(Log::Log::eInfo);
+    Log::Manager::get("map")->setLevel(Log::Log::eInfo);
     Log::Manager::get("states.intro")->setLevel(Log::Log::eDebug);
     Log::Manager::get("states.main_menu")->setLevel(Log::Log::eDebug);
-    Log::Manager::get("states.map")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("states.map")->setLevel(Log::Log::eInfo);
     Log::Manager::get("states.battle")->setLevel(Log::Log::eDebug);
     Log::Manager::get("assets.fonts")->setLevel(Log::Log::eDebug);
     Log::Manager::get("assets.songs")->setLevel(Log::Log::eDebug);

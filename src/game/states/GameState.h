@@ -76,8 +76,8 @@ protected:
     bool LoadFonts(std::string resourceListPath);
     bool LoadSounds(std::string resourceListPath);
     bool LoadSongs(std::string resourceListPath);
-    bool ReadFile(std::string filename, std::string &contents);
-    bool ParseResourceList(std::string jsonString, std::map<std::string, std::string> &resourceList);
+//    bool ReadFile(std::string filename, std::string &contents);
+//    bool ParseResourceList(std::string jsonString, std::map<std::string, std::string> &resourceList);
 };
 
 class LuaGameState {

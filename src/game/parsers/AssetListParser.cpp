@@ -1,5 +1,15 @@
 #include "AssetListParser.h"
 
+AssetListParser::AssetListParser() {
+    this->logger = new Log::Logger("json");
+}
+
+AssetListParser::~AssetListParser() {
+    if (this->logger != nullptr) {
+        delete this->logger;
+    }
+}
+
 bool AssetListParser::Parse(std::string json, std::map<std::string, std::string> *assetList) {
     JSONNode assetListNode = libjson::parse(json);
     
@@ -19,7 +29,8 @@ bool AssetListParser::Parse(std::string json, std::map<std::string, std::string>
             }
 
             if (i->type() == JSON_STRING) {
-                std::cout << name << " => " << i->as_string() << std::endl;
+                this->logger->debug() << name << " => " << i->as_string();
+
                 (*assetList)[name] = i->as_string();
             }
             

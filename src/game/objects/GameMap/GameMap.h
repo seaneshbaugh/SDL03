@@ -62,7 +62,7 @@ public:
     LuaGameMap(lua_State *L) {
         this->logger = new Log::Logger("lua");
 
-        int argc = lua_gettop(L);
+        const int argc = lua_gettop(L);
 
         if (argc == 1) {
             this->realObject = (GameMap*)lua_touserdata(L, 1);
@@ -88,13 +88,10 @@ public:
     }
     
     int render(lua_State *L) {
-        int xOffset = (int)luaL_checkinteger(L, 1);
-
-        int yOffset = (int)luaL_checkinteger(L, 2);
-
-        int xMovementOffset = (int)luaL_checkinteger(L, 3);
-
-        int yMovementOffset = (int)luaL_checkinteger(L, 4);
+        const int xOffset = (int)luaL_checkinteger(L, 1);
+        const int yOffset = (int)luaL_checkinteger(L, 2);
+        const int xMovementOffset = (int)luaL_checkinteger(L, 3);
+        const int yMovementOffset = (int)luaL_checkinteger(L, 4);
 
         this->realObject->Render(xOffset, yOffset, xMovementOffset, yMovementOffset);
 
@@ -103,18 +100,19 @@ public:
 
     int getWalkability(lua_State *L) {
         int x = (int)luaL_checkinteger(L, 1);
-
         int y = (int)luaL_checkinteger(L, 2);
-        std::cout << "getWalkability called for (" << x << ", " << y << ")" << std::endl;
+
+        this->logger->debug() << "getWalkability called for (" << x << ", " << y << ")";
+
         lua_pushboolean(L, this->realObject->GetWalkability(x, y));
 
         return 1;
     }
 
     int getObjects(lua_State *L) {
-        int x = (int)luaL_checkinteger(L, 1);
+        const int x = luaL_checkint(L, 1);
 
-        int y = (int)luaL_checkinteger(L, 2);
+        const int y = (int)luaL_checkint(L, 2);
 
         this->logger->debug() << "LuaGameMap::getObjects (" << x << ", " << y << ")";
 

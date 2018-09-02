@@ -11,11 +11,12 @@ Lunar<LuaGameImage>::RegType LuaGameImage::methods[] = {
     {"getHeight", &LuaGameImage::getHeight},
     {"setPosition", &LuaGameImage::setPosition},
     {"render", &LuaGameImage::render},
+    {"renderWithClip", &LuaGameImage::renderWithClip},
     {0, 0}
 };
 
 GameImage::GameImage() {
-    this->texture = NULL;
+    this->texture = nullptr;
 
     this->x = 0;
 
@@ -24,14 +25,22 @@ GameImage::GameImage() {
     this->textureLocation = {0, 0, 0, 0};
 }
 
-GameImage::GameImage(GameTexture* texture, int x, int y) {
-    this->texture = texture;
+GameImage::GameImage(GameTexture* texture, int x, int y) : GameImage() {
+    this->SetTexture(texture);
 
     this->SetPosition(x, y);
 }
 
 GameImage::~GameImage() {
 
+}
+
+void GameImage::SetTexture(GameTexture* texture) {
+    this->texture = texture;
+
+    if (this->texture) {
+        SDL_QueryTexture(this->texture->texture, nullptr, nullptr, &this->width, &this->height);
+    }
 }
 
 SDL_Rect GameImage::GetPosition() {
@@ -43,19 +52,20 @@ void GameImage::SetPosition(int x, int y) {
 
     this->y = y;
 
-    int w = 0;
-
-    int h = 0;
-
-    if (this->texture) {
-        SDL_QueryTexture(this->texture->texture, NULL, NULL, &w, &h);
-    }
-
-    this->textureLocation = {x, y, w, h};
+    this->textureLocation = {this->x, this->y, this->width, this->height};
 }
 
-void GameImage::Render() {
-    if (this->texture) {
-        SDL_RenderCopy(this->renderer, this->texture->texture, NULL, &this->textureLocation);
+void GameImage::Render(SDL_Rect* clip) {
+    if (this->texture == nullptr) {
+        return;
     }
+
+    SDL_Rect renderQuad = {this->x, this->y, this->width, this->height};
+
+    if (clip != nullptr) {
+        renderQuad.w = clip->w;
+        renderQuad.h = clip->h;
+    }
+
+    SDL_RenderCopy(this->renderer, this->texture->texture, clip, &renderQuad);
 }

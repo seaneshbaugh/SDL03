@@ -107,63 +107,63 @@ void GameState::Render() {
 // container object that handles finding and instantiating the resources and also
 // controls their access. Each state could have its own set of containers as
 // needed. It might introduce more overhead, but it should make things cleaner.
-bool GameState::ReadFile(std::string filename, std::string &contents) {
-    std::ifstream in(filename.c_str(), std::ios::in | std::ios::binary);
+//bool GameState::ReadFile(std::string filename, std::string &contents) {
+//    std::ifstream in(filename.c_str(), std::ios::in | std::ios::binary);
+//
+//    try {
+//        if (in) {
+//            in.seekg(0, std::ios::end);
+//
+//            contents.resize(in.tellg());
+//
+//            in.seekg(0, std::ios::beg);
+//
+//            in.read(&contents[0], contents.size());
+//
+//            in.close();
+//
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    } catch (int exception) {
+//        return false;
+//    }
+//}
 
-    try {
-        if (in) {
-            in.seekg(0, std::ios::end);
-
-            contents.resize(in.tellg());
-
-            in.seekg(0, std::ios::beg);
-
-            in.read(&contents[0], contents.size());
-
-            in.close();
-
-            return true;
-        } else {
-            return false;
-        }
-    } catch (int exception) {
-        return false;
-    }
-}
-
-bool GameState::ParseResourceList(std::string jsonString, std::map<std::string, std::string> &resourceList) {
-    JSONNode json = libjson::parse(jsonString);
-    std::cout << "********" << std::endl;
-    std::function<void(const JSONNode&, std::string)> parseJSON = [&] (const JSONNode &node, std::string parentName) {
-        JSONNode::const_iterator i = node.begin();
-        
-        while (i != node.end()) {
-            std::string name;
-            if (parentName == "") {
-                name = i->name();
-            } else {
-                name = parentName + "." + i->name();
-            }
-            
-            std::cout << "name = " << name << std::endl;
-            
-            if (i->type() == JSON_ARRAY || i->type() == JSON_NODE) {
-                parseJSON(*i, name);
-            }
-
-            if (i->type() == JSON_STRING) {
-                std::cout << name << " => " << i->as_string() << std::endl;
-                resourceList[name] = i->as_string();
-            }
-
-            i++;
-        }
-    };
-    
-    parseJSON(json, "");
-    
-    return true;
-}
+//bool GameState::ParseResourceList(std::string jsonString, std::map<std::string, std::string> &resourceList) {
+//    JSONNode json = libjson::parse(jsonString);
+//
+//    std::function<void(const JSONNode&, std::string)> parseJSON = [&] (const JSONNode &node, std::string parentName) {
+//        JSONNode::const_iterator i = node.begin();
+//        
+//        while (i != node.end()) {
+//            std::string name;
+//            if (parentName == "") {
+//                name = i->name();
+//            } else {
+//                name = parentName + "." + i->name();
+//            }
+//            
+//            std::cout << "name = " << name << std::endl;
+//            
+//            if (i->type() == JSON_ARRAY || i->type() == JSON_NODE) {
+//                parseJSON(*i, name);
+//            }
+//
+//            if (i->type() == JSON_STRING) {
+//                std::cout << name << " => " << i->as_string() << std::endl;
+//                resourceList[name] = i->as_string();
+//            }
+//
+//            i++;
+//        }
+//    };
+//    
+//    parseJSON(json, "");
+//    
+//    return true;
+//}
 
 bool GameState::LoadResources(std::string textureListPath, std::string fontListPath, std::string SoundListPath) {
     std::cout << "Loading resource lists: \"" << textureListPath << "\", \"" << fontListPath << "\", \"" << SoundListPath << "\"." << std::endl;
@@ -171,36 +171,39 @@ bool GameState::LoadResources(std::string textureListPath, std::string fontListP
 }
 
 bool GameState::LoadTextures(std::string resourceListPath) {
-    std::cout << "Loading textures from \"" << resourceListPath << "\"" << std::endl;
+    this->logger->debug() << "Loading textures from \"" << resourceListPath << "\"";
+
     std::string jsonString;
 
-    if (!this->ReadFile(resourceListPath, jsonString)) {
-        std::cerr << "Failed to load resource list \"" << resourceListPath << "\"." << std::endl;
+    if (!FileSystemHelpers::ReadFile(resourceListPath, jsonString)) {
+        this->logger->error() << "Error: Failed to load resource list \"" << resourceListPath << "\".";
+
         return false;
     }
 
-    std::cout << "Parsing asset list (OMG FIGURE OUT A CONSISTENT NAME) \"" << resourceListPath << "\"." << std::endl;
     AssetListParser parser = AssetListParser();
     std::map<std::string, std::string> assetList;
     parser.Parse(jsonString, &assetList);
-    std::cout << "parsed asset list \"" << resourceListPath << "\"." << std::endl;
-    
-    std::cout << "parsed asset list contents = {" << std::endl;
+
+    this->logger->debug() << "parsed asset list contents = {";
     for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
-        std::cout << (*i).first << " : " << (*i).second << std::endl;
+        this->logger->debug() << (*i).first << " : " << (*i).second;
     }
-    std::cout << "}" << std::endl;
+    this->logger->debug() << "}";
     
-    std::map<std::string, std::string> textureList;
+//    std::map<std::string, std::string> textureList;
+//
+//    if (!this->ParseResourceList(jsonString, textureList)) {
+//        this->logger->error() << "Failed to parse resource list \"" << resourceListPath << "\".";
+//
+//        return false;
+//    }
 
-    if (!this->ParseResourceList(jsonString, textureList)) {
-        std::cerr << "Failed to parse resource list \"" << resourceListPath << "\"." << std::endl;
-        return false;
-    }
-
-    for (std::map<std::string, std::string>::iterator textureFilename = textureList.begin(); textureFilename != textureList.end(); textureFilename++) {
+    for (std::map<std::string, std::string>::iterator textureFilename = assetList.begin(); textureFilename != assetList.end(); textureFilename++) {
         GameTexture* texture = new GameTexture();
-        std::cout << "Loading texture \"" << textureFilename->first << "\" from \"" << textureFilename->second << "\"." << std::endl;
+
+        this->logger->debug() << "Loading texture \"" << textureFilename->first << "\" from \"" << textureFilename->second << "\".";
+
         if (!texture->Load(textureFilename->second)) {
             return false;
         }
@@ -212,33 +215,34 @@ bool GameState::LoadTextures(std::string resourceListPath) {
 }
 
 bool GameState::LoadFonts(std::string resourceListPath) {
-    std::cout << "Loading fonts from \"" << resourceListPath << "\"" << std::endl;
+    this->logger->debug() << "Loading fonts from \"" << resourceListPath << "\"";
+
     std::string jsonString;
 
-    if (!this->ReadFile(resourceListPath, jsonString)) {
-        std::cerr << "Failed to load resource list \"" << resourceListPath << "\"." << std::endl;
+    if (!FileSystemHelpers::ReadFile(resourceListPath, jsonString)) {
+        this->logger->error() << "Failed to load resource list \"" << resourceListPath << "\".";
+
         return false;
     }
     
-    std::cout << "Parsing asset list (OMG FIGURE OUT A CONSISTENT NAME) \"" << resourceListPath << "\"." << std::endl;
     AssetListParser parser = AssetListParser();
     std::map<std::string, std::string> assetList;
     parser.Parse(jsonString, &assetList);
-    std::cout << "parsed asset list \"" << resourceListPath << "\"." << std::endl;
+    this->logger->debug() << "parsed asset list \"" << resourceListPath << "\".";
     
-    std::cout << "parsed asset list contents = {" << std::endl;
+    this->logger->debug() << "parsed asset list contents = {";
     for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
-        std::cout << (*i).first << " : " << (*i).second << std::endl;
+        this->logger->debug() << (*i).first << " : " << (*i).second;
     }
-    std::cout << "}" << std::endl;
+    this->logger->debug() << "}";
 
-    std::map<std::string, std::string> fontList;
+//    std::map<std::string, std::string> fontList;
+//
+//    if (!this->ParseResourceList(jsonString, fontList)) {
+//        return false;
+//    }
 
-    if (!this->ParseResourceList(jsonString, fontList)) {
-        return false;
-    }
-
-    for (std::map<std::string, std::string>::iterator fontFilename = fontList.begin(); fontFilename != fontList.end(); fontFilename++) {
+    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
         GameFont* font = new GameFont();
 
         // Bah.
@@ -251,7 +255,8 @@ bool GameState::LoadFonts(std::string resourceListPath) {
         }
 
         if (!font->Load(fontFilename->second, fontSize)) {
-            std::cout << "failed to load " << fontFilename->second << std::endl;
+            this->logger->error() << "failed to load " << fontFilename->second;
+
             return false;
         }
 

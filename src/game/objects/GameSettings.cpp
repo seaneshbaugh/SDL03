@@ -92,13 +92,18 @@ bool GameSettings::CreateInputSettingsTable() {
 bool GameSettings::LoadInputSettings() {
     std::map<int, int> inputSettings;
 
+
     auto loadInputSettingsCallback = [] (void* params, int argc, char** argv, char** columnName) {
         std::map<int, int> *inputSettings = static_cast<std::map<int, int>*>(params);
 
         if (argc == 2) {
             (*inputSettings)[atoi(argv[0])] = atoi(argv[1]);
         } else {
-            std::cout << "Warning: expected query to return 2 columns but got " << argc << " instead." << std::endl;
+            // We can't capture this for the auto lambda because sqlite3_exec has no definition which
+            // matches whatever sqlite3_exec
+            Log::Logger logger = Log::Logger("settings");
+
+            logger.warning() << "expected query to return 2 columns but got " << argc << " instead.";
         }
 
         return 0;
@@ -109,7 +114,7 @@ bool GameSettings::LoadInputSettings() {
     char *errorMessage = nullptr;
 
     if (sqlite3_exec(this->settingsDB, query, loadInputSettingsCallback, static_cast<void*>(&inputSettings), &errorMessage) != SQLITE_OK) {
-        std::cerr << "SQL error: " << errorMessage << std::endl;
+        this->logger->error() << "SQL error: " << errorMessage;
 
         sqlite3_free(errorMessage);
 
