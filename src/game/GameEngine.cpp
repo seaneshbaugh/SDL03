@@ -129,8 +129,6 @@ bool GameEngine::SetupSDL() {
 
     GameEngine::currentRenderer = this->renderer;
 
-//    GameCharacter::renderer = this->renderer;
-
     if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
         this->logger->critic() << "Failed to initialize SDL_image. " << IMG_GetError();
 

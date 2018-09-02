@@ -11,28 +11,28 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "SDL_ttf.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
 
 #include "LoggerCpp.h"
 #include "sqlite3.h"
 
 #include "FileSystemHelpers.h"
+#include "GameFont.h"
+#include "GameImage.h"
+#include "GameInputMapper.h"
+#include "GameMap.h"
+#include "GameMapTile.h"
+#include "GameResource.h"
 #include "GameSettings.h"
+#include "GameSound.h"
 #include "GameState.h"
+#include "GameText.h"
+#include "GameTexture.h"
+#include "GameWorld.h"
 #include "IntroState.h"
 #include "MainMenuState.h"
 #include "MapState.h"
-#include "GameInputMapper.h"
-#include "GameResource.h"
-#include "GameTexture.h"
-#include "GameFont.h"
-#include "GameSound.h"
-#include "GameText.h"
-#include "GameImage.h"
-#include "GameWorld.h"
-#include "GameMap.h"
-#include "GameMapTile.h"
 
 class GameEngine {
 public:
@@ -49,7 +49,7 @@ private:
     int screenWidth;
     int screenHeight;
     std::string windowTitle;
-    std::vector <GameState*> states;
+    std::vector<GameState*> states;
     std::string applicationDataDiretory;
     std::map<std::string, GameFont*> fonts;
     std::map<std::string, int> fontSizes;

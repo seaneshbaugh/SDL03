@@ -1,0 +1,10 @@
+---
+BasedOnStyle: LLVM
+IndentWidth: 4
+---
+Language: Cpp
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: None
+ColumnLimit: 0
+KeepEmptyLinesAtTheStartOfBlocks: false
+PointerAlignment: Left
