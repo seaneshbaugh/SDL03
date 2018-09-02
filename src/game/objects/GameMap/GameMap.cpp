@@ -1,7 +1,6 @@
 #include "GameMap.h"
+#include "GameEngine.h"
 #include "MapParser.h"
-
-SDL_Renderer* GameMap::renderer;
 
 const char LuaGameMap::className[] = "GameMap";
 
@@ -132,7 +131,7 @@ void GameMap::Render(int xOffset, int yOffset, int xMovementOffset, int yMovemen
                 if (*tile != 0) {
                     SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
 
-                    SDL_RenderCopy(this->renderer, this->tiles[*tile]->texture->texture, nullptr, &tilePosition);
+                    SDL_RenderCopy(GameEngine::currentRenderer, this->tiles[*tile]->texture->texture, nullptr, &tilePosition);
                 }
                 
                 x++;

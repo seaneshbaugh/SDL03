@@ -43,7 +43,6 @@ enum class GameStateType {
 
 class GameState {
 public:
-    static SDL_Renderer* renderer;
     static GameInputMapper* inputMapper;
     static GameWorld* world;
     static std::map<std::string, GameStateType> gameStateTypeMap;

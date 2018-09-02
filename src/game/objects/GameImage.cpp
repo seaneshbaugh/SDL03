@@ -1,6 +1,5 @@
 #include "GameImage.h"
-
-SDL_Renderer* GameImage::renderer;
+#include "GameEngine.h"
 
 const char LuaGameImage::className[] = "GameImage";
 
@@ -67,5 +66,5 @@ void GameImage::Render(SDL_Rect* clip) {
         renderQuad.h = clip->h;
     }
 
-    SDL_RenderCopy(this->renderer, this->texture->texture, clip, &renderQuad);
+    SDL_RenderCopy(GameEngine::currentRenderer, this->texture->texture, clip, &renderQuad);
 }

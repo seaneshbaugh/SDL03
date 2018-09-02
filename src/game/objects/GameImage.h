@@ -4,13 +4,13 @@
 #include "GameTexture.h"
 #include "GameObject.h"
 
+class GameEngine;
+
 // This class is for generic things that are in the game but are really only used
 // for displaying an image by itself not backed by any real data. Some of the
 // things this is used for may be rolled into other types later on.
 class GameImage : public GameObject {
 public:
-    static SDL_Renderer* renderer;
-
     GameImage();
     GameImage(GameTexture* texture, int x, int y);
     ~GameImage();

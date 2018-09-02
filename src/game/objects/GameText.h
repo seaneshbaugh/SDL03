@@ -7,10 +7,10 @@
 #include "GameFont.h"
 #include "GameObject.h"
 
+class GameEngine;
+
 class GameText : public GameObject {
 public:
-    static SDL_Renderer *renderer;
-
     GameText();
     GameText(std::string text, GameFont* font, int x, int y, SDL_Color color);
     ~GameText();

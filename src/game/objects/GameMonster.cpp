@@ -1,4 +1,5 @@
 #include "GameMonster.h"
+#include "GameEngine.h"
 
 const char LuaGameMonster::className[] = "GameMonster";
 
@@ -48,5 +49,5 @@ void GameMonster::Render(int x, int y) {
 
     SDL_Rect position = {x, y, w, h};
 
-    SDL_RenderCopy(this->renderer, this->sprite->texture, nullptr, &position);
+    SDL_RenderCopy(GameEngine::currentRenderer, this->sprite->texture, nullptr, &position);
 }

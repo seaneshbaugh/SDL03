@@ -8,15 +8,14 @@
 
 #include "../../../lib/libjson/libjson.h"
 
+#include "CharacterParser.h"
 #include "GameObject.h"
 #include "GameImage.h"
 
-#include "CharacterParser.h"
+class GameEngine;
 
 class GameCharacter : GameObject {
 public:
-    static SDL_Renderer* renderer;
-
     std::string name;
     GameTexture* sprite;
     GameTexture* spritesheet;

@@ -8,9 +8,10 @@
 
 #include "GameResource.h"
 
+class GameEngine;
+
 class GameTexture : public GameResource {
 public:
-    static SDL_Renderer* renderer;
     SDL_Texture* texture;
 
     GameTexture();

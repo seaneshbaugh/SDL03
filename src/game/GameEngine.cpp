@@ -5,6 +5,8 @@ const int SCREEN_HEIGHT = 480;
 const int FRAMES_PER_SECOND = 60;
 const std::string APPLICATION_NAME = "SDL03";
 
+SDL_Renderer* GameEngine::currentRenderer = nullptr;
+
 GameEngine::GameEngine() {
     this->screen = nullptr;
 
@@ -14,7 +16,7 @@ GameEngine::GameEngine() {
     
     this->screenHeight = SCREEN_HEIGHT;
 
-    this->windowTitle = "Hello, world!";
+    this->windowTitle = APPLICATION_NAME;
 
     this->settings = new GameSettings(APPLICATION_NAME);
 
@@ -22,11 +24,7 @@ GameEngine::GameEngine() {
 }
 
 GameEngine::~GameEngine() {
-    for (std::vector <GameState*>::iterator it = this->states.begin(); it != this->states.end(); it++) {
-        if (*it) {
-            delete *it;
-        }
-    }
+    this->DestroyStates();
 
     if (this->screen) {
         SDL_DestroyWindow(this->screen);
@@ -44,61 +42,15 @@ GameEngine::~GameEngine() {
 }
 
 bool GameEngine::Setup() {
-    this->SetupLogging();
-
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-        this->logger->critic() << "Failed to initialize SDL. " << SDL_GetError();
-
+    if (!this->SetupLogging()) {
         return false;
     }
 
-    this->logger->info() << "SDL initialized.";
-
-    if (SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer)) {
-        this->logger->critic() << "Failed to create window and renderer. " << SDL_GetError();
-
+    if (!this->SetupSDL()) {
         return false;
     }
 
-    this->logger->info() << "Window and render created.";
 
-    SDL_SetWindowTitle(this->screen, this->windowTitle.c_str());
-
-    GameState::renderer = this->renderer;
-
-    GameTexture::renderer = this->renderer;
-
-    GameText::renderer = this->renderer;
-
-    GameImage::renderer = this->renderer;
-
-    GameMap::renderer = this->renderer;
-
-    GameCharacter::renderer = this->renderer;
-
-    if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
-        this->logger->critic() << "Failed to initialize SDL_image. " << IMG_GetError();
-
-        return false;
-    }
-
-    this->logger->info() << "SDL_image initialized.";
-
-    if (TTF_Init() == -1) {
-        this->logger->critic() << "Failed to initialize SDL_ttf. " << TTF_GetError();
-
-        return false;
-    }
-
-    this->logger->info() << "SDL_ttf initialized.";
-
-    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
-        this->logger->critic() << "Failed to initialize SDL_mixer. " << Mix_GetError();
-
-        return false;
-    }
-
-    this->logger->info() << "SDL_mixer initialized.";
 
     if (!this->settings->LoadSettings()) {
         this->logger->critic() << "Failed to load settings.";
@@ -152,6 +104,103 @@ bool GameEngine::SetupLogging() {
     this->logger = new Log::Logger("main");
 
     logger->info() << "Logger initialized.";
+
+    return true;
+}
+
+bool GameEngine::SetupSDL() {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        this->logger->critic() << "Failed to initialize SDL. " << SDL_GetError();
+
+        return false;
+    }
+
+    this->logger->info() << "SDL initialized.";
+
+    if (SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer)) {
+        this->logger->critic() << "Failed to create window and renderer. " << SDL_GetError();
+
+        return false;
+    }
+
+    this->logger->info() << "Window and render created.";
+
+    SDL_SetWindowTitle(this->screen, this->windowTitle.c_str());
+
+    GameEngine::currentRenderer = this->renderer;
+
+//    GameCharacter::renderer = this->renderer;
+
+    if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
+        this->logger->critic() << "Failed to initialize SDL_image. " << IMG_GetError();
+
+        return false;
+    }
+
+    this->logger->info() << "SDL_image initialized.";
+
+    if (TTF_Init() == -1) {
+        this->logger->critic() << "Failed to initialize SDL_ttf. " << TTF_GetError();
+
+        return false;
+    }
+
+    this->logger->info() << "SDL_ttf initialized.";
+
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
+        this->logger->critic() << "Failed to initialize SDL_mixer. " << Mix_GetError();
+
+        return false;
+    }
+
+    this->logger->info() << "SDL_mixer initialized.";
+
+    return true;
+}
+
+bool GameEngine::LoadFonts(std::string resourceListPath) {
+    this->logger->debug() << "Loading fonts from \"" << resourceListPath << "\"";
+
+    std::string jsonString;
+
+    if (!FileSystemHelpers::ReadFile(resourceListPath, jsonString)) {
+        this->logger->error() << "Failed to load resource list \"" << resourceListPath << "\".";
+
+        return false;
+    }
+
+    AssetListParser parser = AssetListParser();
+    std::map<std::string, std::string> assetList;
+
+    parser.Parse(jsonString, &assetList);
+
+    this->logger->debug() << "parsed asset list \"" << resourceListPath << "\".";
+
+    this->logger->debug() << "parsed asset list contents = {";
+    for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
+        this->logger->debug() << (*i).first << " : " << (*i).second;
+    }
+    this->logger->debug() << "}";
+
+    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
+        GameFont* font = new GameFont();
+
+        int fontSize;
+
+        try {
+            fontSize = this->fontSizes.at(fontFilename->first);
+        } catch (const std::out_of_range& exception) {
+            fontSize = 10;
+        }
+
+        if (!font->Load(fontFilename->second, fontSize)) {
+            this->logger->error() << "failed to load " << fontFilename->second;
+
+            return false;
+        }
+
+        this->fonts[fontFilename->first] = font;
+    }
 
     return true;
 }
@@ -249,4 +298,12 @@ void GameEngine::Render() {
     this->states.back()->Render();
 
     SDL_RenderPresent(this->renderer);
+}
+
+void GameEngine::DestroyStates() {
+    for (std::vector <GameState*>::iterator state = this->states.begin(); state != this->states.end(); state++) {
+        if (*state != nullptr) {
+            delete *state;
+        }
+    }
 }

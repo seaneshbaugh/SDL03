@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "../../../../lib/libjson/libjson.h"
 #include "LoggerCpp.h"
+#include "../../../../lib/libjson/libjson.h"
 
 #include "FileSystemHelpers.h"
 #include "PathHelpers.h"
@@ -18,12 +18,11 @@
 #include "GameMapEncounterArea.h"
 #include "GameMapLoadPoint.h"
 
+class GameEngine;
 class MapParser;
 
 class GameMap : public GameObject {
 public:
-    static SDL_Renderer* renderer;
-
     std::string name;
     std::string filename;
     int width;

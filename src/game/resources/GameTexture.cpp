@@ -1,6 +1,5 @@
 #include "GameTexture.h"
-
-SDL_Renderer* GameTexture::renderer;
+#include "GameEngine.h"
 
 GameTexture::GameTexture() {
     this->texture = nullptr;
@@ -31,7 +30,7 @@ bool GameTexture::Load(std::string filename) {
         return false;
     }
 
-    this->texture = SDL_CreateTextureFromSurface(this->renderer, surface);
+    this->texture = SDL_CreateTextureFromSurface(GameEngine::currentRenderer, surface);
 
     SDL_FreeSurface(surface);
 

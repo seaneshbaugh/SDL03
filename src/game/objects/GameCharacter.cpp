@@ -1,11 +1,10 @@
 #include "GameCharacter.h"
+#include "GameEngine.h"
 
 const unsigned long long MAX_LEVEL = 99;
 const unsigned long long MAX_MAX_HIT_POINTS = 999999999999999;
 const unsigned long long MAX_MAX_MAGIC_POINTS = 999999999999999;
 const unsigned long long MAX_STAT = 9999;
-
-SDL_Renderer* GameCharacter::renderer;
 
 const char LuaGameCharacter::className[] = "GameCharacter";
 
@@ -341,7 +340,6 @@ void GameCharacter::Render(int x, int y) {
     SDL_Rect position = {x, y, 32, 32};
 
     if (this->sprite) {
-
-        SDL_RenderCopy(this->renderer, this->sprite->texture, &srcrect, &position);
+        SDL_RenderCopy(GameEngine::currentRenderer, this->sprite->texture, &srcrect, &position);
     }
 }

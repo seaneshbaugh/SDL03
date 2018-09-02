@@ -1,6 +1,5 @@
 #include "GameText.h"
-
-SDL_Renderer* GameText::renderer;
+#include "GameEngine.h"
 
 const char LuaGameText::className[] = "GameText";
 
@@ -102,7 +101,7 @@ void GameText::SetColor(SDL_Color color) {
 
 void GameText::Render() {
     if (this->texture) {
-        SDL_RenderCopy(this->renderer, this->texture, NULL, &this->textLocation);
+        SDL_RenderCopy(GameEngine::currentRenderer, this->texture, NULL, &this->textLocation);
     }
 }
 
@@ -115,7 +114,7 @@ void GameText::UpdateTexture() {
 
     SDL_Surface *textSurface = TTF_RenderText_Blended(this->font->font, this->text.c_str(), this->color);
 
-    this->texture = SDL_CreateTextureFromSurface(this->renderer, textSurface);
+    this->texture = SDL_CreateTextureFromSurface(GameEngine::currentRenderer, textSurface);
 
     SDL_FreeSurface(textSurface);
 

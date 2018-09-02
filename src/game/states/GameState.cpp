@@ -1,10 +1,7 @@
 #include "GameState.h"
 #include "MapState.h"
 
-// TODO: Move renderer and inputMapper to GameEngine?
-// Now that I think about it they really shouldn't be tied to the states.
-SDL_Renderer* GameState::renderer = nullptr;
-
+// TODO: Move inputMapper to GameEngine?
 GameInputMapper* GameState::inputMapper = nullptr;
 
 // I think I want to keep this here since if we don't have a game state

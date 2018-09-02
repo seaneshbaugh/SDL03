@@ -36,27 +36,33 @@
 
 class GameEngine {
 public:
+    static SDL_Renderer* currentRenderer;
+
     GameEngine();
     ~GameEngine();
     bool Setup();
     void Start();
 
 private:
-    SDL_Window *screen;
-    SDL_Renderer *renderer;
+    SDL_Window* screen;
+    SDL_Renderer* renderer;
     int screenWidth;
     int screenHeight;
     std::string windowTitle;
     std::vector <GameState*> states;
     std::string applicationDataDiretory;
-    GameSettings *settings;
+    std::map<std::string, GameFont*> fonts;
+    std::map<std::string, int> fontSizes;
+    GameSettings* settings;
     GameInputMapper inputMapper;
-    Log::Logger *logger;
+    Log::Logger* logger;
 
     bool SetupLogging();
-
+    bool SetupSDL();
+    bool LoadFonts(std::string resourceListPath);
     void MainLoop();
     void Render();
+    void DestroyStates();
 };
 
 #endif
