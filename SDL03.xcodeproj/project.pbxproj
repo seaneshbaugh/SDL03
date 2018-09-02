@@ -518,7 +518,6 @@
 				730B27A91B1C12DB002629F8 /* GameSettings.h */,
 				7B9A608C184E49CC0016BA1A /* GameText.cpp */,
 				7B9A608D184E49CC0016BA1A /* GameText.h */,
-				7B9A60D41850CF990016BA1A /* lunar.h */,
 				7BE7017D213488B100B084A5 /* GameWorld.cpp */,
 				7BE7017E213488B100B084A5 /* GameWorld.h */,
 				7BACFCA421374B0E00F0FB09 /* GameItem.cpp */,
@@ -673,9 +672,18 @@
 			path = GameMap;
 			sourceTree = "<group>";
 		};
+		7BACFCF1213C97A700F0FB09 /* lunar */ = {
+			isa = PBXGroup;
+			children = (
+				7B9A60D41850CF990016BA1A /* lunar.h */,
+			);
+			path = lunar;
+			sourceTree = "<group>";
+		};
 		7BE4737018454D0C002EA054 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7BACFCF1213C97A700F0FB09 /* lunar */,
 				7BE70159212FBACC00B084A5 /* LoggerCpp */,
 				7BE4738A1845547C002EA054 /* libjson */,
 				7B9A6024184D3E810016BA1A /* lua */,

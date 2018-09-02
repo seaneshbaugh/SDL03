@@ -1,5 +1,8 @@
-#ifndef SDL03_lunar_h
-#define SDL03_lunar_h
+#ifndef __LUNAR__
+#define __LUNAR__
+
+// Taken from http://lua-users.org/wiki/CppBindingWithLunar with a few small modifications
+// and formatting changes.
 
 extern "C" {
 #include "lua.h"
