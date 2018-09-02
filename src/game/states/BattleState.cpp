@@ -119,15 +119,15 @@ GameState* BattleState::Update(int key) {
     lua_getglobal(this->luaState, "update");
 
     if (lua_pcall(this->luaState, 0, 1, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     }
 
-    if (!lua_isstring(this->luaState, -1)) {
-        std::cerr << "Error: expected update to return a string." << std::endl;
-    } else {
+    if (lua_isstring(this->luaState, -1)) {
         nextState = lua_tostring(this->luaState, -1);
+    } else {
+        this->logger->error() << "Expected update to return a string.";
     }
 
     if (this->pop) {
@@ -143,17 +143,17 @@ std::string BattleState::ProcessInput(int key) {
     lua_pushinteger(this->luaState, key);
 
     if (lua_pcall(this->luaState, 1, 1, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     }
 
     std::string result = "";
 
-    if (!lua_isstring(this->luaState, -1)) {
-        std::cerr << "Error: " << "expected process_input to return a string." << std::endl;
-    } else {
+    if (lua_isstring(this->luaState, -1)) {
         result = lua_tostring(this->luaState, -1);
+    } else {
+        this->logger->error() << "Expected process_input to return a string.";
     }
 
     lua_pop(this->luaState, 1);
@@ -165,7 +165,7 @@ void BattleState::Render() {
     lua_getglobal(this->luaState, "render");
     
     if (lua_pcall(this->luaState, 0, 0, 0)) {
-        std::cerr << "Error: " << lua_tostring(this->luaState, -1) << std::endl;
+        this->logger->error() << lua_tostring(this->luaState, -1);
         
         lua_pop(this->luaState, 1);
     }

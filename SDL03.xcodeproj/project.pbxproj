@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		7BACFCEC213C623A00F0FB09 /* OCLint */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7BACFCED213C623A00F0FB09 /* Build configuration list for PBXAggregateTarget "OCLint" */;
+			buildPhases = (
+				7BACFCF0213C627600F0FB09 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = OCLint;
+			productName = OCLint;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		730B279C1B182841002629F8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 730B279A1B182841002629F8 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		730B279E1B18EBB3002629F8 /* GameInputMapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 730B279D1B18EBB3002629F8 /* GameInputMapper.cpp */; };
@@ -850,6 +864,12 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Sean Eshbaugh";
+				TargetAttributes = {
+					7BACFCEC213C623A00F0FB09 = {
+						CreatedOnToolsVersion = 9.4.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 7B342A02183F09E000BA2C29 /* Build configuration list for PBXProject "SDL03" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -865,6 +885,7 @@
 			projectRoot = "";
 			targets = (
 				7B342A06183F09E000BA2C29 /* SDL03 */,
+				7BACFCEC213C623A00F0FB09 /* OCLint */,
 			);
 		};
 /* End PBXProject section */
@@ -882,6 +903,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7BACFCF0213C627600F0FB09 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "source ~/.zshrc\nhash oclint &> /dev/null\nif [ $? -eq 1 ]; then\necho >&2 \"oclint not found, analyzing stopped\"\nexit 1\nfi\n\ncd ${TARGET_TEMP_DIR}\n\nif [ ! -f compile_commands.json ]; then\necho \"[*] compile_commands.json not found, possibly clean was performed\"\necho \"[*] starting xcodebuild to rebuild the project..\"\n# clean previous output\nif [ -f xcodebuild.log ]; then\nrm xcodebuild.log\nfi\n\ncd ${SRCROOT}\n\nxcodebuild clean\n\n#build xcodebuild.log\nxcodebuild | tee ${TARGET_TEMP_DIR}/xcodebuild.log\n\necho \"[*] transforming xcodebuild.log into compile_commands.json...\"\ncd ${TARGET_TEMP_DIR}\n#transform it into compile_commands.json\noclint-xcodebuild\n\nfi\n\n#if [-d report.html]; then\n#rm report.html\n#fi\n\n\n#run static analyzer\n#oclint-json-compilation-database -- -o=./report.html -html\n\necho \"[*] starting analyzing\"\ncd ${TARGET_TEMP_DIR}\noclint-json-compilation-database -e lib/ | sed 's/\\(.*\\.\\m\\{1,2\\}:[0-9]*:[0-9]*:\\)/\\1 warning:/'\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7B342A03183F09E000BA2C29 /* Sources */ = {
@@ -1108,6 +1145,22 @@
 			};
 			name = Release;
 		};
+		7BACFCEE213C623A00F0FB09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7BACFCEF213C623A00F0FB09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1125,6 +1178,15 @@
 			buildConfigurations = (
 				7B342A39183F09E000BA2C29 /* Debug */,
 				7B342A3A183F09E000BA2C29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BACFCED213C623A00F0FB09 /* Build configuration list for PBXAggregateTarget "OCLint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BACFCEE213C623A00F0FB09 /* Debug */,
+				7BACFCEF213C623A00F0FB09 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

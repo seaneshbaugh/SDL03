@@ -1,6 +1,6 @@
 # Untitled Game
 
-Right now this "game" doesn't do anything. Eventually it might.
+An attempt at an RPG.
 
 ## Resources
 
@@ -38,3 +38,4 @@ Right now this "game" doesn't do anything. Eventually it might.
 * http://www.cprogramming.com/c++11/c++11-lambda-closures.html
 * http://eli.thegreenplace.net/2011/11/14/anonymous-functions-lambdas-in-c11/
 * http://www.mapeditor.org/
+https://oclint-docs.readthedocs.io/en/stable/guide/xcode.html

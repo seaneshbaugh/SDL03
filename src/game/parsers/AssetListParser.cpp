@@ -5,9 +5,7 @@ AssetListParser::AssetListParser() {
 }
 
 AssetListParser::~AssetListParser() {
-    if (this->logger != nullptr) {
-        delete this->logger;
-    }
+    delete this->logger;
 }
 
 bool AssetListParser::Parse(std::string json, std::map<std::string, std::string> *assetList) {

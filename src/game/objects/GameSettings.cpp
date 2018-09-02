@@ -58,7 +58,9 @@ bool GameSettings::CreateSettingsDirectory() {
 bool GameSettings::OpenSettingsDatabase() {
     this->logger->info() << "Opening settings database \"" << this->settingsFilePath.c_str() << "\".";
 
-    if (sqlite3_open_v2(this->settingsFilePath.c_str(), &this->settingsDB, SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE, nullptr)) {
+    const int flags = SQLITE_OPEN_CREATE | SQLITE_OPEN_READWRITE;
+
+    if (sqlite3_open_v2(this->settingsFilePath.c_str(), &this->settingsDB, flags, nullptr)) {
         this->logger->error() << "Could not open settings database file. " << sqlite3_errmsg(this->settingsDB);
 
         sqlite3_close(this->settingsDB);
