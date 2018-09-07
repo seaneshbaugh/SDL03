@@ -61,9 +61,12 @@ public:
     int getFont(lua_State *L) {
         std::string fontName = luaL_checkstring(L, 1);
 
-        GameFont* font = this->realObject->fonts[fontName];
+        // GameFont* font = this->realObject->fonts[fontName];
+        std::shared_ptr<GameFont> font = Services::Locator::FontService()->GetFont(fontName);
+        // GameFont* font = Services::Locator::FontService()->GetFont(fontName);
 
-        lua_pushlightuserdata(L, (void*)font);
+        lua_pushlightuserdata(L, static_cast<void*>(font.get()));
+        //lua_pushlightuserdata(L, static_cast<void*>(font));
 
         return 1;
     }

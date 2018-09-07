@@ -31,7 +31,6 @@ GameImage::GameImage(GameTexture* texture, int x, int y) : GameImage() {
 }
 
 GameImage::~GameImage() {
-
 }
 
 void GameImage::SetTexture(GameTexture* texture) {

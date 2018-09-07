@@ -8,7 +8,7 @@ AssetListParser::~AssetListParser() {
     delete this->logger;
 }
 
-bool AssetListParser::Parse(std::string json, std::map<std::string, std::string> *assetList) {
+bool AssetListParser::Parse(std::string json, std::map<std::string, std::string>* assetList) {
     JSONNode assetListNode = libjson::parse(json);
     
     std::function<void(const JSONNode&, std::string)> parseJSON = [&] (const JSONNode &node, std::string parentName) {

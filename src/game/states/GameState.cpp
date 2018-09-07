@@ -48,25 +48,19 @@ GameState::GameState(std::function<void(GameState*)> callback) {
     this->pop = false;
 
     this->acceptRawInput = false;
+
+    if (callback != nullptr) {
+        callback(this);
+    }
 }
 
 GameState::~GameState() {
     for (std::map <std::string, GameTexture*>::iterator it = this->textures.begin(); it != this->textures.end(); it++) {
-        if (it->second) {
-            delete it->second;
-        }
-    }
-
-    for (std::map <std::string, GameFont*>::iterator it = this->fonts.begin(); it != this->fonts.end(); it++) {
-        if (it->second) {
-            delete it->second;
-        }
+        delete it->second;
     }
 
     for (std::map <std::string, GameSound*>::iterator it = this->sounds.begin(); it != this->sounds.end(); it++) {
-        if (it->second) {
-            delete it->second;
-        }
+        delete it->second;
     }
 }
 
@@ -83,10 +77,8 @@ GameState* GameState::Update(int key) {
 }
 
 GameState* GameState::Update(SDL_Event* event) {
-    if (event) {
-        if (event->type == SDL_KEYDOWN) {
-            this->ProcessInput(event->key.keysym.sym);
-        }
+    if (event != nullptr && event->type == SDL_KEYDOWN) {
+        return this->Update(event->key.keysym.sym);
     }
 
     return this;
@@ -97,74 +89,12 @@ std::string GameState::ProcessInput(int key) {
 }
 
 void GameState::Render() {
-    
 }
 
-// Now that I think about it some more maybe these belong on some sort of special
-// container object that handles finding and instantiating the resources and also
-// controls their access. Each state could have its own set of containers as
-// needed. It might introduce more overhead, but it should make things cleaner.
-//bool GameState::ReadFile(std::string filename, std::string &contents) {
-//    std::ifstream in(filename.c_str(), std::ios::in | std::ios::binary);
-//
-//    try {
-//        if (in) {
-//            in.seekg(0, std::ios::end);
-//
-//            contents.resize(in.tellg());
-//
-//            in.seekg(0, std::ios::beg);
-//
-//            in.read(&contents[0], contents.size());
-//
-//            in.close();
-//
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    } catch (int exception) {
-//        return false;
-//    }
-//}
-
-//bool GameState::ParseResourceList(std::string jsonString, std::map<std::string, std::string> &resourceList) {
-//    JSONNode json = libjson::parse(jsonString);
-//
-//    std::function<void(const JSONNode&, std::string)> parseJSON = [&] (const JSONNode &node, std::string parentName) {
-//        JSONNode::const_iterator i = node.begin();
-//        
-//        while (i != node.end()) {
-//            std::string name;
-//            if (parentName == "") {
-//                name = i->name();
-//            } else {
-//                name = parentName + "." + i->name();
-//            }
-//            
-//            std::cout << "name = " << name << std::endl;
-//            
-//            if (i->type() == JSON_ARRAY || i->type() == JSON_NODE) {
-//                parseJSON(*i, name);
-//            }
-//
-//            if (i->type() == JSON_STRING) {
-//                std::cout << name << " => " << i->as_string() << std::endl;
-//                resourceList[name] = i->as_string();
-//            }
-//
-//            i++;
-//        }
-//    };
-//    
-//    parseJSON(json, "");
-//    
-//    return true;
-//}
-
 bool GameState::LoadResources(std::string textureListPath, std::string fontListPath, std::string SoundListPath) {
-    std::cout << "Loading resource lists: \"" << textureListPath << "\", \"" << fontListPath << "\", \"" << SoundListPath << "\"." << std::endl;
-    return this->LoadTextures(textureListPath) && this->LoadFonts(fontListPath) && this->LoadSounds(SoundListPath);
+    this->logger->debug() << "Loading resource lists: \"" << textureListPath << "\", \"" << fontListPath << "\", \"" << SoundListPath << "\".";
+
+    return this->LoadTextures(textureListPath) && this->LoadSounds(SoundListPath);
 }
 
 bool GameState::LoadTextures(std::string resourceListPath) {
@@ -187,14 +117,6 @@ bool GameState::LoadTextures(std::string resourceListPath) {
         this->logger->debug() << (*i).first << " : " << (*i).second;
     }
     this->logger->debug() << "}";
-    
-//    std::map<std::string, std::string> textureList;
-//
-//    if (!this->ParseResourceList(jsonString, textureList)) {
-//        this->logger->error() << "Failed to parse resource list \"" << resourceListPath << "\".";
-//
-//        return false;
-//    }
 
     for (std::map<std::string, std::string>::iterator textureFilename = assetList.begin(); textureFilename != assetList.end(); textureFilename++) {
         GameTexture* texture = new GameTexture();
@@ -211,57 +133,51 @@ bool GameState::LoadTextures(std::string resourceListPath) {
     return true;
 }
 
-bool GameState::LoadFonts(std::string resourceListPath) {
-    this->logger->debug() << "Loading fonts from \"" << resourceListPath << "\"";
-
-    std::string jsonString;
-
-    if (!FileSystemHelpers::ReadFile(resourceListPath, jsonString)) {
-        this->logger->error() << "Failed to load resource list \"" << resourceListPath << "\".";
-
-        return false;
-    }
-    
-    AssetListParser parser = AssetListParser();
-    std::map<std::string, std::string> assetList;
-    parser.Parse(jsonString, &assetList);
-    this->logger->debug() << "parsed asset list \"" << resourceListPath << "\".";
-    
-    this->logger->debug() << "parsed asset list contents = {";
-    for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
-        this->logger->debug() << (*i).first << " : " << (*i).second;
-    }
-    this->logger->debug() << "}";
-
-//    std::map<std::string, std::string> fontList;
+//bool GameState::LoadFonts(std::string resourceListPath) {
+//    this->logger->debug() << "Loading fonts from \"" << resourceListPath << "\"";
 //
-//    if (!this->ParseResourceList(jsonString, fontList)) {
+//    std::string jsonString;
+//
+//    if (!FileSystemHelpers::ReadFile(resourceListPath, jsonString)) {
+//        this->logger->error() << "Failed to load resource list \"" << resourceListPath << "\".";
+//
 //        return false;
 //    }
-
-    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
-        GameFont* font = new GameFont();
-
-        // Bah.
-        int fontSize;
-
-        try {
-            fontSize = this->fontSizes.at(fontFilename->first);
-        } catch (const std::out_of_range& exception) {
-            fontSize = 10;
-        }
-
-        if (!font->Load(fontFilename->second, fontSize)) {
-            this->logger->error() << "failed to load " << fontFilename->second;
-
-            return false;
-        }
-
-        this->fonts[fontFilename->first] = font;
-    }
-    
-    return true;
-}
+//    
+//    AssetListParser parser = AssetListParser();
+//    std::map<std::string, std::string> assetList;
+//    parser.Parse(jsonString, &assetList);
+//    this->logger->debug() << "parsed asset list \"" << resourceListPath << "\".";
+//    
+//    this->logger->debug() << "parsed asset list contents = {";
+//    for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
+//        this->logger->debug() << (*i).first << " : " << (*i).second;
+//    }
+//    this->logger->debug() << "}";
+//
+//    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
+//        GameFont* font = new GameFont();
+//
+//        // Bah.
+//        int fontSize;
+//
+//        try {
+//            fontSize = this->fontSizes.at(fontFilename->first);
+//        } catch (const std::out_of_range& exception) {
+//            fontSize = 10;
+//        }
+//
+//        if (!font->Load(fontFilename->second, fontSize)) {
+//            this->logger->error() << "failed to load " << fontFilename->second;
+//
+//            return false;
+//        }
+//
+//        this->fonts[fontFilename->first] = font;
+//    }
+//    
+//    return true;
+//}
 
 bool GameState::LoadSounds(std::string resourceListPath) {
     return true;

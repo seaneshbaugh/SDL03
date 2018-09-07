@@ -29,10 +29,10 @@ bool GameFont::Load(std::string filename) {
 }
 
 bool GameFont::Load(std::string filename, int pointSize) {
-    if (this->font) {
+    if (this->font != nullptr) {
         TTF_CloseFont(this->font);
 
-        this->font = NULL;
+        this->font = nullptr;
     }
 
     this->filename = filename;
@@ -43,7 +43,7 @@ bool GameFont::Load(std::string filename, int pointSize) {
 
     this->font = TTF_OpenFont(filename.c_str(), this->pointSize);
 
-    if (this->font != NULL) {
+    if (this->font != nullptr) {
         this->logger->debug() << "Successfully loaded font.";
 
         return true;
@@ -59,11 +59,11 @@ bool GameFont::DestroyFont() {
         return false;
     }
 
-    this->logger->info() << "Destroying font \"" << this->filename << "\".";
+    this->logger->debug() << "Destroying font \"" << this->filename << "\".";
 
     TTF_CloseFont(this->font);
 
-    this->logger->info() << "Destroyed font \"" << this->filename << "\".";
+    this->logger->debug() << "Destroyed font \"" << this->filename << "\".";
 
     this->font = nullptr;
 

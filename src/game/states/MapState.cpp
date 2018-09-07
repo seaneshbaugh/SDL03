@@ -22,7 +22,7 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
 
     // We only load the fonts here because the textures and sounds that will be loaded
     // are determined by the map file.
-    this->LoadFonts("resources/asset_lists/fonts.json");
+    // this->LoadFonts("resources/asset_lists/fonts.json");
 
     this->luaState = luaL_newstate();
 

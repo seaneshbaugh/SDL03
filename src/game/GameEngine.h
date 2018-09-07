@@ -18,6 +18,7 @@
 #include "sqlite3.h"
 
 #include "FileSystemHelpers.h"
+#include "FontManager.h"
 #include "GameFont.h"
 #include "GameImage.h"
 #include "GameInputMapper.h"
@@ -31,12 +32,15 @@
 #include "GameTexture.h"
 #include "GameWorld.h"
 #include "IntroState.h"
+#include "Locator.h"
 #include "MainMenuState.h"
 #include "MapState.h"
 
 class GameEngine {
 public:
     static SDL_Renderer* currentRenderer;
+
+//    static GameFont* GetFont(const std::string fontName);
 
     GameEngine();
     ~GameEngine();
@@ -51,18 +55,21 @@ private:
     std::string windowTitle;
     std::vector<GameState*> states;
     std::string applicationDataDiretory;
-    std::map<std::string, GameFont*> fonts;
-    std::map<std::string, int> fontSizes;
+//    std::map<std::string, GameFont*> fonts;
+//    std::map<std::string, int> fontSizes;
     GameSettings* settings;
     GameInputMapper inputMapper;
     Log::Logger* logger;
 
     bool SetupLogging();
     bool SetupSDL();
-    bool LoadFonts(std::string resourceListPath);
+//    bool LoadFonts();
+    bool LoadServices();
     void MainLoop();
     void Render();
     void DestroyStates();
+    void StopServices();
+    void QuitSDL();
 };
 
 #endif

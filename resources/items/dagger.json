@@ -1,0 +1,6 @@
+{
+    "name": "Dagger",
+    "type": "knife",
+    "damage": [1, 4],
+    "speed": 2.0
+}

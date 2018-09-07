@@ -26,17 +26,9 @@ GameEngine::GameEngine() {
 GameEngine::~GameEngine() {
     this->DestroyStates();
 
-    if (this->screen) {
-        SDL_DestroyWindow(this->screen);
-    }
+    this->StopServices();
 
-    Mix_CloseAudio();
-
-    TTF_Quit();
-
-    IMG_Quit();
-
-    SDL_Quit();
+    this->QuitSDL();
 
     delete this->settings;
 }
@@ -50,8 +42,10 @@ bool GameEngine::Setup() {
         return false;
     }
 
-
-
+    // TODO: Maybe settings get loaded up in a service?
+    // Maybe all this stuff should be controlled by services?
+    // Like, logging would make way more sense as a service
+    // Then a single object could write to many channels if needed.
     if (!this->settings->LoadSettings()) {
         this->logger->critic() << "Failed to load settings.";
 
@@ -59,6 +53,10 @@ bool GameEngine::Setup() {
     }
 
     this->logger->info() << "Settings loaded.";
+
+    if (!this->LoadServices()) {
+        return false;
+    }
 
     this->inputMapper.MapKeys(this->settings->InputSettings());
 
@@ -87,11 +85,12 @@ bool GameEngine::SetupLogging() {
     Log::Manager::configure(configList);
 
     // TODO: maybe add the ability to set this via a config file?
-    Log::Manager::get("main")->setLevel(Log::Log::eDebug);
-    Log::Manager::get("settings")->setLevel(Log::Log::eDebug);
-    Log::Manager::get("json")->setLevel(Log::Log::eDebug);
+    Log::Manager::get("engine")->setLevel(Log::Log::eError);
+    Log::Manager::get("settings")->setLevel(Log::Log::eError);
+    Log::Manager::get("json")->setLevel(Log::Log::eInfo);
     Log::Manager::get("lua")->setLevel(Log::Log::eInfo);
     Log::Manager::get("map")->setLevel(Log::Log::eInfo);
+    Log::Manager::get("input")->setLevel(Log::Log::eInfo);
     Log::Manager::get("states.intro")->setLevel(Log::Log::eDebug);
     Log::Manager::get("states.main_menu")->setLevel(Log::Log::eDebug);
     Log::Manager::get("states.map")->setLevel(Log::Log::eInfo);
@@ -101,7 +100,7 @@ bool GameEngine::SetupLogging() {
     Log::Manager::get("assets.sounds")->setLevel(Log::Log::eDebug);
     Log::Manager::get("assets.texures")->setLevel(Log::Log::eDebug);
 
-    this->logger = new Log::Logger("main");
+    this->logger = new Log::Logger("engine");
 
     logger->info() << "Logger initialized.";
 
@@ -156,52 +155,56 @@ bool GameEngine::SetupSDL() {
     return true;
 }
 
-bool GameEngine::LoadFonts(std::string resourceListPath) {
-    this->logger->debug() << "Loading fonts from \"" << resourceListPath << "\"";
+bool GameEngine::LoadServices() {
+    const std::string fontAssetListPath = "resources/asset_lists/fonts.json";
 
-    std::string jsonString;
-
-    if (!FileSystemHelpers::ReadFile(resourceListPath, jsonString)) {
-        this->logger->error() << "Failed to load resource list \"" << resourceListPath << "\".";
-
-        return false;
-    }
-
-    AssetListParser parser = AssetListParser();
-    std::map<std::string, std::string> assetList;
-
-    parser.Parse(jsonString, &assetList);
-
-    this->logger->debug() << "parsed asset list \"" << resourceListPath << "\".";
-
-    this->logger->debug() << "parsed asset list contents = {";
-    for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
-        this->logger->debug() << (*i).first << " : " << (*i).second;
-    }
-    this->logger->debug() << "}";
-
-    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
-        GameFont* font = new GameFont();
-
-        int fontSize;
-
-        try {
-            fontSize = this->fontSizes.at(fontFilename->first);
-        } catch (const std::out_of_range& exception) {
-            fontSize = 10;
-        }
-
-        if (!font->Load(fontFilename->second, fontSize)) {
-            this->logger->error() << "failed to load " << fontFilename->second;
-
-            return false;
-        }
-
-        this->fonts[fontFilename->first] = font;
-    }
-
+    Services::Locator::ProvideService(std::make_shared<Services::Implementations::FontManager>(fontAssetListPath));
+    
     return true;
 }
+
+//bool GameEngine::LoadFonts() {
+//    const std::string assetListPath = "resources/asset_lists/fonts.json";
+//
+//    this->logger->debug() << "Loading fonts from asset list \"" << assetListPath << "\".";
+//
+//    std::string jsonString;
+//
+//    if (!FileSystemHelpers::ReadFile(assetListPath, jsonString)) {
+//        this->logger->error() << "Failed to load asset list \"" << assetListPath << "\".";
+//
+//        return false;
+//    }
+//
+//    AssetListParser parser = AssetListParser();
+//    std::map<std::string, std::string> assetList;
+//
+//    parser.Parse(jsonString, &assetList);
+//
+//    this->logger->debug() << "parsed asset list \"" << assetListPath << "\".";
+//
+//    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
+//        GameFont* font = new GameFont();
+//
+//        int fontSize;
+//
+//        try {
+//            fontSize = this->fontSizes.at(fontFilename->first);
+//        } catch (const std::out_of_range& exception) {
+//            fontSize = 10;
+//        }
+//
+//        if (!font->Load(fontFilename->second, fontSize)) {
+//            this->logger->error() << "Failed to load font file \"" << fontFilename->second << "\".";
+//
+//            return false;
+//        }
+//
+//        this->fonts[fontFilename->first] = font;
+//    }
+//
+//    return true;
+//}
 
 void GameEngine::Start() {
     IntroState* introState = new IntroState(nullptr);
@@ -304,4 +307,24 @@ void GameEngine::DestroyStates() {
             delete *state;
         }
     }
+}
+
+void GameEngine::StopServices() {
+    const std::string fontAssetListPath = "resources/asset_lists/fonts.json";
+
+    Services::Locator::StopServices();
+}
+
+void GameEngine::QuitSDL() {
+    if (this->screen != nullptr) {
+        SDL_DestroyWindow(this->screen);
+    }
+
+    Mix_CloseAudio();
+
+    TTF_Quit();
+
+    IMG_Quit();
+
+    SDL_Quit();
 }

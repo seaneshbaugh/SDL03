@@ -3,8 +3,10 @@
 
 #include <map>
 
+#include "LoggerCpp.h"
 #include "SDL.h"
 
+// TODO: Consider proper enums.
 #define NO_KEY        0
 #define UP_KEY        1
 #define DOWN_KEY      2
@@ -20,9 +22,12 @@ public:
     ~GameInputMapper();
     std::map<int, int>::size_type MapKeys(std::map<int, int> keys);
     int SetInputMapKey(int rawKeyValue, int inputValue);
-    int GetInputMapKey(SDL_Event* event);
+    int GetInputMapKey(const SDL_Event* event);
 private:
     std::map<int, int> inputMap;
+    Log::Logger logger;
+
+    void SetDefaultInputMap();
 };
 
 #endif

@@ -50,10 +50,10 @@
 		7B3ADF6E213651B500E5917E /* PathHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B3ADF6C213651B500E5917E /* PathHelpers.cpp */; };
 		7B4ED883212A7603007559AC /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 7B4ED882212A7602007559AC /* assets */; };
 		7B4ED885212A7625007559AC /* resources in Resources */ = {isa = PBXBuildFile; fileRef = 7B4ED884212A7625007559AC /* resources */; };
-		7B4ED887212A7694007559AC /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 7B4ED886212A7694007559AC /* scripts */; };
 		7B4ED88B212C64C8007559AC /* MapParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4ED889212C64C8007559AC /* MapParser.cpp */; };
 		7B4ED88E212E0755007559AC /* AssetListParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4ED88C212E0755007559AC /* AssetListParser.cpp */; };
 		7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B53C168187A4BA700756488 /* GameMapObject.cpp */; };
+		7B8536812141835B00436134 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 7B8536802141835B00436134 /* scripts */; };
 		7B9A6064184D3E810016BA1A /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6027184D3E810016BA1A /* lapi.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6029184D3E810016BA1A /* lauxlib.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		7B9A6066184D3E810016BA1A /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A602B184D3E810016BA1A /* lbaselib.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -100,6 +100,9 @@
 		7BACFCA621374B0E00F0FB09 /* GameItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCA421374B0E00F0FB09 /* GameItem.cpp */; };
 		7BACFCA92138527600F0FB09 /* GameMapLoadPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCA72138527600F0FB09 /* GameMapLoadPoint.cpp */; };
 		7BACFCAD213A0D9D00F0FB09 /* CharacterParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCAB213A0D9D00F0FB09 /* CharacterParser.cpp */; };
+		7BACFCF5213DE5DC00F0FB09 /* FontService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCF3213DE5DC00F0FB09 /* FontService.cpp */; };
+		7BACFCFB213DEB3000F0FB09 /* FontManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCF9213DEB3000F0FB09 /* FontManager.cpp */; };
+		7BACFCFE213E025E00F0FB09 /* Locator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BACFCFC213E025E00F0FB09 /* Locator.cpp */; };
 		7BB3825A186353A900391DC5 /* GameMapLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB38258186353A900391DC5 /* GameMapLayer.cpp */; };
 		7BB8B97F187E48850078B7A1 /* BattleState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BB8B97D187E48850078B7A1 /* BattleState.cpp */; };
 		7BDB5BE7187F488D0039F9AA /* PauseMenuState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB5BE5187F488D0039F9AA /* PauseMenuState.cpp */; };
@@ -205,13 +208,13 @@
 		7B3ADF6D213651B500E5917E /* PathHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PathHelpers.h; sourceTree = "<group>"; };
 		7B4ED882212A7602007559AC /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		7B4ED884212A7625007559AC /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = resources; sourceTree = "<group>"; };
-		7B4ED886212A7694007559AC /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		7B4ED889212C64C8007559AC /* MapParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MapParser.cpp; sourceTree = "<group>"; };
 		7B4ED88A212C64C8007559AC /* MapParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapParser.h; sourceTree = "<group>"; };
 		7B4ED88C212E0755007559AC /* AssetListParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AssetListParser.cpp; sourceTree = "<group>"; };
 		7B4ED88D212E0755007559AC /* AssetListParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssetListParser.h; sourceTree = "<group>"; };
 		7B53C168187A4BA700756488 /* GameMapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapObject.cpp; sourceTree = "<group>"; };
 		7B53C169187A4BA700756488 /* GameMapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapObject.h; sourceTree = "<group>"; };
+		7B8536802141835B00436134 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		7B890820187F4F7300C1E072 /* GameInputMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInputMapper.h; sourceTree = "<group>"; };
 		7B9A6025184D3E810016BA1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		7B9A6027184D3E810016BA1A /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
@@ -293,6 +296,12 @@
 		7BACFCA82138527600F0FB09 /* GameMapLoadPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameMapLoadPoint.h; sourceTree = "<group>"; };
 		7BACFCAB213A0D9D00F0FB09 /* CharacterParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterParser.cpp; sourceTree = "<group>"; };
 		7BACFCAC213A0D9D00F0FB09 /* CharacterParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CharacterParser.h; sourceTree = "<group>"; };
+		7BACFCF3213DE5DC00F0FB09 /* FontService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FontService.cpp; sourceTree = "<group>"; };
+		7BACFCF4213DE5DC00F0FB09 /* FontService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FontService.h; sourceTree = "<group>"; };
+		7BACFCF9213DEB3000F0FB09 /* FontManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FontManager.cpp; sourceTree = "<group>"; };
+		7BACFCFA213DEB3000F0FB09 /* FontManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FontManager.h; sourceTree = "<group>"; };
+		7BACFCFC213E025E00F0FB09 /* Locator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Locator.cpp; sourceTree = "<group>"; };
+		7BACFCFD213E025E00F0FB09 /* Locator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Locator.h; sourceTree = "<group>"; };
 		7BB38258186353A900391DC5 /* GameMapLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapLayer.cpp; sourceTree = "<group>"; };
 		7BB38259186353A900391DC5 /* GameMapLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapLayer.h; sourceTree = "<group>"; };
 		7BB8B97D187E48850078B7A1 /* BattleState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BattleState.cpp; sourceTree = "<group>"; };
@@ -425,7 +434,7 @@
 				7B342A631843E53400BA2C29 /* README.md */,
 				7B4ED882212A7602007559AC /* assets */,
 				7B4ED884212A7625007559AC /* resources */,
-				7B4ED886212A7694007559AC /* scripts */,
+				7B8536802141835B00436134 /* scripts */,
 				7BE4737018454D0C002EA054 /* lib */,
 				73437D471B27A6B700751C71 /* src */,
 				7B342A10183F09E000BA2C29 /* SDL03 */,
@@ -488,6 +497,7 @@
 		7B342A4F183F2CDA00BA2C29 /* game */ = {
 			isa = PBXGroup;
 			children = (
+				7BACFCF2213DE5B600F0FB09 /* services */,
 				7B4ED888212C6490007559AC /* parsers */,
 				7B342A671844393E00BA2C29 /* resources */,
 				7B342A5718439B2500BA2C29 /* states */,
@@ -678,6 +688,35 @@
 				7B9A60D41850CF990016BA1A /* lunar.h */,
 			);
 			path = lunar;
+			sourceTree = "<group>";
+		};
+		7BACFCF2213DE5B600F0FB09 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				7BACFCF8213DEABE00F0FB09 /* interfaces */,
+				7BACFCF6213DE69A00F0FB09 /* implementations */,
+				7BACFCFC213E025E00F0FB09 /* Locator.cpp */,
+				7BACFCFD213E025E00F0FB09 /* Locator.h */,
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
+		7BACFCF6213DE69A00F0FB09 /* implementations */ = {
+			isa = PBXGroup;
+			children = (
+				7BACFCF9213DEB3000F0FB09 /* FontManager.cpp */,
+				7BACFCFA213DEB3000F0FB09 /* FontManager.h */,
+			);
+			path = implementations;
+			sourceTree = "<group>";
+		};
+		7BACFCF8213DEABE00F0FB09 /* interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				7BACFCF3213DE5DC00F0FB09 /* FontService.cpp */,
+				7BACFCF4213DE5DC00F0FB09 /* FontService.h */,
+			);
+			path = interfaces;
 			sourceTree = "<group>";
 		};
 		7BE4737018454D0C002EA054 /* lib */ = {
@@ -905,8 +944,8 @@
 			files = (
 				7B4ED885212A7625007559AC /* resources in Resources */,
 				7B4ED883212A7603007559AC /* assets in Resources */,
-				7B4ED887212A7694007559AC /* scripts in Resources */,
 				7B342A15183F09E000BA2C29 /* InfoPlist.strings in Resources */,
+				7B8536812141835B00436134 /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +991,7 @@
 				7BACFCA92138527600F0FB09 /* GameMapLoadPoint.cpp in Sources */,
 				7BE70177212FBACC00B084A5 /* Config.cpp in Sources */,
 				7B9A6083184D3E810016BA1A /* lundump.c in Sources */,
+				7BACFCF5213DE5DC00F0FB09 /* FontService.cpp in Sources */,
 				730B279E1B18EBB3002629F8 /* GameInputMapper.cpp in Sources */,
 				7B9A6069184D3E810016BA1A /* lcorolib.c in Sources */,
 				7BE4744D1845547C002EA054 /* libjson.cpp in Sources */,
@@ -978,11 +1018,13 @@
 				7B342A6D18443AA200BA2C29 /* GameTexture.cpp in Sources */,
 				7B9A6077184D3E810016BA1A /* lobject.c in Sources */,
 				730B27B71B1E35DA002629F8 /* SettingsMenuState.cpp in Sources */,
+				7BACFCFB213DEB3000F0FB09 /* FontManager.cpp in Sources */,
 				7B9A6072184D3E810016BA1A /* liolib.c in Sources */,
 				7B9A6151186025030016BA1A /* MapState.cpp in Sources */,
 				730B27B41B1CAA4D002629F8 /* StringHelpers.cpp in Sources */,
 				7BE474471845547C002EA054 /* JSONNode_Mutex.cpp in Sources */,
 				7B9A6070184D3E810016BA1A /* lgc.c in Sources */,
+				7BACFCFE213E025E00F0FB09 /* Locator.cpp in Sources */,
 				7B9A6068184D3E810016BA1A /* lcode.c in Sources */,
 				7BE7017A212FBACC00B084A5 /* DateTime.cpp in Sources */,
 				7B3ADF6E213651B500E5917E /* PathHelpers.cpp in Sources */,
