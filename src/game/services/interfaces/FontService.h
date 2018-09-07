@@ -10,8 +10,7 @@ namespace Services {
         class FontService {
         public:
             virtual ~FontService() {}
-            virtual std::shared_ptr<GameFont> GetFont(std::string fontName) = 0;
-            // virtual GameFont* GetFont(std::string fontName) = 0;
+            virtual std::shared_ptr<GameFont> GetFont(const std::string fontName, const int fontSize) = 0;
         };
     }
 }

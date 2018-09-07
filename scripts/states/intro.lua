@@ -14,7 +14,7 @@ vx = {}
 vy = {}
 
 function initialize()
-    font = intro_state:getFont("DroidSans")
+    font = intro_state:getFont("DroidSans", 16)
 
     math.randomseed(os.time())
 

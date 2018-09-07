@@ -20,10 +20,6 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
 
     this->currentMap = GameState::world->currentMap;
 
-    // We only load the fonts here because the textures and sounds that will be loaded
-    // are determined by the map file.
-    // this->LoadFonts("resources/asset_lists/fonts.json");
-
     this->luaState = luaL_newstate();
 
     luaL_openlibs(this->luaState);
@@ -53,14 +49,14 @@ MapState::MapState(std::function<void(GameState*)> callback) : GameState(callbac
 
     lua_settop(this->luaState, 0);
 
-    this->logger->info() << "Loading map.lua";
+    this->logger->info() << "Loading \"scripts/states/map.lua\"";
 
     if (luaL_loadfile(this->luaState, "scripts/states/map.lua")) {
         this->logger->error() << lua_tostring(this->luaState, -1);
 
         lua_pop(this->luaState, 1);
     } else {
-        this->logger->info() << "Loaded map.lua";
+        this->logger->info() << "Loaded \"scripts/states/map.lua\"";
     }
 
     if (lua_pcall(this->luaState, 0, LUA_MULTRET, 0)) {
@@ -193,8 +189,6 @@ bool MapState::LoadMap(std::string filename) {
 
 bool MapState::UnloadMap() {
     GameState::world->UnloadMap();
-
-    this->currentMap = nullptr;
 
     this->currentMap = GameState::world->currentMap;
 

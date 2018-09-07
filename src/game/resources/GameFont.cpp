@@ -1,23 +1,24 @@
 #include "GameFont.h"
 
-const int DEFAULT_POINT_SIZE = 10;
+const int GameFont::DEFAULT_FONT_SIZE = 10;
 
 GameFont::GameFont() {
     this->font = nullptr;
 
     this->filename = "";
 
-    this->pointSize = DEFAULT_POINT_SIZE;
+    this->pointSize = DEFAULT_FONT_SIZE;
 
     this->logger = new Log::Logger("assets.fonts");
 }
 
-GameFont::GameFont(std::string filename) : GameFont() {
+GameFont::GameFont(const std::string filename) : GameFont() {
     this->Load(filename);
 }
 
-GameFont::GameFont(std::string filename, int pointSize) : GameFont() {
-    this->Load(filename, pointSize);
+GameFont::GameFont(const std::string filename, const int fontSize) : GameFont() {
+    this->logger->debug() << "Loading font \"" << filename << "\" at size " << fontSize << ".";
+    this->Load(filename, fontSize);
 }
 
 GameFont::~GameFont() {
@@ -44,7 +45,7 @@ bool GameFont::Load(std::string filename, int pointSize) {
     this->font = TTF_OpenFont(filename.c_str(), this->pointSize);
 
     if (this->font != nullptr) {
-        this->logger->debug() << "Successfully loaded font.";
+        this->logger->debug() << "Successfully loaded font at size " << this->pointSize << ".";
 
         return true;
     } else {

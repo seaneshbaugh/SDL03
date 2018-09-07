@@ -7,13 +7,23 @@
 
 #include "GameResource.h"
 
+namespace Services {
+    namespace Implementations {
+        class FontManager;
+    }
+}
+
 class GameFont : public GameResource {
 public:
+    friend class Services::Implementations::FontManager;
+
+    static const int DEFAULT_FONT_SIZE;
+
     TTF_Font* font;
 
     GameFont();
-    GameFont(std::string filename);
-    GameFont(std::string filename, int pointSize);
+    GameFont(const std::string filename);
+    GameFont(const std::string filename, const int fontSize);
     ~GameFont();
     bool Load(std::string filename);
     bool Load(std::string filename, int pointSize);

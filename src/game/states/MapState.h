@@ -15,7 +15,7 @@ public:
     MapState(std::function<void(GameState*)> callback);
     ~MapState();
     GameState* Update(int key);
-    std::string ProcessInput(int keyt);
+    std::string ProcessInput(int key);
     void Render();
     bool LoadMap(std::string filename);
     bool UnloadMap();
@@ -58,29 +58,6 @@ public:
         return 1;
     }
 
-    int getFont(lua_State *L) {
-        std::string fontName = luaL_checkstring(L, 1);
-
-        // GameFont* font = this->realObject->fonts[fontName];
-        std::shared_ptr<GameFont> font = Services::Locator::FontService()->GetFont(fontName);
-        // GameFont* font = Services::Locator::FontService()->GetFont(fontName);
-
-        lua_pushlightuserdata(L, static_cast<void*>(font.get()));
-        //lua_pushlightuserdata(L, static_cast<void*>(font));
-
-        return 1;
-    }
-
-    int getSound(lua_State *L) {
-        std::string soundName = luaL_checkstring(L, 1);
-
-        GameSound* sound = this->realObject->sounds[soundName];
-
-        lua_pushlightuserdata(L, (void*)sound);
-        
-        return 1;
-    }
-
     int getCurrentMap(lua_State *L) {
         lua_pushlightuserdata(L, (void*)this->realObject->currentMap);
 
@@ -94,24 +71,6 @@ public:
 
         lua_pushboolean(L, result);
 
-        return 1;
-    }
-
-    int loadTexture(lua_State *L) {
-        std::string textureName = luaL_checkstring(L, 1);
-
-        std::string textureFilename = luaL_checkstring(L, 2);
-
-        GameTexture* texture = new GameTexture();
-
-        if (texture->Load(textureFilename)) {
-            this->realObject->textures[textureFilename] = texture;
-
-            lua_pushlightuserdata(L, (void*)texture);
-        } else {
-            lua_pushnil(L);
-        }
-        
         return 1;
     }
 

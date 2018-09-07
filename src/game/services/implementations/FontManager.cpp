@@ -7,15 +7,22 @@ namespace Services {
         }
 
         FontManager::~FontManager() {
-//            for (std::map<std::string, <std::shared_ptr<GameFont*>>::iterator font = this->fonts.begin(); font != fonts.end(); font++) {
-//            // for (std::map<std::string, GameFont*>::iterator font = this->fonts.begin(); font != fonts.end(); font++) {
-//                delete font->second;
-//            }
         }
 
-        std::shared_ptr<GameFont> FontManager::GetFont(const std::string fontName) {
-        // GameFont* FontManager::GetFont(const std::string fontName) {
-            return this->fonts[fontName];
+        std::shared_ptr<GameFont> FontManager::GetFont(const std::string fontName, const int fontSize = GameFont::DEFAULT_FONT_SIZE) {
+            std::map<std::pair<std::string, int>, std::shared_ptr<GameFont>>::iterator font = this->fonts.find(std::make_pair(fontName, fontSize));
+
+            if (font != this->fonts.end()) {
+                return font->second;
+            }
+
+            std::shared_ptr<GameFont> defaultSizeFont = this->fonts.at(std::make_pair(fontName, GameFont::DEFAULT_FONT_SIZE));
+
+            const std::pair<std::string, int> fontKey = std::make_pair(fontName, fontSize);
+
+            this->fonts[fontKey] = std::make_shared<GameFont>(defaultSizeFont->filename, fontSize);
+
+            return this->fonts[fontKey];
         }
 
         bool FontManager::LoadFonts(const std::string fontAssetListPath) {
@@ -42,24 +49,8 @@ namespace Services {
             // this->logger->debug() << "parsed asset list \"" << assetListPath << "\".";
 
             for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
-                // std::shared_ptr<GameFont> font = std::make_shared<GameFont>(fontFilename->second, 10);
 
-//                int fontSize;
-//
-//                try {
-//                    fontSize = this->fontSizes.at(fontFilename->first);
-//                } catch (const std::out_of_range& exception) {
-//                    fontSize = 10;
-//                }
-//
-//                if (!font->Load(fontFilename->second, fontSize)) {
-//                    // this->logger->error() << "Failed to load font file \"" << fontFilename->second << "\".";
-//
-//                    return false;
-//                }
-
-                this->fonts[fontFilename->first] = std::make_shared<GameFont>(fontFilename->second, 10);
-                // this->fonts[fontFilename->first] = new GameFont(fontFilename->second, 10);
+                this->fonts[std::make_pair(fontFilename->first, GameFont::DEFAULT_FONT_SIZE)] = std::make_shared<GameFont>(fontFilename->second, GameFont::DEFAULT_FONT_SIZE);
             }
 
             return true;
