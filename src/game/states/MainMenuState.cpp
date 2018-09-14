@@ -3,7 +3,7 @@
 MainMenuState::MainMenuState(std::function<void(GameState*)> callback) : GameState(callback) {
     this->logger = new Log::Logger("states.main_menu");
 
-    this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/main_menu_sounds.json");
+    this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/main_menu_sounds.json");
 
     this->luaState = luaL_newstate();
 

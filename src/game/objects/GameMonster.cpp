@@ -47,7 +47,7 @@ void GameMonster::Render(int x, int y) {
 
     SDL_QueryTexture(this->sprite->texture, nullptr, nullptr, &w, &h);
 
-    SDL_Rect position = {x, y, w, h};
+    const SDL_Rect position = {x, y, w, h};
 
-    SDL_RenderCopy(GameEngine::currentRenderer, this->sprite->texture, nullptr, &position);
+    Services::Locator::RendererService()->Render(this->sprite, nullptr, &position);
 }

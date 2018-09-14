@@ -44,12 +44,12 @@ current_map = GameMap(map_state:getCurrentMap())
 player = nil
 
 function initialize()
-    font = map_state:getFont("DroidSans")
+    -- font = map_state:getFont("DroidSans")
     
-    dot = map_state:loadTexture("dot", "assets/images/dot.png")
-    player_sprite = map_state:getPlayerSprite()
+    -- dot = map_state:loadTexture("dot", "assets/images/dot.png")
+    player_sprite_name = map_state:getPlayerSpriteName()
     
-    player = GameImage(player_sprite, 320, 224)
+    player = GameImage(player_sprite_name, 320, 224)
     
     math.randomseed(os.time())
 end
@@ -342,17 +342,12 @@ function render()
     player_crop_x = 0
 
     if screen_moving or player_moving then
-        -- print("player_moving")
-        print(string.format("%d mod 8 = %d == 0 = %s", math.abs(player_x_movement_offset), math.abs(player_x_movement_offset) % 8, tostring(math.abs(player_x_movement_offset) % 8 == 0)))
-        print(string.format("%d mod 8 = %d == 0 = %s", math.abs(player_y_movement_offset), math.abs(player_y_movement_offset) % 8, tostring(math.abs(player_y_movement_offset) % 8 == 0)))
         sx = math.abs(player_x_movement_offset) > 0 and math.abs(player_x_movement_offset) % 8 == 0
         sy = math.abs(player_y_movement_offset) > 0 and math.abs(player_y_movement_offset) % 8 == 0
 
         if sx or sy then
-            print("player_crop_x = 32")
             player_crop_x = 32
         else
-            print("player_crop_x = 64")
             player_crop_x = 64
         end
     end

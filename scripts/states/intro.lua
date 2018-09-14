@@ -14,16 +14,18 @@ vx = {}
 vy = {}
 
 function initialize()
-    font = intro_state:getFont("DroidSans", 16)
+    -- font = intro_state:getFont("DroidSans", 16)
+    font_name = "DroidSans"
+    font_size = 16
 
     math.randomseed(os.time())
 
     for i=1, math.random(8, 16) do
-        table.insert(texts, GameText("LOL", font, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
+        table.insert(texts, GameText("LOL", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
     
-        table.insert(texts, GameText("ROFL", font, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
+        table.insert(texts, GameText("ROFL", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
     
-        table.insert(texts, GameText("LMAO", font, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
+        table.insert(texts, GameText("LMAO", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
     end
 
     for i, v in ipairs(texts) do

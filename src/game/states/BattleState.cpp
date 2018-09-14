@@ -16,13 +16,22 @@ Lunar<LuaBattleState>::RegType LuaBattleState::methods[] = {
 BattleState::BattleState(GameMapEncounterArea* encounterArea, std::function<void(GameState*)> callback) : GameState(callback) {
     this->logger = new Log::Logger("states.battle");
 
-    this->LoadResources("resources/asset_lists/battle_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/battle_sounds.json");
+    // This loads all background textures (well, just one for now, but if there were more
+    // they would be loaded. In the future they should be removed from the texture list
+    // and loaded only based on what's in the encounter area.
+    this->LoadResources("resources/asset_lists/battle_textures.json", "resources/asset_lists/battle_sounds.json");
 
-    GameTexture* background = new GameTexture();
+    this->backgroundName = "battle.background";
 
-    background->Load(encounterArea->properties["background"]);
+    this->background = std::make_shared<GameTexture>(encounterArea->properties["background"]);
 
-    this->textures["background"] = background;
+    Services::Locator::TextureService()->AddTexture(this->background, this->backgroundName, this);
+
+//    GameTexture* background = new GameTexture();
+//
+//    background->Load(encounterArea->properties["background"]);
+//
+//    this->textures["background"] = background;
 
     GameState::world->SetEnemyParty(encounterArea);
 

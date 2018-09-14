@@ -55,13 +55,12 @@ GameCharacter::GameCharacter() {
 
     this->luck = 1;
 
-    this->sprite = nullptr;
+    this->spriteName = "";
+
+    this->spritesheetName = "";
 }
 
 GameCharacter::~GameCharacter() {
-    if (this->sprite) {
-        delete this->sprite;
-    }
 }
 
 unsigned long long GameCharacter::GetLevel() {
@@ -330,16 +329,9 @@ bool GameCharacter::Load(std::string filename) {
 }
 
 void GameCharacter::Render(int x, int y) {
-    SDL_Rect srcrect = {32, 32, 32, 32};
+    const SDL_Rect srcrect = {32, 32, 32, 32};
 
-    // int w, h;
+    const SDL_Rect dstrect = {x, y, 32, 32};
 
-    // SDL_QueryTexture(this->sprite->texture, nullptr, nullptr, &w, &h);
-
-    // Not sure how I'm going to calculate this later.
-    SDL_Rect position = {x, y, 32, 32};
-
-    if (this->sprite) {
-        SDL_RenderCopy(GameEngine::currentRenderer, this->sprite->texture, &srcrect, &position);
-    }
+    Services::Locator::RendererService()->Render(this->sprite, &srcrect, &dstrect);
 }

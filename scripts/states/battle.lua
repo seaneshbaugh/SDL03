@@ -9,8 +9,6 @@ battle_state = BattleState(raw_battle_state)
 
 time = 0
 
-font = nil
-
 background = nil
 
 texts = {}
@@ -27,17 +25,20 @@ current_character = nil
 
 current_action = nil
 
-font = battle_state:getFont("PixChicago")
+-- font = battle_state:getFont("PixChicago")
+font_name = "PixChicago"
+
+font_size = 10
 
 character_statuses = {}
 
-cursor = battle_state:getTexture("ui.cursor-right")
+cursor_name = "ui.cursor-right"
 
 current_monster_index = nil
 
 hand = nil
 
-menu_background = GameImage(battle_state:getTexture("ui.menu.background"), 0, 280)
+menu_background = GameImage("ui.menu.background", 0, 280)
 
 function initialize()
     -- I don't think I like this.
@@ -45,7 +46,7 @@ function initialize()
 end
 
 function after_battle_load()
-    background = GameImage(battle_state:getTexture("background"), 0, 0)
+    background = GameImage("battle.background", 0, 0)
 
     -- I don't know if I like how there's three tables, one for monsters, one for the party, and an awkard
     -- one that combines them both. But since Lua table values are always references it actually kinda ends
@@ -73,7 +74,7 @@ function after_battle_load()
 
         table.insert(atb, { character = character, atb = character:atbStart(), party = true })
 
-        character_statuses[character:getName()] = GameText(string.format("%s: %d/%d", character:getName(), character:getCurrentHitPoints(), character:getMaxHitPoints()), font, 410, y, 255, 255, 255)
+        character_statuses[character:getName()] = GameText(string.format("%s: %d/%d", character:getName(), character:getCurrentHitPoints(), character:getMaxHitPoints()), font_name, font_size, 410, y, 255, 255, 255)
 
         y = y + 40
     end
@@ -222,7 +223,7 @@ function update()
                             x = x + 50
                         end
 
-                        hand = GameImage(cursor, x, 200)
+                        hand = GameImage(cursor_name, x, 200)
                     end
                 else
                     n = 0
@@ -259,7 +260,7 @@ function process_action_queue()
 
             print(current_action["message"])
 
-            texts["current_action_message"] = GameText(current_action["message"], font, 25, 25, 255, 255, 0)
+            texts["current_action_message"] = GameText(current_action["message"], font_name, font_size, 25, 25, 255, 255, 0)
 
             -- Currently the only way I can think of making this work is a series of if statements checking the value
             -- of action. Eventually I would like something where the menu is actually labels for references to

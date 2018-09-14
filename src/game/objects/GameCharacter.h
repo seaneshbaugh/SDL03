@@ -17,8 +17,10 @@ class GameEngine;
 class GameCharacter : GameObject {
 public:
     std::string name;
-    GameTexture* sprite;
-    GameTexture* spritesheet;
+    std::string spriteName;
+    std::string spritesheetName;
+    std::shared_ptr<GameTexture> sprite;
+    std::shared_ptr<GameTexture> spritesheet;
 
     GameCharacter();
     ~GameCharacter();
@@ -71,7 +73,7 @@ public:
     static Lunar<LuaGameCharacter>::RegType methods[];
 
     LuaGameCharacter(lua_State *L) {
-        int argc = lua_gettop(L);
+        const int argc = lua_gettop(L);
 
         if (argc == 1) {
             this->realObject = (GameCharacter*)lua_touserdata(L, 1);

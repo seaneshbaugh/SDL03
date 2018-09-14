@@ -11,7 +11,7 @@ Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
     {"getCurrentMap", &LuaMapState::getCurrentMap},
     {"loadTexture", &LuaMapState::loadTexture},
     {"setCurrentEncounterArea", &LuaMapState::setCurrentEncounterArea},
-    {"getPlayerSprite", &LuaMapState::getPlayerSprite},
+    {"getPlayerSpriteName", &LuaMapState::getPlayerSpriteName},
     {0, 0}
 };
 

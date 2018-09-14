@@ -10,6 +10,9 @@
 
 class BattleState : public GameState {
 public:
+    friend class MapState;
+    friend class LuaBattleState;
+
     // Okay, this is probably where shared_ptr is useful. This is a BORROWED
     // copy of this pointer. DO NOT DELETE. Ugh, manual memory management.
     // I literally just sighed out loud because I thought about how many
@@ -25,8 +28,9 @@ public:
     std::string ProcessInput(int key);
     void Render();
 
-    friend class MapState;
-    friend class LuaBattleState;
+private:
+    std::string backgroundName;
+    std::shared_ptr<GameTexture> background;
 };
 
 class LuaBattleState : public LuaGameState {

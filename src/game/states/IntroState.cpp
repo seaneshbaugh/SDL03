@@ -5,7 +5,7 @@ IntroState::IntroState(std::function<void(GameState*)> callback) : GameState(cal
 
     // this->fontSizes["DroidSans"] = 16;
 
-    this->LoadResources("resources/asset_lists/intro_textures.json", "resources/asset_lists/fonts.json", "resources/asset_lists/intro_sounds.json");
+    this->LoadResources("resources/asset_lists/intro_textures.json", "resources/asset_lists/intro_sounds.json");
 
     this->luaState = luaL_newstate();
 

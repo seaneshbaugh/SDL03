@@ -10,5 +10,6 @@
     "stamina":2,
     "luck":4,
     "abilities":["attack"],
-    "sprite":"assets/images/characters/casie.png"
+    "sprite":"assets/images/characters/casie.png",
+    "spritesheet":"assets/images/characters/sean.png"
 }

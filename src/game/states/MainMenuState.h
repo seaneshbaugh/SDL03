@@ -14,7 +14,7 @@ public:
     std::string ProcessInput(int key);
     void Render();
 protected:
-    lua_State *luaState;
+    lua_State* luaState;
 };
 
 #endif

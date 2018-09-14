@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include <map>
+#include <memory>
 #include <random>
 #include <string>
 #include <vector>
@@ -35,35 +36,31 @@
 #include "Locator.h"
 #include "MainMenuState.h"
 #include "MapState.h"
+#include "RendererManager.h"
+#include "TextureManager.h"
+#include "WorldManager.h"
 
 class GameEngine {
 public:
-    static SDL_Renderer* currentRenderer;
-
-//    static GameFont* GetFont(const std::string fontName);
-
     GameEngine();
     ~GameEngine();
     bool Setup();
     void Start();
 
 private:
-    SDL_Window* screen;
-    SDL_Renderer* renderer;
+//    SDL_Window* screen;
+//    std::shared_ptr<SDL_Renderer> renderer;
     int screenWidth;
     int screenHeight;
     std::string windowTitle;
     std::vector<GameState*> states;
     std::string applicationDataDiretory;
-//    std::map<std::string, GameFont*> fonts;
-//    std::map<std::string, int> fontSizes;
     GameSettings* settings;
     GameInputMapper inputMapper;
     Log::Logger* logger;
 
     bool SetupLogging();
     bool SetupSDL();
-//    bool LoadFonts();
     bool LoadServices();
     void MainLoop();
     void Render();

@@ -7,6 +7,8 @@
 
 #include "FileSystemHelpers.h"
 
+#include "Locator.h"
+
 class GameObject {
 public:
     GameObject();

@@ -91,8 +91,8 @@ std::string GameState::ProcessInput(int key) {
 void GameState::Render() {
 }
 
-bool GameState::LoadResources(std::string textureListPath, std::string fontListPath, std::string SoundListPath) {
-    this->logger->debug() << "Loading resource lists: \"" << textureListPath << "\", \"" << fontListPath << "\", \"" << SoundListPath << "\".";
+bool GameState::LoadResources(std::string textureListPath, std::string SoundListPath) {
+    this->logger->debug() << "Loading resource lists: \"" << textureListPath << "\", \"" << SoundListPath << "\".";
 
     return this->LoadTextures(textureListPath) && this->LoadSounds(SoundListPath);
 }
@@ -110,74 +110,28 @@ bool GameState::LoadTextures(std::string resourceListPath) {
 
     AssetListParser parser = AssetListParser();
     std::map<std::string, std::string> assetList;
+
     parser.Parse(jsonString, &assetList);
 
-    this->logger->debug() << "parsed asset list contents = {";
-    for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
-        this->logger->debug() << (*i).first << " : " << (*i).second;
-    }
-    this->logger->debug() << "}";
-
     for (std::map<std::string, std::string>::iterator textureFilename = assetList.begin(); textureFilename != assetList.end(); textureFilename++) {
-        GameTexture* texture = new GameTexture();
+        std::shared_ptr<GameTexture> texture = std::make_shared<GameTexture>(textureFilename->second);
 
-        this->logger->debug() << "Loading texture \"" << textureFilename->first << "\" from \"" << textureFilename->second << "\".";
 
-        if (!texture->Load(textureFilename->second)) {
-            return false;
-        }
+//        GameTexture* texture = new GameTexture();
+//
+//        this->logger->debug() << "Loading texture \"" << textureFilename->first << "\" from \"" << textureFilename->second << "\".";
+//
+//        if (!texture->Load(textureFilename->second)) {
+//            return false;
+//        }
+//
+//        this->textures[textureFilename->first] = texture;
 
-        this->textures[textureFilename->first] = texture;
+        Services::Locator::TextureService()->AddTexture(texture, textureFilename->first, this);
     }
 
     return true;
 }
-
-//bool GameState::LoadFonts(std::string resourceListPath) {
-//    this->logger->debug() << "Loading fonts from \"" << resourceListPath << "\"";
-//
-//    std::string jsonString;
-//
-//    if (!FileSystemHelpers::ReadFile(resourceListPath, jsonString)) {
-//        this->logger->error() << "Failed to load resource list \"" << resourceListPath << "\".";
-//
-//        return false;
-//    }
-//    
-//    AssetListParser parser = AssetListParser();
-//    std::map<std::string, std::string> assetList;
-//    parser.Parse(jsonString, &assetList);
-//    this->logger->debug() << "parsed asset list \"" << resourceListPath << "\".";
-//    
-//    this->logger->debug() << "parsed asset list contents = {";
-//    for (std::map<std::string, std::string>::iterator i = assetList.begin(); i != assetList.end(); i++) {
-//        this->logger->debug() << (*i).first << " : " << (*i).second;
-//    }
-//    this->logger->debug() << "}";
-//
-//    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
-//        GameFont* font = new GameFont();
-//
-//        // Bah.
-//        int fontSize;
-//
-//        try {
-//            fontSize = this->fontSizes.at(fontFilename->first);
-//        } catch (const std::out_of_range& exception) {
-//            fontSize = 10;
-//        }
-//
-//        if (!font->Load(fontFilename->second, fontSize)) {
-//            this->logger->error() << "failed to load " << fontFilename->second;
-//
-//            return false;
-//        }
-//
-//        this->fonts[fontFilename->first] = font;
-//    }
-//    
-//    return true;
-//}
 
 bool GameState::LoadSounds(std::string resourceListPath) {
     return true;

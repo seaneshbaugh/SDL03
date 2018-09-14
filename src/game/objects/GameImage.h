@@ -3,6 +3,7 @@
 
 #include "GameTexture.h"
 #include "GameObject.h"
+#include "Locator.h"
 
 class GameEngine;
 
@@ -12,14 +13,14 @@ class GameEngine;
 class GameImage : public GameObject {
 public:
     GameImage();
-    GameImage(GameTexture* texture, int x, int y);
+    GameImage(std::shared_ptr<GameTexture> texture, int x, int y);
     ~GameImage();
-    void SetTexture(GameTexture* texture);
+    void SetTexture(std::shared_ptr<GameTexture> texture);
     SDL_Rect GetPosition();
     void SetPosition(int x, int y);
     void Render(SDL_Rect* clip = nullptr);
 private:
-    GameTexture* texture;
+    std::shared_ptr<GameTexture> texture;
     int x;
     int y;
     int width;
@@ -35,31 +36,27 @@ public:
     static Lunar<LuaGameImage>::RegType methods[];
 
     LuaGameImage(lua_State *L) {
-        int argc = lua_gettop(L);
+        const int argc = lua_gettop(L);
 
-        GameTexture* texture;
-
-        int x;
-
-        int y;
+        // GameTexture* texture = nullptr;
+        std::string textureName = "";
+        int x = 0;
+        int y = 0;
 
         if (argc > 0) {
-            texture = (GameTexture*)lua_touserdata(L, 1);
-        } else {
-            texture = NULL;
+            // texture = static_cast<GameTexture*>(lua_touserdata(L, 1));
+            textureName = luaL_checkstring(L, 1);
         }
 
         if (argc > 1) {
             x = (int)luaL_checkinteger(L, 2);
-        } else {
-            x = 0;
         }
 
         if (argc > 2) {
             y = (int)luaL_checkinteger(L, 3);
-        } else {
-            y = 0;
         }
+
+        std::shared_ptr<GameTexture> texture = Services::Locator::TextureService()->GetTexture(textureName);
 
         this->realObject = new GameImage(texture, x, y);
     }

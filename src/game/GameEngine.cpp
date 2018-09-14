@@ -5,13 +5,7 @@ const int SCREEN_HEIGHT = 480;
 const int FRAMES_PER_SECOND = 60;
 const std::string APPLICATION_NAME = "SDL03";
 
-SDL_Renderer* GameEngine::currentRenderer = nullptr;
-
-GameEngine::GameEngine() {
-    this->screen = nullptr;
-
-    this->renderer = nullptr;
-    
+GameEngine::GameEngine() {    
     this->screenWidth = SCREEN_WIDTH;
     
     this->screenHeight = SCREEN_HEIGHT;
@@ -116,17 +110,17 @@ bool GameEngine::SetupSDL() {
 
     this->logger->info() << "SDL initialized.";
 
-    if (SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer)) {
-        this->logger->critic() << "Failed to create window and renderer. " << SDL_GetError();
-
-        return false;
-    }
-
-    this->logger->info() << "Window and render created.";
-
-    SDL_SetWindowTitle(this->screen, this->windowTitle.c_str());
-
-    GameEngine::currentRenderer = this->renderer;
+//    if (SDL_CreateWindowAndRenderer(this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL, &this->screen, &this->renderer)) {
+//        this->logger->critic() << "Failed to create window and renderer. " << SDL_GetError();
+//
+//        return false;
+//    }
+//
+//    this->logger->info() << "Window and render created.";
+//
+//    SDL_SetWindowTitle(this->screen, this->windowTitle.c_str());
+//
+//    GameEngine::currentRenderer = this->renderer;
 
     if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
         this->logger->critic() << "Failed to initialize SDL_image. " << IMG_GetError();
@@ -156,55 +150,16 @@ bool GameEngine::SetupSDL() {
 }
 
 bool GameEngine::LoadServices() {
+    Services::Locator::ProvideService(std::make_shared<Services::Implementations::RendererManager>(this->screenWidth, this->screenHeight, this->windowTitle));
+
+    Services::Locator::ProvideService(std::make_shared<Services::Implementations::TextureManager>());
+
     const std::string fontAssetListPath = "resources/asset_lists/fonts.json";
 
     Services::Locator::ProvideService(std::make_shared<Services::Implementations::FontManager>(fontAssetListPath));
     
     return true;
 }
-
-//bool GameEngine::LoadFonts() {
-//    const std::string assetListPath = "resources/asset_lists/fonts.json";
-//
-//    this->logger->debug() << "Loading fonts from asset list \"" << assetListPath << "\".";
-//
-//    std::string jsonString;
-//
-//    if (!FileSystemHelpers::ReadFile(assetListPath, jsonString)) {
-//        this->logger->error() << "Failed to load asset list \"" << assetListPath << "\".";
-//
-//        return false;
-//    }
-//
-//    AssetListParser parser = AssetListParser();
-//    std::map<std::string, std::string> assetList;
-//
-//    parser.Parse(jsonString, &assetList);
-//
-//    this->logger->debug() << "parsed asset list \"" << assetListPath << "\".";
-//
-//    for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
-//        GameFont* font = new GameFont();
-//
-//        int fontSize;
-//
-//        try {
-//            fontSize = this->fontSizes.at(fontFilename->first);
-//        } catch (const std::out_of_range& exception) {
-//            fontSize = 10;
-//        }
-//
-//        if (!font->Load(fontFilename->second, fontSize)) {
-//            this->logger->error() << "Failed to load font file \"" << fontFilename->second << "\".";
-//
-//            return false;
-//        }
-//
-//        this->fonts[fontFilename->first] = font;
-//    }
-//
-//    return true;
-//}
 
 void GameEngine::Start() {
     IntroState* introState = new IntroState(nullptr);
@@ -292,13 +247,13 @@ void GameEngine::MainLoop() {
 }
 
 void GameEngine::Render() {
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(Services::Locator::RendererService()->GetRenderer().get(), 0, 0, 0, 255);
 
-    SDL_RenderClear(this->renderer);
+    SDL_RenderClear(Services::Locator::RendererService()->GetRenderer().get());
 
     this->states.back()->Render();
 
-    SDL_RenderPresent(this->renderer);
+    SDL_RenderPresent(Services::Locator::RendererService()->GetRenderer().get());
 }
 
 void GameEngine::DestroyStates() {
@@ -310,16 +265,10 @@ void GameEngine::DestroyStates() {
 }
 
 void GameEngine::StopServices() {
-    const std::string fontAssetListPath = "resources/asset_lists/fonts.json";
-
     Services::Locator::StopServices();
 }
 
 void GameEngine::QuitSDL() {
-    if (this->screen != nullptr) {
-        SDL_DestroyWindow(this->screen);
-    }
-
     Mix_CloseAudio();
 
     TTF_Quit();

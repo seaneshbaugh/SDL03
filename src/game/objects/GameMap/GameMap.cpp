@@ -131,7 +131,7 @@ void GameMap::Render(int xOffset, int yOffset, int xMovementOffset, int yMovemen
                 if (*tile != 0) {
                     SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
 
-                    SDL_RenderCopy(GameEngine::currentRenderer, this->tiles[*tile]->texture->texture, nullptr, &tilePosition);
+                    SDL_RenderCopy(Services::Locator::RendererService()->GetRenderer().get(), this->tiles[*tile]->texture->texture, nullptr, &tilePosition);
                 }
                 
                 x++;

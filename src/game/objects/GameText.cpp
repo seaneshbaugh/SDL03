@@ -30,10 +30,10 @@ GameText::GameText() {
 
     this->textLocation = {0, 0, 0, 0};
 
-    this->texture = NULL;
+    this->texture = nullptr;
 }
 
-GameText::GameText(std::string text, GameFont* font, int x, int y, SDL_Color color) {
+GameText::GameText(std::string text, std::shared_ptr<GameFont> font, int x, int y, SDL_Color color) {
     this->text = text;
 
     this->font = font;
@@ -67,7 +67,7 @@ void GameText::SetText(std::string text) {
     this->UpdateTexture();
 }
 
-void GameText::SetFont(GameFont* font) {
+void GameText::SetFont(std::shared_ptr<GameFont> font) {
     this->font = font;
 
     this->UpdateTexture();
@@ -87,7 +87,7 @@ void GameText::SetPosition(int x, int y) {
     int h = 0;
 
     if (this->texture) {
-        SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
+        SDL_QueryTexture(this->texture, nullptr, nullptr, &w, &h);
     }
 
     this->textLocation = {x, y, w, h};
@@ -100,21 +100,25 @@ void GameText::SetColor(SDL_Color color) {
 }
 
 void GameText::Render() {
-    if (this->texture) {
-        SDL_RenderCopy(GameEngine::currentRenderer, this->texture, NULL, &this->textLocation);
+    if (this->texture == nullptr) {
+        return;
     }
+
+    Services::Locator::RendererService()->Render(this->texture, nullptr, &this->textLocation);
 }
 
 void GameText::UpdateTexture() {
     if (this->texture) {
         SDL_DestroyTexture(this->texture);
 
-        this->texture = NULL;
+        this->texture = nullptr;
     }
 
-    SDL_Surface *textSurface = TTF_RenderText_Blended(this->font->font, this->text.c_str(), this->color);
+    SDL_Surface* textSurface = TTF_RenderText_Blended(this->font->font, this->text.c_str(), this->color);
 
-    this->texture = SDL_CreateTextureFromSurface(GameEngine::currentRenderer, textSurface);
+    //SDL_Texture* texture = ;
+
+    this->texture = SDL_CreateTextureFromSurface(Services::Locator::RendererService()->GetRenderer().get(), textSurface);
 
     SDL_FreeSurface(textSurface);
 

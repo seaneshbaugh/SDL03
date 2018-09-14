@@ -16,17 +16,19 @@ time = 0
 
 -- I probably need to make some sort of proper menu object.
 function initialize()
-    font = main_menu_state:getFont("PixChicago")
+    font_name = "PixChicago"
+    font_size = 10
 
-    cursor = main_menu_state:getTexture("cursor-right")
+    --cursor = main_menu_state:getTexture("cursor-right")
 
-    table.insert(texts, GameText("New Game", font, 200, 150, 255, 255, 255))
+    table.insert(texts, GameText("New Game", font_name, font_size, 200, 150, 255, 255, 255))
 
-    table.insert(texts, GameText("Load Game", font, 200, 200, 255, 255, 255))
+    table.insert(texts, GameText("Load Game", font_name, font_size, 200, 200, 255, 255, 255))
 
-    table.insert(texts, GameText("Settings", font, 200, 250, 255, 255, 255))
+    table.insert(texts, GameText("Settings", font_name, font_size, 200, 250, 255, 255, 255))
 
-    hand = GameImage(cursor, 175, 150 + (50 * menu_option))
+    -- hand = GameImage(cursor, 175, 150 + (50 * menu_option))
+    hand = GameImage("cursor-right", 175, 150 + (50 * menu_option))
 end
 
 function process_input(key_code)

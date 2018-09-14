@@ -4,6 +4,8 @@
 #include "LoggerCpp.h"
 #include "../../../lib/libjson/libjson.h"
 
+#include "Locator.h"
+
 class GameCharacter;
 
 class CharacterParser {

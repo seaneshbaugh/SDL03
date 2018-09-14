@@ -1,5 +1,5 @@
-#ifndef __SDL03__Fonts__
-#define __SDL03__Fonts__
+#ifndef __SDL03__FontService__
+#define __SDL03__FontService__
 
 #include <memory>
 

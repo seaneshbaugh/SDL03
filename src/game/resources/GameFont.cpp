@@ -1,5 +1,6 @@
 #include "GameFont.h"
 
+const std::string GameFont::DEFAULT_FONT_NAME = "DroidSans";
 const int GameFont::DEFAULT_FONT_SIZE = 10;
 
 GameFont::GameFont() {

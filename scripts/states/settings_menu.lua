@@ -41,12 +41,14 @@ hand = nil
 accept_raw_input = false
 
 function initialize()
-    font = settings_menu_state:getFont("PixChicago")
+    -- font = settings_menu_state:getFont("PixChicago")
+    font_name = "PixChicago"
+    font_size = 10
 
     cursor = settings_menu_state:getTexture("cursor-right")
 
     for index, menu in pairs(current_menu["options"]) do
-        table.insert(texts, GameText(menu["label"], font, 200, 100 + (50 * index - 1), 255, 255, 255))
+        table.insert(texts, GameText(menu["label"], font_name, font_size, 200, 100 + (50 * index - 1), 255, 255, 255))
     end
 
     hand = GameImage(cursor, 175, 150 + (50 * current_menu["current_option"]))

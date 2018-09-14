@@ -30,7 +30,7 @@ bool GameTexture::Load(std::string filename) {
         return false;
     }
 
-    this->texture = SDL_CreateTextureFromSurface(GameEngine::currentRenderer, surface);
+    this->texture = SDL_CreateTextureFromSurface(Services::Locator::RendererService()->GetRenderer().get(), surface);
 
     SDL_FreeSurface(surface);
 

@@ -54,6 +54,15 @@
 		7B4ED88E212E0755007559AC /* AssetListParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B4ED88C212E0755007559AC /* AssetListParser.cpp */; };
 		7B53C16A187A4BA700756488 /* GameMapObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B53C168187A4BA700756488 /* GameMapObject.cpp */; };
 		7B8536812141835B00436134 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 7B8536802141835B00436134 /* scripts */; };
+		7B8536842142D8B600436134 /* RendererService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8536822142D8B600436134 /* RendererService.cpp */; };
+		7B8536872142D9CE00436134 /* RendererManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8536852142D9CE00436134 /* RendererManager.cpp */; };
+		7B85368A214753A000436134 /* TextureService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B853688214753A000436134 /* TextureService.cpp */; };
+		7B85368E214756E700436134 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B85368C214756E700436134 /* TextureManager.cpp */; };
+		7B8536912148595200436134 /* WorldService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B85368F2148595200436134 /* WorldService.cpp */; };
+		7B8536942148596E00436134 /* LoggerService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B8536922148596E00436134 /* LoggerService.cpp */; };
+		7B85369721485A1B00436134 /* WorldManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B85369521485A1B00436134 /* WorldManager.cpp */; };
+		7B85369A21485A2C00436134 /* LoggerManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B85369821485A2C00436134 /* LoggerManager.cpp */; };
+		7B85369D214A18E900436134 /* ResourceIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B85369B214A18E900436134 /* ResourceIdentifier.cpp */; };
 		7B9A6064184D3E810016BA1A /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6027184D3E810016BA1A /* lapi.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A6029184D3E810016BA1A /* lauxlib.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		7B9A6066184D3E810016BA1A /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 7B9A602B184D3E810016BA1A /* lbaselib.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -215,6 +224,24 @@
 		7B53C168187A4BA700756488 /* GameMapObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameMapObject.cpp; sourceTree = "<group>"; };
 		7B53C169187A4BA700756488 /* GameMapObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameMapObject.h; sourceTree = "<group>"; };
 		7B8536802141835B00436134 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
+		7B8536822142D8B600436134 /* RendererService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RendererService.cpp; sourceTree = "<group>"; };
+		7B8536832142D8B600436134 /* RendererService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RendererService.h; sourceTree = "<group>"; };
+		7B8536852142D9CE00436134 /* RendererManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RendererManager.cpp; sourceTree = "<group>"; };
+		7B8536862142D9CE00436134 /* RendererManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RendererManager.h; sourceTree = "<group>"; };
+		7B853688214753A000436134 /* TextureService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureService.cpp; sourceTree = "<group>"; };
+		7B853689214753A000436134 /* TextureService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureService.h; sourceTree = "<group>"; };
+		7B85368C214756E700436134 /* TextureManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
+		7B85368D214756E700436134 /* TextureManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
+		7B85368F2148595200436134 /* WorldService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WorldService.cpp; sourceTree = "<group>"; };
+		7B8536902148595200436134 /* WorldService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorldService.h; sourceTree = "<group>"; };
+		7B8536922148596E00436134 /* LoggerService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoggerService.cpp; sourceTree = "<group>"; };
+		7B8536932148596E00436134 /* LoggerService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoggerService.h; sourceTree = "<group>"; };
+		7B85369521485A1B00436134 /* WorldManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WorldManager.cpp; sourceTree = "<group>"; };
+		7B85369621485A1B00436134 /* WorldManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorldManager.h; sourceTree = "<group>"; };
+		7B85369821485A2C00436134 /* LoggerManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoggerManager.cpp; sourceTree = "<group>"; };
+		7B85369921485A2C00436134 /* LoggerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoggerManager.h; sourceTree = "<group>"; };
+		7B85369B214A18E900436134 /* ResourceIdentifier.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceIdentifier.cpp; sourceTree = "<group>"; };
+		7B85369C214A18E900436134 /* ResourceIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResourceIdentifier.h; sourceTree = "<group>"; };
 		7B890820187F4F7300C1E072 /* GameInputMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInputMapper.h; sourceTree = "<group>"; };
 		7B9A6025184D3E810016BA1A /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		7B9A6027184D3E810016BA1A /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
@@ -570,6 +597,8 @@
 				7B342A6F18443AAE00BA2C29 /* GameSound.h */,
 				7B342A6B18443AA200BA2C29 /* GameTexture.cpp */,
 				7B342A6C18443AA200BA2C29 /* GameTexture.h */,
+				7B85369B214A18E900436134 /* ResourceIdentifier.cpp */,
+				7B85369C214A18E900436134 /* ResourceIdentifier.h */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -706,6 +735,14 @@
 			children = (
 				7BACFCF9213DEB3000F0FB09 /* FontManager.cpp */,
 				7BACFCFA213DEB3000F0FB09 /* FontManager.h */,
+				7B85369821485A2C00436134 /* LoggerManager.cpp */,
+				7B85369921485A2C00436134 /* LoggerManager.h */,
+				7B8536852142D9CE00436134 /* RendererManager.cpp */,
+				7B8536862142D9CE00436134 /* RendererManager.h */,
+				7B85368C214756E700436134 /* TextureManager.cpp */,
+				7B85368D214756E700436134 /* TextureManager.h */,
+				7B85369521485A1B00436134 /* WorldManager.cpp */,
+				7B85369621485A1B00436134 /* WorldManager.h */,
 			);
 			path = implementations;
 			sourceTree = "<group>";
@@ -715,6 +752,14 @@
 			children = (
 				7BACFCF3213DE5DC00F0FB09 /* FontService.cpp */,
 				7BACFCF4213DE5DC00F0FB09 /* FontService.h */,
+				7B8536922148596E00436134 /* LoggerService.cpp */,
+				7B8536932148596E00436134 /* LoggerService.h */,
+				7B8536822142D8B600436134 /* RendererService.cpp */,
+				7B8536832142D8B600436134 /* RendererService.h */,
+				7B853688214753A000436134 /* TextureService.cpp */,
+				7B853689214753A000436134 /* TextureService.h */,
+				7B85368F2148595200436134 /* WorldService.cpp */,
+				7B8536902148595200436134 /* WorldService.h */,
 			);
 			path = interfaces;
 			sourceTree = "<group>";
@@ -975,14 +1020,17 @@
 				7BE7017C212FC42900B084A5 /* main.cpp in Sources */,
 				7B9A606F184D3E810016BA1A /* lfunc.c in Sources */,
 				7BACFCA621374B0E00F0FB09 /* GameItem.cpp in Sources */,
+				7B85368A214753A000436134 /* TextureService.cpp in Sources */,
 				7B9A6064184D3E810016BA1A /* lapi.c in Sources */,
 				7377F2D51B21433500D43B66 /* GameMonster.cpp in Sources */,
+				7B85369721485A1B00436134 /* WorldManager.cpp in Sources */,
 				7B4ED88B212C64C8007559AC /* MapParser.cpp in Sources */,
 				7BB3825A186353A900391DC5 /* GameMapLayer.cpp in Sources */,
 				7BE70174212FBACC00B084A5 /* OutputDebug.cpp in Sources */,
 				7BE70176212FBACC00B084A5 /* Manager.cpp in Sources */,
 				7B9A607D184D3E810016BA1A /* lstrlib.c in Sources */,
 				7BE474421845547C002EA054 /* JSONChildren.cpp in Sources */,
+				7B8536942148596E00436134 /* LoggerService.cpp in Sources */,
 				7B9A606B184D3E810016BA1A /* ldblib.c in Sources */,
 				7B9A6084184D3E810016BA1A /* lvm.c in Sources */,
 				7B342A53183F2D6900BA2C29 /* GameObject.cpp in Sources */,
@@ -1003,6 +1051,8 @@
 				7BE474451845547C002EA054 /* JSONMemory.cpp in Sources */,
 				7B9A608E184E49CC0016BA1A /* GameText.cpp in Sources */,
 				7B342A56184321DB00BA2C29 /* GameState.cpp in Sources */,
+				7B85369D214A18E900436134 /* ResourceIdentifier.cpp in Sources */,
+				7B85368E214756E700436134 /* TextureManager.cpp in Sources */,
 				7BACFCAD213A0D9D00F0FB09 /* CharacterParser.cpp in Sources */,
 				7BE70175212FBACC00B084A5 /* Log.cpp in Sources */,
 				730B279C1B182841002629F8 /* sqlite3.c in Sources */,
@@ -1022,6 +1072,7 @@
 				7B9A6072184D3E810016BA1A /* liolib.c in Sources */,
 				7B9A6151186025030016BA1A /* MapState.cpp in Sources */,
 				730B27B41B1CAA4D002629F8 /* StringHelpers.cpp in Sources */,
+				7B85369A21485A2C00436134 /* LoggerManager.cpp in Sources */,
 				7BE474471845547C002EA054 /* JSONNode_Mutex.cpp in Sources */,
 				7B9A6070184D3E810016BA1A /* lgc.c in Sources */,
 				7BACFCFE213E025E00F0FB09 /* Locator.cpp in Sources */,
@@ -1048,16 +1099,19 @@
 				7B9A607E184D3E810016BA1A /* ltable.c in Sources */,
 				7B9A606C184D3E810016BA1A /* ldebug.c in Sources */,
 				7B9A6071184D3E810016BA1A /* linit.c in Sources */,
+				7B8536842142D8B600436134 /* RendererService.cpp in Sources */,
 				7B9A6075184D3E810016BA1A /* lmem.c in Sources */,
 				7BE70179212FBACC00B084A5 /* Logger.cpp in Sources */,
 				7B9A607B184D3E810016BA1A /* lstate.c in Sources */,
 				7B3ADF6B2135FCF000E5917E /* GameMapEncounterAreaParser.cpp in Sources */,
 				7B9A60FA185EBD6F0016BA1A /* GameMapTile.cpp in Sources */,
 				7B9A6085184D3E810016BA1A /* lzio.c in Sources */,
+				7B8536872142D9CE00436134 /* RendererManager.cpp in Sources */,
 				7B9A6078184D3E810016BA1A /* lopcodes.c in Sources */,
 				7B9A607A184D3E810016BA1A /* lparser.c in Sources */,
 				730B27B11B1C2DB3002629F8 /* AppleFileSystemHelpers.cpp in Sources */,
 				730B27AA1B1C12DB002629F8 /* GameSettings.cpp in Sources */,
+				7B8536912148595200436134 /* WorldService.cpp in Sources */,
 				7BE474461845547C002EA054 /* JSONNode.cpp in Sources */,
 				7BE4744B1845547C002EA054 /* JSONWorker.cpp in Sources */,
 				7BB8B97F187E48850078B7A1 /* BattleState.cpp in Sources */,

@@ -12,11 +12,11 @@ class GameEngine;
 class GameText : public GameObject {
 public:
     GameText();
-    GameText(std::string text, GameFont* font, int x, int y, SDL_Color color);
+    GameText(std::string text, std::shared_ptr<GameFont> font, int x, int y, SDL_Color color);
     ~GameText();
     std::string GetText();
     void SetText(std::string text);
-    void SetFont(GameFont* font);
+    void SetFont(std::shared_ptr<GameFont> font);
     SDL_Rect GetPosition();
     void SetPosition(int x, int y);
     SDL_Color GetColor();
@@ -24,12 +24,12 @@ public:
     void Render();
 private:
     std::string text;
-    GameFont* font;
+    std::shared_ptr<GameFont> font;
     int x;
     int y;
     SDL_Color color;
     SDL_Rect textLocation;
-    SDL_Texture *texture;
+    SDL_Texture* texture;
 
     void UpdateTexture();
 };
@@ -40,67 +40,52 @@ public:
     static Lunar<LuaGameText>::RegType methods[];
 
     LuaGameText(lua_State *L) {
-        int argc = lua_gettop(L);
+        const int argc = lua_gettop(L);
 
-        std::string text;
-
-        GameFont* font;
-
-        int x;
-
-        int y;
-
-        Uint8 red;
-
-        Uint8 green;
-
-        Uint8 blue;
-
-        SDL_Color color;
+        std::string text = "";
+        std::string fontName = GameFont::DEFAULT_FONT_NAME;
+        int fontSize = GameFont::DEFAULT_FONT_SIZE;
+        int x = 0;
+        int y = 0;
+        Uint8 red = 255;
+        Uint8 green = 255;
+        Uint8 blue = 255;
 
         if (argc > 0) {
             text = luaL_checkstring(L, 1);
-        } else {
-            text = "";
         }
 
         if (argc > 1) {
-            font = (GameFont*)lua_touserdata(L, 2);
-        } else {
-            font = NULL;
+            fontName = luaL_checkstring(L, 2);
         }
 
         if (argc > 2) {
-            x = (int)luaL_checkinteger(L, 3);
-        } else {
-            x = 0;
+            fontSize = luaL_checkint(L, 3);
         }
 
         if (argc > 3) {
-            y = (int)luaL_checkinteger(L, 4);
-        } else {
-            y = 0;
+            x = luaL_checkint(L, 4);
         }
 
         if (argc > 4) {
-            red = (Uint8)luaL_checkinteger(L, 5);
-        } else {
-            red = 255;
+            y = luaL_checkint(L, 5);
         }
 
         if (argc > 5) {
-            green = (Uint8)luaL_checkinteger(L, 6);
-        } else {
-            green = 255;
+            red = static_cast<Uint8>(luaL_checkinteger(L, 6));
         }
 
         if (argc > 6) {
-            blue = (Uint8)luaL_checkinteger(L, 7);
-        } else {
-            blue = 255;
+            green = static_cast<Uint8>(luaL_checkinteger(L, 7));
         }
 
-        color = {red, green, blue};
+        if (argc > 7) {
+            blue = static_cast<Uint8>(luaL_checkinteger(L, 8));
+        }
+
+        const SDL_Color color = {red, green, blue};
+
+        const std::shared_ptr<GameFont> font = Services::Locator::FontService()->GetFont(fontName, fontSize);
 
         this->realObject = new GameText(text, font, x, y, color);
     }
@@ -122,11 +107,6 @@ public:
 
         return 0;
     }
-
-//    int setFont(lua_State *L) {
-//
-//        return 0;
-//    }
 
     int getX(lua_State *L) {
         SDL_Rect position = this->realObject->GetPosition();

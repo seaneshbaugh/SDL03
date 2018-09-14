@@ -80,14 +80,22 @@ public:
         return 1;
     }
 
-    int getPlayerSprite(lua_State *L) {
-        GameTexture* playerSprite = GameState::world->playerParty->characters[0]->spritesheet;
+    int getPlayerSpriteName(lua_State *L) {
+        //std::shared_ptr<GameTexture> playerSprite = GameState::world->playerParty->characters[0]->spritesheet;
 
-        if (playerSprite) {
-            lua_pushlightuserdata(L, (void*)playerSprite);
-        } else {
-            throw;
-        }
+        std::string playerSpriteName = GameState::world->playerParty->characters[0]->spritesheetName;
+
+        lua_pushstring(L, playerSpriteName.c_str());
+
+//        if (playerSprite == nullptr) {
+//            throw;
+//        }
+//
+//        if (playerSprite) {
+//            lua_pushlightuserdata(L, static_cast<void*>(playerSprite.get()));
+//        } else {
+//            throw;
+//        }
 
         return 1;
     }

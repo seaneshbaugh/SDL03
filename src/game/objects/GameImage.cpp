@@ -24,7 +24,7 @@ GameImage::GameImage() {
     this->textureLocation = {0, 0, 0, 0};
 }
 
-GameImage::GameImage(GameTexture* texture, int x, int y) : GameImage() {
+GameImage::GameImage(std::shared_ptr<GameTexture> texture, int x, int y) : GameImage() {
     this->SetTexture(texture);
 
     this->SetPosition(x, y);
@@ -33,7 +33,7 @@ GameImage::GameImage(GameTexture* texture, int x, int y) : GameImage() {
 GameImage::~GameImage() {
 }
 
-void GameImage::SetTexture(GameTexture* texture) {
+void GameImage::SetTexture(std::shared_ptr<GameTexture> texture) {
     this->texture = texture;
 
     if (this->texture) {
@@ -65,5 +65,7 @@ void GameImage::Render(SDL_Rect* clip) {
         renderQuad.h = clip->h;
     }
 
-    SDL_RenderCopy(GameEngine::currentRenderer, this->texture->texture, clip, &renderQuad);
+    Services::Locator::RendererService()->Render(this->texture, clip, &renderQuad);
+
+    // SDL_RenderCopy(GameEngine::currentRenderer, this->texture->texture, clip, &renderQuad);
 }

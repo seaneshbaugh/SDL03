@@ -17,6 +17,7 @@ class GameFont : public GameResource {
 public:
     friend class Services::Implementations::FontManager;
 
+    static const std::string DEFAULT_FONT_NAME;
     static const int DEFAULT_FONT_SIZE;
 
     TTF_Font* font;

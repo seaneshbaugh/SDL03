@@ -10,5 +10,6 @@
     "stamina":1,
     "luck":1,
     "abilities":["attack"],
-    "sprite":"assets/images/monsters/slime.png"
+    "sprite":"assets/images/monsters/slime.png",
+    "spritesheet":"assets/images/monsters/slime.png"
 }

@@ -69,7 +69,7 @@ protected:
     std::map <std::string, GameSong*> songs;
     std::vector <GameText*> texts;
 
-    bool LoadResources(std::string textureListPath, std::string fontListPath, std::string SoundListPath);
+    bool LoadResources(std::string textureListPath, std::string SoundListPath);
     bool LoadTextures(std::string resourceListPath);
     bool LoadSounds(std::string resourceListPath);
     bool LoadSongs(std::string resourceListPath);
@@ -85,7 +85,6 @@ public:
     }
 
     ~LuaGameState() {
-
     }
 
     void setObject(lua_State *L) {
@@ -101,8 +100,7 @@ public:
     int getTexture(lua_State *L) {
         std::string textureName = luaL_checkstring(L, 1);
         std::cout << "Getting texture \"" << textureName << "\"." << std::endl << std::endl;
-        
-        
+
         std::cout << "Available textures:" << std::endl;
         for (std::map<std::string, GameTexture*>::iterator i = this->realObject->textures.begin(); i != this->realObject->textures.end(); i++) {
             std::cout << (*i).first << std::endl;
@@ -120,6 +118,11 @@ public:
         return 1;
     }
 
+    // TODO: Deprecate this? There's probably no real need to directly access font objects
+    // from Lua land. The constructors for lua versions of objects can just take a string
+    // as the font name and optionally an int as the font size. Then when the actual object
+    // is constructed the combined font name and font size is requested from the font
+    // services. The reference to the font can then be held in the C++ object.
     int getFont(lua_State *L) {
         std::string fontName = luaL_checkstring(L, 1);
 
@@ -131,7 +134,8 @@ public:
 
         std::shared_ptr<GameFont> font = Services::Locator::FontService()->GetFont(fontName, fontSize);
 
-        lua_pushlightuserdata(L, static_cast<void*>(font.get()));
+        //throw;
+        lua_pushlightuserdata(L, static_cast<void*>(&font));
 
         return 1;
     }
