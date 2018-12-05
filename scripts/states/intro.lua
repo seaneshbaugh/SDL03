@@ -44,7 +44,7 @@ function initialize()
 end
 
 function process_input(key_code)
-    return ""
+    return "main_menu"
 end
 
 function update()

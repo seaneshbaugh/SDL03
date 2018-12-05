@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+COMMENT_START = '//'
+
+LINE_LENGTH = 80
+
+input = ARGF.read
+
+input_lines = input.split("\n")
+
+words = input_lines.map do |line|
+  line_words = line.split(/\s/)
+
+  line_words.shift if line_words.first == COMMENT_START
+
+  line_words
+end.flatten
+
+output_lines = []
+
+line = "#{COMMENT_START} "
+i = 0
+
+loop do
+  break if i >= words.length - 1
+
+  line += "#{words[i]} "
+
+  i += 1
+
+  if i >= words.length - 1
+    output_lines << line.strip
+    break
+  end
+
+  if line.length + words[i].length + COMMENT_START.length + 1 > LINE_LENGTH
+    output_lines << line.strip
+    line = "#{COMMENT_START} "
+  end
+end
+
+puts output_lines

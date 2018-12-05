@@ -1,12 +1,18 @@
-#ifndef __SDL03__main__
-#define __SDL03__main__
+#ifndef SDL03_main
+#define SDL03_main
 
-#define NDEBUG
-#define JSON_ISO_STRICT
+#include <map>
+#include <memory>
+#include <vector>
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <sys/param.h>
+#include "LuaIntf.h"
 
-#include "GameEngine.h"
+namespace LuaIntf {
+    LUA_USING_SHARED_PTR_TYPE(std::shared_ptr)
+    LUA_USING_LIST_TYPE(std::vector)
+    LUA_USING_MAP_TYPE(std::map)
+}
+
+#include "game/engine.hpp"
 
 #endif
