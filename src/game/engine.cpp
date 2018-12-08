@@ -10,6 +10,7 @@ namespace Game {
         this->StartSDL();
         this->StartVideoService();
         this->StartTextureService();
+        this->StartFontService();
         this->StartAudioService();
         this->StartInputService();
         this->StartWorldService();
@@ -19,6 +20,7 @@ namespace Game {
         this->StopWorldService();
         this->StopInputService();
         this->StopAudioService();
+        this->StopFontService();
         this->StopTextureService();
         this->StopVideoService();
         this->StopSDL();

@@ -51,7 +51,7 @@ namespace Game {
             Locator::fontService = fontService;
         }
 
-        void Locator::ProvideService(std::shared_ptr<Interfaces::InputService> InputService) {
+        void Locator::ProvideService(std::shared_ptr<Interfaces::InputService> inputService) {
             Locator::inputService = inputService;
         }
 

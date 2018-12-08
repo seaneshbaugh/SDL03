@@ -22,7 +22,7 @@ namespace Game {
             Objects::Text::LuaInterface::Bind(this->luaContext);
             Intro::LuaInterface::Bind(this->luaContext);
 
-            LuaIntf::Lua::setGlobal(this->luaContext->state(), "raw_intro_state", this->shared_from_this());
+            LuaIntf::Lua::setGlobal(this->luaContext->state(), "intro_state", this);
 
             this->logger->debug() << "Loading \"" << scriptFileName << "\".";
 
@@ -37,7 +37,7 @@ namespace Game {
         }
 
         std::shared_ptr<Base> Intro::Update(const int key) {
-            std::string nextState = "";
+            std::string nextState = "intro";
 
             if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
                 nextState = this->ProcessInput(key);
@@ -82,17 +82,16 @@ namespace Game {
         }
 
         void Intro::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-//            LuaIntf::LuaBinding(luaContext->state())
-//            .beginModule("states")
-//                .beginClass<Intro>("Intro")
-//                    .addConstructor(LUA_SP(std::shared_ptr<Intro>), LUA_ARGS())
-//                    .addFunction("pop", &Intro::Pop)
-//                    //.addFunction("process_input", LUA_FN(std::string, Intro::ProcessInput, int))
-//                    .addFunction("process_input", static_cast<std::string(Game::States::Intro::*)(const int)>(&Intro::ProcessInput))
-//                    .addFunction("render", &Intro::Render)
-//                    .addFunction("get_texture", &Intro::GetTexture, LUA_ARGS(LuaIntf::_opt<std::string>))
-//                .endClass()
-//            .endModule();
+            LuaIntf::LuaBinding(luaContext->state())
+            .beginModule("states")
+                .beginClass<Intro>("Intro")
+                    .addConstructor(LUA_SP(std::shared_ptr<Intro>), LUA_ARGS())
+                    .addFunction("pop", &Intro::Pop)
+                    .addFunction("process_input", static_cast<std::string(Game::States::Intro::*)(const int)>(&Intro::ProcessInput))
+                    .addFunction("render", &Intro::Render)
+                    .addFunction("get_texture", &Intro::GetTexture, LUA_ARGS(LuaIntf::_opt<std::string>))
+                .endClass()
+            .endModule();
         }
     }
 }

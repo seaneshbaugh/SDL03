@@ -5,20 +5,26 @@ namespace Game {
         Text::Text() {
             this->text = "";
             this->font = nullptr;
-            this->x = 0;
-            this->y = 0;
             this->color = {255, 255, 255};
-            this->textLocation = {0, 0, 0, 0};
+            this->position = {0, 0, 0, 0};
             this->texture = nullptr;
         }
 
-        Text::Text(std::string text, std::shared_ptr<Resources::Font> font, const int x, const int y, SDL_Color color, SDL_Rect location) {
+        Text::Text(const std::string& text, std::shared_ptr<Resources::Font> font, const int x, const int y, const SDL_Color& color) {
             this->text = text;
             this->font = font;
-            this->x = x;
-            this->y = y;
             this->color = color;
-            this->textLocation = location;
+            this->position = {x, y, 0, 0};
+            this->texture = nullptr;
+
+            this->UpdateTexture();
+        }
+
+        Text::Text(const std::string& text, const std::string& fontName, const int fontSize, const int x, const int y, const Uint8 r, const Uint8 g, const Uint8 b) {
+            this->text = text;
+            this->font = Services::Locator::FontService()->GetFont(fontName, fontSize);
+            this->color = {r, g, b};
+            this->position = {x, y, 0, 0};
             this->texture = nullptr;
 
             this->UpdateTexture();
@@ -34,7 +40,7 @@ namespace Game {
             return this->text;
         }
 
-        void Text::SetText(std::string text) {
+        void Text::SetText(const std::string& text) {
             this->text = text;
 
             this->UpdateTexture();
@@ -46,30 +52,31 @@ namespace Game {
             this->UpdateTexture();
         }
 
+        void Text::SetFont(const std::string& fontName, const int fontSize) {
+            this->SetFont(Services::Locator::FontService()->GetFont(fontName, fontSize));
+        }
+
         SDL_Rect Text::GetPosition() {
-            return this->textLocation;
+            return this->position;
         }
 
         int Text::GetX() {
-            return this->textLocation.x;
+            return this->position.x;
         }
 
         int Text::GetY() {
-            return this->textLocation.y;
+            return this->position.y;
         }
 
         int Text::GetWidth() {
-            return this->textLocation.w;
+            return this->position.w;
         }
 
         int Text::GetHeight() {
-            return this->textLocation.h;
+            return this->position.h;
         }
 
         void Text::SetPosition(int x, int y) {
-            this->x = x;
-            this->y = y;
-
             int w = 0;
             int h = 0;
 
@@ -77,13 +84,17 @@ namespace Game {
                 SDL_QueryTexture(this->texture, nullptr, nullptr, &w, &h);
             }
 
-            this->textLocation = {x, y, w, h};
+            this->position = {x, y, w, h};
         }
 
-        void Text::SetColor(SDL_Color color) {
+        void Text::SetColor(const SDL_Color& color) {
             this->color = color;
 
             this->UpdateTexture();
+        }
+
+        void Text::SetColor(const Uint8 r, const Uint8 g, const Uint8 b) {
+            this->SetColor({r, g, b});
         }
 
         void Text::Render() {
@@ -91,7 +102,7 @@ namespace Game {
                 return;
             }
 
-            Services::Locator::VideoService()->Render(this->texture, nullptr, &this->textLocation);
+            Services::Locator::VideoService()->Render(this->texture, nullptr, &this->position);
         }
 
         void Text::UpdateTexture() {
@@ -107,25 +118,25 @@ namespace Game {
 
             SDL_FreeSurface(textSurface);
 
-            this->SetPosition(this->x, this->y);
+            this->SetPosition(this->position.x, this->position.y);
         }
 
         void Text::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
             LuaIntf::LuaBinding(luaContext->state())
             .beginModule("objects")
-            .beginClass<Text>("Text")
-            .addConstructor(LUA_ARGS())
-            .addConstructor(LUA_ARGS(std::string, std::shared_ptr<Resources::Font>, const int, const int, SDL_Color, SDL_Rect))
-            .addFunction("getText", &Text::GetText)
-            .addFunction("setText", &Text::SetText)
-            .addFunction("getX", &Text::GetX)
-            .addFunction("getY", &Text::GetY)
-            .addFunction("getWidth", &Text::GetWidth)
-            .addFunction("getHeight", &Text::GetHeight)
-            .addFunction("setPosition", &Text::SetPosition)
-            .addFunction("setColor", &Text::SetColor)
-            .addFunction("render", &Text::Render)
-            .endClass()
+                .beginClass<Text>("Text")
+                    .addConstructor(LUA_ARGS())
+                    .addConstructor(LUA_ARGS(std::string, std::string, const int, const int, const int, const Uint8, const Uint8, const Uint8))
+                    .addFunction("getText", &Text::GetText)
+                    .addFunction("setText", &Text::SetText)
+                    .addFunction("getX", &Text::GetX)
+                    .addFunction("getY", &Text::GetY)
+                    .addFunction("getWidth", &Text::GetWidth)
+                    .addFunction("getHeight", &Text::GetHeight)
+                    .addFunction("setPosition", &Text::SetPosition)
+                    .addFunction("setColor", static_cast<void(Game::Objects::Text::*)(const Uint8, const Uint8, const Uint8)>(&Text::SetColor))
+                    .addFunction("render", &Text::Render)
+                .endClass()
             .endModule();
         }
     }
