@@ -8,7 +8,7 @@ namespace Game {
 
         Font::Font() {
             this->logger = Services::Locator::LoggerService()->GetLogger(Font::logChannel);
-            this->font = nullptr;
+            this->ttfFont = nullptr;
             this->filename = "";
             this->pointSize = Font::DEFAULT_FONT_SIZE;
         }
@@ -38,33 +38,31 @@ namespace Game {
 
             this->logger->debug() << "Loading font \"" << filename << "\" at size " << pointSize << ".";
 
-            this->font = TTF_OpenFont(filename.c_str(), this->pointSize);
+            this->ttfFont = std::shared_ptr<TTF_Font>(TTF_OpenFont(filename.c_str(), this->pointSize), TTF_CloseFont);
 
-            if (this->font != nullptr) {
+            if (this->ttfFont != nullptr) {
                 this->logger->debug() << "Loaded font \"" << filename << "\" at size " << pointSize << ".";
             } else {
-                this->logger->error() << "Failed to loaded font \"" << filename << "\" at size " << pointSize << ".";
+                this->logger->error() << "Error loading font \"" << filename << "\" at size " << pointSize << ": " << TTF_GetError();
 
                 throw;
             }
         }
 
-        TTF_Font* Font::GetTTFFont() {
-            return this->font;
+        std::shared_ptr<TTF_Font> Font::GetTTFFont() {
+            return this->ttfFont;
         }
 
         bool Font::DestroyTTFFont() {
-            if (this->font == nullptr) {
+            if (this->ttfFont == nullptr) {
                 return false;
             }
 
             this->logger->debug() << "Destroying font \"" << this->filename << "\" at size " << this->pointSize << ".";
 
-            TTF_CloseFont(this->font);
+            this->ttfFont.reset();
 
             this->logger->debug() << "Destroyed font \"" << this->filename << "\" at size " << this->pointSize << ".";
-
-            this->font = nullptr;
 
             return true;
         }

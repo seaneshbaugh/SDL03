@@ -112,7 +112,7 @@ namespace Game {
                 this->texture = nullptr;
             }
 
-            SDL_Surface* textSurface = TTF_RenderText_Blended(this->font->font, this->text.c_str(), this->color);
+            SDL_Surface* textSurface = TTF_RenderText_Blended(this->font->GetTTFFont().get(), this->text.c_str(), this->color);
 
             this->texture = SDL_CreateTextureFromSurface(Services::Locator::VideoService()->GetRenderer().get(), textSurface);
 

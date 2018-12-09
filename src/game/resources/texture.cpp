@@ -53,7 +53,6 @@ namespace Game {
 
             this->logger->info() << "Destroying texture \"" << this->filename << "\".";
 
-            // Now that this is a smart pointer this probably isn't needed.
             this->sdlTexture.reset();
 
             this->logger->info() << "Destroyed texture \"" << this->filename << "\".";

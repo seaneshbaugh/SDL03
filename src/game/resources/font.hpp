@@ -14,15 +14,13 @@ namespace Game {
             static const std::string DEFAULT_FONT_NAME;
             static const int DEFAULT_FONT_SIZE;
 
-            TTF_Font* font;
-
             Font();
             Font(const std::string& filename);
             Font(const std::string& filename, const int pointSize);
             ~Font();
             void Load(const std::string& filename);
             void Load(const std::string& filename, const int pointSize);
-            TTF_Font* GetTTFFont();
+            std::shared_ptr<TTF_Font> GetTTFFont();
 
         protected:
             bool DestroyTTFFont();
@@ -30,6 +28,7 @@ namespace Game {
         private:
             static const std::string logChannel;
 
+            std::shared_ptr<TTF_Font> ttfFont;
             int pointSize;
         };
     }
