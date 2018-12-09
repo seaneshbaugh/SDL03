@@ -2,6 +2,16 @@
 
 An attempt at an RPG.
 
+## Setup
+
+## Building
+
+## Linting
+
+## Formatting
+
+`clang-format -i path/to/file`
+
 ## Resources
 
 * http://www.libsdl.org/download-2.0.php
@@ -41,3 +51,4 @@ An attempt at an RPG.
 * http://eli.thegreenplace.net/2011/11/14/anonymous-functions-lambdas-in-c11/
 * http://www.mapeditor.org/
 * https://oclint-docs.readthedocs.io/en/stable/guide/xcode.html
+* https://clang.llvm.org/docs/ClangFormat.html
