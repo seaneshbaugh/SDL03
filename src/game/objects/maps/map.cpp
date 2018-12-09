@@ -116,7 +116,8 @@ namespace Game {
                             if (*tile != 0) {
                                 SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
 
-                                SDL_RenderCopy(Services::Locator::VideoService()->GetRenderer().get(), this->tiles[*tile]->texture->texture, nullptr, &tilePosition);
+                                Services::Locator::VideoService()->Render(this->tiles[*tile]->texture, nullptr, &tilePosition);
+                                // SDL_RenderCopy(Services::Locator::VideoService()->GetRenderer().get(), this->tiles[*tile]->texture, nullptr, &tilePosition);
                             }
 
                             x++;

@@ -13,9 +13,11 @@ namespace Game {
         public:
             virtual ~Base() {}
             virtual void Load(const std::string& filename) = 0;
+            std::string GetFilename();
 
         protected:
             std::shared_ptr<Log::Logger> logger;
+            std::string filename;
         };
     }
 }

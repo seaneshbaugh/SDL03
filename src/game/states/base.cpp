@@ -16,6 +16,12 @@ namespace Game {
             return States::gameStateTypeMap.at(stateName);
         }
 
+        Base::~Base() {
+            for (auto it = this->textureNames.begin(); it != this->textureNames.end(); ++it) {
+                Services::Locator::TextureService()->ReleaseTexture(*it);
+            }
+        }
+
         void Base::LoadResources(const std::string& textureListPath, const std::string& soundListPath) {
             this->LoadTextures(textureListPath);
             this->LoadSounds(soundListPath);
@@ -42,13 +48,16 @@ namespace Game {
                 throw;
             }
 
+            // TODO: Use ResourceList to handle this. One thing at a time though...
             Parsers::AssetListParser parser = Parsers::AssetListParser();
             std::map<std::string, std::string> assetList = parser.Parse(jsonString);
 
             for (auto it = assetList.begin(); it != assetList.end(); ++it) {
-                std::shared_ptr<Resources::Texture> texture = std::make_shared<Resources::Texture>(it->second);
+                //std::shared_ptr<Resources::Texture> texture = std::make_shared<Resources::Texture>(it->second);
 
-                Services::Locator::TextureService()->AddTexture(texture, it->first, shared_from_this());
+                auto texture = Services::Locator::TextureService()->AddTexture(it->first, it->second);
+
+                this->textureNames.push_back(it->first);
             }
         }
 

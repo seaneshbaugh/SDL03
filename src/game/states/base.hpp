@@ -38,7 +38,7 @@ namespace Game {
         public:
             bool acceptRawInput;
 
-            virtual ~Base() {}
+            virtual ~Base();
             virtual std::shared_ptr<Base> Update(const int key) = 0;
             virtual std::shared_ptr<Base> Update(const SDL_Event& event) = 0;
             virtual std::string ProcessInput(const int key) = 0;
@@ -49,6 +49,7 @@ namespace Game {
             std::shared_ptr<Log::Logger> logger;
             bool pop;
             std::shared_ptr<LuaIntf::LuaContext> luaContext;
+            std::vector<std::string> textureNames;
             std::vector<std::shared_ptr<Objects::Text>> texts;
 
             virtual void LoadResources(const std::string& textureListPath, const std::string& soundListPath);

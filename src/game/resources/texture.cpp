@@ -6,7 +6,7 @@ namespace Game {
 
         Texture::Texture() {
             this->logger = Services::Locator::LoggerService()->GetLogger(Texture::logChannel);
-            this->texture = nullptr;
+            this->sdlTexture = nullptr;
             this->filename = "";
         }
 
@@ -15,11 +15,11 @@ namespace Game {
         }
 
         Texture::~Texture() {
-            this->DestroyTexture();
+            this->DestroySDLTexture();
         }
 
         void Texture::Load(const std::string& filename) {
-            this->DestroyTexture();
+            this->DestroySDLTexture();
 
             this->filename = filename;
 
@@ -31,31 +31,32 @@ namespace Game {
                 throw;
             }
 
-            this->texture = SDL_CreateTextureFromSurface(Services::Locator::VideoService()->GetRenderer().get(), surface);
+            this->sdlTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(Services::Locator::VideoService()->GetRenderer().get(), surface), SDL_DestroyTexture);
 
             SDL_FreeSurface(surface);
 
-            if (!this->texture) {
+            if (!this->sdlTexture) {
                 this->logger->error() << "Error creating texture from \"" << filename << "\":" << SDL_GetError();
 
                 throw;
             }
         }
 
-        bool Texture::DestroyTexture() {
-            if (this->texture == nullptr) {
-                return false;
+        std::shared_ptr<SDL_Texture> Texture::GetSDLTexture() {
+            return this->sdlTexture;
+        }
+
+        void Texture::DestroySDLTexture() {
+            if (this->sdlTexture == nullptr) {
+                return;
             }
 
             this->logger->info() << "Destroying texture \"" << this->filename << "\".";
 
-            SDL_DestroyTexture(this->texture);
+            // Now that this is a smart pointer this probably isn't needed.
+            this->sdlTexture.reset();
 
             this->logger->info() << "Destroyed texture \"" << this->filename << "\".";
-
-            this->texture = nullptr;
-
-            return true;
         }
     }
 }

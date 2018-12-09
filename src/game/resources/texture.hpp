@@ -13,20 +13,19 @@ namespace Game {
     namespace Resources {
         class Texture : public Base {
         public:
-            SDL_Texture* texture;
-
             Texture();
             Texture(const std::string& filename);
             ~Texture();
             void Load(const std::string& filename);
+            std::shared_ptr<SDL_Texture> GetSDLTexture();
 
         private:
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
-            std::string filename;
+            std::shared_ptr<SDL_Texture> sdlTexture;
 
-            bool DestroyTexture();
+            void DestroySDLTexture();
 
             class LuaInterface {
             public:

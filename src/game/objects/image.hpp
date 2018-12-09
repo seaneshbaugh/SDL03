@@ -10,19 +10,21 @@ namespace Game {
         public:
             Image();
             Image(std::shared_ptr<Resources::Texture> texture, const int x, const int y);
+            Image(const std::string& textureName, const int x, const int y);
             ~Image();
             void SetTexture(std::shared_ptr<Resources::Texture> texture);
             SDL_Rect GetPosition();
             void SetPosition(int x, int y);
+            int GetX();
+            int GetY();
+            int GetWidth();
+            int GetHeight();
             void Render(const SDL_Rect* const clip = nullptr);
+            void Render(const int clipX, const int clipY, const int clipW, const int clipH);
 
         private:
             std::shared_ptr<Resources::Texture> texture;
-            int x;
-            int y;
-            int width;
-            int height;
-            SDL_Rect textureLocation;
+            SDL_Rect position;
 
             void UpdateTexture();
 
@@ -34,6 +36,5 @@ namespace Game {
         };
     }
 }
-
 
 #endif

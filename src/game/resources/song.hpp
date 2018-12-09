@@ -17,6 +17,7 @@ namespace Game {
             Song(const std::string& filename);
             ~Song();
             void Load(const std::string& filename);
+
         private:
             std::string filename;
 

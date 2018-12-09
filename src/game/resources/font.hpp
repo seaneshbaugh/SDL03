@@ -3,12 +3,13 @@
 
 #include "SDL_ttf.h"
 #include "base.hpp"
+#include "../services/implementations/font_manager.hpp"
 
 namespace Game {
     namespace Resources {
         class Font : public Base {
         public:
-            //friend class Services::Implementations::FontManager;
+            friend class Services::Implementations::FontManager;
 
             static const std::string DEFAULT_FONT_NAME;
             static const int DEFAULT_FONT_SIZE;
@@ -17,19 +18,19 @@ namespace Game {
 
             Font();
             Font(const std::string& filename);
-            Font(const std::string& filename, const int fontSize);
+            Font(const std::string& filename, const int pointSize);
             ~Font();
             void Load(const std::string& filename);
-            void Load(const std::string& filename, const int fontSize);
-            const std::string GetFilename();
+            void Load(const std::string& filename, const int pointSize);
+            TTF_Font* GetTTFFont();
+
+        protected:
+            bool DestroyTTFFont();
 
         private:
             static const std::string logChannel;
 
-            std::string filename;
             int pointSize;
-
-            bool DestroyFont();
         };
     }
 }

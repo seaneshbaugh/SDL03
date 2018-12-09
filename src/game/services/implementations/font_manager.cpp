@@ -22,6 +22,12 @@ namespace Game {
             }
 
             FontManager::~FontManager() {
+                for (auto it = this->fonts.begin(); it != this->fonts.end(); ++it) {
+                    it->second->DestroyTTFFont();
+                }
+
+                this->logger->debug() << "Quitting SDL_ttf.";
+
                 TTF_Quit();
             }
 

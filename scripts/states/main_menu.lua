@@ -1,17 +1,10 @@
 dofile "scripts/keys.lua"
 
-main_menu_state = GameState(raw_main_menu_state)
-
 texts = {}
-
 images = {}
-
 hand = nil
-
 previous_menu_option = 0
-
 menu_option = 0
-
 time = 0
 
 -- I probably need to make some sort of proper menu object.
@@ -19,16 +12,11 @@ function initialize()
     font_name = "PixChicago"
     font_size = 10
 
-    --cursor = main_menu_state:getTexture("cursor-right")
+    table.insert(texts, objects.Text("New Game", font_name, font_size, 200, 150, 255, 255, 255))
+    table.insert(texts, objects.Text("Load Game", font_name, font_size, 200, 200, 255, 255, 255))
+    table.insert(texts, objects.Text("Settings", font_name, font_size, 200, 250, 255, 255, 255))
 
-    table.insert(texts, GameText("New Game", font_name, font_size, 200, 150, 255, 255, 255))
-
-    table.insert(texts, GameText("Load Game", font_name, font_size, 200, 200, 255, 255, 255))
-
-    table.insert(texts, GameText("Settings", font_name, font_size, 200, 250, 255, 255, 255))
-
-    -- hand = GameImage(cursor, 175, 150 + (50 * menu_option))
-    hand = GameImage("cursor-right", 175, 150 + (50 * menu_option))
+    hand = objects.Image("cursor-right", 175, 150 + (50 * menu_option))
 end
 
 function process_input(key_code)
@@ -40,7 +28,6 @@ function process_input(key_code)
         end
     end
 
-    -- What genius thought ~= would be a good idea for "not equal"?
     if key_code == DOWN_KEY then
         if menu_option < 2 then
             menu_option = menu_option + 1
@@ -63,7 +50,7 @@ function process_input(key_code)
         end
     end
 
-    return ""
+    return "main_menu"
 end
 
 function update()

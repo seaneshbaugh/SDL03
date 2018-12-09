@@ -22,7 +22,7 @@ namespace Game {
             Objects::Image::LuaInterface::Bind(this->luaContext);
             MainMenu::LuaInterface::Bind(this->luaContext);
 
-            LuaIntf::Lua::setGlobal(this->luaContext->state(), "raw_main_menu_state", this->shared_from_this());
+            LuaIntf::Lua::setGlobal(this->luaContext->state(), "main_menu_state", this);
 
             this->logger->debug() << "Loading \"" << scriptFileName << "\".";
 
@@ -37,7 +37,7 @@ namespace Game {
         }
 
         std::shared_ptr<Base> MainMenu::Update(const int key) {
-            std::string nextState = "";
+            std::string nextState = "main_menu";
 
             if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
                 nextState = this->ProcessInput(key);
@@ -82,17 +82,15 @@ namespace Game {
         }
 
         void MainMenu::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-//            LuaIntf::LuaBinding(luaContext->state())
-//            .beginModule("states")
-//                .beginClass<MainMenu>("MainMenu")
-//                    .addConstructor(LUA_SP(std::shared_ptr<MainMenu>), LUA_ARGS())
-//                    .addFunction("pop", &MainMenu::Pop)
-//                    //.addFunction("process_input", LUA_FN(std::string, MainMenu::ProcessInput, int))
-//                    .addFunction("process_input", static_cast<std::string(Game::States::MainMenu::*)(const int)>(&MainMenu::ProcessInput))
-//                    .addFunction("render", &MainMenu::Render)
-//                    .addFunction("get_texture", &MainMenu::GetTexture, LUA_ARGS(LuaIntf::_opt<std::string>))
-//                .endClass()
-//            .endModule();
+            LuaIntf::LuaBinding(luaContext->state())
+            .beginModule("states")
+                .beginClass<MainMenu>("MainMenu")
+                    .addConstructor(LUA_SP(std::shared_ptr<MainMenu>), LUA_ARGS())
+                    .addFunction("pop", &MainMenu::Pop)
+                    .addFunction("process_input", static_cast<std::string(Game::States::MainMenu::*)(const int)>(&MainMenu::ProcessInput))
+                    .addFunction("render", &MainMenu::Render)
+                .endClass()
+            .endModule();
         }
     }
 }

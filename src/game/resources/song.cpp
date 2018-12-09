@@ -4,7 +4,6 @@ namespace Game {
     namespace Resources {
         Song::Song() {
             this->music = nullptr;
-
             this->filename = "";
         }
 

@@ -5,10 +5,6 @@
 #include <string>
 
 namespace Game {
-    namespace States {
-        class Base;
-    }
-
     namespace Resources {
         class Texture;
     }
@@ -18,9 +14,9 @@ namespace Game {
             class TextureService {
             public:
                 virtual ~TextureService() {}
-                virtual void AddTexture(std::shared_ptr<Resources::Texture> texture, const std::string& textureName, std::shared_ptr<States::Base> addedBy) = 0;
+                virtual std::shared_ptr<Resources::Texture> AddTexture(const std::string& textureName, const std::string& filename) = 0;
                 virtual std::shared_ptr<Resources::Texture> GetTexture(const std::string& textureName) = 0;
-                virtual void ClearTextures(std::shared_ptr<States::Base> addedBy) = 0;
+                virtual void ReleaseTexture(const std::string& textureName) = 0;
             };
         }
     }

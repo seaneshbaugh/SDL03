@@ -256,8 +256,8 @@ namespace Game {
                 character->spritesheet = std::make_shared<Resources::Texture>(characterNode.at("spritesheet").as_string());
                 character->spriteName = "characters.sprite." + character->name;
                 character->spritesheetName = "characters.spritesheet." + character->name;
-                Services::Locator::TextureService()->AddTexture(character->sprite, character->spriteName, nullptr);
-                Services::Locator::TextureService()->AddTexture(character->spritesheet, character->spritesheetName, nullptr);
+//                Services::Locator::TextureService()->AddTexture(character->sprite, character->spriteName, nullptr);
+//                Services::Locator::TextureService()->AddTexture(character->spritesheet, character->spritesheetName, nullptr);
             }
 
             void Base::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {

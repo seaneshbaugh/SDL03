@@ -17,6 +17,7 @@ namespace Game {
             Sound(const std::string& filepath);
             ~Sound();
             void Load(const std::string& filepath);
+
         private:
             static const std::string logChannel;
 

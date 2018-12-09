@@ -16,15 +16,7 @@ namespace Game {
 
             this->backgroundName = "battle.background";
 
-            this->background = std::make_shared<Resources::Texture>(encounterArea->properties["background"]);
-
-            Services::Locator::TextureService()->AddTexture(this->background, this->backgroundName, this->shared_from_this());
-
-            //    GameTexture* background = new GameTexture();
-            //
-            //    background->Load(encounterArea->properties["background"]);
-            //
-            //    this->textures["background"] = background;
+            this->background = Services::Locator::TextureService()->AddTexture(this->backgroundName, encounterArea->properties["background"]);
 
             Services::Locator::WorldService()->GetWorld()->SetEnemyParty(encounterArea);
 

@@ -4,17 +4,16 @@ namespace Game {
     namespace Objects {
         Image::Image() {
             this->texture = nullptr;
-
-            this->x = 0;
-
-            this->y = 0;
-
-            this->textureLocation = {0, 0, 0, 0};
+            this->position = {0, 0, 0, 0};
         }
 
-        Image::Image(std::shared_ptr<Resources::Texture> texture, int x, int y) : Image() {
+        Image::Image(std::shared_ptr<Resources::Texture> texture, const int x, const int y) : Image() {
             this->SetTexture(texture);
+            this->SetPosition(x, y);
+        }
 
+        Image::Image(const std::string& textureName, const int x, const int y) : Image() {
+            this->SetTexture(Services::Locator::TextureService()->GetTexture(textureName));
             this->SetPosition(x, y);
         }
 
@@ -25,20 +24,32 @@ namespace Game {
             this->texture = texture;
 
             if (this->texture) {
-                SDL_QueryTexture(this->texture->texture, nullptr, nullptr, &this->width, &this->height);
+                SDL_QueryTexture(this->texture->GetSDLTexture().get(), nullptr, nullptr, &this->position.w, &this->position.h);
             }
         }
 
         SDL_Rect Image::GetPosition() {
-            return this->textureLocation;
+            return this->position;
+        }
+
+        int Image::GetX() {
+            return this->position.x;
+        }
+
+        int Image::GetY() {
+            return this->position.y;
+        }
+
+        int Image::GetWidth() {
+            return this->position.w;
+        }
+
+        int Image::GetHeight() {
+            return this->position.h;
         }
 
         void Image::SetPosition(int x, int y) {
-            this->x = x;
-
-            this->y = y;
-
-            this->textureLocation = {this->x, this->y, this->width, this->height};
+            this->position = {x, y, this->position.w, this->position.h};
         }
 
         void Image::Render(const SDL_Rect* const clip) {
@@ -46,7 +57,7 @@ namespace Game {
                 return;
             }
 
-            SDL_Rect renderQuad = {this->x, this->y, this->width, this->height};
+            SDL_Rect renderQuad = {this->position.x, this->position.y, this->position.w, this->position.h};
 
             if (clip != nullptr) {
                 renderQuad.w = clip->w;
@@ -56,7 +67,37 @@ namespace Game {
             Services::Locator::VideoService()->Render(this->texture, clip, &renderQuad);
         }
 
+        void Image::Render(const int clipX, const int clipY, const int clipW, const int clipH) {
+            if (this->texture == nullptr) {
+                return;
+            }
+
+            SDL_Rect clip = {clipX, clipY, clipW, clipH};
+
+            SDL_Rect renderQuad = {this->position.x, this->position.y, clipW, clipH};
+
+            Services::Locator::VideoService()->Render(this->texture, &clip, &renderQuad);
+        }
+
         void Image::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
+            LuaIntf::LuaBinding(luaContext->state())
+            .beginModule("objects")
+                .beginClass<Image>("Image")
+                    .addConstructor(LUA_ARGS())
+                    .addConstructor(LUA_ARGS(std::string, const int, const int))
+                    .addFunction("getX", &Image::GetX)
+                    .addFunction("getY", &Image::GetY)
+                    .addFunction("getWidth", &Image::GetWidth)
+                    .addFunction("getHeight", &Image::GetHeight)
+                    .addFunction("setPosition", &Image::SetPosition)
+                    //.addFunction("render", static_cast<void(Game::Objects::Image::*)(LuaIntf::_def<const SDL_Rect* const, nullptr>)>(&Image::Render))
+                    //.addFunction("render", static_cast<void(Game::Objects::Image::*)()>(&Image::Render))
+                    .addFunction("render", [](Image* self) { self->Render(); })
+                    .addFunction("renderWithClip", static_cast<void(Game::Objects::Image::*)(const int, const int, const int, const int)>(&Image::Render))
+                .endClass()
+            .endModule();
+
+
             //const char LuaGameImage::className[] = "GameImage";
             //
             //Lunar<LuaGameImage>::RegType LuaGameImage::methods[] = {

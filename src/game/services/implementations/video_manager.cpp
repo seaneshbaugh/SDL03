@@ -7,6 +7,10 @@ namespace Game {
             const std::string VideoManager::logChannel = "video";
 
             VideoManager::VideoManager(const int screenWidth, const int screenHeight, const std::string& windowTitle) {
+                if (Locator::LoggerService() == nullptr) {
+                    throw std::runtime_error("LoggerService must be started before VideoService.");
+                }
+
                 this->logger = Locator::LoggerService()->GetLogger(VideoManager::logChannel);
 
                 if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
@@ -65,7 +69,7 @@ namespace Game {
             }
 
             bool VideoManager::Render(std::shared_ptr<Resources::Texture> texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect) {
-                return this->Render(texture->texture, srcrect, dstrect);
+                return this->Render(texture->GetSDLTexture().get(), srcrect, dstrect);
             }
 
             void VideoManager::UpdateScreen() {

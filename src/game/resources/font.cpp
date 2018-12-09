@@ -17,13 +17,12 @@ namespace Game {
             this->Load(filename);
         }
 
-        Font::Font(const std::string& filename, const int fontSize) : Font() {
-            this->logger->debug() << "Loading font \"" << filename << "\" at size " << fontSize << ".";
-            this->Load(filename, fontSize);
+        Font::Font(const std::string& filename, const int pointSize) : Font() {
+            this->Load(filename, pointSize);
         }
 
         Font::~Font() {
-            this->DestroyFont();
+            this->DestroyTTFFont();
         }
 
         void Font::Load(const std::string& filename) {
@@ -31,41 +30,39 @@ namespace Game {
         }
 
         void Font::Load(const std::string& filename, const int pointSize) {
-            if (this->font != nullptr) {
-                TTF_CloseFont(this->font);
-
-                this->font = nullptr;
-            }
+            this->DestroyTTFFont();
 
             this->filename = filename;
 
             this->pointSize = pointSize;
 
-            this->logger->debug() << "Loading font \"" << filename << "\".";
+            this->logger->debug() << "Loading font \"" << filename << "\" at size " << pointSize << ".";
 
             this->font = TTF_OpenFont(filename.c_str(), this->pointSize);
 
             if (this->font != nullptr) {
-                this->logger->debug() << "Successfully loaded font at size " << this->pointSize << ".";
+                this->logger->debug() << "Loaded font \"" << filename << "\" at size " << pointSize << ".";
             } else {
-                this->logger->error() << "Failed to loaded font.";
+                this->logger->error() << "Failed to loaded font \"" << filename << "\" at size " << pointSize << ".";
+
+                throw;
             }
         }
 
-        const std::string Font::GetFilename() {
-            return this->filename;
+        TTF_Font* Font::GetTTFFont() {
+            return this->font;
         }
 
-        bool Font::DestroyFont() {
+        bool Font::DestroyTTFFont() {
             if (this->font == nullptr) {
                 return false;
             }
 
-            this->logger->debug() << "Destroying font \"" << this->filename << "\".";
+            this->logger->debug() << "Destroying font \"" << this->filename << "\" at size " << this->pointSize << ".";
 
             TTF_CloseFont(this->font);
 
-            this->logger->debug() << "Destroyed font \"" << this->filename << "\".";
+            this->logger->debug() << "Destroyed font \"" << this->filename << "\" at size " << this->pointSize << ".";
 
             this->font = nullptr;
 
