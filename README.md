@@ -30,6 +30,8 @@ An attempt at an RPG.
 * http://lua-users.org/wiki/UserDataExample
 * http://pgl.yoyo.org/luai/i/_
 * http://csl.name/lua/
+* https://github.com/SteveKChiu/lua-intf
+* https://eliasdaler.github.io/game-object-references/
 * http://stackoverflow.com/questions/14639194/how-do-i-create-a-c-function-accepting-multiple-arguments-in-lua
 * http://lua-users.org/wiki/MathLibraryTutorial
 * http://www.dribin.org/dave/blog/archives/2009/11/15/rpath/
@@ -38,4 +40,4 @@ An attempt at an RPG.
 * http://www.cprogramming.com/c++11/c++11-lambda-closures.html
 * http://eli.thegreenplace.net/2011/11/14/anonymous-functions-lambdas-in-c11/
 * http://www.mapeditor.org/
-https://oclint-docs.readthedocs.io/en/stable/guide/xcode.html
+* https://oclint-docs.readthedocs.io/en/stable/guide/xcode.html
