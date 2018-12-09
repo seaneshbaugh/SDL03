@@ -12,6 +12,9 @@ namespace Game {
 
                 MapEncounterArea::Parser parser;
 
+                // See https://forum.libcinder.org/topic/solution-calling-shared-from-this-in-the-constructor
+                auto wptr = std::shared_ptr<MapEncounterArea>(this, [](MapEncounterArea*){});
+
                 parser.Parse(contents, std::static_pointer_cast<MapEncounterArea>(this->shared_from_this()));
             }
 

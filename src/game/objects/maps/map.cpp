@@ -24,7 +24,12 @@ namespace Game {
 
             bool Map::ParseMapFile(const std::string& jsonString) {
                 Map::Parser mapParser = Map::Parser();
+
                 this->logger->debug() << "About to parse map file";
+
+                // See https://forum.libcinder.org/topic/solution-calling-shared-from-this-in-the-constructor
+                auto wptr = std::shared_ptr<Map>(this, [](Map*){});
+
                 mapParser.Parse(jsonString, std::static_pointer_cast<Map>(this->shared_from_this()));
 
                 return true;
@@ -165,7 +170,7 @@ namespace Game {
             Map::Parser::~Parser() {
             }
 
-            void Map::Parser::Parse(const std::string& jsonString, std::shared_ptr<Objects::Maps::Map> map) {
+            void Map::Parser::Parse(const std::string& jsonString, std::shared_ptr<Map> map) {
                 this->logger->debug() << "Parsing map file.";
 
                 JSONNode mapNode = libjson::parse(jsonString);
@@ -303,7 +308,7 @@ namespace Game {
                     } else if (layer->name == "load_points") {
                         this->logger->debug() << "Creating load point.";
 
-                        std::shared_ptr<MapLoadPoint> loadPoint = std::shared_ptr<MapLoadPoint>();
+                        std::shared_ptr<MapLoadPoint> loadPoint = std::make_shared<MapLoadPoint>();
 
                         // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
                         // TODO: Use map tileheight and tilewidth.

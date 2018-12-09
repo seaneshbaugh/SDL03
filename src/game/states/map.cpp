@@ -25,7 +25,7 @@ namespace Game {
             Objects::Maps::MapObject::LuaInterface::Bind(this->luaContext);
             Map::LuaInterface::Bind(this->luaContext);
 
-            LuaIntf::Lua::setGlobal(this->luaContext->state(), "raw_map_state", this->shared_from_this());
+            LuaIntf::Lua::setGlobal(this->luaContext->state(), "map_state", this);
 
             this->logger->debug() << "Loading \"" << scriptFileName << "\".";
 

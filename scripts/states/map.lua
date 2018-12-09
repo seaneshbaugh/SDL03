@@ -1,5 +1,4 @@
 dofile "scripts/keys.lua"
-map_state = MapState(raw_map_state)
 
 DIRECTION_DOWN = 0
 DIRECTION_LEFT = 1
@@ -39,7 +38,7 @@ player_screen_y_position = 208
 
 player_direction = DIRECTION_DOWN
 
-current_map = GameMap(map_state:getCurrentMap())
+current_map = Map(map_state:getCurrentMap())
 
 player = nil
 
