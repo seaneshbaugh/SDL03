@@ -324,7 +324,6 @@
 		7B9A6062184D3E810016BA1A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		7B9A608C184E49CC0016BA1A /* text.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		7B9A608D184E49CC0016BA1A /* text.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = text.hpp; sourceTree = "<group>"; };
-		7B9A60D41850CF990016BA1A /* lunar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lunar.h; sourceTree = "<group>"; };
 		7B9A60DE185A78080016BA1A /* main_menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main_menu.cpp; sourceTree = "<group>"; };
 		7B9A60DF185A78080016BA1A /* main_menu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = main_menu.hpp; sourceTree = "<group>"; };
 		7B9A60EC185B557C0016BA1A /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
@@ -766,14 +765,6 @@
 			path = maps;
 			sourceTree = "<group>";
 		};
-		7BACFCF1213C97A700F0FB09 /* lunar */ = {
-			isa = PBXGroup;
-			children = (
-				7B9A60D41850CF990016BA1A /* lunar.h */,
-			);
-			path = lunar;
-			sourceTree = "<group>";
-		};
 		7BACFCF2213DE5B600F0FB09 /* services */ = {
 			isa = PBXGroup;
 			children = (
@@ -837,7 +828,6 @@
 			isa = PBXGroup;
 			children = (
 				7BEB13322154A334003EA319 /* LuaIntf */,
-				7BACFCF1213C97A700F0FB09 /* lunar */,
 				7BE70159212FBACC00B084A5 /* LoggerCpp */,
 				7BE4738A1845547C002EA054 /* libjson */,
 				7B9A6024184D3E810016BA1A /* lua */,
