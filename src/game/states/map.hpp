@@ -10,7 +10,6 @@ namespace Game {
         class Map : public Base {
         public:
             std::shared_ptr<Objects::Maps::Map> currentMap;
-            lua_State* luaState;
 
             Map();
             ~Map();

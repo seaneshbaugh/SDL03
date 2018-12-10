@@ -21,6 +21,7 @@ namespace Game {
             this->luaContext = std::make_shared<LuaIntf::LuaContext>();
 
             Objects::Text::LuaInterface::Bind(this->luaContext);
+            Objects::Image::LuaInterface::Bind(this->luaContext);
             Objects::Maps::Map::LuaInterface::Bind(this->luaContext);
             Objects::Maps::MapObject::LuaInterface::Bind(this->luaContext);
             Map::LuaInterface::Bind(this->luaContext);
@@ -47,8 +48,6 @@ namespace Game {
             LuaIntf::LuaRef update(this->luaContext->state(), "update");
 
             std::string nextState = update.call<std::string>();
-
-            lua_getglobal(this->luaState, "update");
 
             if (this->pop) {
                 return nullptr;
@@ -110,99 +109,18 @@ namespace Game {
         }
 
         void Map::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-
-            //        const char LuaMapState::className[] = "MapState";
-            //
-            //        Lunar<LuaMapState>::RegType LuaMapState::methods[] = {
-            //            {"pop", &LuaMapState::pop},
-            //            {"getTexture", &LuaMapState::getTexture},
-            //            {"getSound", &LuaMapState::getSound},
-            //            {"loadMap", &LuaMapState::loadMap},
-            //            {"getCurrentMap", &LuaMapState::getCurrentMap},
-            //            {"loadTexture", &LuaMapState::loadTexture},
-            //            {"setCurrentEncounterArea", &LuaMapState::setCurrentEncounterArea},
-            //            {"getPlayerSpriteName", &LuaMapState::getPlayerSpriteName},
-            //            {0, 0}
-            //        };
-
-            //class LuaMapState : public LuaGameState {
-            //public:
-            //    static const char className[];
-            //    static Lunar<LuaMapState>::RegType methods[];
-            //
-            //    LuaMapState(lua_State *L) : LuaGameState(L) {
-            //        this->realObject = (MapState*)lua_touserdata(L, 1);
-            //    }
-            //
-            //    ~LuaMapState() {
-            //
-            //    }
-            //
-            //    void setObject(lua_State *L) {
-            //        this->realObject = (MapState*)lua_touserdata(L, 1);
-            //    }
-            //
-            //    int pop(lua_State *L) {
-            //        this->realObject->pop = true;
-            //
-            //        return 0;
-            //    }
-            //
-            //    int getTexture(lua_State *L) {
-            //        std::string textureName = luaL_checkstring(L, 1);
-            //
-            //        GameTexture* texture = this->realObject->textures[textureName];
-            //
-            //        lua_pushlightuserdata(L, (void*)texture);
-            //
-            //        return 1;
-            //    }
-            //
-            //    int getCurrentMap(lua_State *L) {
-            //        lua_pushlightuserdata(L, (void*)this->realObject->currentMap);
-            //
-            //        return 1;
-            //    }
-            //
-            //    int loadMap(lua_State *L) {
-            //        std::string filename = luaL_checkstring(L, 1);
-            //
-            //        bool result = this->realObject->LoadMap(filename);
-            //
-            //        lua_pushboolean(L, result);
-            //
-            //        return 1;
-            //    }
-            //
-            //    int setCurrentEncounterArea(lua_State *L) {
-            //        this->realObject->currentEncounterArea = (GameMapEncounterArea*)lua_touserdata(L, 1);
-            //
-            //        return 1;
-            //    }
-            //
-            //    int getPlayerSpriteName(lua_State *L) {
-            //        //std::shared_ptr<GameTexture> playerSprite = GameState::world->playerParty->characters[0]->spritesheet;
-            //
-            //        std::string playerSpriteName = GameState::world->playerParty->characters[0]->spritesheetName;
-            //
-            //        lua_pushstring(L, playerSpriteName.c_str());
-            //
-            ////        if (playerSprite == nullptr) {
-            ////            throw;
-            ////        }
-            ////
-            ////        if (playerSprite) {
-            ////            lua_pushlightuserdata(L, static_cast<void*>(playerSprite.get()));
-            ////        } else {
-            ////            throw;
-            ////        }
-            //
-            //        return 1;
-            //    }
-            //
-            //private:
-            //    MapState* realObject;
-            //};s
+            LuaIntf::LuaBinding(luaContext->state())
+            .beginModule("states")
+                .beginClass<Map>("Map")
+                    .addConstructor(LUA_SP(std::shared_ptr<Map>), LUA_ARGS())
+                    .addFunction("pop", &Map::Pop)
+                    .addFunction("process_input", static_cast<std::string(Game::States::Map::*)(const int)>(&Map::ProcessInput))
+                    .addFunction("getCurrentMap", [](Map* self){ return self->currentMap.get(); })
+                    .addFunction("setCurrentEncounterArea", [](Map* self){ return self->currentMapEncounterArea.get(); })
+                    .addFunction("getPlayerSpriteName", [](Map* self){ return Services::Locator::WorldService()->GetWorld()->playerParty->characters[0]->spritesheetName; })
+                    .addFunction("render", &Map::Render)
+                .endClass()
+            .endModule();
         }
     }
 }

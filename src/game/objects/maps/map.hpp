@@ -45,9 +45,11 @@ namespace Game {
                 bool ParseMapFile(const std::string& jsonString);
                 bool LoadTextures();
                 bool Load(const std::string& filename);
-                void Render(const int xOffset, const int yOffset, const int xMovementOffset, const int yMovementOffset);
+                int GetWidth();
+                int GetHeight();
                 bool GetWalkability(const int x, const int y);
                 std::vector <std::shared_ptr<MapObject>> GetObjects(const int x, const int y);
+                void Render(const int xOffset, const int yOffset, const int xMovementOffset, const int yMovementOffset);
 
             private:
                 static const std::string logChannel;

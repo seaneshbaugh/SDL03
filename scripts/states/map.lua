@@ -38,7 +38,7 @@ player_screen_y_position = 208
 
 player_direction = DIRECTION_DOWN
 
-current_map = Map(map_state:getCurrentMap())
+current_map = map_state:getCurrentMap()
 
 player = nil
 
@@ -48,13 +48,13 @@ function initialize()
     -- dot = map_state:loadTexture("dot", "assets/images/dot.png")
     player_sprite_name = map_state:getPlayerSpriteName()
     
-    player = GameImage(player_sprite_name, 320, 224)
+    player = objects.Image(player_sprite_name, 320, 224)
     
     math.randomseed(os.time())
 end
 
 function after_map_load()
-    current_map = GameMap(map_state:getCurrentMap())
+    current_map = map_state:getCurrentMap()
 end
 
 function process_input(key_code)
@@ -144,7 +144,7 @@ function process_input(key_code)
         end
     end
 
-    return ""
+    return "map"
 end
 
 function step(x, y)
@@ -200,7 +200,7 @@ function step(x, y)
         end
     end
 
-    return ""
+    return "map"
 end
 
 function update()
@@ -319,7 +319,7 @@ function update()
     if done_moving then
         return step(player_current_x, player_current_y)
     else
-        return ""
+        return "map"
     end
 end
 

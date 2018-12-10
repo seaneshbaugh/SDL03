@@ -88,47 +88,12 @@ namespace Game {
                 return true;
             }
 
-            void Map::Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset) {
-                if (xOffset < 0) {
-                    xOffset = 0;
-                } else {
-                    if (xOffset > this->width - 20) {
-                        xOffset = this->width - 20;
-                    }
-                }
+            int Map::GetWidth() {
+                return this->width;
+            }
 
-                if (yOffset < 0) {
-                    yOffset = 0;
-                } else {
-                    if (yOffset > this->height - 15) {
-                        yOffset = this->height - 15;
-                    }
-                }
-
-                for (auto layer = this->layers.begin(); layer != this->layers.end(); layer++) {
-                    if ((*layer)->name != "walkability") {
-                        int x = 0;
-
-                        int y = 0;
-
-                        for (auto tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); tile++) {
-                            if (x >= this->width) {
-                                x = 0;
-
-                                y++;
-                            }
-
-                            if (*tile != 0) {
-                                SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
-
-                                Services::Locator::VideoService()->Render(this->tiles[*tile]->texture, nullptr, &tilePosition);
-                                // SDL_RenderCopy(Services::Locator::VideoService()->GetRenderer().get(), this->tiles[*tile]->texture, nullptr, &tilePosition);
-                            }
-
-                            x++;
-                        }
-                    }
-                }
+            int Map::GetHeight() {
+                return this->height;
             }
 
             bool Map::GetWalkability(int x, int y) {
@@ -155,6 +120,50 @@ namespace Game {
                 }
 
                 return result;
+            }
+
+            void Map::Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset) {
+                if (xOffset < 0) {
+                    xOffset = 0;
+                } else {
+                    if (xOffset > this->width - 20) {
+                        xOffset = this->width - 20;
+                    }
+                }
+
+                if (yOffset < 0) {
+                    yOffset = 0;
+                } else {
+                    if (yOffset > this->height - 15) {
+                        yOffset = this->height - 15;
+                    }
+                }
+
+                for (auto layer = this->layers.begin(); layer != this->layers.end(); layer++) {
+                    if ((*layer)->name == "walkability") {
+                        continue;
+                    }
+
+                    int x = 0;
+                    int y = 0;
+
+                    for (auto tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); tile++) {
+                        if (x >= this->width) {
+                            x = 0;
+
+                            y++;
+                        }
+
+                        if (*tile != 0) {
+                            SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
+
+                            Services::Locator::VideoService()->Render(this->tiles[*tile]->texture, nullptr, &tilePosition);
+                            // SDL_RenderCopy(Services::Locator::VideoService()->GetRenderer().get(), this->tiles[*tile]->texture, nullptr, &tilePosition);
+                        }
+
+                        x++;
+                    }
+                }
             }
 
             void Map::SetNameFromFilename() {
@@ -410,102 +419,18 @@ namespace Game {
             }
 
             void Map::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-                //const char LuaGameMap::className[] = "GameMap";
-                //
-                //Lunar<LuaGameMap>::RegType LuaGameMap::methods[] = {
-                //    {"getWidth", &LuaGameMap::getWidth},
-                //    {"getHeight", &LuaGameMap::getHeight},
-                //    {"render", &LuaGameMap::render},
-                //    {"getWalkability", &LuaGameMap::getWalkability},
-                //    {"getObjects", &LuaGameMap::getObjects},
-                //    {0, 0}
-                //};
-
-
-                //class LuaGameMap {
-                //public:
-                //    static const char className[];
-                //    static Lunar<LuaGameMap>::RegType methods[];
-                //
-                //    Log::Logger* logger;
-                //
-                //    LuaGameMap(lua_State *L) {
-                //        this->logger = new Log::Logger("lua");
-                //
-                //        const int argc = lua_gettop(L);
-                //
-                //        if (argc == 1) {
-                //            this->realObject = (GameMap*)lua_touserdata(L, 1);
-                //        } else {
-                //            this->realObject = new GameMap();
-                //        }
-                //    }
-                //
-                //    ~LuaGameMap() {
-                //        delete this->realObject;
-                //    }
-                //
-                //    int getWidth(lua_State *L) {
-                //        lua_pushnumber(L, this->realObject->width);
-                //
-                //        return 1;
-                //    }
-                //
-                //    int getHeight(lua_State *L) {
-                //        lua_pushnumber(L, this->realObject->height);
-                //
-                //        return 1;
-                //    }
-                //
-                //    int render(lua_State *L) {
-                //        const int xOffset = (int)luaL_checkinteger(L, 1);
-                //        const int yOffset = (int)luaL_checkinteger(L, 2);
-                //        const int xMovementOffset = (int)luaL_checkinteger(L, 3);
-                //        const int yMovementOffset = (int)luaL_checkinteger(L, 4);
-                //
-                //        this->realObject->Render(xOffset, yOffset, xMovementOffset, yMovementOffset);
-                //
-                //        return 0;
-                //    }
-                //
-                //    int getWalkability(lua_State *L) {
-                //        int x = (int)luaL_checkinteger(L, 1);
-                //        int y = (int)luaL_checkinteger(L, 2);
-                //
-                //        this->logger->debug() << "getWalkability called for (" << x << ", " << y << ")";
-                //
-                //        lua_pushboolean(L, this->realObject->GetWalkability(x, y));
-                //
-                //        return 1;
-                //    }
-                //
-                //    int getObjects(lua_State *L) {
-                //        const int x = luaL_checkint(L, 1);
-                //
-                //        const int y = (int)luaL_checkint(L, 2);
-                //
-                //        this->logger->debug() << "LuaGameMap::getObjects (" << x << ", " << y << ")";
-                //
-                //        std::vector<GameMapObject*> result = this->realObject->GetObjects(x, y);
-                //
-                //        lua_newtable(L);
-                //
-                //        int n = 1;
-                //
-                //        for (std::vector<GameMapObject*>::iterator object = result.begin(); object != result.end(); object++) {
-                //            lua_pushlightuserdata(L, (void*)(*object));
-                //
-                //            lua_rawseti(L, -2, n);
-                //
-                //            n += 1;
-                //        }
-                //
-                //        return 1;
-                //    }
-                //
-                //private:
-                //    GameMap* realObject;
-                //};
+                LuaIntf::LuaBinding(luaContext->state())
+                .beginModule("objects")
+                    .beginClass<Map>("Map")
+                        .addConstructor(LUA_ARGS())
+                        .addConstructor(LUA_ARGS(const std::string&))
+                        .addFunction("getWidth", &Map::GetWidth)
+                        .addFunction("getHeight", &Map::GetHeight)
+                        .addFunction("getWalkability", &Map::GetWalkability)
+                        .addFunction("getObjects", &Map::GetObjects)
+                        .addFunction("render", &Map::Render)
+                    .endClass()
+                .endModule();
             }
         }
     }
