@@ -17,9 +17,6 @@ namespace Game {
         }
 
         Base::~Base() {
-            for (auto it = this->textureNames.begin(); it != this->textureNames.end(); ++it) {
-                Services::Locator::TextureService()->ReleaseTexture(*it);
-            }
         }
 
         void Base::LoadResources(const std::string& textureListPath, const std::string& soundListPath) {
@@ -34,6 +31,10 @@ namespace Game {
         }
 
         void Base::Pop() {
+            for (auto it = this->textureNames.begin(); it != this->textureNames.end(); ++it) {
+                Services::Locator::TextureService()->ReleaseTexture(*it);
+            }
+
             this->pop = true;
         }
 
