@@ -14,10 +14,16 @@ namespace Game {
 
                 Party();
                 ~Party();
+                std::shared_ptr<Base> GetLeader();
+                std::shared_ptr<Base> SetLeader(const int index);
 
+            private:
+                std::shared_ptr<Base> leader;
+
+            public:
                 class LuaInterface {
                 public:
-                    void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                    static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
                 };
             };
         }

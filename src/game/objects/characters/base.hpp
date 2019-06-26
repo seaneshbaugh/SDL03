@@ -29,6 +29,8 @@ namespace Game {
 
                 Base();
                 ~Base();
+                std::string GetName();
+                std::string SetName(const std::string& newName);
                 unsigned long long GetLevel();
                 unsigned long long SetLevel(const unsigned long long newLevel);
                 unsigned long long GetCurrentHitPoints();

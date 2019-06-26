@@ -34,6 +34,16 @@ namespace Game {
             Base::~Base() {
             }
 
+            std::string Base::GetName() {
+                return this->name;
+            }
+
+            std::string Base::SetName(const std::string& newName) {
+                this->name = newName;
+
+                return this->name;
+            }
+
             unsigned long long Base::GetLevel() {
                 return this->level;
             }
@@ -251,16 +261,27 @@ namespace Game {
                 character->SetVitality(static_cast<unsigned long long>(characterNode.at("vitality").as_int()));
                 character->SetStamina(static_cast<unsigned long long>(characterNode.at("stamina").as_int()));
                 character->SetLuck(static_cast<unsigned long long>(characterNode.at("luck").as_int()));
-                // This kinda feels out of place...
-                character->sprite = std::make_shared<Resources::Texture>(characterNode.at("sprite").as_string());
-                character->spritesheet = std::make_shared<Resources::Texture>(characterNode.at("spritesheet").as_string());
                 character->spriteName = "characters.sprite." + character->name;
                 character->spritesheetName = "characters.spritesheet." + character->name;
-//                Services::Locator::TextureService()->AddTexture(character->sprite, character->spriteName, nullptr);
-//                Services::Locator::TextureService()->AddTexture(character->spritesheet, character->spritesheetName, nullptr);
+                character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode.at("sprite").as_string());
+                character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode.at("spritesheet").as_string());
             }
 
             void Base::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
+                LuaIntf::LuaBinding(luaContext->state())
+                .beginModule("objects")
+                    .beginClass<Base>("Character")
+                        .addConstructor(LUA_ARGS())
+                        .addFunction("getName", &Base::GetName)
+                        .addFunction("setName", &Base::SetName)
+                        .addFunction("getLevel", &Base::GetLevel)
+                        .addFunction("setLevel", &Base::SetLevel)
+                        .addFunction("getCurrentHitPoints", &Base::GetCurrentHitPoints)
+                        .addFunction("render", &Base::Render)
+                    .endClass()
+                .endModule();
+
+
                 //            const char LuaGameCharacter::className[] = "GameCharacter";
                 //
                 //            Lunar<LuaGameCharacter>::RegType LuaGameCharacter::methods[] = {

@@ -15,6 +15,12 @@ namespace Game {
 
         protected:
             std::shared_ptr<Log::Logger> logger;
+
+        public:
+            class LuaInterface {
+            public:
+                static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+            };
         };
     }
 }

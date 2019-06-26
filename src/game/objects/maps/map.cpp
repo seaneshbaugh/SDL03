@@ -1,5 +1,9 @@
 #include "map.hpp"
 
+namespace LuaIntf {
+    LUA_USING_SHARED_PTR_TYPE(std::shared_ptr)
+}
+
 namespace Game {
     namespace Objects {
         namespace Maps {

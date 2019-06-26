@@ -19,6 +19,16 @@ namespace Game {
             }
 
             void MapObject::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
+                LuaIntf::LuaBinding(luaContext->state())
+                .beginModule("objects")
+                    .beginClass<MapObject>("MapObject")
+                        .addConstructor(LUA_ARGS())
+                        .addFunction("getX", [](MapObject* self){ return self->x; })
+                        .addFunction("getY", [](MapObject* self){ return self->y; })
+                        .addFunction("type", [](MapObject* self){ return self->type; })
+                    .endClass()
+                .endModule();
+
                 //            const char LuaGameMapObject::className[] = "GameMapObject";
                 //
                 //            Lunar<LuaGameMapObject>::RegType LuaGameMapObject::methods[] = {

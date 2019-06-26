@@ -43,9 +43,6 @@ current_map = map_state:getCurrentMap()
 player = nil
 
 function initialize()
-    -- font = map_state:getFont("DroidSans")
-    
-    -- dot = map_state:loadTexture("dot", "assets/images/dot.png")
     player_sprite_name = map_state:getPlayerSpriteName()
     
     player = objects.Image(player_sprite_name, 320, 224)
@@ -150,9 +147,7 @@ end
 function step(x, y)
     objects = current_map:getObjects(x, y)
 
-    for i, raw_object in ipairs(objects) do
-        object = GameMapObject(raw_object)
-
+    for i, object in ipairs(objects) do
         object_type = object:type()
 
         if object_type == "map" then
@@ -160,7 +155,7 @@ function step(x, y)
 
             map_state:loadMap("resources/maps/" .. map .. ".json")
 
-            current_map = GameMap(map_state:getCurrentMap())
+            current_map = map_state:getCurrentMap()
 
             player_current_x = tonumber(object:getProperty("x"))
 
@@ -190,7 +185,7 @@ function step(x, y)
         end
         
         if object_type == "encounter_area" then
-            map_state:setCurrentEncounterArea(raw_object)
+            map_state:setCurrentEncounterArea(object)
 
             -- This should be determined by a method on the encounter area. Each one should define its own
             -- probability for a random encounter.

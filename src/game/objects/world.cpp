@@ -35,6 +35,8 @@ namespace Game {
             casie->Load("resources/characters/character02.json");
 
             this->playerParty->characters.push_back(casie);
+
+            this->playerParty->SetLeader(0);
         }
 
         void World::UnloadPlayerParty() {
