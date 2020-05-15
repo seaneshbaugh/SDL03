@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "LuaIntf.h"
+#include "sol.hpp"
 
 #include "LoggerCpp.h"
 

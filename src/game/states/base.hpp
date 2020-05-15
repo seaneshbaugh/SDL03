@@ -8,6 +8,7 @@
 #include "SDL.h"
 #include "lua.h"
 #include "LuaIntf.h"
+#include "sol.hpp"
 
 #include "../../helpers/file_system.hpp"
 #include "../resources/texture.hpp"
@@ -48,7 +49,9 @@ namespace Game {
         protected:
             std::shared_ptr<Log::Logger> logger;
             bool pop;
+            // TODO: Delete this when all child classes are using sol.
             std::shared_ptr<LuaIntf::LuaContext> luaContext;
+            std::shared_ptr<sol::state> luaState;
             std::vector<std::string> textureNames;
             std::vector<std::shared_ptr<Objects::Text>> texts;
 
@@ -57,7 +60,9 @@ namespace Game {
             virtual void LoadTextures(const std::string& resourceListPath);
             virtual void LoadSounds(const std::string& resourceListPath);
             virtual void LoadSongs(const std::string& resourceListPath);
-            virtual void LoadLuaContext(const std::string& scriptFile) = 0;
+            // TODO: Delete this when all child classes are using sol.
+            virtual void LoadLuaContext(const std::string& scriptFilePath) = 0;
+            virtual void LoadLuaState(const std::string& scriptFilePath);
             std::shared_ptr<Resources::Texture> GetTexture(const std::string& textureName);
         };
     }

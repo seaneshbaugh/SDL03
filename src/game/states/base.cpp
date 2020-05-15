@@ -73,6 +73,7 @@ namespace Game {
                 throw;
             }
 
+            // TODO: Use ResourceList to handle this. One thing at a time though...
             Parsers::AssetListParser parser = Parsers::AssetListParser();
             std::map<std::string, std::string> assetList = parser.Parse(jsonString);
 
@@ -95,6 +96,7 @@ namespace Game {
                 throw;
             }
 
+            // TODO: Use ResourceList to handle this. One thing at a time though...
             Parsers::AssetListParser parser = Parsers::AssetListParser();
             std::map<std::string, std::string> assetList = parser.Parse(jsonString);
 
@@ -104,6 +106,12 @@ namespace Game {
                 // TODO: Actually add ability to add songs to audio service.
                 // Services::Locator::AudioService()->AddSound(song, it->first, shared_from_this());
             }
+        }
+
+        void Base::LoadLuaState(const std::string& scriptFilePath) {
+            this->luaState = std::make_shared<sol::state>();
+
+            this->luaState->open_libraries(sol::lib::base, sol::lib::package, sol::lib::table);
         }
 
         std::shared_ptr<Resources::Texture> Base::GetTexture(const std::string& textureName) {

@@ -19,7 +19,7 @@ namespace Game {
         void SettingsMenu::LoadLuaContext(const std::string& scriptFileName) {
             this->luaContext = std::make_shared<LuaIntf::LuaContext>();
 
-            Objects::Text::LuaInterface::Bind(this->luaContext);
+            Objects::Text::LuaInterface::BindOld(this->luaContext);
             Objects::Image::LuaInterface::Bind(this->luaContext);
             SettingsMenu::LuaInterface::Bind(this->luaContext);
 

@@ -121,7 +121,25 @@ namespace Game {
             this->SetPosition(this->position.x, this->position.y);
         }
 
-        void Text::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
+        void Text::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+            sol::table objects = (*luaState.get())["objects"].get_or_create<sol::table>(sol::new_table());
+
+            objects.new_usertype<Text>("Text",
+                                       sol::constructors<Text(), Text(const std::string&, const std::string&, const int, const int, const int, const Uint8, const Uint8, const Uint8)>(),
+                                       "getText", &Text::GetText,
+                                       "setText", &Text::SetText,
+                                       "getX", &Text::GetX,
+                                       "getY", &Text::GetY,
+                                       "getWidth", &Text::GetWidth,
+                                       "getHeight", &Text::GetHeight,
+                                       "setPosition", &Text::SetPosition,
+                                       "setColor", static_cast<void (Text::*)(const Uint8, const Uint8, const Uint8)>(&Text::SetColor),
+                                       "render", &Text::Render
+                                       );
+        }
+
+        // TODO: Remove once all states are using sol.
+        void Text::LuaInterface::BindOld(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
             LuaIntf::LuaBinding(luaContext->state())
             .beginModule("objects")
                 .beginClass<Text>("Text")

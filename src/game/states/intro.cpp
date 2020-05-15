@@ -9,31 +9,10 @@ namespace Game {
             this->pop = false;
             this->acceptRawInput = false;
             this->LoadResources("resources/asset_lists/intro_textures.json", "resources/asset_lists/intro_sounds.json");
-            this->LoadLuaContext("scripts/states/intro.lua");
+            this->LoadLuaState("scripts/states/intro.lua");
         }
 
         Intro::~Intro() {
-        }
-
-        // TODO: Refactor as much of this as possible into base class.
-        void Intro::LoadLuaContext(const std::string& scriptFileName) {
-            this->luaContext = std::make_shared<LuaIntf::LuaContext>();
-
-            Objects::Text::LuaInterface::Bind(this->luaContext);
-            Intro::LuaInterface::Bind(this->luaContext);
-
-            LuaIntf::Lua::setGlobal(this->luaContext->state(), "intro_state", this);
-
-            this->logger->debug() << "Loading \"" << scriptFileName << "\".";
-
-            this->luaContext->doFile(scriptFileName.c_str());
-
-            this->logger->debug() << "Loaded \"" << scriptFileName << "\".";
-
-            LuaIntf::LuaRef initialize(this->luaContext->state(), "initialize");
-
-            // TODO: Handle errors?
-            initialize();
         }
 
         std::shared_ptr<Base> Intro::Update(const int key) {
@@ -43,9 +22,7 @@ namespace Game {
                 nextState = this->ProcessInput(key);
             }
 
-            LuaIntf::LuaRef update(this->luaContext->state(), "update");
-
-            update();
+            (*this->luaState.get())["update"]();
 
             if (this->pop) {
                 return nullptr;
@@ -64,34 +41,53 @@ namespace Game {
         }
 
         // For the intro state the Lua process_input function does nothing. This is because
-        // any keyboard input just immediately causes a transition to the main menu state.
-        // Honestly it doesn't even make sense to call the Lua function at all, but I'm
-        // leaving it in for consistency's sake.
+        // any keyboard input with a valid input mapper binding just immediately causes a
+        // transition to the main menu state. Honestly it doesn't even make sense to call
+        // the Lua function at all, but I'm leaving it in for consistency's sake.
         std::string Intro::ProcessInput(const int key) {
-            LuaIntf::LuaRef processInput(this->luaContext->state(), "process_input");
-
-            std::string result = processInput.call<std::string>(key);
+            std::string result = (*this->luaState.get())["process_input"](key);
 
             return result;
         }
 
         void Intro::Render() {
-            LuaIntf::LuaRef render(this->luaContext->state(), "render");
-
-            render();
+            (*this->luaState.get())["render"]();
         }
 
-        void Intro::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-            LuaIntf::LuaBinding(luaContext->state())
-            .beginModule("states")
-                .beginClass<Intro>("Intro")
-                    .addConstructor(LUA_SP(std::shared_ptr<Intro>), LUA_ARGS())
-                    .addFunction("pop", &Intro::Pop)
-                    .addFunction("process_input", static_cast<std::string(Game::States::Intro::*)(const int)>(&Intro::ProcessInput))
-                    .addFunction("render", &Intro::Render)
-                    .addFunction("get_texture", &Intro::GetTexture, LUA_ARGS(LuaIntf::_opt<std::string>))
-                .endClass()
-            .endModule();
+        // TODO: Remove this once Base state class no longer defines it.
+        void Intro::LoadLuaContext(const std::string& scriptFilePath) {
+        }
+
+        void Intro::LoadLuaState(const std::string& scriptFilePath) {
+            Base::LoadLuaState(scriptFilePath);
+
+            this->luaState->open_libraries(sol::lib::math, sol::lib::os);
+
+            Objects::Text::LuaInterface::Bind(this->luaState);
+            Intro::LuaInterface::Bind(this->luaState);
+
+            this->luaState->set("intro_state", this);
+
+            this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
+
+            this->luaState->script_file(scriptFilePath);
+
+            this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
+
+            (*this->luaState.get())["initialize"]();
+        }
+
+        void Intro::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+            sol::table states = (*luaState.get())["states"].get_or_create<sol::table>(sol::new_table());
+
+            states.new_usertype<Intro>("Intro",
+                                       sol::no_constructor,
+                                       "pop", &Intro::Pop,
+                                       "process_input", static_cast<std::string(Intro::*)(const int)>(&Intro::ProcessInput),
+                                       "render", &Intro::Render,
+                                       "get_texture", &Intro::GetTexture
+                                       );
+
         }
     }
 }

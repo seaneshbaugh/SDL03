@@ -45,7 +45,9 @@ namespace Game {
         public:
             class LuaInterface {
             public:
-                static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                static void Bind(std::shared_ptr<sol::state> luaState);
+                // TODO: Remove once all states are using sol.
+                static void BindOld(std::shared_ptr<LuaIntf::LuaContext> luaContext);
             };
         };
     }

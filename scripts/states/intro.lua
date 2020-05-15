@@ -10,9 +10,9 @@ function initialize()
     math.randomseed(os.time())
 
     for i = 1, math.random(8, 16) do
-        table.insert(texts, objects.Text("LOL", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
-        table.insert(texts, objects.Text("ROFL", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
-        table.insert(texts, objects.Text("LMAO", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
+        table.insert(texts, objects.Text.new("LOL", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
+        table.insert(texts, objects.Text.new("ROFL", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
+        table.insert(texts, objects.Text.new("LMAO", font_name, font_size, math.random(0, 600), math.random(0, 400), math.random(100, 255), math.random(100, 255), math.random(100, 255)))
     end
 
     for i, v in ipairs(texts) do

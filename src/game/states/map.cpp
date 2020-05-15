@@ -20,7 +20,7 @@ namespace Game {
         void Map::LoadLuaContext(const std::string& scriptFileName) {
             this->luaContext = std::make_shared<LuaIntf::LuaContext>();
 
-            Objects::Text::LuaInterface::Bind(this->luaContext);
+            Objects::Text::LuaInterface::BindOld(this->luaContext);
             Objects::Image::LuaInterface::Bind(this->luaContext);
             Objects::Maps::Map::LuaInterface::Bind(this->luaContext);
             Objects::Maps::MapObject::LuaInterface::Bind(this->luaContext);
