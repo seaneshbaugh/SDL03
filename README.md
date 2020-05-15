@@ -41,6 +41,7 @@ An attempt at an RPG.
 * http://pgl.yoyo.org/luai/i/_
 * http://csl.name/lua/
 * https://github.com/SteveKChiu/lua-intf
+* https://github.com/ThePhD/sol2
 * https://eliasdaler.github.io/game-object-references/
 * http://stackoverflow.com/questions/14639194/how-do-i-create-a-c-function-accepting-multiple-arguments-in-lua
 * http://lua-users.org/wiki/MathLibraryTutorial
