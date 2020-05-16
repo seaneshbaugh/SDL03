@@ -19,7 +19,8 @@ namespace Game {
             int GetY();
             int GetWidth();
             int GetHeight();
-            void Render(const SDL_Rect* const clip = nullptr);
+            void Render();
+            void Render(const SDL_Rect* const clip);
             void Render(const int clipX, const int clipY, const int clipW, const int clipH);
 
         private:
@@ -31,7 +32,9 @@ namespace Game {
         public:
             class LuaInterface {
             public:
-                static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                static void Bind(std::shared_ptr<sol::state> luaState);
+                // TODO: Remove once all states are using sol.
+                static void BindOld(std::shared_ptr<LuaIntf::LuaContext> luaContext);
             };
         };
     }

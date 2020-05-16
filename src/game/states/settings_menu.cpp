@@ -20,7 +20,7 @@ namespace Game {
             this->luaContext = std::make_shared<LuaIntf::LuaContext>();
 
             Objects::Text::LuaInterface::BindOld(this->luaContext);
-            Objects::Image::LuaInterface::Bind(this->luaContext);
+            Objects::Image::LuaInterface::BindOld(this->luaContext);
             SettingsMenu::LuaInterface::Bind(this->luaContext);
 
             LuaIntf::Lua::setGlobal(this->luaContext->state(), "raw_settings_menu_state", this->shared_from_this());

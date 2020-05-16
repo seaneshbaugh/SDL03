@@ -32,7 +32,7 @@ namespace Game {
             this->luaContext = std::make_shared<LuaIntf::LuaContext>();
 
             Objects::Text::LuaInterface::BindOld(this->luaContext);
-            Objects::Image::LuaInterface::Bind(this->luaContext);
+            Objects::Image::LuaInterface::BindOld(this->luaContext);
             Objects::Characters::Base::LuaInterface::Bind(this->luaContext);
             Objects::Characters::Monster::LuaInterface::Bind(this->luaContext);
             Battle::LuaInterface::Bind(this->luaContext);

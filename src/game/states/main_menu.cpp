@@ -9,31 +9,10 @@ namespace Game {
             this->pop = false;
             this->acceptRawInput = false;
             this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/main_menu_sounds.json");
-            this->LoadLuaContext("scripts/states/main_menu.lua");
+            this->LoadLuaState("scripts/states/main_menu.lua");
         }
 
         MainMenu::~MainMenu() {
-        }
-
-        void MainMenu::LoadLuaContext(const std::string& scriptFileName) {
-            this->luaContext = std::make_shared<LuaIntf::LuaContext>();
-
-            Objects::Text::LuaInterface::BindOld(this->luaContext);
-            Objects::Image::LuaInterface::Bind(this->luaContext);
-            MainMenu::LuaInterface::Bind(this->luaContext);
-
-            LuaIntf::Lua::setGlobal(this->luaContext->state(), "main_menu_state", this);
-
-            this->logger->debug() << "Loading \"" << scriptFileName << "\".";
-
-            this->luaContext->doFile(scriptFileName.c_str());
-
-            this->logger->debug() << "Loaded \"" << scriptFileName << "\".";
-
-            LuaIntf::LuaRef initialize(this->luaContext->state(), "initialize");
-
-            // TODO: Handle errors?
-            initialize();
         }
 
         std::shared_ptr<Base> MainMenu::Update(const int key) {
@@ -43,9 +22,7 @@ namespace Game {
                 nextState = this->ProcessInput(key);
             }
 
-            LuaIntf::LuaRef update(this->luaContext->state(), "update");
-
-            update();
+            (*this->luaState.get())["update"]();
 
             if (this->pop) {
                 return nullptr;
@@ -68,29 +45,47 @@ namespace Game {
         }
 
         std::string MainMenu::ProcessInput(const int key) {
-            LuaIntf::LuaRef processInput(this->luaContext->state(), "process_input");
-
-            std::string result = processInput.call<std::string>(key);
+            std::string result = (*this->luaState.get())["process_input"](key);
 
             return result;
         }
 
         void MainMenu::Render() {
-            LuaIntf::LuaRef render(this->luaContext->state(), "render");
-
-            render();
+            (*this->luaState.get())["render"]();
         }
 
-        void MainMenu::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-            LuaIntf::LuaBinding(luaContext->state())
-            .beginModule("states")
-                .beginClass<MainMenu>("MainMenu")
-                    .addConstructor(LUA_SP(std::shared_ptr<MainMenu>), LUA_ARGS())
-                    .addFunction("pop", &MainMenu::Pop)
-                    .addFunction("process_input", static_cast<std::string(Game::States::MainMenu::*)(const int)>(&MainMenu::ProcessInput))
-                    .addFunction("render", &MainMenu::Render)
-                .endClass()
-            .endModule();
+        // TODO: Remove this once Base state class no longer defines it.
+        void MainMenu::LoadLuaContext(const std::string& scriptFilePath) {
+        }
+
+        void MainMenu::LoadLuaState(const std::string& scriptFilePath) {
+            Base::LoadLuaState(scriptFilePath);
+
+            Objects::Text::LuaInterface::Bind(this->luaState);
+            Objects::Image::LuaInterface::Bind(this->luaState);
+            MainMenu::LuaInterface::Bind(this->luaState);
+
+            this->luaState->set("main_menu_state", this);
+
+            this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
+
+            this->luaState->script_file(scriptFilePath);
+
+            this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
+
+            // TODO: Handle errors?
+            (*this->luaState.get())["initialize"]();
+        }
+
+        void MainMenu::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+            sol::table states = (*luaState.get())["states"].get_or_create<sol::table>(sol::new_table());
+
+            states.new_usertype<MainMenu>("MainMenu",
+                                          sol::no_constructor,
+                                          "pop", &MainMenu::Pop,
+                                          "process_input", static_cast<std::string (MainMenu::*)(const int)>(&MainMenu::ProcessInput),
+                                          "render", &MainMenu::Render
+                                          );
         }
     }
 }

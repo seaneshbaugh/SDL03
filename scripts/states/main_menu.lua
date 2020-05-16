@@ -12,11 +12,11 @@ function initialize()
     font_name = "PixChicago"
     font_size = 10
 
-    table.insert(texts, objects.Text("New Game", font_name, font_size, 200, 150, 255, 255, 255))
-    table.insert(texts, objects.Text("Load Game", font_name, font_size, 200, 200, 255, 255, 255))
-    table.insert(texts, objects.Text("Settings", font_name, font_size, 200, 250, 255, 255, 255))
+    table.insert(texts, objects.Text.new("New Game", font_name, font_size, 200, 150, 255, 255, 255))
+    table.insert(texts, objects.Text.new("Load Game", font_name, font_size, 200, 200, 255, 255, 255))
+    table.insert(texts, objects.Text.new("Settings", font_name, font_size, 200, 250, 255, 255, 255))
 
-    hand = objects.Image("cursor-right", 175, 150 + (50 * menu_option))
+    hand = objects.Image.new("cursor-right", 175, 150 + (50 * menu_option))
 end
 
 function process_input(key_code)

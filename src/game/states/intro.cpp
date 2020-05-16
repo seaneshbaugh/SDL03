@@ -74,6 +74,7 @@ namespace Game {
 
             this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
 
+            // TODO: Handle errors?
             (*this->luaState.get())["initialize"]();
         }
 
@@ -83,7 +84,7 @@ namespace Game {
             states.new_usertype<Intro>("Intro",
                                        sol::no_constructor,
                                        "pop", &Intro::Pop,
-                                       "process_input", static_cast<std::string(Intro::*)(const int)>(&Intro::ProcessInput),
+                                       "process_input", static_cast<std::string (Intro::*)(const int)>(&Intro::ProcessInput),
                                        "render", &Intro::Render,
                                        "get_texture", &Intro::GetTexture
                                        );

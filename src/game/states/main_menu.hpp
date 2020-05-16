@@ -20,12 +20,14 @@ namespace Game {
         private:
             static const std::string logChannel;
 
-            void LoadLuaContext(const std::string& scriptFile);
+            // TODO: Remove this once Base state class no longer defines it.
+            void LoadLuaContext(const std::string& scriptFilePath);
+            void LoadLuaState(const std::string& scriptFilePath);
 
         public:
             class LuaInterface {
             public:
-                static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                static void Bind(std::shared_ptr<sol::state> luaState);
             };
         };
     }

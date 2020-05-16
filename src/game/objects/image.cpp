@@ -52,9 +52,18 @@ namespace Game {
             this->position = {x, y, this->position.w, this->position.h};
         }
 
+        void Image::Render() {
+            this->Render(nullptr);
+        }
+
+        void Image::Render(const int clipX, const int clipY, const int clipW, const int clipH) {
+            SDL_Rect clip = {clipX, clipY, clipW, clipH};
+
+            this->Render(&clip);
+        }
+
         void Image::Render(const SDL_Rect* const clip) {
             if (this->texture == nullptr) {
-                
                 return;
             }
 
@@ -68,19 +77,23 @@ namespace Game {
             Services::Locator::VideoService()->Render(this->texture, clip, &renderQuad);
         }
 
-        void Image::Render(const int clipX, const int clipY, const int clipW, const int clipH) {
-            if (this->texture == nullptr) {
-                return;
-            }
+        void Image::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+            sol::table objects = (*luaState.get())["objects"].get_or_create<sol::table>(sol::new_table());
 
-            SDL_Rect clip = {clipX, clipY, clipW, clipH};
-
-            SDL_Rect renderQuad = {this->position.x, this->position.y, clipW, clipH};
-
-            Services::Locator::VideoService()->Render(this->texture, &clip, &renderQuad);
+            objects.new_usertype<Image>("Image",
+                                        sol::constructors<Image(), Image(const std::string&, const int, const int)>(),
+                                        "getX", &Image::GetX,
+                                        "getY", &Image::GetY,
+                                        "getWidth", &Image::GetWidth,
+                                        "getHeight", &Image::GetHeight,
+                                        "setPosition", &Image::SetPosition,
+                                        "render", sol::overload(static_cast<void (Image::*)()>(&Image::Render),
+                                                                static_cast<void (Image::*)(const int, const int, const int, const int)>(&Image::Render))
+                                        );
         }
 
-        void Image::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
+        // TODO: Remove once all states are using sol.
+        void Image::LuaInterface::BindOld(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
             LuaIntf::LuaBinding(luaContext->state())
             .beginModule("objects")
                 .beginClass<Image>("Image")
