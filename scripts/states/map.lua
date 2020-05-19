@@ -45,7 +45,7 @@ player = nil
 function initialize()
     player_sprite_name = map_state:getPlayerSpriteName()
     
-    player = objects.Image(player_sprite_name, 320, 224)
+    player = objects.Image.new(player_sprite_name, 320, 224)
     
     math.randomseed(os.time())
 end
@@ -148,7 +148,7 @@ function step(x, y)
     objects = current_map:getObjects(x, y)
 
     for i, object in ipairs(objects) do
-        object_type = object:type()
+        object_type = object:getType()
 
         if object_type == "map" then
             map = object:getProperty("map")
@@ -183,15 +183,15 @@ function step(x, y)
 
             player:setPosition(player_screen_x_position, player_screen_y_position)
         end
-        
+
         if object_type == "encounter_area" then
-            map_state:setCurrentEncounterArea(object)
+            map_state:setCurrentMapEncounterArea(object)
 
             -- This should be determined by a method on the encounter area. Each one should define its own
             -- probability for a random encounter.
-            if math.random(0, 10) == 0 then
-                return "battle"
-            end
+            -- if math.random(0, 10) == 0 then
+            --    return "battle"
+            -- end
         end
     end
 
@@ -346,7 +346,7 @@ function render()
         end
     end
 
-    player:renderWithClip(player_crop_x, 48 * player_direction, 32, 48)
+    player:render(player_crop_x, 48 * player_direction, 32, 48)
 
     for i, v in ipairs(texts) do
         v:render()

@@ -17,17 +17,25 @@ namespace Game {
                 int y;
                 int width;
                 int height;
+
+                MapObject();
+                virtual ~MapObject();
+                SDL_Rect GetPosition();
+                void SetPosition(int x, int y);
+                std::string GetType();
+                void SetType(const std::string& type);
+                std::string GetProperty(const std::string& name);
+                std::string SetProperty(const std::string& name, const std::string& value);
+                std::map<std::string, std::string> SetProperties(const std::map<std::string, std::string>& properties);
+
+            private:
                 std::string type;
                 std::map<std::string, std::string> properties;
 
-                MapObject();
-                ~MapObject();
-                SDL_Rect GetPosition();
-                void SetPosition(int x, int y);
-
+            public:
                 class LuaInterface {
                 public:
-                    static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                    static void Bind(std::shared_ptr<sol::state> luaState);
                 };
             };
         }

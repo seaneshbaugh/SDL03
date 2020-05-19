@@ -16,7 +16,7 @@ namespace Game {
 
             this->backgroundName = "battle.background";
 
-            this->background = Services::Locator::TextureService()->AddTexture(this->backgroundName, encounterArea->properties["background"]);
+            this->background = Services::Locator::TextureService()->AddTexture(this->backgroundName, encounterArea->GetProperty("background"));
 
             Services::Locator::WorldService()->GetWorld()->SetEnemyParty(encounterArea);
 

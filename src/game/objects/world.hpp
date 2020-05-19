@@ -17,6 +17,7 @@ namespace Game {
             ~World();
             void SetStartingPlayerParty();
             void UnloadPlayerParty();
+            // TODO: Make this take a mob list whenever I get around to making that a class.
             void SetEnemyParty(std::shared_ptr<Objects::Maps::MapEncounterArea> encounterArea);
             void UnloadEnemyParty();
             void LoadMap(const std::string& filename);

@@ -1,9 +1,5 @@
 #include "map.hpp"
 
-namespace LuaIntf {
-    LUA_USING_SHARED_PTR_TYPE(std::shared_ptr)
-}
-
 namespace Game {
     namespace Objects {
         namespace Maps {
@@ -116,7 +112,7 @@ namespace Game {
 
                     for (auto object = (*layer)->objects.begin(); object != (*layer)->objects.end(); object++) {
                         if (x >= (*object)->x && x < ((*object)->x + (*object)->width) && y >= (*object)->y && y < ((*object)->y + (*object)->height)) {
-                            this->logger->debug() << "Object with type " << (*object)->type << " (" << (*object)->x << ", " << (*object)->y << ") - (" << ((*object)->x + (*object)->width) << ", " << ((*object)->y + (*object)->height) << ") stepped on";
+                            this->logger->debug() << "Object with type " << (*object)->GetType() << " (" << (*object)->x << ", " << (*object)->y << ") - (" << ((*object)->x + (*object)->width) << ", " << ((*object)->y + (*object)->height) << ") stepped on";
 
                             result.push_back(*object);
                         }
@@ -303,7 +299,7 @@ namespace Game {
 
                         // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
                         // TODO: Use map tileheight and tilewidth.
-                        encounterArea->type = i->at("type").as_string();
+                        encounterArea->SetType(i->at("type").as_string());
                         encounterArea->x = static_cast<int>(i->at("x").as_int()) / 32;
                         encounterArea->y = static_cast<int>(i->at("y").as_int()) / 32;
                         encounterArea->width = static_cast<int>(i->at("width").as_int()) / 32;
@@ -315,7 +311,7 @@ namespace Game {
 
                             k++;
                         }
-                        encounterArea->properties = properties;
+                        encounterArea->SetProperties(properties);
 
                         layer->objects.push_back(encounterArea);
                     } else if (layer->name == "load_points") {
@@ -325,7 +321,7 @@ namespace Game {
 
                         // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
                         // TODO: Use map tileheight and tilewidth.
-                        loadPoint->type = i->at("type").as_string();
+                        loadPoint->SetType(i->at("type").as_string());
                         loadPoint->x = static_cast<int>(i->at("x").as_int()) / 32;
                         loadPoint->y = static_cast<int>(i->at("y").as_int()) / 32;
                         loadPoint->width = static_cast<int>(i->at("width").as_int()) / 32;
@@ -337,7 +333,7 @@ namespace Game {
 
                             k++;
                         }
-                        loadPoint->properties = properties;
+                        loadPoint->SetProperties(properties);
 
                         layer->objects.push_back(loadPoint);
                     } else {
@@ -422,19 +418,17 @@ namespace Game {
                 return tiles;
             }
 
-            void Map::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-                LuaIntf::LuaBinding(luaContext->state())
-                .beginModule("objects")
-                    .beginClass<Map>("Map")
-                        .addConstructor(LUA_ARGS())
-                        .addConstructor(LUA_ARGS(const std::string&))
-                        .addFunction("getWidth", &Map::GetWidth)
-                        .addFunction("getHeight", &Map::GetHeight)
-                        .addFunction("getWalkability", &Map::GetWalkability)
-                        .addFunction("getObjects", &Map::GetObjects)
-                        .addFunction("render", &Map::Render)
-                    .endClass()
-                .endModule();
+            void Map::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+                sol::table objects = (*luaState.get())["objects"].get_or_create<sol::table>(sol::new_table());
+
+                objects.new_usertype<Map>("Map",
+                                          sol::constructors<Map(), Map(const std::string&)>(),
+                                          "getWidth", &Map::GetWidth,
+                                          "getHeight", &Map::GetHeight,
+                                          "getWalkability", &Map::GetWalkability,
+                                          "getObjects", &Map::GetObjects,
+                                          "render", &Map::Render
+                                          );
             }
         }
     }

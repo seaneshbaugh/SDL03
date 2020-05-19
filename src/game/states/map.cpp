@@ -11,33 +11,10 @@ namespace Game {
             this->acceptRawInput = false;
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
-            this->LoadLuaContext("scripts/states/map.lua");
+            this->LoadLuaState("scripts/states/map.lua");
         }
 
         Map::~Map() {
-        }
-
-        void Map::LoadLuaContext(const std::string& scriptFileName) {
-            this->luaContext = std::make_shared<LuaIntf::LuaContext>();
-
-            Objects::Text::LuaInterface::BindOld(this->luaContext);
-            Objects::Image::LuaInterface::BindOld(this->luaContext);
-            Objects::Maps::Map::LuaInterface::Bind(this->luaContext);
-            Objects::Maps::MapObject::LuaInterface::Bind(this->luaContext);
-            Map::LuaInterface::Bind(this->luaContext);
-
-            LuaIntf::Lua::setGlobal(this->luaContext->state(), "map_state", this);
-
-            this->logger->debug() << "Loading \"" << scriptFileName << "\".";
-
-            this->luaContext->doFile(scriptFileName.c_str());
-
-            this->logger->debug() << "Loaded \"" << scriptFileName << "\".";
-
-            LuaIntf::LuaRef initialize(this->luaContext->state(), "initialize");
-
-            // TODO: Handle errors?
-            initialize();
         }
 
         std::shared_ptr<Base> Map::Update(const int key) {
@@ -45,9 +22,7 @@ namespace Game {
                 this->ProcessInput(key);
             }
 
-            LuaIntf::LuaRef update(this->luaContext->state(), "update");
-
-            std::string nextState = update.call<std::string>();
+            std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
                 return nullptr;
@@ -55,7 +30,7 @@ namespace Game {
 
             switch (StateNameToEnum(nextState)) {
                 case GameStateType::battle:
-                    //return std::make_shared<Battle>(this->currentMapEncounterArea, nullptr);
+                    // return std::make_shared<Battle>(this->currentMapEncounterArea, nullptr);
                     return this->shared_from_this();
                 default:
                     return this->shared_from_this();
@@ -67,17 +42,13 @@ namespace Game {
         }
 
         std::string Map::ProcessInput(const int key) {
-            LuaIntf::LuaRef processInput(this->luaContext->state(), "process_input");
-
-            std::string result = processInput.call<std::string>(key);
+            std::string result = (*this->luaState.get())["process_input"](key);
 
             return result;
         }
 
         void Map::Render() {
-            LuaIntf::LuaRef render(this->luaContext->state(), "render");
-
-            render();
+            (*this->luaState.get())["render"]();
         }
 
         bool Map::LoadMap(const std::string& filename) {
@@ -85,9 +56,7 @@ namespace Game {
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
 
-            LuaIntf::LuaRef afterMapLoad(this->luaContext->state(), "after_map_load");
-
-            afterMapLoad();
+            (*this->luaState.get())["after_map_load"]();
 
             return true;
         }
@@ -101,26 +70,78 @@ namespace Game {
                 return false;
             }
 
-            LuaIntf::LuaRef afterMapLoad(this->luaContext->state(), "after_map_load");
-
-            afterMapLoad();
+            (*this->luaState.get())["after_map_load"]();
 
             return false;
         }
 
-        void Map::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-            LuaIntf::LuaBinding(luaContext->state())
-            .beginModule("states")
-                .beginClass<Map>("Map")
-                    .addConstructor(LUA_SP(std::shared_ptr<Map>), LUA_ARGS())
-                    .addFunction("pop", &Map::Pop)
-                    .addFunction("process_input", static_cast<std::string(Game::States::Map::*)(const int)>(&Map::ProcessInput))
-                    .addFunction("getCurrentMap", [](Map* self){ return self->currentMap.get(); })
-                    .addFunction("setCurrentEncounterArea", [](Map* self){ return self->currentMapEncounterArea.get(); })
-                    .addFunction("getPlayerSpriteName", [](Map* self){ return Services::Locator::WorldService()->GetWorld()->playerParty->characters[0]->spritesheetName; })
-                    .addFunction("render", &Map::Render)
-                .endClass()
-            .endModule();
+        std::shared_ptr<Objects::Maps::Map> Map::GetCurrentMap() {
+            return this->currentMap;
+        }
+
+        std::shared_ptr<Objects::Maps::MapEncounterArea> Map::GetCurrentMapEncounterArea(const int x, const int y) {
+            std::vector <std::shared_ptr<Objects::Maps::MapObject>> objects = this->currentMap->GetObjects(x, y);
+
+            for (auto object = objects.begin(); object != objects.end(); object++) {
+                if ((*object)->GetType() == "encounter_area") {
+                    return std::static_pointer_cast<Objects::Maps::MapEncounterArea>(*object);
+                }
+            }
+
+            return nullptr;
+        }
+
+        void Map::SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea) {
+            this->currentMapEncounterArea = dynamic_cast<Objects::Maps::MapEncounterArea*>(mapEncounterArea);
+
+            this->logger->info() << this->currentMapEncounterArea->mobs[0][0];
+        }
+
+        std::string Map::GetPlayerSpriteName() {
+            return Services::Locator::WorldService()->GetWorld()->playerParty->characters[0]->spritesheetName;
+        }
+
+        // TODO: Remove this once Base state class no longer defines it.
+        void Map::LoadLuaContext(const std::string& scriptFilePath) {
+        }
+
+        void Map::LoadLuaState(const std::string& scriptFilePath) {
+            Base::LoadLuaState(scriptFilePath);
+
+            this->luaState->open_libraries(sol::lib::math, sol::lib::os);
+
+            Objects::Text::LuaInterface::Bind(this->luaState);
+            Objects::Image::LuaInterface::Bind(this->luaState);
+            Objects::Maps::Map::LuaInterface::Bind(this->luaState);
+            Objects::Maps::MapObject::LuaInterface::Bind(this->luaState);
+            Objects::Maps::MapEncounterArea::LuaInterface::Bind(this->luaState);
+            Map::LuaInterface::Bind(this->luaState);
+
+            this->luaState->set("map_state", this);
+
+            this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
+
+            this->luaState->script_file(scriptFilePath);
+
+            this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
+
+            // TODO: Handle errors?
+            (*this->luaState.get())["initialize"]();
+        }
+
+        void Map::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+            sol::table states = (*luaState.get())["states"].get_or_create<sol::table>(sol::new_table());
+
+            states.new_usertype<Map>("Map",
+                                     sol::no_constructor,
+                                     "pop", &Map::Pop,
+                                     "process_input", static_cast<std::string (Map::*)(const int)>(&Map::ProcessInput),
+                                     "getCurrentMap", &Map::GetCurrentMap,
+                                     "getCurrentMapEncounterArea", &Map::GetCurrentMapEncounterArea,
+                                     "setCurrentMapEncounterArea", &Map::SetCurrentMapEncounterArea,
+                                     "getPlayerSpriteName", &Map::GetPlayerSpriteName,
+                                     "render", &Map::Render
+                                     );
         }
     }
 }

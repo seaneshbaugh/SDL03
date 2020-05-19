@@ -9,8 +9,6 @@ namespace Game {
     namespace States {
         class Map : public Base {
         public:
-            std::shared_ptr<Objects::Maps::Map> currentMap;
-
             Map();
             ~Map();
             std::shared_ptr<Base> Update(const int key);
@@ -19,23 +17,28 @@ namespace Game {
             void Render();
             bool LoadMap(const std::string& filename);
             bool UnloadMap();
+            std::shared_ptr<Objects::Maps::Map> GetCurrentMap();
+            std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y);
+            void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
+            std::string GetPlayerSpriteName();
 
         private:
             static const std::string logChannel;
 
-            std::shared_ptr<Objects::Maps::MapEncounterArea> currentMapEncounterArea;
+            std::shared_ptr<Objects::Maps::Map> currentMap;
+            Objects::Maps::MapEncounterArea* currentMapEncounterArea;
 
-            void LoadLuaContext(const std::string& scriptFile);
+            // TODO: Remove this once Base state class no longer defines it.
+            void LoadLuaContext(const std::string& scriptFilePath);
+            void LoadLuaState(const std::string& scriptFilePath);
 
         public:
             class LuaInterface {
             public:
-                static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                static void Bind(std::shared_ptr<sol::state> luaState);
             };
         };
     }
 }
-
-
 
 #endif

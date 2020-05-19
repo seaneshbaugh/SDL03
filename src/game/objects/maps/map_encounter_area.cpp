@@ -63,6 +63,20 @@ namespace Game {
                     }
                 }
             }
+
+            void MapEncounterArea::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+                sol::table objects = (*luaState.get())["objects"].get_or_create<sol::table>(sol::new_table());
+
+                objects.new_usertype<MapEncounterArea>("MapEncounterArea",
+                                                       sol::constructors<MapEncounterArea(const std::string&)>(),
+                                                       "getX", &MapObject::x,
+                                                       "getY", &MapObject::y,
+                                                       "getType", &MapObject::GetType,
+                                                       "getProperty", &MapObject::GetProperty,
+                                                       "setProperty", &MapObject::SetProperty,
+                                                       sol::base_classes, sol::bases<MapObject>()
+                                                       );
+            }
         }
     }
 }
