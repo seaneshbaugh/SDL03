@@ -140,6 +140,7 @@ namespace Game {
                                      "getCurrentMapEncounterArea", &Map::GetCurrentMapEncounterArea,
                                      "setCurrentMapEncounterArea", &Map::SetCurrentMapEncounterArea,
                                      "getPlayerSpriteName", &Map::GetPlayerSpriteName,
+                                     "loadMap", &Map::LoadMap,
                                      "render", &Map::Render
                                      );
         }
