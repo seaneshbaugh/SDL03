@@ -189,9 +189,9 @@ function step(x, y)
 
             -- This should be determined by a method on the encounter area. Each one should define its own
             -- probability for a random encounter.
-            -- if math.random(0, 10) == 0 then
-            --    return "battle"
-            -- end
+            if math.random(0, 10) == 0 then
+                return "battle"
+            end
         end
     end
 

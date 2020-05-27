@@ -18,7 +18,6 @@ namespace Game {
             this->UnloadMap();
         }
 
-        // TODO: Maybe make this be a static method for Objects::Characters::Party.
         void World::SetStartingPlayerParty() {
             this->UnloadPlayerParty();
 
@@ -43,7 +42,7 @@ namespace Game {
             this->playerParty.reset();
         }
 
-        void World::SetEnemyParty(std::shared_ptr<Objects::Maps::MapEncounterArea> encounterArea) {
+        void World::SetEnemyParty(const Objects::Maps::MapEncounterArea& encounterArea) {
             this->UnloadEnemyParty();
 
             this->enemyParty = std::make_shared<Objects::Characters::Party>();
@@ -53,13 +52,13 @@ namespace Game {
 
             std::mt19937_64 mt(rd());
 
-            const int ml = static_cast<int>(encounterArea->mobs.size()) - 1;
+            const int ml = static_cast<int>(encounterArea.mobs.size()) - 1;
 
             std::uniform_int_distribution<int> dist(0, ml);
 
             int mobIndex = dist(mt);
 
-            std::vector<std::string> mob = encounterArea->mobs[mobIndex];
+            std::vector<std::string> mob = encounterArea.mobs[mobIndex];
 
             for (auto it = mob.begin(); it != mob.end(); it++) {
                 std::shared_ptr<Objects::Characters::Monster> monster = std::make_shared<Objects::Characters::Monster>();

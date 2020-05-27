@@ -24,7 +24,7 @@ namespace Game {
                 void SetPosition(int x, int y);
                 std::string GetType();
                 void SetType(const std::string& type);
-                std::string GetProperty(const std::string& name);
+                std::string const GetProperty(const std::string& name) const;
                 std::string SetProperty(const std::string& name, const std::string& value);
                 std::map<std::string, std::string> SetProperties(const std::map<std::string, std::string>& properties);
 

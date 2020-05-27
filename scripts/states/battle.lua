@@ -5,8 +5,6 @@ dofile "scripts/keys.lua"
 -- cleaned up and turned into something a bit more organized. For now I can't assume that any bit of
 -- structure will actually be helpful.
 
-battle_state = BattleState(raw_battle_state)
-
 time = 0
 
 background = nil
@@ -25,7 +23,6 @@ current_character = nil
 
 current_action = nil
 
--- font = battle_state:getFont("PixChicago")
 font_name = "PixChicago"
 
 font_size = 10
@@ -38,43 +35,35 @@ current_monster_index = nil
 
 hand = nil
 
-menu_background = GameImage("ui.menu.background", 0, 280)
+menu_background = objects.Image.new("ui.menu.background", 0, 280)
 
 function initialize()
     -- I don't think I like this.
     math.randomseed(os.time())
-end
 
-function after_battle_load()
-    background = GameImage("battle.background", 0, 0)
+    background = objects.Image.new("battle.background", 0, 0)
 
     -- I don't know if I like how there's three tables, one for monsters, one for the party, and an awkard
     -- one that combines them both. But since Lua table values are always references it actually kinda ends
     -- up working just fine. I can use the combined list for all of the ATB stuff and then the separate
     -- lists for when appropriate.
 
-    objects = battle_state:getMonsters()
+    monsters = battle_state:getMonsters()
 
-    for i, v in ipairs(objects) do
-        monster = GameMonster(v)
-
-        table.insert(monsters, monster)
-
+    for i, monster in ipairs(objects) do
         table.insert(atb, { character = monster, atb = monster:atbStart(), party = false })
     end
 
-    objects = battle_state:getParty()
+    party = battle_state:getParty()
 
     y = 300
 
-    for i, v in ipairs(objects) do
-        character = GameCharacter(v)
-
-        table.insert(party, character)
-
+    for i, character in ipairs(party) do
         table.insert(atb, { character = character, atb = character:atbStart(), party = true })
 
-        character_statuses[character:getName()] = GameText(string.format("%s: %d/%d", character:getName(), character:getCurrentHitPoints(), character:getMaxHitPoints()), font_name, font_size, 410, y, 255, 255, 255)
+        status_text = string.format("%s: %d/%d", character:getName(), character:getCurrentHitPoints(), character:getMaxHitPoints())
+
+        character_statuses[character:getName()] = objects.Text.new(status_text, font_name, font_size, 410, y, 255, 255, 255)
 
         y = y + 40
     end
@@ -174,6 +163,9 @@ end
 function tick()
     for i, v in ipairs(atb) do
         if v["character"]:getCurrentHitPoints() > 0 and v["atb"] < 100 then
+            -- TODO: Figure out a better equation here. This will break spectacularly
+            -- when dexterity is over 100. Maybe some sort of log function so it
+            -- asymptotes.
             v["atb"] = v["atb"] + v["character"]:getDexterity()
 
             if v["atb"] > 100 then
@@ -223,7 +215,7 @@ function update()
                             x = x + 50
                         end
 
-                        hand = GameImage(cursor_name, x, 200)
+                        hand = objects.Image.new(cursor_name, x, 200)
                     end
                 else
                     n = 0
@@ -260,7 +252,7 @@ function process_action_queue()
 
             print(current_action["message"])
 
-            texts["current_action_message"] = GameText(current_action["message"], font_name, font_size, 25, 25, 255, 255, 0)
+            texts["current_action_message"] = objects.Text.new(current_action["message"], font_name, font_size, 25, 25, 255, 255, 0)
 
             -- Currently the only way I can think of making this work is a series of if statements checking the value
             -- of action. Eventually I would like something where the menu is actually labels for references to
@@ -295,7 +287,7 @@ function render()
     end
 
     if menu_background then
-        menu_background:render(0, 240)
+        menu_background:render()
     end
 
     -- Eventually I'm going to need to have all characters (in the party and monsters) be wrapped in another table

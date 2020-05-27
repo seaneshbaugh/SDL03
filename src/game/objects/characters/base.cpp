@@ -267,174 +267,32 @@ namespace Game {
                 character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode.at("spritesheet").as_string());
             }
 
-            void Base::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-                LuaIntf::LuaBinding(luaContext->state())
-                .beginModule("objects")
-                    .beginClass<Base>("Character")
-                        .addConstructor(LUA_ARGS())
-                        .addFunction("getName", &Base::GetName)
-                        .addFunction("setName", &Base::SetName)
-                        .addFunction("getLevel", &Base::GetLevel)
-                        .addFunction("setLevel", &Base::SetLevel)
-                        .addFunction("getCurrentHitPoints", &Base::GetCurrentHitPoints)
-                        .addFunction("render", &Base::Render)
-                    .endClass()
-                .endModule();
+            void Base::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+                sol::table objects = (*luaState.get())["objects"].get_or_create<sol::table>(sol::new_table());
 
+                sol::table characters = objects["characters"].get_or_create<sol::table>(sol::new_table());
 
-                //            const char LuaGameCharacter::className[] = "GameCharacter";
-                //
-                //            Lunar<LuaGameCharacter>::RegType LuaGameCharacter::methods[] = {
-                //                {"getName", &LuaGameCharacter::getName},
-                //                {"setName", &LuaGameCharacter::setName},
-                //                {"getLevel", &LuaGameCharacter::getLevel},
-                //                {"setLevel", &LuaGameCharacter::setLevel},
-                //                {"getCurrentHitPoints", &LuaGameCharacter::getCurrentHitPoints},
-                //                {"setCurrentHitPoints", &LuaGameCharacter::setCurrentHitPoints},
-                //                {"getMaxHitPoints", &LuaGameCharacter::getMaxHitPoints},
-                //                {"setMaxHitPoints", &LuaGameCharacter::setMaxHitPoints},
-                //                {"getCurrentMagicPoints", &LuaGameCharacter::getCurrentMagicPoints},
-                //                {"setCurrentMagicPoints", &LuaGameCharacter::setCurrentMagicPoints},
-                //                {"getMaxMagicPoints", &LuaGameCharacter::getMaxMagicPoints},
-                //                {"setMaxMagicPoints", &LuaGameCharacter::setMaxMagicPoints},
-                //                {"getStrength", &LuaGameCharacter::getStrength},
-                //                {"getDexterity", &LuaGameCharacter::getDexterity},
-                //                {"getIntelligence", &LuaGameCharacter::getIntelligence},
-                //                {"atbStart", &LuaGameCharacter::atbStart},
-                //                {"damage", &LuaGameCharacter::damage},
-                //                {"render", &LuaGameCharacter::render},
-                //                {0, 0}
-                //            };
-
-                //            class LuaGameCharacter {
-                //            public:
-                //                static const char className[];
-                //                static Lunar<LuaGameCharacter>::RegType methods[];
-                //
-                //                LuaGameCharacter(lua_State *L) {
-                //                    const int argc = lua_gettop(L);
-                //
-                //                    if (argc == 1) {
-                //                        this->realObject = (GameCharacter*)lua_touserdata(L, 1);
-                //                    } else {
-                //                        this->realObject = new GameCharacter();
-                //                    }
-                //                }
-                //
-                //                ~LuaGameCharacter() {
-                //                    delete this->realObject;
-                //                }
-                //
-                //                int getName(lua_State* L) {
-                //                    lua_pushstring(L, this->realObject->name.c_str());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int setName(lua_State *L) {
-                //                    this->realObject->name = luaL_checkstring(L, 1);
-                //
-                //                    return 0;
-                //                }
-                //
-                //                int getLevel(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetLevel());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int setLevel(lua_State *L) {
-                //                    this->realObject->SetLevel(static_cast<unsigned long long>(luaL_checkinteger(L, 1)));
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int getCurrentHitPoints(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetCurrentHitPoints());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int setCurrentHitPoints(lua_State *L) {
-                //                    this->realObject->SetCurrentHitPoints(static_cast<unsigned long long>(luaL_checkinteger(L, 1)));
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int getMaxHitPoints(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetMaxHitPoints());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int setMaxHitPoints(lua_State *L) {
-                //                    this->realObject->SetMaxHitPoints(static_cast<unsigned long long>(luaL_checkinteger(L, 1)));
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int getCurrentMagicPoints(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetCurrentMagicPoints());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int setCurrentMagicPoints(lua_State *L) {
-                //                    this->realObject->SetCurrentMagicPoints(static_cast<unsigned long long>(luaL_checkinteger(L, 1)));
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int getMaxMagicPoints(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetMaxMagicPoints());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int setMaxMagicPoints(lua_State *L) {
-                //                    this->realObject->SetMaxMagicPoints(static_cast<unsigned long long>(luaL_checkinteger(L, 1)));
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int getStrength(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetStrength());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int getDexterity(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetDexterity());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int getIntelligence(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->GetIntelligence());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int atbStart(lua_State *L) {
-                //                    lua_pushnumber(L, this->realObject->ATBStart());
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int damage(lua_State *L) {
-                //                    this->realObject->Damage(static_cast<unsigned long long>(luaL_checkinteger(L, 1)));
-                //
-                //                    return 1;
-                //                }
-                //
-                //                int render(lua_State *L) {
-                //                    this->realObject->Render(static_cast<int>(luaL_checkinteger(L, 1)), static_cast<int>(luaL_checkinteger(L, 2)));
-                //
-                //                    return 0;
-                //                }
-                //            private:
-                //                GameCharacter* realObject;
-                //            };
+                characters.new_usertype<Base>("Base",
+                                              sol::constructors<Base()>(),
+                                              "getName", &Base::GetName,
+                                              "setName", &Base::SetName,
+                                              "getLevel", &Base::GetLevel,
+                                              "setLevel", &Base::SetLevel,
+                                              "getCurrentHitPoints", &Base::GetCurrentHitPoints,
+                                              "setCurrentHitPoints", &Base::SetCurrentHitPoints,
+                                              "getMaxHitPoints", &Base::GetMaxHitPoints,
+                                              "setMaxHitPoints", &Base::SetMaxHitPoints,
+                                              "getCurrentMagicPoints", &Base::GetCurrentMagicPoints,
+                                              "setCurrentMagicPoints", &Base::SetCurrentMagicPoints,
+                                              "getMaxMagicPoints", &Base::GetMaxMagicPoints,
+                                              "setMaxMagicPoints", &Base::SetMaxMagicPoints,
+                                              "getStrength", &Base::GetStrength,
+                                              "getDexterity", &Base::GetDexterity,
+                                              "getIntelligence", &Base::GetIntelligence,
+                                              "atbStart", &Base::ATBStart,
+                                              "damage", &Base::Damage,
+                                              "render", &Base::Render
+                                              );
             }
         }
     }

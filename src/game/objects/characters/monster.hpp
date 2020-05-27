@@ -10,10 +10,11 @@ namespace Game {
             public:
                 Monster();
                 ~Monster();
+                void Render(const int x, const int y);
 
                 class LuaInterface {
                 public:
-                    static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                    static void Bind(std::shared_ptr<sol::state> luaState);
                 };
             };
         }

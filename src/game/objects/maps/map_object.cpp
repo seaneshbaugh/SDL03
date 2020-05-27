@@ -26,7 +26,7 @@ namespace Game {
                 this->type = type;
             }
 
-            std::string MapObject::GetProperty(const std::string& name) {
+            std::string const MapObject::GetProperty(const std::string& name) const {
                 return this->properties.at(name);
             }
 

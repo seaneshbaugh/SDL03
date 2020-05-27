@@ -88,7 +88,7 @@ namespace Game {
             public:
                 class LuaInterface {
                 public:
-                    static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                    static void Bind(std::shared_ptr<sol::state> luaState);
                 };
             };
         }

@@ -30,8 +30,7 @@ namespace Game {
 
             switch (StateNameToEnum(nextState)) {
                 case GameStateType::battle:
-                    // return std::make_shared<Battle>(this->currentMapEncounterArea, nullptr);
-                    return this->shared_from_this();
+                    return std::make_shared<Battle>(this->currentMapEncounterArea);
                 default:
                     return this->shared_from_this();
             }
@@ -93,8 +92,6 @@ namespace Game {
 
         void Map::SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea) {
             this->currentMapEncounterArea = dynamic_cast<Objects::Maps::MapEncounterArea*>(mapEncounterArea);
-
-            this->logger->info() << this->currentMapEncounterArea->mobs[0][0];
         }
 
         std::string Map::GetPlayerSpriteName() {
