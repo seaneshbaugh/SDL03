@@ -98,10 +98,6 @@ namespace Game {
             return Services::Locator::WorldService()->GetWorld()->playerParty->characters[0]->spritesheetName;
         }
 
-        // TODO: Remove this once Base state class no longer defines it.
-        void Map::LoadLuaContext(const std::string& scriptFilePath) {
-        }
-
         void Map::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 

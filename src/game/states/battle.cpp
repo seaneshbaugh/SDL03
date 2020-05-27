@@ -72,10 +72,6 @@ namespace Game {
             return result;
         }
 
-        // TODO: Remove this once Base state class no longer defines it.
-        void Battle::LoadLuaContext(const std::string& scriptFilePath) {
-        }
-
         void Battle::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 

@@ -46,7 +46,7 @@ function process_input(key_code)
         end
         
         if menu_option == 2 then
-            return "settings"
+            return "settings_menu"
         end
     end
 

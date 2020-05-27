@@ -28,8 +28,6 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
 
-            // TODO: Remove this once Base state class no longer defines it.
-            void LoadLuaContext(const std::string& scriptFilePath);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

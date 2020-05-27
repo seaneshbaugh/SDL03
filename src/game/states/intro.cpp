@@ -54,10 +54,6 @@ namespace Game {
             (*this->luaState.get())["render"]();
         }
 
-        // TODO: Remove this once Base state class no longer defines it.
-        void Intro::LoadLuaContext(const std::string& scriptFilePath) {
-        }
-
         void Intro::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 

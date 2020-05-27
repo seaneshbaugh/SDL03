@@ -137,25 +137,5 @@ namespace Game {
                                        "render", &Text::Render
                                        );
         }
-
-        // TODO: Remove once all states are using sol.
-        void Text::LuaInterface::BindOld(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-            LuaIntf::LuaBinding(luaContext->state())
-            .beginModule("objects")
-                .beginClass<Text>("Text")
-                    .addConstructor(LUA_ARGS())
-                    .addConstructor(LUA_ARGS(std::string, std::string, const int, const int, const int, const Uint8, const Uint8, const Uint8))
-                    .addFunction("getText", &Text::GetText)
-                    .addFunction("setText", &Text::SetText)
-                    .addFunction("getX", &Text::GetX)
-                    .addFunction("getY", &Text::GetY)
-                    .addFunction("getWidth", &Text::GetWidth)
-                    .addFunction("getHeight", &Text::GetHeight)
-                    .addFunction("setPosition", &Text::SetPosition)
-                    .addFunction("setColor", static_cast<void(Game::Objects::Text::*)(const Uint8, const Uint8, const Uint8)>(&Text::SetColor))
-                    .addFunction("render", &Text::Render)
-                .endClass()
-            .endModule();
-        }
     }
 }

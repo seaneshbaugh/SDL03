@@ -8,45 +8,21 @@ namespace Game {
             this->logger = Services::Locator::LoggerService()->GetLogger(SettingsMenu::logChannel);
             this->pop = false;
             this->acceptRawInput = false;
-            this->LoadResources("resources/asset_lits/settings_menu_textures.json", "resources/asset_lits/settings_menu_sounds.json");
-            this->LoadLuaContext("scripts/states/settings_menu.lua");
+
+            this->LoadResources("resources/asset_lists/settings_menu_textures.json", "resources/asset_lists/settings_menu_sounds.json");
+
+            this->LoadLuaState("scripts/states/settings_menu.lua");
         }
 
         SettingsMenu::~SettingsMenu() {
         }
 
-        // TODO: Refactor as much of this as possible into base class.
-        void SettingsMenu::LoadLuaContext(const std::string& scriptFileName) {
-            this->luaContext = std::make_shared<LuaIntf::LuaContext>();
-
-            Objects::Text::LuaInterface::BindOld(this->luaContext);
-            Objects::Image::LuaInterface::BindOld(this->luaContext);
-            SettingsMenu::LuaInterface::Bind(this->luaContext);
-
-            LuaIntf::Lua::setGlobal(this->luaContext->state(), "raw_settings_menu_state", this->shared_from_this());
-
-            this->logger->debug() << "Loading \"" << scriptFileName << "\".";
-
-            this->luaContext->doFile(scriptFileName.c_str());
-
-            this->logger->debug() << "Loaded \"" << scriptFileName << "\".";
-
-            LuaIntf::LuaRef initialize(this->luaContext->state(), "initialize");
-
-            // TODO: Handle errors?
-            initialize();
-        }
-
         std::shared_ptr<Base> SettingsMenu::Update(const int key) {
-            std::string nextState = "";
-
-            if (key != static_cast<int>(InputKey::NO_KEY)) {
-                nextState = this->ProcessInput(key);
+            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
+                this->ProcessInput(key);
             }
 
-            LuaIntf::LuaRef update(this->luaContext->state(), "update");
-
-            update();
+            std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
                 return nullptr;
@@ -59,18 +35,14 @@ namespace Game {
             return this->Update(event.key.keysym.sym);
         }
 
-        std::string SettingsMenu::ProcessInput(int key) {
-            LuaIntf::LuaRef processInput(this->luaContext->state(), "process_input");
-
-            std::string result = processInput.call<std::string>(key);
+        std::string SettingsMenu::ProcessInput(const int key) {
+            std::string result = (*this->luaState.get())["process_input"](key);
 
             return result;
         }
 
         void SettingsMenu::Render() {
-            LuaIntf::LuaRef render(this->luaContext->state(), "render");
-
-            render();
+            (*this->luaState.get())["render"]();
         }
 
         void SettingsMenu::EnableRawInput() {
@@ -81,20 +53,37 @@ namespace Game {
             this->acceptRawInput = false;
         }
 
-        void SettingsMenu::LuaInterface::Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-//            LuaIntf::LuaBinding(luaContext->state())
-//            .beginModule("states")
-//                .beginClass<SettingsMenu>("SettingsMenu")
-//                    .addConstructor(LUA_SP(std::shared_ptr<SettingsMenu>), LUA_ARGS())
-//                    .addFunction("pop", &SettingsMenu::Pop)
-//                    //.addFunction("process_input", LUA_FN(std::string, SettingsMenu::ProcessInput, int))
-//                    .addFunction("process_input", static_cast<std::string(Game::States::SettingsMenu::*)(const int)>(&SettingsMenu::ProcessInput))
-//                    .addFunction("render", &SettingsMenu::Render)
-//                    .addFunction("get_texture", &SettingsMenu::GetTexture, LUA_ARGS(LuaIntf::_opt<std::string>))
-//                    .addFunction("enable_raw_input", &SettingsMenu::EnableRawInput)
-//                    .addFunction("disable_raw_input", &SettingsMenu::DisableRawInput)
-//                .endClass()
-//            .endModule();
+        void SettingsMenu::LoadLuaState(const std::string& scriptFilePath) {
+            Base::LoadLuaState(scriptFilePath);
+
+            this->luaState->open_libraries(sol::lib::string);
+
+            Objects::Text::LuaInterface::Bind(this->luaState);
+            Objects::Image::LuaInterface::Bind(this->luaState);
+            SettingsMenu::LuaInterface::Bind(this->luaState);
+
+            this->luaState->set("settings_menu_state", this);
+
+            this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
+
+            this->luaState->script_file(scriptFilePath);
+
+            this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
+
+            // TODO: Handle errors?
+            (*this->luaState.get())["initialize"]();
+        }
+
+        void SettingsMenu::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+            sol::table states = (*luaState.get())["states"].get_or_create<sol::table>(sol::new_table());
+
+            states.new_usertype<SettingsMenu>("SettingsMenu",
+                                              sol::no_constructor,
+                                              "pop", &SettingsMenu::Pop,
+                                              "processInput", static_cast<std::string (SettingsMenu::*)(const int)>(&SettingsMenu::ProcessInput),
+                                              "disableRawInput", &SettingsMenu::DisableRawInput,
+                                              "enableRawInput", &SettingsMenu::EnableRawInput
+                                              );
         }
     }
 }

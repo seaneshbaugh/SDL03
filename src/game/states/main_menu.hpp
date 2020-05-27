@@ -20,8 +20,6 @@ namespace Game {
         private:
             static const std::string logChannel;
 
-            // TODO: Remove this once Base state class no longer defines it.
-            void LoadLuaContext(const std::string& scriptFilePath);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

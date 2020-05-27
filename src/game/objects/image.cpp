@@ -91,30 +91,5 @@ namespace Game {
                                                                 static_cast<void (Image::*)(const int, const int, const int, const int)>(&Image::Render))
                                         );
         }
-
-        // TODO: Remove once all states are using sol.
-        void Image::LuaInterface::BindOld(std::shared_ptr<LuaIntf::LuaContext> luaContext) {
-            LuaIntf::LuaBinding(luaContext->state())
-            .beginModule("objects")
-                .beginClass<Image>("Image")
-                    .addConstructor(LUA_ARGS())
-                    .addConstructor(LUA_ARGS(std::string, const int, const int))
-                    .addFunction("getX", &Image::GetX)
-                    .addFunction("getY", &Image::GetY)
-                    .addFunction("getWidth", &Image::GetWidth)
-                    .addFunction("getHeight", &Image::GetHeight)
-                    .addFunction("setPosition", &Image::SetPosition)
-                    //.addFunction("render", static_cast<void(Game::Objects::Image::*)(LuaIntf::_def<const SDL_Rect* const, nullptr>)>(&Image::Render))
-                    //.addFunction("render", static_cast<void(Game::Objects::Image::*)()>(&Image::Render))
-                    .addFunction("render", [](Image* self) { self->Render(); })
-                    //.addFunction("renderWithClip", static_cast<void(Game::Objects::Image::*)(const int, const int, const int, const int)>(&Image::Render))
-                    .addFunction("renderWithClip", [](Image* self, int x, int y, int w, int h) {
-                        SDL_Rect clip = {x, y, w, h};
-
-                        self->Render(&clip);
-                    })
-                .endClass()
-            .endModule();
-        }
     }
 }

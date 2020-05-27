@@ -32,8 +32,6 @@ namespace Game {
             std::string backgroundName;
             std::shared_ptr<Resources::Texture> background;
 
-            // TODO: Remove this once Base state class no longer defines it.
-            void LoadLuaContext(const std::string& scriptFilePath);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:
