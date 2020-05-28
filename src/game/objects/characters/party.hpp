@@ -8,22 +8,22 @@
 namespace Game {
     namespace Objects {
         namespace Characters {
-            class Party : public Base {
+            class Party : public Objects::Base {
             public:
-                std::vector<std::shared_ptr<Base>> characters;
+                std::vector<std::shared_ptr<Characters::Base>> characters;
 
                 Party();
                 ~Party();
-                std::shared_ptr<Base> GetLeader();
-                std::shared_ptr<Base> SetLeader(const int index);
+                std::shared_ptr<Characters::Base> GetLeader();
+                std::shared_ptr<Characters::Base> SetLeader(const int index);
 
             private:
-                std::shared_ptr<Base> leader;
+                std::shared_ptr<Characters::Base> leader;
 
             public:
                 class LuaInterface {
                 public:
-                    static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
+                    static void Bind(std::shared_ptr<sol::state> luaState);
                 };
             };
         }

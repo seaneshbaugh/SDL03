@@ -4,8 +4,6 @@
 #include <string>
 #include <iostream>
 
-#include "luaintf.h"
-
 #include "../services/locator.hpp"
 #include "../resources/font.hpp"
 #include "base.hpp"

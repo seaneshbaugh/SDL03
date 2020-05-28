@@ -7,7 +7,8 @@
 
 #include "SDL.h"
 #include "lua.h"
-#include "LuaIntf.h"
+#include "lualib.h"
+#include "lauxlib.h"
 #include "sol.hpp"
 
 #include "../../helpers/file_system.hpp"
@@ -49,6 +50,7 @@ namespace Game {
         protected:
             std::shared_ptr<Log::Logger> logger;
             bool pop;
+
             std::shared_ptr<sol::state> luaState;
             std::vector<std::string> textureNames;
             std::vector<std::shared_ptr<Objects::Text>> texts;

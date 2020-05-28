@@ -2,7 +2,9 @@
 #define SDL03_Game_Objects_Base
 
 #include <memory>
-#include "LuaIntf.h"
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 #include "sol.hpp"
 
 #include "LoggerCpp.h"
@@ -16,12 +18,6 @@ namespace Game {
 
         protected:
             std::shared_ptr<Log::Logger> logger;
-
-        public:
-            class LuaInterface {
-            public:
-                static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
-            };
         };
     }
 }

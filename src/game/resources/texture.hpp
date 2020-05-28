@@ -3,7 +3,6 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "luaintf.h"
 
 #include "base.hpp"
 
@@ -26,11 +25,6 @@ namespace Game {
             std::shared_ptr<SDL_Texture> sdlTexture;
 
             void DestroySDLTexture();
-
-            class LuaInterface {
-            public:
-                static void Bind(std::shared_ptr<LuaIntf::LuaContext> luaContext);
-            };
         };
     }
 }
