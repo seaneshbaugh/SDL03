@@ -2,6 +2,7 @@
 #define SDL03_Game_States_Map
 
 #include "base.hpp"
+#include "pause_menu.hpp"
 #include "battle.hpp"
 #include "../objects/maps/map.hpp"
 

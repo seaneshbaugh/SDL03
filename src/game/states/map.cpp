@@ -29,6 +29,8 @@ namespace Game {
             }
 
             switch (StateNameToEnum(nextState)) {
+                case GameStateType::pause_menu:
+                    return std::make_shared<PauseMenu>();
                 case GameStateType::battle:
                     return std::make_shared<Battle>(this->currentMapEncounterArea);
                 default:

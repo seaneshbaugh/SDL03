@@ -42,6 +42,8 @@ current_map = map_state:getCurrentMap()
 
 player = nil
 
+pause_menu_opened = false
+
 function initialize()
     player_sprite_name = map_state:getPlayerSpriteName()
     
@@ -56,6 +58,10 @@ end
 
 function process_input(key_code)
     if screen_moving == false and player_moving == false then
+        if key_code == MENU_KEY then
+            pause_menu_opened = true
+        end
+
         if key_code == UP_KEY then
             player_direction = DIRECTION_UP
 
@@ -140,8 +146,6 @@ function process_input(key_code)
             end
         end
     end
-
-    return "map"
 end
 
 function step(x, y)
@@ -314,6 +318,12 @@ function update()
     if done_moving then
         return step(player_current_x, player_current_y)
     else
+        if not player_moving and not screen_moving and pause_menu_opened then
+            pause_menu_opened = false
+
+            return "pause_menu"
+        end
+
         return "map"
     end
 end
