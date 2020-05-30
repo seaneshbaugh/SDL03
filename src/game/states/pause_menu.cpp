@@ -56,8 +56,14 @@ namespace Game {
             (*this->luaState.get())["render"]();
         }
 
+        std::tuple<unsigned int, unsigned int, unsigned int> PauseMenu::GetClockTime() {
+            return Services::Locator::TimeService()->GetClockTime();
+        }
+
         void PauseMenu::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
+
+            this->luaState->open_libraries(sol::lib::string);
 
             Objects::Text::LuaInterface::Bind(this->luaState);
             Objects::Image::LuaInterface::Bind(this->luaState);
@@ -81,7 +87,8 @@ namespace Game {
             states.new_usertype<PauseMenu>("PauseMenu",
                                            sol::no_constructor,
                                            "pop", &PauseMenu::Pop,
-                                           "processInput", static_cast<std::string (PauseMenu::*)(const int)>(&PauseMenu::ProcessInput)
+                                           "processInput", static_cast<std::string (PauseMenu::*)(const int)>(&PauseMenu::ProcessInput),
+                                           "getClockTime", &PauseMenu::GetClockTime
                                            );
         }
     }

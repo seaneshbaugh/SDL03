@@ -8,6 +8,7 @@ namespace Game {
         std::shared_ptr<Interfaces::LoggerService> Locator::loggerService = nullptr;
         std::shared_ptr<Interfaces::SettingsService> Locator::settingsService = nullptr;
         std::shared_ptr<Interfaces::TextureService> Locator::textureService = nullptr;
+        std::shared_ptr<Interfaces::TimeService> Locator::timeService = nullptr;
         std::shared_ptr<Interfaces::VideoService> Locator::videoService = nullptr;
         std::shared_ptr<Interfaces::WorldService> Locator::worldService = nullptr;
 
@@ -39,6 +40,10 @@ namespace Game {
             return Locator::textureService;
         }
 
+        std::shared_ptr<Interfaces::TimeService> Locator::TimeService() {
+            return Locator::timeService;
+        }
+
         std::shared_ptr<Interfaces::WorldService> Locator::WorldService() {
             return Locator::worldService;
         }
@@ -65,6 +70,10 @@ namespace Game {
 
         void Locator::ProvideService(std::shared_ptr<Interfaces::TextureService> textureService) {
             Locator::textureService = textureService;
+        }
+
+        void Locator::ProvideService(std::shared_ptr<Interfaces::TimeService> timeService) {
+            Locator::timeService = timeService;
         }
 
         void Locator::ProvideService(std::shared_ptr<Interfaces::VideoService> videoService) {
@@ -108,6 +117,12 @@ namespace Game {
         void Locator::StopTextureService() {
             if (Locator::textureService != nullptr) {
                 Locator::textureService.reset();
+            }
+        }
+
+        void Locator::StopTimeService() {
+            if (Locator::timeService != nullptr) {
+                Locator::timeService.reset();
             }
         }
 

@@ -19,6 +19,8 @@ namespace Game {
 
             void WorldManager::SetWorld(std::shared_ptr<Objects::World> newWorld) {
                 this->world = newWorld;
+
+                Services::Locator::TimeService()->StartClock(0);
             }
 
             std::shared_ptr<Objects::World> WorldManager::GetWorld() {

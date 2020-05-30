@@ -6,6 +6,7 @@ namespace Game {
     Engine::Engine() {
         this->StartSystem();
         this->StartLoggerService();
+        this->StartTimeService();
         this->StartSettingsService();
         this->StartSDL();
         this->StartVideoService();
@@ -25,6 +26,7 @@ namespace Game {
         this->StopVideoService();
         this->StopSDL();
         this->StopSettingsService();
+        this->StopTimeService();
         this->StopLoggerService();
         this->StopSystem();
     }
@@ -57,6 +59,10 @@ namespace Game {
         Services::Locator::ProvideService(std::make_shared<Services::Implementations::LoggerManager>());
 
         this->logger = Services::Locator::LoggerService()->GetLogger(Engine::logChannel);
+    }
+
+    void Engine::StartTimeService() {
+        Services::Locator::ProvideService(std::make_shared<Services::Implementations::Clock>());
     }
 
     void Engine::StartSettingsService() {
@@ -97,7 +103,6 @@ namespace Game {
 
     void Engine::MainLoop() {
         SDL_Event event;
-        unsigned long long frameCount = 0;
 
         // The way this works right now is very tentative and is probably very bad. I have
         // no idea what I'm doing, but I think this should work while things are still
@@ -155,7 +160,7 @@ namespace Game {
                 SDL_Delay((1000 / FRAMES_PER_SECOND) - (SDL_GetTicks() - startTicks));
             }
 
-            frameCount++;
+            Services::Locator::TimeService()->IncrementFrameCount();
         }
     }
 
@@ -218,6 +223,10 @@ namespace Game {
 
     void Engine::StopSettingsService() {
         Services::Locator::StopSettingsService();
+    }
+
+    void Engine::StopTimeService() {
+        Services::Locator::StopTimeService();
     }
 
     void Engine::StopLoggerService() {

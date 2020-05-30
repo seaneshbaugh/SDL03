@@ -22,6 +22,7 @@
 #include "../game.hpp"
 #include "services/locator.hpp"
 #include "services/implementations/audio_manager.hpp"
+#include "services/implementations/clock.hpp"
 #include "services/implementations/font_manager.hpp"
 #include "services/implementations/input_manager.hpp"
 #include "services/implementations/logger_manager.hpp"
@@ -47,6 +48,7 @@ namespace Game {
 
         void StartSystem();
         void StartLoggerService();
+        void StartTimeService();
         void StartSettingsService();
         void StartSDL();
         void StartVideoService();
@@ -66,6 +68,7 @@ namespace Game {
         void StopVideoService();
         void StopSDL();
         void StopSettingsService();
+        void StopTimeService();
         void StopLoggerService();
         void StopSystem();
     };

@@ -9,6 +9,7 @@
 #include "interfaces/logger_service.hpp"
 #include "interfaces/settings_service.hpp"
 #include "interfaces/texture_service.hpp"
+#include "interfaces/time_service.hpp"
 #include "interfaces/video_service.hpp"
 #include "interfaces/world_service.hpp"
 
@@ -22,6 +23,7 @@ namespace Game {
             static std::shared_ptr<Interfaces::LoggerService> LoggerService();
             static std::shared_ptr<Interfaces::SettingsService> SettingsService();
             static std::shared_ptr<Interfaces::TextureService> TextureService();
+            static std::shared_ptr<Interfaces::TimeService> TimeService();
             static std::shared_ptr<Interfaces::VideoService> VideoService();
             static std::shared_ptr<Interfaces::WorldService> WorldService();
             static void ProvideService(std::shared_ptr<Interfaces::AudioService> audioService);
@@ -30,6 +32,7 @@ namespace Game {
             static void ProvideService(std::shared_ptr<Interfaces::LoggerService> loggerService);
             static void ProvideService(std::shared_ptr<Interfaces::SettingsService> settingsService);
             static void ProvideService(std::shared_ptr<Interfaces::TextureService> textureService);
+            static void ProvideService(std::shared_ptr<Interfaces::TimeService> timeService);
             static void ProvideService(std::shared_ptr<Interfaces::VideoService> videoService);
             static void ProvideService(std::shared_ptr<Interfaces::WorldService> worldService);
             static void StopAudioService();
@@ -38,6 +41,7 @@ namespace Game {
             static void StopLoggerService();
             static void StopSettingsService();
             static void StopTextureService();
+            static void StopTimeService();
             static void StopVideoService();
             static void StopWorldService();
 
@@ -48,6 +52,7 @@ namespace Game {
             static std::shared_ptr<Interfaces::LoggerService> loggerService;
             static std::shared_ptr<Interfaces::SettingsService> settingsService;
             static std::shared_ptr<Interfaces::TextureService> textureService;
+            static std::shared_ptr<Interfaces::TimeService> timeService;
             static std::shared_ptr<Interfaces::VideoService> videoService;
             static std::shared_ptr<Interfaces::WorldService> worldService;
         };
