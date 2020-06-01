@@ -1,21 +1,19 @@
-#ifndef SDL03_Game_States_PauseMenu
-#define SDL03_Game_States_PauseMenu
+#ifndef SDL03_Game_States_SaveGameMenu
+#define SDL03_Game_States_SaveGameMenu
 
 #include "base.hpp"
-#include "save_game_menu.hpp"
 #include "../objects/image.hpp"
 
 namespace Game {
     namespace States {
-        class PauseMenu : public Base {
+        class SaveGameMenu : public Base {
         public:
-            PauseMenu();
-            ~PauseMenu();
+            SaveGameMenu();
+            ~SaveGameMenu();
             std::shared_ptr<Base> Update(const int key);
             std::shared_ptr<Base> Update(const SDL_Event& event);
             std::string ProcessInput(const int key);
             void Render();
-            std::tuple<unsigned int, unsigned int, unsigned int> GetClockTime();
 
         private:
             static const std::string logChannel;

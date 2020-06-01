@@ -9,7 +9,8 @@ namespace Game {
             {"new_game", GameStateType::new_game},
             {"map", GameStateType::map},
             {"battle", GameStateType::battle},
-            {"pause_menu", GameStateType::pause_menu}
+            {"pause_menu", GameStateType::pause_menu},
+            {"save_game_menu", GameStateType::save_game_menu}
         };
 
         GameStateType StateNameToEnum(const std::string& stateName) {

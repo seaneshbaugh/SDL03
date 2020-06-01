@@ -39,7 +39,12 @@ namespace Game {
                 return nullptr;
             }
 
-            return this->shared_from_this();
+            switch (StateNameToEnum(nextState)) {
+                case GameStateType::save_game_menu:
+                    return std::make_shared<SaveGameMenu>();
+                default:
+                    return this->shared_from_this();
+            }
         }
 
         std::shared_ptr<Base> PauseMenu::Update(const SDL_Event& event) {

@@ -61,6 +61,7 @@ pause_menu = {
         save_menu
     };
     current_option = 0;
+    selected_option = nil;
 }
 
 current_menu = pause_menu
@@ -103,8 +104,6 @@ end
 function process_input(key_code)
     if key_code == CANCEL_KEY then
         pause_menu_state:pop()
-
-        return ""
     end
 
     number_of_options = 0
@@ -133,10 +132,19 @@ function process_input(key_code)
         hand:setPosition(top_level_menu_x_offset - 30, top_level_menu_y_offset + (35 * current_menu["current_option"]))
     end
 
-    return "pause_menu"
+    if key_code == CONFIRM_KEY then
+        current_menu["selected_option"] = current_menu["current_option"]
+    end
 end
 
 function update()
+    if current_menu["selected_option"] == 7 then
+        current_menu["selected_option"] = nil
+
+        return "save_game_menu"
+    end
+
+    return "pause_menu"
 end
 
 function render()

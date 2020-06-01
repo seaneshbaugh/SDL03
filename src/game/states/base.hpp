@@ -27,7 +27,8 @@ namespace Game {
             new_game, // This is not acutally a real state. See WorldManager::NewGame
             map,
             battle,
-            pause_menu
+            pause_menu,
+            save_game_menu
         };
 
         namespace {
