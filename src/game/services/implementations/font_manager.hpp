@@ -19,6 +19,7 @@ namespace Game {
                 FontManager(const std::string& fontAssetListPath);
                 ~FontManager();
                 std::shared_ptr<Resources::Font> GetFont(const std::string& fontName, const int fontSize);
+
             private:
                 static const std::string logChannel;
 

@@ -14,6 +14,7 @@ namespace Game {
             public:
                 AudioManager();
                 ~AudioManager();
+
             private:
                 static const std::string logChannel;
 

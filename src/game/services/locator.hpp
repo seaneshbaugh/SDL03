@@ -12,6 +12,7 @@
 #include "interfaces/time_service.hpp"
 #include "interfaces/video_service.hpp"
 #include "interfaces/world_service.hpp"
+#include "interfaces/save_service.hpp"
 
 namespace Game {
     namespace Services {
@@ -26,6 +27,7 @@ namespace Game {
             static std::shared_ptr<Interfaces::TimeService> TimeService();
             static std::shared_ptr<Interfaces::VideoService> VideoService();
             static std::shared_ptr<Interfaces::WorldService> WorldService();
+            static std::shared_ptr<Interfaces::SaveService> SaveService();
             static void ProvideService(std::shared_ptr<Interfaces::AudioService> audioService);
             static void ProvideService(std::shared_ptr<Interfaces::FontService> fontService);
             static void ProvideService(std::shared_ptr<Interfaces::InputService> inputService);
@@ -35,6 +37,7 @@ namespace Game {
             static void ProvideService(std::shared_ptr<Interfaces::TimeService> timeService);
             static void ProvideService(std::shared_ptr<Interfaces::VideoService> videoService);
             static void ProvideService(std::shared_ptr<Interfaces::WorldService> worldService);
+            static void ProvideService(std::shared_ptr<Interfaces::SaveService> saveService);
             static void StopAudioService();
             static void StopFontService();
             static void StopInputService();
@@ -44,6 +47,7 @@ namespace Game {
             static void StopTimeService();
             static void StopVideoService();
             static void StopWorldService();
+            static void StopSaveService();
 
         private:
             static std::shared_ptr<Interfaces::AudioService> audioService;
@@ -55,6 +59,7 @@ namespace Game {
             static std::shared_ptr<Interfaces::TimeService> timeService;
             static std::shared_ptr<Interfaces::VideoService> videoService;
             static std::shared_ptr<Interfaces::WorldService> worldService;
+            static std::shared_ptr<Interfaces::SaveService> saveService;
         };
     }
 }

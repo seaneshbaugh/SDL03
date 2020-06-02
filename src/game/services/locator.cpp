@@ -11,6 +11,7 @@ namespace Game {
         std::shared_ptr<Interfaces::TimeService> Locator::timeService = nullptr;
         std::shared_ptr<Interfaces::VideoService> Locator::videoService = nullptr;
         std::shared_ptr<Interfaces::WorldService> Locator::worldService = nullptr;
+        std::shared_ptr<Interfaces::SaveService> Locator::saveService = nullptr;
 
         std::shared_ptr<Interfaces::AudioService> Locator::AudioService() {
             return Locator::audioService;
@@ -48,6 +49,10 @@ namespace Game {
             return Locator::worldService;
         }
 
+        std::shared_ptr<Interfaces::SaveService> Locator::SaveService() {
+            return Locator::saveService;
+        }
+
         void Locator::ProvideService(std::shared_ptr<Interfaces::AudioService> audioService) {
             Locator::audioService = audioService;
         }
@@ -82,6 +87,10 @@ namespace Game {
 
         void Locator::ProvideService(std::shared_ptr<Interfaces::WorldService> worldService) {
             Locator::worldService = worldService;
+        }
+
+        void Locator::ProvideService(std::shared_ptr<Interfaces::SaveService> saveService) {
+            Locator::saveService = saveService;
         }
 
         void Locator::StopAudioService() {
@@ -131,9 +140,16 @@ namespace Game {
                 Locator::videoService.reset();
             }
         }
+
         void Locator::StopWorldService() {
             if (Locator::worldService != nullptr) {
                 Locator::worldService.reset();
+            }
+        }
+
+        void Locator::StopSaveService() {
+            if (Locator::saveService != nullptr) {
+                Locator::saveService.reset();
             }
         }
     }

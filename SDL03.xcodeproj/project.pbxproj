@@ -57,6 +57,8 @@
 		7B5E84AC2481BB5100107F32 /* time_service.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E84AA2481BB5100107F32 /* time_service.cpp */; };
 		7B5E84AF2481C90200107F32 /* subject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E84AD2481C90200107F32 /* subject.cpp */; };
 		7B5E84B224847F9B00107F32 /* save_game_menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E84B024847F9B00107F32 /* save_game_menu.cpp */; };
+		7B5E84B52485CC4A00107F32 /* save_service.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E84B32485CC4A00107F32 /* save_service.cpp */; };
+		7B5E84B82485CC5E00107F32 /* save_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B5E84B62485CC5E00107F32 /* save_manager.cpp */; };
 		7B6482B8214E057700DE4364 /* video_service.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6482B6214E057700DE4364 /* video_service.cpp */; };
 		7B6482BB214E06DE00DE4364 /* audio_service.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6482B9214E06DE00DE4364 /* audio_service.cpp */; };
 		7B6482BE214E07D700DE4364 /* video_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6482BC214E07D700DE4364 /* video_manager.cpp */; };
@@ -242,6 +244,10 @@
 		7B5E84AE2481C90200107F32 /* subject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = subject.hpp; sourceTree = "<group>"; };
 		7B5E84B024847F9B00107F32 /* save_game_menu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save_game_menu.cpp; sourceTree = "<group>"; };
 		7B5E84B124847F9B00107F32 /* save_game_menu.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = save_game_menu.hpp; sourceTree = "<group>"; };
+		7B5E84B32485CC4A00107F32 /* save_service.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save_service.cpp; sourceTree = "<group>"; };
+		7B5E84B42485CC4A00107F32 /* save_service.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = save_service.hpp; sourceTree = "<group>"; };
+		7B5E84B62485CC5E00107F32 /* save_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save_manager.cpp; sourceTree = "<group>"; };
+		7B5E84B72485CC5E00107F32 /* save_manager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = save_manager.hpp; sourceTree = "<group>"; };
 		7B63C9A5246CD74C00141D8B /* sol.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sol.hpp; sourceTree = "<group>"; };
 		7B6482B6214E057700DE4364 /* video_service.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = video_service.cpp; sourceTree = "<group>"; };
 		7B6482B7214E057700DE4364 /* video_service.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = video_service.hpp; sourceTree = "<group>"; };
@@ -816,6 +822,8 @@
 				7B6482BD214E07D700DE4364 /* video_manager.hpp */,
 				7B85369521485A1B00436134 /* world_manager.cpp */,
 				7B85369621485A1B00436134 /* world_manager.hpp */,
+				7B5E84B62485CC5E00107F32 /* save_manager.cpp */,
+				7B5E84B72485CC5E00107F32 /* save_manager.hpp */,
 			);
 			path = implementations;
 			sourceTree = "<group>";
@@ -843,6 +851,8 @@
 				7B6482B7214E057700DE4364 /* video_service.hpp */,
 				7B85368F2148595200436134 /* world_service.cpp */,
 				7B8536902148595200436134 /* world_service.hpp */,
+				7B5E84B32485CC4A00107F32 /* save_service.cpp */,
+				7B5E84B42485CC4A00107F32 /* save_service.hpp */,
 			);
 			path = interfaces;
 			sourceTree = "<group>";
@@ -1169,6 +1179,7 @@
 				7BE474421845547C002EA054 /* JSONChildren.cpp in Sources */,
 				7BE4744D1845547C002EA054 /* libjson.cpp in Sources */,
 				7BE474431845547C002EA054 /* JSONDebug.cpp in Sources */,
+				7B5E84B82485CC5E00107F32 /* save_manager.cpp in Sources */,
 				7BE474451845547C002EA054 /* JSONMemory.cpp in Sources */,
 				7BE4744C1845547C002EA054 /* JSONWriter.cpp in Sources */,
 				7BE474471845547C002EA054 /* JSONNode_Mutex.cpp in Sources */,
@@ -1192,6 +1203,7 @@
 				7B9A6084184D3E810016BA1A /* lvm.c in Sources */,
 				7B9A6083184D3E810016BA1A /* lundump.c in Sources */,
 				7B9A6069184D3E810016BA1A /* lcorolib.c in Sources */,
+				7B5E84B52485CC4A00107F32 /* save_service.cpp in Sources */,
 				7B9A607F184D3E810016BA1A /* ltablib.c in Sources */,
 				7B9A6076184D3E810016BA1A /* loadlib.c in Sources */,
 				7B9A6065184D3E810016BA1A /* lauxlib.c in Sources */,

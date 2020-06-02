@@ -20,6 +20,7 @@ namespace Game {
                 bool Render(std::shared_ptr<Resources::Texture> texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect);
                 void UpdateScreen();
                 std::shared_ptr<SDL_Renderer> GetRenderer();
+
             private:
                 static const std::string logChannel;
 

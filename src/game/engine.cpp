@@ -15,9 +15,11 @@ namespace Game {
         this->StartAudioService();
         this->StartInputService();
         this->StartWorldService();
+        this->StartSaveService();
     }
 
     Engine::~Engine() {
+        this->StopSaveService();
         this->StopWorldService();
         this->StopInputService();
         this->StopAudioService();
@@ -99,6 +101,10 @@ namespace Game {
 
     void Engine::StartWorldService() {
         Services::Locator::ProvideService(std::make_shared<Services::Implementations::WorldManager>());
+    }
+
+    void Engine::StartSaveService() {
+        Services::Locator::ProvideService(std::make_shared<Services::Implementations::SaveManager>());
     }
 
     void Engine::MainLoop() {
@@ -192,6 +198,11 @@ namespace Game {
 //            }
 //        }
     }
+
+    void Engine::StopSaveService() {
+        Services::Locator::StopSaveService();
+    }
+
 
     void Engine::StopWorldService() {
         Services::Locator::StopWorldService();

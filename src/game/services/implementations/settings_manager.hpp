@@ -20,6 +20,7 @@ namespace Game {
                 SettingsManager(const std::string& applicationName);
                 ~SettingsManager();
                 std::map<int, InputKey> InputSettings();
+
             private:
                 static const std::string logChannel;
                 static const std::map<InputKey, int> defaultInputSettings;

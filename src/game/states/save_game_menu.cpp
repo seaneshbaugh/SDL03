@@ -45,6 +45,10 @@ namespace Game {
             (*this->luaState.get())["render"]();
         }
 
+        void SaveGameMenu::SaveGame(const unsigned int slot) {
+            Services::Locator::SaveService()->SaveGame(slot);
+        }
+
         void SaveGameMenu::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 
@@ -72,7 +76,8 @@ namespace Game {
             states.new_usertype<SaveGameMenu>("SaveGameMenu",
                                               sol::no_constructor,
                                               "pop", &SaveGameMenu::Pop,
-                                              "processInput", static_cast<std::string (SaveGameMenu::*)(const int)>(&SaveGameMenu::ProcessInput)
+                                              "processInput", static_cast<std::string (SaveGameMenu::*)(const int)>(&SaveGameMenu::ProcessInput),
+                                              "saveGame", &SaveGameMenu::SaveGame
                                               );
         }
     }
