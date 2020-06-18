@@ -24,20 +24,27 @@ def colorize_number(n, highlight)
   end
 end
 
-ARGV.each do |map_file_path|
-  map_file_contents = File.read(map_file_path)
+map_file_path = ARGV[0]
 
-  map = JSON.parse!(map_file_contents)
+layer_name = ARGV.length > 1 ? ARGV[1] : 'base_terrain'
 
-  # For now assume walkability layer. Maybe later let it be specified by an arg.
-  # Also for now assume a width of 100. Definitely use the actual size.
-  # Also hardcode highlighted spot for now.
-  highlight_x = 15
-  highlight_y = 9
-  highlight_offset = (highlight_y * 100) + highlight_x
+map_file_contents = File.read(map_file_path)
 
-  map['layers'].find { |layer| layer['name'] == 'walkability' }['data']
-  .each_slice(100)
+map = JSON.parse!(map_file_contents)
+
+layer = map['layers'].find { |layer| layer['name'] == layer_name }
+
+raise ArgumentError, "layer #{layer_name} not found}" if layer.nil?
+
+width = layer['width']
+height = layer['height']
+
+# Hardcode highlighted spot for now.
+highlight_x = 15
+highlight_y = 9
+highlight_offset = (highlight_y * width) + highlight_x
+
+puts layer['data']
+  .each_slice(width)
   .map.with_index { |row, i| row.map.with_index { |n, j| colorize_number(n, (i * row.length) + j == highlight_offset) }.join(' ') }
-  .each { |row| puts row }
-end
+  .join("\n")
