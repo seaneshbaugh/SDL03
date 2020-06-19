@@ -3,11 +3,14 @@
 
 #include <string>
 
-#include "libjson.h"
+#include "json.hpp"
 
 #include "../../../helpers/file_system.hpp"
+#include "../../../helpers/string.hpp"
 #include "../../services/locator.hpp"
 #include "map_object.hpp"
+
+using json = nlohmann::json;
 
 namespace Game {
     namespace Objects {

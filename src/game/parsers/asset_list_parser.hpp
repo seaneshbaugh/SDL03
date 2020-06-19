@@ -5,9 +5,11 @@
 #include <string>
 
 #include "LoggerCpp.h"
-#include "libjson.h"
+#include "json.hpp"
 
 #include "../services/locator.hpp"
+
+using json = nlohmann::json;
 
 // TODO: Make a separate class for asset lists and add this to it.
 // All other parsers are now private classes within the class they

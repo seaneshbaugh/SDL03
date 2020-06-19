@@ -31,36 +31,20 @@ namespace Game {
             }
 
             void MapEncounterArea::Parser::Parse(const std::string& jsonString, std::shared_ptr<MapEncounterArea> encounterArea) {
-                JSONNode encounterAreaNode = libjson::parse(jsonString);
+                json encounterAreaNode = json::parse(jsonString);
 
-                for (auto i = encounterAreaNode.begin(); i != encounterAreaNode.end(); ++i) {
-                    if (i->name() == "mobs" && i->type() == JSON_ARRAY) {
-                        this->logger->debug() << "parsing mobs";
+                this->logger->debug() << "Parsing mobs.";
 
-                        for (auto j = i->begin(); j != i->end(); ++j) {
-                            if (j->type() == JSON_NODE) {
-                                for (auto k = j->begin(); k != j->end(); ++k) {
-                                    if (k->name() == "enemies") {
-                                        this->logger->debug() << "parsing enemies for mob";
+                for (auto i = encounterAreaNode["mobs"].begin(); i != encounterAreaNode["mobs"].end(); ++i) {
+                    std::vector<std::string> mob;
 
-                                        std::string r = "";
-                                        std::vector<std::string> mob;
-
-                                        for (auto l = k->begin(); l != k->end(); ++l) {
-                                            if (l->type() == JSON_STRING) {
-                                                r += l->as_string() + ", ";
-                                                mob.push_back(l->as_string());
-                                            }
-                                        }
-
-                                        this->logger->debug() << "parsed mob [" << r << "]";
-
-                                        encounterArea->mobs.push_back(mob);
-                                    }
-                                }
-                            }
-                        }
+                    for (auto j = (*i)["enemies"].begin(); j != (*i)["enemies"].end(); ++j) {
+                        mob.push_back(j->get<std::string>());
                     }
+
+                    encounterArea->mobs.push_back(mob);
+
+                    this->logger->debug() << "Parsed mob [" << Helpers::String::Join(mob, ", ") << "].";
                 }
             }
 

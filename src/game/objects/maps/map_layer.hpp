@@ -21,6 +21,12 @@ namespace Game {
                 EncounterArea
             };
 
+            namespace {
+                static const std::map<std::string, MapLayerType> mapLayerTypeMap;
+            }
+
+            MapLayerType MapLayerNameToEnum(const std::string& mapLayerName);
+
             class MapLayer : public Objects::Base {
             public:
                 std::string name;

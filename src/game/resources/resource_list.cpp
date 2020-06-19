@@ -22,32 +22,40 @@ namespace Game {
 
         template<class T> std::map<std::string, std::string> ResourceList<T>::Parser::Parse(const std::string& jsonString) {
             std::map<std::string, std::string> resourceList;
-            JSONNode assetListNode = libjson::parse(jsonString);
 
-            std::function<void(const JSONNode&, std::string)> parseJSON = [&] (const JSONNode& node, std::string parentName) {
+            // TODO: Consider using json flatten() here combined with a string find
+            // and replace on the keys. Leaving this as is for now since this works
+            // how I want it to.
+            // See: https://github.com/nlohmann/json/blob/master/doc/examples/flatten.cpp
+            std::function<void (const json&, const std::string&)> parseJSON = [&] (const json& node, const std::string& parentName) {
                 for (auto it = node.begin(); it != node.end(); ++it) {
                     std::string name;
 
-                    if (parentName == "") {
-                        name = it->name();
-                    } else {
-                        name = parentName + "." + it->name();
+                    if (node.is_object()) {
+                        if (parentName == "") {
+                            name = it.key();
+                        } else {
+                            name = parentName + "." + it.key();
+                        }
                     }
 
-                    if (it->type() == JSON_ARRAY || it->type() == JSON_NODE) {
+                    if ((*it).is_array() || (*it).is_object()) {
                         parseJSON(*it, name);
                     }
 
-                    // This might be a good place for std::variant
-                    if (it->type() == JSON_STRING || it->type() == JSON_NUMBER || it->type() == JSON_BOOL) {
-                        this->logger->debug() << name << " => " << it->as_string();
+                    if ((*it).is_string() || (*it).is_number() || (*it).is_boolean()) {
+                        std::string value = (*it).get<std::string>();
 
-                        resourceList[name] = it->as_string();
+                        this->logger->debug() << name << " => " << value;
+
+                        resourceList[name] = value;
                     }
                 }
             };
 
-            parseJSON(assetListNode, "");
+            json resourceListNode = json::parse(jsonString);
+
+            parseJSON(resourceListNode, "");
 
             return resourceList;
         }

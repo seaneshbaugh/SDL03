@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "LoggerCpp.h"
-#include "libjson.h"
+#include "json.hpp"
 
 #include "../../../helpers/file_system.hpp"
 #include "../../../helpers/path.hpp"
@@ -18,6 +18,8 @@
 #include "map_tile.hpp"
 #include "map_encounter_area.hpp"
 #include "map_load_point.hpp"
+
+using json = nlohmann::json;
 
 namespace Game {
     namespace Parsers {
@@ -67,12 +69,12 @@ namespace Game {
                     static const std::string logChannel;
 
                     std::shared_ptr<Log::Logger> logger;
-                    std::shared_ptr<MapLayer> ParseLayer(const JSONNode& node);
-                    std::vector<std::shared_ptr<MapLayer>> ParseLayers(const JSONNode& node);
-                    void ParseLayerData(const JSONNode& node, std::shared_ptr<MapLayer> layer);
-                    void ParseLayerObjects(const JSONNode& node, std::shared_ptr<MapLayer> layer);
-                    std::map<int, std::shared_ptr<MapTile>> ParseTileset(const JSONNode& node);
-                    std::map<int, std::shared_ptr<MapTile>> ParseTilesets(const JSONNode& node);
+                    std::shared_ptr<MapLayer> ParseLayer(const json& node);
+                    std::vector<std::shared_ptr<MapLayer>> ParseLayers(const json& node);
+                    void ParseLayerData(const json& node, std::shared_ptr<MapLayer> layer);
+                    void ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer);
+                    std::map<int, std::shared_ptr<MapTile>> ParseTileset(const json& node);
+                    std::map<int, std::shared_ptr<MapTile>> ParseTilesets(const json& node);
                 };
 
             public:

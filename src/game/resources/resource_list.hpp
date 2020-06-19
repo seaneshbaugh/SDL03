@@ -5,9 +5,11 @@
 #include <memory>
 #include <string>
 
-#include "libjson.h"
+#include "json.hpp"
 
 #include "../services/locator.hpp"
+
+using json = nlohmann::json;
 
 namespace Game {
     namespace Resources {

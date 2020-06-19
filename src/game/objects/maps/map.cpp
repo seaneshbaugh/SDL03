@@ -25,12 +25,14 @@ namespace Game {
             bool Map::ParseMapFile(const std::string& jsonString) {
                 Map::Parser mapParser = Map::Parser();
 
-                this->logger->debug() << "About to parse map file";
+                this->logger->debug() << "Parsing map file.";
 
                 // See https://forum.libcinder.org/topic/solution-calling-shared-from-this-in-the-constructor
                 auto wptr = std::shared_ptr<Map>(this, [](Map*){});
 
                 mapParser.Parse(jsonString, std::static_pointer_cast<Map>(this->shared_from_this()));
+
+                this->logger->debug() << "Parsed map file.";
 
                 return true;
             }
@@ -61,17 +63,17 @@ namespace Game {
                     return false;
                 }
 
-                this->logger->info() << "Read " << jsonString.size() << " bytes";
-
                 if (!this->ParseMapFile(jsonString)) {
-                    this->logger->error() << "Failed to parse map";
+                    this->logger->error() << "Failed to parse map.";
 
                     return false;
                 }
 
-                for (auto layer = this->layers.begin(); layer != this->layers.end(); layer++) {
+                for (auto layer = this->layers.begin(); layer != this->layers.end(); ++layer) {
                     if ((*layer)->name == "walkability") {
                         this->walkabilityLayer = *layer;
+
+                        break;
                     }
                 }
 
@@ -83,7 +85,7 @@ namespace Game {
 
                 this->SetNameFromFilename();
 
-                this->logger->info() << "Map loaded";
+                this->logger->info() << "Map loaded.";
 
                 return true;
             }
@@ -107,10 +109,10 @@ namespace Game {
             std::vector<std::shared_ptr<MapObject>> Map::GetObjects(int x, int y) {
                 std::vector<std::shared_ptr<MapObject>> result;
 
-                for (auto layer = this->layers.begin(); layer != this->layers.end(); layer++) {
+                for (auto layer = this->layers.begin(); layer != this->layers.end(); ++layer) {
                     this->logger->debug() << "Getting objects for layer \"" << (*layer)->name << "\" at (" << x << ", " << y << ").";
 
-                    for (auto object = (*layer)->objects.begin(); object != (*layer)->objects.end(); object++) {
+                    for (auto object = (*layer)->objects.begin(); object != (*layer)->objects.end(); ++object) {
                         if (x >= (*object)->x && x < ((*object)->x + (*object)->width) && y >= (*object)->y && y < ((*object)->y + (*object)->height)) {
                             this->logger->debug() << "Object with type " << (*object)->GetType() << " (" << (*object)->x << ", " << (*object)->y << ") - (" << ((*object)->x + (*object)->width) << ", " << ((*object)->y + (*object)->height) << ") stepped on";
 
@@ -139,7 +141,9 @@ namespace Game {
                     }
                 }
 
-                for (auto layer = this->layers.begin(); layer != this->layers.end(); layer++) {
+                for (auto layer = this->layers.begin(); layer != this->layers.end(); ++layer) {
+                    // TODO: Add visible flag to layers and use that rather than comparing strings
+                    // every single frame.
                     if ((*layer)->name == "walkability") {
                         continue;
                     }
@@ -147,7 +151,7 @@ namespace Game {
                     int x = 0;
                     int y = 0;
 
-                    for (auto tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); tile++) {
+                    for (auto tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); ++tile) {
                         if (x >= this->width) {
                             x = 0;
 
@@ -158,7 +162,6 @@ namespace Game {
                             SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
 
                             Services::Locator::VideoService()->Render(this->tiles[*tile]->texture, nullptr, &tilePosition);
-                            // SDL_RenderCopy(Services::Locator::VideoService()->GetRenderer().get(), this->tiles[*tile]->texture, nullptr, &tilePosition);
                         }
 
                         x++;
@@ -182,73 +185,37 @@ namespace Game {
             void Map::Parser::Parse(const std::string& jsonString, std::shared_ptr<Map> map) {
                 this->logger->debug() << "Parsing map file.";
 
-                JSONNode mapNode = libjson::parse(jsonString);
+                json mapNode = json::parse(jsonString);
 
-                std::function<void(const JSONNode&)> parseJSON = [&] (const JSONNode &node) {
-                    JSONNode::const_iterator i = mapNode.begin();
+                map->layers = this->ParseLayers(mapNode["layers"]);
 
-                    while (i != mapNode.end()) {
-                        if (i->name() == "layers" && i->type() == JSON_ARRAY) {
-                            this->logger->debug() << "About to parse map layers.";
+                map->tiles = this->ParseTilesets(mapNode["tilesets"]);
 
-                            map->layers = this->ParseLayers(*i);
-                        } else {
-                            if (i->name() == "tilesets" && i->type() == JSON_ARRAY) {
-                                this->logger->debug() << "About to parse map tilesets.";
-                                std::map<int, std::shared_ptr<MapTile>> tiles = this->ParseTilesets(*i);
+                map->width = mapNode["width"].get<int>();
 
-                                map->tiles = tiles;
-                            } else {
-                                if (i->name() == "width" && i->type() == JSON_NUMBER) {
-                                    map->width = (int)i->as_int();
-                                } else {
-                                    if (i->name() == "height" && i->type() == JSON_NUMBER) {
-                                        map->height = (int)i->as_int();
-                                    } else {
-                                        if (i->name() == "tilewidth" && i->type() == JSON_NUMBER) {
-                                            map->tilewidth = (int)i->as_int();
-                                        } else {
-                                            if (i->name() == "tileheight" && i->type() == JSON_NUMBER) {
-                                                map->tileheight = (int)i->as_int();
-                                            } else {
-                                                if (i->type() == JSON_ARRAY || i->type() == JSON_NODE) {
-                                                    parseJSON(*i);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                map->height = mapNode["height"].get<int>();
 
-                        i++;
-                    }
-                };
+                map->tilewidth = mapNode["tilewidth"].get<int>();
 
-                parseJSON(mapNode);
+                map->tileheight = mapNode["tileheight"].get<int>();
+
+                this->logger->debug() << "Parsed map file.";
             }
 
-            std::shared_ptr<MapLayer> Map::Parser::ParseLayer(const JSONNode &node) {
+            // TODO: Move this to a nested class for MapLayer.
+            std::shared_ptr<MapLayer> Map::Parser::ParseLayer(const json& node) {
                 std::shared_ptr<MapLayer> layer = std::make_shared<MapLayer>();
 
-                this->logger->debug() << "Parsing map layer...";
+                this->logger->debug() << "Parsing map layer.";
 
-                JSONNode::const_iterator i = node.begin();
+                layer->name = node["name"].get<std::string>();
 
-                while (i != node.end()) {
-                    if (i->name() == "data" && i->type() == JSON_ARRAY) {
-                        this->ParseLayerData(*i, layer);
-                    }
+                if (node.find("data") != node.end()) {
+                    this->ParseLayerData(node["data"], layer);
+                }
 
-                    if (i->name() == "objects" && i->type() == JSON_ARRAY) {
-                        this->ParseLayerObjects(*i, layer);
-                    }
-
-                    if (i->name() == "name" && i->type() == JSON_STRING) {
-                        layer->name = i->as_string();
-                    }
-
-                    i++;
+                if (node.find("objects") != node.end()) {
+                    this->ParseLayerObjects(node["objects"], layer);
                 }
 
                 this->logger->debug() << "Parsed map layer \"" << layer->name << "\".";
@@ -256,13 +223,13 @@ namespace Game {
                 return layer;
             }
 
-            std::vector<std::shared_ptr<MapLayer>> Map::Parser::ParseLayers(const JSONNode& node) {
+            std::vector<std::shared_ptr<MapLayer>> Map::Parser::ParseLayers(const json& node) {
                 std::vector<std::shared_ptr<Objects::Maps::MapLayer>> layers;
 
                 this->logger->debug() << "Parsing map layers.";
 
                 for (auto it = node.begin(); it != node.end(); ++it) {
-                    if (it->type() == JSON_NODE) {
+                    if (it->is_object()) {
                         layers.push_back(this->ParseLayer(*it));
                     }
                 }
@@ -272,45 +239,39 @@ namespace Game {
                 return layers;
             }
 
-            void Map::Parser::ParseLayerData(const JSONNode &node, std::shared_ptr<MapLayer> layer) {
-                JSONNode::const_iterator i = node.begin();
-
-                while (i != node.end()) {
-                    layer->tiles.push_back((int)i->as_int());
-
-                    i++;
+            void Map::Parser::ParseLayerData(const json &node, std::shared_ptr<MapLayer> layer) {
+                for (auto it = node.begin(); it != node.end(); ++it) {
+                    layer->tiles.push_back(it->get<int>());
                 }
             }
 
-            void Map::Parser::ParseLayerObjects(const JSONNode& node, std::shared_ptr<MapLayer> layer) {
-                this->logger->debug() << "Parsing layer objects.";
+            void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
+                this->logger->debug() << "Parsing layer objects";
 
-                JSONNode::const_iterator i = node.begin();
-
-                while (i != node.end()) {
+                for (auto i = node.begin();  i != node.end(); ++i) {
                     // TODO: Break this out into its own method.
                     if (layer->name == "encounter_areas") {
                         this->logger->debug() << "Creating encounter area.";
 
                         // TODO: Figure out a better way to handle this. Obviously hard coding the map name is bogus.
-                        std::string filename = "resources/encounter_areas/world01-" + i->at("properties").at("name").as_string() + ".json";
+                        std::string filename = "resources/encounter_areas/world01-" + (*i)["properties"]["name"].get<std::string>() + ".json";
 
                         std::shared_ptr<MapEncounterArea> encounterArea = std::make_shared<MapEncounterArea>(filename);
 
                         // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
                         // TODO: Use map tileheight and tilewidth.
-                        encounterArea->SetType(i->at("type").as_string());
-                        encounterArea->x = static_cast<int>(i->at("x").as_int()) / 32;
-                        encounterArea->y = static_cast<int>(i->at("y").as_int()) / 32;
-                        encounterArea->width = static_cast<int>(i->at("width").as_int()) / 32;
-                        encounterArea->height = static_cast<int>(i->at("height").as_int()) / 32;
-                        std::map<std::string, std::string> properties;
-                        JSONNode::const_iterator k = i->at("properties").begin();
-                        while (k != i->at("properties").end()) {
-                            properties[k->name()] = k->as_string();
+                        encounterArea->SetType((*i)["type"].get<std::string>());
+                        encounterArea->x = (*i)["x"].get<int>() / 32;
+                        encounterArea->y = (*i)["y"].get<int>() / 32;
+                        encounterArea->width = (*i)["width"].get<int>() / 32;
+                        encounterArea->height = (*i)["height"].get<int>() / 32;
 
-                            k++;
+                        std::map<std::string, std::string> properties;
+
+                        for  (auto k = (*i)["properties"].begin(); k != (*i)["properties"].end(); ++k) {
+                            properties[k.key()] = k->get<std::string>();
                         }
+
                         encounterArea->SetProperties(properties);
 
                         layer->objects.push_back(encounterArea);
@@ -321,71 +282,41 @@ namespace Game {
 
                         // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
                         // TODO: Use map tileheight and tilewidth.
-                        loadPoint->SetType(i->at("type").as_string());
-                        loadPoint->x = static_cast<int>(i->at("x").as_int()) / 32;
-                        loadPoint->y = static_cast<int>(i->at("y").as_int()) / 32;
-                        loadPoint->width = static_cast<int>(i->at("width").as_int()) / 32;
-                        loadPoint->height = static_cast<int>(i->at("height").as_int()) / 32;
-                        std::map<std::string, std::string> properties;
-                        JSONNode::const_iterator k = i->at("properties").begin();
-                        while (k != i->at("properties").end()) {
-                            properties[k->name()] = k->as_string();
+                        loadPoint->SetType((*i)["type"].get<std::string>());
+                        loadPoint->x = (*i)["x"].get<int>() / 32;
+                        loadPoint->y = (*i)["y"].get<int>() / 32;
+                        loadPoint->width = (*i)["width"].get<int>() / 32;
+                        loadPoint->height = (*i)["height"].get<int>() / 32;
 
-                            k++;
+                        std::map<std::string, std::string> properties;
+
+                        for  (auto k = (*i)["properties"].begin(); k != (*i)["properties"].end(); ++k) {
+                            properties[k.key()] = k->get<std::string>();
                         }
+
                         loadPoint->SetProperties(properties);
 
                         layer->objects.push_back(loadPoint);
                     } else {
                         throw;
                     }
-
-                    i++;
                 }
             }
 
-            std::map<int, std::shared_ptr<Objects::Maps::MapTile>> Map::Parser::ParseTileset(const JSONNode& node) {
-                JSONNode::const_iterator i = node.begin();
-                int firstGID = 1;
+            std::map<int, std::shared_ptr<Objects::Maps::MapTile>> Map::Parser::ParseTileset(const json& node) {
                 std::vector<std::shared_ptr<MapTile>> tiles;
 
-                while (i != node.end()) {
-                    if (i->name() == "tileproperties" && i->type() == JSON_NODE) {
-                        JSONNode::const_iterator j = i->begin();
+                for (auto it = node["tileproperties"].begin(); it != node["tileproperties"].end(); ++it) {
+                    std::shared_ptr<MapTile> tile = std::make_shared<MapTile>();
 
-                        while (j != i->end()) {
-                            if (j->type() == JSON_NODE) {
-                                JSONNode::const_iterator k = j->begin();
+                    tile->filename = (*it)["filename"].get<std::string>();
 
-                                std::shared_ptr<MapTile> tile = std::make_shared<MapTile>();
+                    tile->name = (*it)["name"].get<std::string>();
 
-                                while (k != j->end()) {
-                                    if (k->name() == "filename") {
-                                        tile->filename = k->as_string();
-                                    } else {
-                                        if (k->name() == "name") {
-                                            tile->name = k->as_string();
-                                        }
-                                    }
-
-                                    k++;
-                                }
-
-                                tiles.push_back(tile);
-                            }
-
-                            j++;
-                        }
-                    } else {
-                        if (i->name() == "firstgid" && i->type() == JSON_NODE) {
-                            firstGID = (int)i->as_int();
-                        }
-                    }
-
-                    i++;
+                    tiles.push_back(tile);
                 }
 
-                int GID = firstGID;
+                int GID = node["firstgid"].get<int>();
                 std::map <int, std::shared_ptr<MapTile>> result;
 
                 for (auto it = tiles.begin(); it != tiles.end(); it++) {
@@ -400,19 +331,13 @@ namespace Game {
             // For now this just sort of dumps all tilesets into one list of tiles.
             // TODO: Maybe make some sort of TileSet class which holds the sets of
             // tiles?
-            std::map<int, std::shared_ptr<MapTile>> Map::Parser::ParseTilesets(const JSONNode& node) {
+            std::map<int, std::shared_ptr<MapTile>> Map::Parser::ParseTilesets(const json& node) {
                 std::map<int, std::shared_ptr<Objects::Maps::MapTile>> tiles;
 
-                JSONNode::const_iterator i = node.begin();
+                for (auto it = node.begin(); it != node.end(); ++it) {
+                    std::map<int, std::shared_ptr<MapTile>> t = this->ParseTileset(*it);
 
-                while (i != node.end()) {
-                    if (i->type() == JSON_ARRAY || i->type() == JSON_NODE) {
-                        std::map<int, std::shared_ptr<MapTile>> t = this->ParseTileset(*i);
-
-                        tiles.insert(t.begin(), t.end());
-                    }
-
-                    i++;
+                    tiles.insert(t.begin(), t.end());
                 }
 
                 return tiles;
