@@ -248,6 +248,7 @@
 		7B5E84B42485CC4A00107F32 /* save_service.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = save_service.hpp; sourceTree = "<group>"; };
 		7B5E84B62485CC5E00107F32 /* save_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save_manager.cpp; sourceTree = "<group>"; };
 		7B5E84B72485CC5E00107F32 /* save_manager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = save_manager.hpp; sourceTree = "<group>"; };
+		7B5E84BA2486DE0B00107F32 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = json.hpp; path = lib/nlohmann/json.hpp; sourceTree = SOURCE_ROOT; };
 		7B63C9A5246CD74C00141D8B /* sol.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sol.hpp; sourceTree = "<group>"; };
 		7B6482B6214E057700DE4364 /* video_service.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = video_service.cpp; sourceTree = "<group>"; };
 		7B6482B7214E057700DE4364 /* video_service.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = video_service.hpp; sourceTree = "<group>"; };
@@ -667,6 +668,15 @@
 			path = events;
 			sourceTree = "<group>";
 		};
+		7B5E84B92486DDE200107F32 /* nlohmann */ = {
+			isa = PBXGroup;
+			children = (
+				7B5E84BA2486DE0B00107F32 /* json.hpp */,
+			);
+			name = nlohmann;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		7B63C9A4246CD71600141D8B /* sol */ = {
 			isa = PBXGroup;
 			children = (
@@ -860,6 +870,7 @@
 		7BE4737018454D0C002EA054 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7B5E84B92486DDE200107F32 /* nlohmann */,
 				7B63C9A4246CD71600141D8B /* sol */,
 				7BE70159212FBACC00B084A5 /* LoggerCpp */,
 				7BE4738A1845547C002EA054 /* libjson */,
