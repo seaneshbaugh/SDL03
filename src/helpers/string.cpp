@@ -2,6 +2,21 @@
 
 namespace Helpers {
     namespace String {
+        std::string Join(const std::vector<std::string>& strings, const std::string& delimiter) {
+            if (delimiter.empty()) {
+                throw std::invalid_argument("delimiter cannot be empty.");
+            }
+
+            if (strings.empty()) {
+                return "";
+            }
+
+            return std::accumulate(next(begin(strings)), end(strings), strings[0],
+                                   [&delimiter](std::string result, const std::string& value) {
+                                       return result + delimiter + value;
+                                   });
+        }
+
         std::vector<std::string> Split(const std::string& source, const std::string& delimiter) {
             if (delimiter.empty()) {
                 throw std::invalid_argument("delimiter cannot be empty.");
