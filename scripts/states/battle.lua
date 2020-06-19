@@ -50,7 +50,7 @@ function initialize()
 
     monsters = battle_state:getMonsters()
 
-    for i, monster in ipairs(objects) do
+    for i, monster in ipairs(monsters) do
         table.insert(atb, { character = monster, atb = monster:atbStart(), party = false })
     end
 
