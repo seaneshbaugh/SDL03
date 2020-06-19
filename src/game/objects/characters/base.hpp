@@ -7,16 +7,15 @@
 #include <random>
 #include <string>
 
+#include "json.hpp"
+
 #include "../../../helpers/file_system.hpp"
-#include "../base.hpp"
-#include "../../parsers/asset_list_parser.hpp"
 #include "../../resources/texture.hpp"
+#include "../base.hpp"
+
+using json = nlohmann::json;
 
 namespace Game {
-    namespace Parsers {
-        class CharacterParser;
-    }
-
     namespace Objects {
         namespace Characters {
             class Base : public Objects::Base {
@@ -31,45 +30,49 @@ namespace Game {
                 ~Base();
                 std::string GetName();
                 std::string SetName(const std::string& newName);
-                unsigned long long GetLevel();
-                unsigned long long SetLevel(const unsigned long long newLevel);
-                unsigned long long GetCurrentHitPoints();
-                unsigned long long SetCurrentHitPoints(const unsigned long long newCurrentHitPoints);
-                unsigned long long GetMaxHitPoints();
-                unsigned long long SetMaxHitPoints(const unsigned long long newMaxHitPoints);
-                unsigned long long GetCurrentMagicPoints();
-                unsigned long long SetCurrentMagicPoints(const unsigned long long newCurrentMagicPoints);
-                unsigned long long GetMaxMagicPoints();
-                unsigned long long SetMaxMagicPoints(const unsigned long long newMaxMagicPoints);
-                unsigned long long GetStrength();
-                unsigned long long SetStrength(const unsigned long long newStrength);
-                unsigned long long GetDexterity();
-                unsigned long long SetDexterity(const unsigned long long newDexterity);
-                unsigned long long GetIntelligence();
-                unsigned long long SetIntelligence(const unsigned long long newIntelligence);
-                unsigned long long GetVitality();
-                unsigned long long SetVitality(const unsigned long long newVitality);
-                unsigned long long GetStamina();
-                unsigned long long SetStamina(const unsigned long long newStamina);
-                unsigned long long GetLuck();
-                unsigned long long SetLuck(const unsigned long long newLuck);
-                unsigned long long Damage(const unsigned long long damage);
-                int ATBStart();
+                unsigned long long int GetLevel();
+                unsigned long long int SetLevel(const unsigned long long int newLevel);
+                unsigned long long int GetCurrentHitPoints();
+                unsigned long long int SetCurrentHitPoints(const unsigned long long int newCurrentHitPoints);
+                unsigned long long int GetMaxHitPoints();
+                unsigned long long int SetMaxHitPoints(const unsigned long long int newMaxHitPoints);
+                unsigned long long int GetCurrentMagicPoints();
+                unsigned long long int SetCurrentMagicPoints(const unsigned long long int newCurrentMagicPoints);
+                unsigned long long int GetMaxMagicPoints();
+                unsigned long long int SetMaxMagicPoints(const unsigned long long int newMaxMagicPoints);
+                unsigned long long int GetStrength();
+                unsigned long long int SetStrength(const unsigned long long int newStrength);
+                unsigned long long int GetDexterity();
+                unsigned long long int SetDexterity(const unsigned long long int newDexterity);
+                unsigned long long int GetIntelligence();
+                unsigned long long int SetIntelligence(const unsigned long long int newIntelligence);
+                unsigned long long int GetVitality();
+                unsigned long long int SetVitality(const unsigned long long int newVitality);
+                unsigned long long int GetStamina();
+                unsigned long long int SetStamina(const unsigned long long int newStamina);
+                unsigned long long int GetLuck();
+                unsigned long long int SetLuck(const unsigned long long int newLuck);
+                unsigned long long int Damage(const unsigned long long int damage);
+                unsigned long long int Damage(const unsigned long long int damage, const bool limited);
+                unsigned long long int Heal(const unsigned long long int damage);
+                unsigned long long int Heal(const unsigned long long int damage, const bool limited);
+                unsigned int ATBStart();
                 bool Load(const std::string& filename);
                 bool Parse(const std::string& jsonString);
                 void Render(const int x, const int y);
+
             protected:
-                unsigned long long level;
-                unsigned long long currentHitPoints;
-                unsigned long long maxHitPoints;
-                unsigned long long currentMagicPoints;
-                unsigned long long maxMagicPoints;
-                unsigned long long strength;
-                unsigned long long dexterity;
-                unsigned long long intelligence;
-                unsigned long long vitality;
-                unsigned long long stamina;
-                unsigned long long luck;
+                unsigned long long int level;
+                unsigned long long int currentHitPoints;
+                unsigned long long int maxHitPoints;
+                unsigned long long int currentMagicPoints;
+                unsigned long long int maxMagicPoints;
+                unsigned long long int strength;
+                unsigned long long int dexterity;
+                unsigned long long int intelligence;
+                unsigned long long int vitality;
+                unsigned long long int stamina;
+                unsigned long long int luck;
 
                 bool ParseCharacterFile(const std::string& jsonString);
 

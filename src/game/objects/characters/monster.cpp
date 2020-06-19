@@ -40,7 +40,14 @@ namespace Game {
                                                  "getDexterity", &Monster::GetDexterity,
                                                  "getIntelligence", &Monster::GetIntelligence,
                                                  "atbStart", &Monster::ATBStart,
-                                                 "damage", &Monster::Damage,
+                                                 "damage", sol::overload(
+                                                                         static_cast<unsigned long long int (Monster::*)(const unsigned long long int)>(&Monster::Damage),
+                                                                         static_cast<unsigned long long int (Monster::*)(const unsigned long long int, const bool)>(&Monster::Damage)
+                                                                         ),
+                                                 "heal", sol::overload(
+                                                                       static_cast<unsigned long long int (Monster::*)(const unsigned long long int)>(&Monster::Heal),
+                                                                       static_cast<unsigned long long int (Monster::*)(const unsigned long long int, const bool)>(&Monster::Heal)
+                                                                       ),
                                                  "render", &Monster::Render,
                                                  sol::base_classes, sol::bases<Base>()
                                                  );

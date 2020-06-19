@@ -3,16 +3,19 @@
 namespace Game {
     namespace Objects {
         namespace Characters {
-            const unsigned long long MIN_LEVEL = 1;
-            const unsigned long long MAX_LEVEL = 99;
-            const unsigned long long MIN_HIT_POINTS = 0;
-            const unsigned long long MIN_MAX_HIT_POINTS = 1;
-            const unsigned long long MAX_MAX_HIT_POINTS = 999999999999999;
-            const unsigned long long MIN_MAGIC_POINTS = 0;
-            const unsigned long long MIN_MAX_MAGIC_POINTS = 0;
-            const unsigned long long MAX_MAX_MAGIC_POINTS = 999999999999999;
-            const unsigned long long MIN_STAT = 1;
-            const unsigned long long MAX_STAT = 9999;
+            const unsigned long long int MIN_LEVEL = 1;
+            const unsigned long long int MAX_LEVEL = 99;
+            const unsigned long long int MIN_HIT_POINTS = 0;
+            const unsigned long long int MIN_MAX_HIT_POINTS = 1;
+            const unsigned long long int MAX_MAX_HIT_POINTS = 999999999999999;
+            const unsigned long long int MIN_MAGIC_POINTS = 0;
+            const unsigned long long int MIN_MAX_MAGIC_POINTS = 0;
+            const unsigned long long int MAX_MAX_MAGIC_POINTS = 999999999999999;
+            const unsigned long long int MIN_STAT = 1;
+            const unsigned long long int MAX_STAT = 9999;
+            const unsigned long long int MIN_DAMAGE = 0;
+            const unsigned long long int MAX_LIMITED_DAMAGE = 9999;
+            const unsigned long long int MAX_UNLIMITED_DAMAGE = 999999999999999;
 
             Base::Base() {
                 this->name = "";
@@ -44,31 +47,31 @@ namespace Game {
                 return this->name;
             }
 
-            unsigned long long Base::GetLevel() {
+            unsigned long long int Base::GetLevel() {
                 return this->level;
             }
 
-            unsigned long long Base::SetLevel(const unsigned long long newLevel) {
+            unsigned long long int Base::SetLevel(const unsigned long long int newLevel) {
                 this->level = std::clamp(newLevel, MIN_LEVEL, MAX_LEVEL);
 
                 return this->level;
             }
 
-            unsigned long long Base::GetCurrentHitPoints() {
+            unsigned long long int Base::GetCurrentHitPoints() {
                 return this->currentHitPoints;
             }
 
-            unsigned long long Base::SetCurrentHitPoints(const unsigned long long newCurrentHitPoints) {
+            unsigned long long int Base::SetCurrentHitPoints(const unsigned long long int newCurrentHitPoints) {
                 this->currentHitPoints = std::clamp(newCurrentHitPoints, MIN_HIT_POINTS, this->maxHitPoints);
 
                 return this->currentHitPoints;
             }
 
-            unsigned long long Base::GetMaxHitPoints() {
+            unsigned long long int Base::GetMaxHitPoints() {
                 return this->maxHitPoints;
             }
 
-            unsigned long long Base::SetMaxHitPoints(const unsigned long long newMaxHitPoints) {
+            unsigned long long int Base::SetMaxHitPoints(const unsigned long long int newMaxHitPoints) {
                 this->maxHitPoints = std::clamp(newMaxHitPoints, MIN_MAX_HIT_POINTS, MAX_MAX_HIT_POINTS);
 
                 if (this->currentHitPoints > this->maxHitPoints) {
@@ -78,21 +81,21 @@ namespace Game {
                 return this->maxHitPoints;
             }
 
-            unsigned long long Base::GetCurrentMagicPoints() {
+            unsigned long long int Base::GetCurrentMagicPoints() {
                 return this->currentMagicPoints;
             }
 
-            unsigned long long Base::SetCurrentMagicPoints(const unsigned long long newCurrentMagicPoints) {
+            unsigned long long int Base::SetCurrentMagicPoints(const unsigned long long int newCurrentMagicPoints) {
                 this->currentMagicPoints = std::clamp(newCurrentMagicPoints, MIN_MAGIC_POINTS, this->maxMagicPoints);
 
                 return this->currentMagicPoints;
             }
 
-            unsigned long long Base::GetMaxMagicPoints() {
+            unsigned long long int Base::GetMaxMagicPoints() {
                 return this->maxMagicPoints;
             }
 
-            unsigned long long Base::SetMaxMagicPoints(const unsigned long long newMaxMagicPoints) {
+            unsigned long long int Base::SetMaxMagicPoints(const unsigned long long int newMaxMagicPoints) {
                 this->maxMagicPoints = std::clamp(newMaxMagicPoints, MIN_MAX_MAGIC_POINTS, MAX_MAX_MAGIC_POINTS);
 
                 if (this->currentMagicPoints > this->maxMagicPoints) {
@@ -102,51 +105,51 @@ namespace Game {
                 return this->maxMagicPoints;
             }
 
-            unsigned long long Base::GetStrength() {
+            unsigned long long int Base::GetStrength() {
                 return this->strength;
             }
 
-            unsigned long long Base::SetStrength(const unsigned long long newStrength) {
+            unsigned long long int Base::SetStrength(const unsigned long long int newStrength) {
                 this->strength = std::clamp(newStrength, MIN_STAT, MAX_STAT);
 
                 return this->strength;
             }
 
-            unsigned long long Base::GetDexterity() {
+            unsigned long long int Base::GetDexterity() {
                 return this->dexterity;
             }
 
-            unsigned long long Base::SetDexterity(const unsigned long long newDexterity) {
+            unsigned long long int Base::SetDexterity(const unsigned long long int newDexterity) {
                 this->dexterity = std::clamp(newDexterity, MIN_STAT, MAX_STAT);
 
                 return this->strength;
             }
 
-            unsigned long long Base::GetIntelligence() {
+            unsigned long long int Base::GetIntelligence() {
                 return this->intelligence;
             }
 
-            unsigned long long Base::SetIntelligence(const unsigned long long newIntelligence) {
+            unsigned long long int Base::SetIntelligence(const unsigned long long int newIntelligence) {
                 this->intelligence = std::clamp(newIntelligence, MIN_STAT, MAX_STAT);
 
                 return this->intelligence;
             }
 
-            unsigned long long Base::GetVitality() {
+            unsigned long long int Base::GetVitality() {
                 return this->vitality;
             }
 
-            unsigned long long Base::SetVitality(const unsigned long long newVitality) {
+            unsigned long long int Base::SetVitality(const unsigned long long int newVitality) {
                 this->vitality = std::clamp(newVitality, MIN_STAT, MAX_STAT);
 
                 return this->vitality;
             }
 
-            unsigned long long Base::GetStamina() {
+            unsigned long long int Base::GetStamina() {
                 return this->stamina;
             }
 
-            unsigned long long Base::SetStamina(const unsigned long long newStamina) {
+            unsigned long long int Base::SetStamina(const unsigned long long int newStamina) {
                 this->stamina = std::clamp(newStamina, MIN_STAT, MAX_STAT);
 
                 return this->stamina;
@@ -156,10 +159,50 @@ namespace Game {
                 return this->luck;
             }
 
-            unsigned long long Base::SetLuck(const unsigned long long newLuck) {
+            unsigned long long int Base::SetLuck(const unsigned long long int newLuck) {
                 this->luck = std::clamp(newLuck, MIN_STAT, MAX_STAT);
 
                 return this->luck;
+            }
+
+            unsigned long long int Base::Damage(const unsigned long long int damage) {
+                return this->Damage(damage, true);
+            }
+
+            unsigned long long int Base::Damage(const unsigned long long int damage, const bool limited) {
+                const unsigned long long int maxDamage = limited ? MAX_LIMITED_DAMAGE : MAX_UNLIMITED_DAMAGE;
+
+                const unsigned long long int damageDealt = std::clamp(damage, MIN_DAMAGE, maxDamage);
+
+                unsigned long long int newCurrentHitPoints = this->currentHitPoints - damageDealt;
+
+                if (newCurrentHitPoints > this->currentHitPoints) {
+                    newCurrentHitPoints = MIN_HIT_POINTS;
+                }
+
+                this->currentHitPoints = newCurrentHitPoints;
+
+                return damageDealt;
+            }
+
+            unsigned long long int Base::Heal(const unsigned long long int damage) {
+                return this->Heal(damage, true);
+            }
+
+            unsigned long long int Base::Heal(const unsigned long long int damage, const bool limited) {
+                const unsigned long long int maxDamage = limited ? MAX_LIMITED_DAMAGE : MAX_UNLIMITED_DAMAGE;
+
+                const unsigned long long int damageHealed = std::clamp(damage, MIN_DAMAGE, maxDamage);
+
+                unsigned long long int newCurrentHitPoints = this->currentHitPoints + damageHealed;
+
+                if (newCurrentHitPoints < this->currentHitPoints) {
+                    newCurrentHitPoints = this->maxHitPoints;
+                }
+
+                this->currentHitPoints = newCurrentHitPoints;
+
+                return damageHealed;
             }
 
             // I would have put this in the Lua script but I don't know enough about how it does
@@ -177,7 +220,7 @@ namespace Game {
             // with at least 50  but possibly up to 100. As their minimum start value increases
             // so does their possible maximum start value. A start value over 100 makes no sense
             // so no matter how dexterous the character is their start value is limited to 100.
-            int Base::ATBStart() {
+            unsigned int Base::ATBStart() {
                 double dexterityRatio = (static_cast<double>(this->dexterity) / 255.0) * 100.0;
                 std::random_device rd;
                 std::mt19937 mt(rd());
@@ -188,21 +231,7 @@ namespace Game {
                     atbStart = 100.0;
                 }
 
-                return static_cast<int>(atbStart);
-            }
-
-            unsigned long long Base::Damage(const unsigned long long damage) {
-                unsigned long long oldCurrentHitPoints = this->currentHitPoints;
-
-                unsigned long long newCurrentHitPoints = oldCurrentHitPoints - damage;
-
-                if (newCurrentHitPoints > oldCurrentHitPoints) {
-                    newCurrentHitPoints = 0;
-                }
-
-                this->SetCurrentHitPoints(newCurrentHitPoints);
-
-                return oldCurrentHitPoints - this->currentHitPoints;
+                return static_cast<unsigned int>(atbStart);
             }
 
             bool Base::ParseCharacterFile(const std::string& jsonString) {
@@ -245,26 +274,26 @@ namespace Game {
             }
 
             void Base::Parser::Parse(const std::string& jsonString, std::shared_ptr<Base> character) {
-                JSONNode characterNode = libjson::parse(jsonString);
+                json characterNode = json::parse(jsonString);
 
-                character->name = characterNode.at("name").as_string();
-                character->SetLevel(static_cast<int>(characterNode.at("level").as_int()));
-                const unsigned long long hitPoints = static_cast<unsigned long long>(characterNode.at("hitPoints").as_int());
+                character->name = characterNode["name"].get<std::string>();
+                character->SetLevel(characterNode["level"].get<unsigned long long int>());
+                const unsigned long long int hitPoints = characterNode["hitPoints"].get<unsigned long long int>();
                 character->SetMaxHitPoints(hitPoints);
                 character->SetCurrentHitPoints(hitPoints);
-                const unsigned long long magicPoints = static_cast<unsigned long long>(characterNode.at("magicPoints").as_int());
+                const unsigned long long int magicPoints = characterNode["magicPoints"].get<unsigned long long int>();
                 character->SetMaxMagicPoints(magicPoints);
                 character->SetCurrentMagicPoints(magicPoints);
-                character->SetStrength(static_cast<unsigned long long>(characterNode.at("strength").as_int()));
-                character->SetDexterity(static_cast<unsigned long long>(characterNode.at("dexterity").as_int()));
-                character->SetIntelligence(static_cast<unsigned long long>(characterNode.at("intelligence").as_int()));
-                character->SetVitality(static_cast<unsigned long long>(characterNode.at("vitality").as_int()));
-                character->SetStamina(static_cast<unsigned long long>(characterNode.at("stamina").as_int()));
-                character->SetLuck(static_cast<unsigned long long>(characterNode.at("luck").as_int()));
+                character->SetStrength(characterNode["strength"].get<unsigned long long int>());
+                character->SetDexterity(characterNode["dexterity"].get<unsigned long long int>());
+                character->SetIntelligence(characterNode["intelligence"].get<unsigned long long int>());
+                character->SetVitality(characterNode["vitality"].get<unsigned long long int>());
+                character->SetStamina(characterNode["stamina"].get<unsigned long long int>());
+                character->SetLuck(characterNode["luck"].get<unsigned long long int>());
                 character->spriteName = "characters.sprite." + character->name;
                 character->spritesheetName = "characters.spritesheet." + character->name;
-                character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode.at("sprite").as_string());
-                character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode.at("spritesheet").as_string());
+                character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode["sprite"].get<std::string>());
+                character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode["spritesheet"].get<std::string>());
             }
 
             void Base::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
@@ -290,7 +319,14 @@ namespace Game {
                                               "getDexterity", &Base::GetDexterity,
                                               "getIntelligence", &Base::GetIntelligence,
                                               "atbStart", &Base::ATBStart,
-                                              "damage", &Base::Damage,
+                                              "damage", sol::overload(
+                                                                      static_cast<unsigned long long int (Base::*)(const unsigned long long int)>(&Base::Damage),
+                                                                      static_cast<unsigned long long int (Base::*)(const unsigned long long int, const bool)>(&Base::Damage)
+                                                                      ),
+                                              "heal", sol::overload(
+                                                                    static_cast<unsigned long long int (Base::*)(const unsigned long long int)>(&Base::Heal),
+                                                                    static_cast<unsigned long long int (Base::*)(const unsigned long long int, const bool)>(&Base::Heal)
+                                                                      ),
                                               "render", &Base::Render
                                               );
             }
