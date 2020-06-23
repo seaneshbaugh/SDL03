@@ -83,6 +83,8 @@ namespace Game {
                     return false;
                 }
 
+                this->filename = filename;
+
                 this->SetNameFromFilename();
 
                 this->logger->info() << "Map loaded.";

@@ -7,7 +7,7 @@ namespace Game {
             class SaveService {
             public:
                 ~SaveService() {}
-                virtual void SaveGame(const unsigned int slot) = 0;
+                virtual bool SaveGame(const unsigned int slot) = 0;
             };
         }
     }

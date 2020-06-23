@@ -100,6 +100,10 @@ namespace Game {
             return Services::Locator::WorldService()->GetWorld()->playerParty->characters[0]->spritesheetName;
         }
 
+        void Map::Step(unsigned int x, unsigned int y) {
+            Services::Locator::WorldService()->UpdatePlayerPosition(x, y);
+        }
+
         void Map::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 
@@ -136,7 +140,8 @@ namespace Game {
                                      "setCurrentMapEncounterArea", &Map::SetCurrentMapEncounterArea,
                                      "getPlayerSpriteName", &Map::GetPlayerSpriteName,
                                      "loadMap", &Map::LoadMap,
-                                     "render", &Map::Render
+                                     "render", &Map::Render,
+                                     "step", &Map::Step
                                      );
         }
     }

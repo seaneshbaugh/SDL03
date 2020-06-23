@@ -94,5 +94,34 @@ namespace Game {
         void World::UnloadMap() {
             this->currentMap.reset();
         }
+
+        // TODO: Consider moving this to its own class. Every serializable object should
+        // probably have its own serializer which is exposed through a Serialize method.
+        // For now I'm using JSON for serializing stuff since I want to be able to easily
+        // inspect save files. Eventually this may change to a more compact binary format
+        // or JSON that's gzipped or something.
+        json World::AsJSON() {
+            json worldAsJSON;
+
+            worldAsJSON["currentMap"] = this->currentMap->filename;
+            worldAsJSON["playerCurrentX"] = this->playerCurrentX;
+            worldAsJSON["playerCurrentY"] = this->playerCurrentY;
+            worldAsJSON["playerParty"] = json::array();
+
+            for (auto it = this->playerParty->characters.begin(); it != this->playerParty->characters.end(); ++it) {
+                json characterAsJSON;
+
+                // TODO: Serialize more stuff here. Or better yet do it in a character
+                // serializer class.
+                characterAsJSON["name"] = (*it)->GetName();
+                characterAsJSON["level"] = (*it)->GetLevel();
+                characterAsJSON["currentHitPoints"] = (*it)->GetCurrentHitPoints();
+                characterAsJSON["maxHitPoints"] = (*it)->GetMaxHitPoints();
+
+                worldAsJSON["playerParty"].push_back(characterAsJSON);
+            }
+
+            return worldAsJSON;
+        }
     }
 }

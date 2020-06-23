@@ -14,6 +14,7 @@ namespace Game {
                 ~Clock();
                 void IncrementFrameCount();
                 void StartClock(const unsigned int offset);
+                unsigned int GetFrameCount();
                 std::tuple<unsigned int, unsigned int, unsigned int> GetClockTime();
 
             private:

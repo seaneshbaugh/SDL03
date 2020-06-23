@@ -768,6 +768,8 @@
 				7B6482CC214F28FF00DE4364 /* input_manager.hpp */,
 				7B85369821485A2C00436134 /* logger_manager.cpp */,
 				7B85369921485A2C00436134 /* logger_manager.hpp */,
+				7B5E84B62485CC5E00107F32 /* save_manager.cpp */,
+				7B5E84B72485CC5E00107F32 /* save_manager.hpp */,
 				7B6482C5214F1D4600DE4364 /* settings_manager.cpp */,
 				7B6482C6214F1D4600DE4364 /* settings_manager.hpp */,
 				7B85368C214756E700436134 /* texture_manager.cpp */,
@@ -776,8 +778,6 @@
 				7B6482BD214E07D700DE4364 /* video_manager.hpp */,
 				7B85369521485A1B00436134 /* world_manager.cpp */,
 				7B85369621485A1B00436134 /* world_manager.hpp */,
-				7B5E84B62485CC5E00107F32 /* save_manager.cpp */,
-				7B5E84B72485CC5E00107F32 /* save_manager.hpp */,
 			);
 			path = implementations;
 			sourceTree = "<group>";
@@ -795,6 +795,8 @@
 				7B8536932148596E00436134 /* logger_service.hpp */,
 				7B8536822142D8B600436134 /* renderer_service.cpp */,
 				7B8536832142D8B600436134 /* renderer_service.hpp */,
+				7B5E84B32485CC4A00107F32 /* save_service.cpp */,
+				7B5E84B42485CC4A00107F32 /* save_service.hpp */,
 				7B6482C2214F19BB00DE4364 /* settings_service.cpp */,
 				7B6482C3214F19BB00DE4364 /* settings_service.hpp */,
 				7B853688214753A000436134 /* texture_service.cpp */,
@@ -805,8 +807,6 @@
 				7B6482B7214E057700DE4364 /* video_service.hpp */,
 				7B85368F2148595200436134 /* world_service.cpp */,
 				7B8536902148595200436134 /* world_service.hpp */,
-				7B5E84B32485CC4A00107F32 /* save_service.cpp */,
-				7B5E84B42485CC4A00107F32 /* save_service.hpp */,
 			);
 			path = interfaces;
 			sourceTree = "<group>";

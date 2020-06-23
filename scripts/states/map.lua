@@ -50,6 +50,8 @@ function initialize()
     player = objects.Image.new(player_sprite_name, 320, 224)
     
     math.randomseed(os.time())
+
+    map_state:step(player_current_x, player_current_y)
 end
 
 function after_map_load()
@@ -151,6 +153,8 @@ end
 function step(x, y)
     objects = current_map:getObjects(x, y)
 
+    map_state:step(x, y)
+
     for i, object in ipairs(objects) do
         object_type = object:getType()
 
@@ -165,6 +169,10 @@ function step(x, y)
 
             player_current_y = tonumber(object:getProperty("y"))
 
+            map_state:step(player_current_x, player_current_y)
+
+            -- TODO: This is probably where the bug where going into the town map and then back makes it so
+            -- the player's screen position and map position get off by 1 (32 pixel) quare is caused.
             player_screen_x_position = 320
 
             player_screen_y_position = 224

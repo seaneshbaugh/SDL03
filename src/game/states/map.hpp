@@ -22,6 +22,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y);
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
             std::string GetPlayerSpriteName();
+            void Step(unsigned int x, unsigned int y);
 
         private:
             static const std::string logChannel;

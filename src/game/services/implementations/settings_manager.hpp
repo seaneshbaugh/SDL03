@@ -6,9 +6,9 @@
 #include "SDL.h"
 #include "sqlite3.h"
 
-#include "../../../helpers/file_system.hpp"
 #include "../locator.hpp"
 #include "../interfaces/settings_service.hpp"
+#include "../../../helpers/file_system.hpp"
 
 namespace Game {
     namespace Services {

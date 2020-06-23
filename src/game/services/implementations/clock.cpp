@@ -23,6 +23,10 @@ namespace Game {
                 this->startFrame = this->frameCount;
             }
 
+            unsigned int Clock::GetFrameCount() {
+                return this->frameCount;
+            }
+
             std::tuple<unsigned int, unsigned int, unsigned int> Clock::GetClockTime() {
                 static const unsigned int framesPerMinute = 60 * Game::FRAMES_PER_SECOND;
                 static const unsigned int framesPerHour = 60 * framesPerMinute;

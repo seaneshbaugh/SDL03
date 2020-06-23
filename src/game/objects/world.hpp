@@ -1,11 +1,13 @@
 #ifndef SDL03_Game_Objects_World
 #define SDL03_Game_Objects_World
 
-#include "../services/locator.hpp"
+#include "json.hpp"
 
 #include "party.hpp"
 #include "monster.hpp"
 #include "map.hpp"
+
+using json = nlohmann::json;
 
 namespace Game {
     namespace Objects {
@@ -22,10 +24,13 @@ namespace Game {
             void UnloadEnemyParty();
             void LoadMap(const std::string& filename);
             void UnloadMap();
+            json AsJSON();
 
             std::shared_ptr<Objects::Characters::Party> playerParty;
             std::shared_ptr<Objects::Characters::Party> enemyParty;
             std::shared_ptr<Objects::Maps::Map> currentMap;
+            unsigned int playerCurrentX;
+            unsigned int playerCurrentY;
         };
     }
 }

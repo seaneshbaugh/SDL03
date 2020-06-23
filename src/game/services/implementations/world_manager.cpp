@@ -36,6 +36,11 @@ namespace Game {
 
                 return std::make_shared<States::Map>();
             }
+
+            void WorldManager::UpdatePlayerPosition(unsigned int x, unsigned int y) {
+                this->world->playerCurrentX = x;
+                this->world->playerCurrentY = y;
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ namespace Game {
                 virtual std::shared_ptr<Objects::World> GetWorld() = 0;
                 virtual void SetWorld(std::shared_ptr<Objects::World> newWorld) = 0;
                 virtual std::shared_ptr<States::Map> NewGame() = 0;
+                virtual void UpdatePlayerPosition(unsigned int x, unsigned int y) = 0;
             };
         }
     }

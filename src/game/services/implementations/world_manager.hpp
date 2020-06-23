@@ -20,6 +20,7 @@ namespace Game {
                 std::shared_ptr<Objects::World> GetWorld();
                 void SetWorld(std::shared_ptr<Objects::World> newWorld);
                 std::shared_ptr<States::Map> NewGame();
+                void UpdatePlayerPosition(unsigned int x, unsigned int y);
 
             private:
                 static const std::string logChannel;
