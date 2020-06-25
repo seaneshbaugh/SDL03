@@ -1,7 +1,7 @@
 #ifndef SDL03_Game_States_Intro
 #define SDL03_Game_States_Intro
 
-#include "LoggerCpp.h"
+#include "../../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
 
 #include "base.hpp"
 #include "main_menu.hpp"

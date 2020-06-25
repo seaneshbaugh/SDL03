@@ -1,8 +1,8 @@
 #ifndef SDL03_Game_Services_Implementations_LoggerManager
 #define SDL03_Game_Services_Implementations_LoggerManager
 
-#include "../../../helpers/file_system.hpp"
 #include "../interfaces/logger_service.hpp"
+#include "../../../helpers/file_system.hpp"
 
 namespace Game {
     namespace Services {

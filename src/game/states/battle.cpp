@@ -1,4 +1,3 @@
-#include "../objects/world.hpp"
 #include "battle.hpp"
 
 namespace Game {

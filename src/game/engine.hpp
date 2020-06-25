@@ -16,8 +16,9 @@
 #include <stack>
 #include <string>
 
-#include "SDL.h"
-#include "LoggerCpp.h"
+#include <SDL.h>
+
+#include "../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
 
 #include "../game.hpp"
 #include "services/locator.hpp"

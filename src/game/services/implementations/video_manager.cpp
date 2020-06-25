@@ -1,5 +1,4 @@
 #include "video_manager.hpp"
-#include "../../resources/texture.hpp"
 
 namespace Game {
     namespace Services {

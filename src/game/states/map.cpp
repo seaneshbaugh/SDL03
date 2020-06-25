@@ -1,4 +1,3 @@
-#include "../objects/world.hpp"
 #include "map.hpp"
 
 namespace Game {

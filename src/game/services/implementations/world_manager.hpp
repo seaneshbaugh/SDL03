@@ -3,6 +3,7 @@
 
 #include "../locator.hpp"
 #include "../interfaces/world_service.hpp"
+#include "../../states/map.hpp"
 #include "../../objects/world.hpp"
 
 namespace Game {

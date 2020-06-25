@@ -1,8 +1,8 @@
 #ifndef SDL03_Game_Resources_Texture
 #define SDL03_Game_Resources_Texture
 
-#include "SDL.h"
-#include "SDL_image.h"
+#include <SDL.h>
+#include <SDL_image.h>
 
 #include "base.hpp"
 

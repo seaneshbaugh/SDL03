@@ -4,8 +4,9 @@
 #include <memory>
 #include <string>
 
+#include "../../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
+
 #include "../services/locator.hpp"
-#include "LoggerCpp.h"
 
 namespace Game {
     namespace Resources {

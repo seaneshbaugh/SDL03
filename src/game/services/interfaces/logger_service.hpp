@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "LoggerCpp.h"
+#include "../../../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
 
 namespace Game {
     namespace Services {

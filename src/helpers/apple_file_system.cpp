@@ -76,7 +76,7 @@ namespace Helpers {
             }
         }
 
-        // Based on http://stackoverflow.com/a/29828907/329602
+        // Based on https://stackoverflow.com/a/29828907/329602
         bool CreateDirectory(std::string path, mode_t mode = 0755, bool recursive = false) {
             int result = mkdir(path.c_str(), mode);
 

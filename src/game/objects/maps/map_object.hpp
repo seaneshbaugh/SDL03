@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "SDL.h"
+#include <SDL.h>
 
 #include "../base.hpp"
 

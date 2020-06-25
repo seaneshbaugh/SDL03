@@ -1,7 +1,7 @@
 #ifndef SDL03_Game_Services_Interfaces_InputService
 #define SDL03_Game_Services_Interfaces_InputService
 
-#include "SDL.h"
+#include <SDL.h>
 
 #include "../../input_key.hpp"
 

@@ -814,10 +814,10 @@
 		7BE4737018454D0C002EA054 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				7B5E84B92486DDE200107F32 /* nlohmann */,
-				7B63C9A4246CD71600141D8B /* sol */,
 				7BE70159212FBACC00B084A5 /* LoggerCpp */,
 				7B9A6024184D3E810016BA1A /* lua */,
+				7B5E84B92486DDE200107F32 /* nlohmann */,
+				7B63C9A4246CD71600141D8B /* sol */,
 				730B27991B182841002629F8 /* sqlite */,
 			);
 			path = lib;
@@ -1200,7 +1200,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.seaneshbaugh.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
+				"SYSTEM_HEADER_SEARCH_PATHS[arch=*]" = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1224,7 +1225,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.seaneshbaugh.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
+				"SYSTEM_HEADER_SEARCH_PATHS[arch=*]" = "/Library/Frameworks/SDL2.framework/Headers /Library/Frameworks/SDL2_image.framework/Headers /Library/Frameworks/SDL2_mixer.framework/Headers /Library/Frameworks/SDL2_ttf.framework/Headers";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

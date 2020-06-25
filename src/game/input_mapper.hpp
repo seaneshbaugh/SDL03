@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "SDL.h"
+#include <SDL.h>
 
 #include "input_key.hpp"
 #include "services/locator.hpp"

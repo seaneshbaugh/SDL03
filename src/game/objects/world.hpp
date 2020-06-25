@@ -1,11 +1,11 @@
 #ifndef SDL03_Game_Objects_World
 #define SDL03_Game_Objects_World
 
-#include "json.hpp"
+#include "../../../lib/nlohmann/json.hpp"
 
-#include "party.hpp"
-#include "monster.hpp"
-#include "map.hpp"
+#include "characters/party.hpp"
+#include "characters/monster.hpp"
+#include "maps/map.hpp"
 
 using json = nlohmann::json;
 

@@ -1,8 +1,8 @@
 #ifndef SDL03_Game_Services_Implementations_AudioManager
 #define SDL03_Game_Services_Implementations_AudioManager
 
-#include "SDL.h"
-#include "SDL_mixer.h"
+#include <SDL.h>
+#include <SDL_mixer.h>
 
 #include "../locator.hpp"
 #include "../interfaces/audio_service.hpp"

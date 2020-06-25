@@ -1,9 +1,8 @@
 #ifndef SDL03_Game_Resources_Sound
 #define SDL03_Game_Resources_Sound
 
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "LoggerCpp.h"
+#include <SDL.h>
+#include <SDL_mixer.h>
 
 #include "base.hpp"
 

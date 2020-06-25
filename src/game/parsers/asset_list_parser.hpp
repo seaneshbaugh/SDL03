@@ -4,8 +4,8 @@
 #include <map>
 #include <string>
 
-#include "LoggerCpp.h"
-#include "json.hpp"
+#include "../../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
+#include "../../../lib/nlohmann/json.hpp"
 
 #include "../services/locator.hpp"
 

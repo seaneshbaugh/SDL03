@@ -3,6 +3,7 @@
 
 #include "../locator.hpp"
 #include "../interfaces/video_service.hpp"
+#include "../../resources/texture.hpp"
 
 namespace Game {
     namespace Resources {

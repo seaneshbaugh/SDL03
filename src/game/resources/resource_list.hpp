@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "json.hpp"
+#include "../../../lib/nlohmann/json.hpp"
 
 #include "../services/locator.hpp"
 

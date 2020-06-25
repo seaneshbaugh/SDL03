@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "SDL.h"
+#include <SDL.h>
 
 namespace Game {
     namespace Resources {

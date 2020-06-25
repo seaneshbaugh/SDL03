@@ -4,12 +4,13 @@
 #include <map>
 #include <utility>
 
-#include "SDL.h"
-#include "SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 
-#include "../../../helpers/file_system.hpp"
-#include "../../parsers/asset_list_parser.hpp"
 #include "../interfaces/font_service.hpp"
+#include "../../resources/font.hpp"
+#include "../../parsers/asset_list_parser.hpp"
+#include "../../../helpers/file_system.hpp"
 
 namespace Game {
     namespace Services {

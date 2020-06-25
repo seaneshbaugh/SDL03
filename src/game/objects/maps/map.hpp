@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "LoggerCpp.h"
-#include "json.hpp"
+#include "../../../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
+#include "../../../../lib/nlohmann/json.hpp"
 
 #include "../../../helpers/file_system.hpp"
 #include "../../../helpers/path.hpp"

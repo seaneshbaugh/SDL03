@@ -1,4 +1,3 @@
-#include "../../states/map.hpp"
 #include "world_manager.hpp"
 
 namespace Game {

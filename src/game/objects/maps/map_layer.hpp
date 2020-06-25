@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "../base.hpp"
 #include "map_object.hpp"
 
 namespace Game {

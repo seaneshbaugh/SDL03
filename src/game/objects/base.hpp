@@ -2,12 +2,12 @@
 #define SDL03_Game_Objects_Base
 
 #include <memory>
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-#include "sol.hpp"
 
-#include "LoggerCpp.h"
+#include "../../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
+#include "../../../lib/lua/src/lua.h"
+#include "../../../lib/lua/src/lualib.h"
+#include "../../../lib/lua/src/lauxlib.h"
+#include "../../../lib/sol/sol.hpp"
 
 namespace Game {
     namespace Objects {

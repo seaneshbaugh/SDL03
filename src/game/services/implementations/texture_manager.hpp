@@ -3,17 +3,17 @@
 
 #include <utility>
 
-#include "SDL.h"
-#include "SDL_image.h"
+#include <SDL.h>
+#include <SDL_image.h>
 
-#include "../../states/base.hpp"
 #include "../locator.hpp"
 #include "../interfaces/texture_service.hpp"
+#include "../../resources/texture.hpp"
 
 namespace Game {
     namespace Services {
         namespace Implementations {
-            class TextureManager : public Interfaces::TextureService /*, public ResourceManager<Resources::Texture>*/ {
+            class TextureManager : public Interfaces::TextureService {
             public:
                 TextureManager();
                 ~TextureManager();

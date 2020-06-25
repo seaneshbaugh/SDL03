@@ -1,11 +1,17 @@
 #ifndef SDL03_Game_Resources_Font
 #define SDL03_Game_Resources_Font
 
-#include "SDL_ttf.h"
+#include <SDL_ttf.h>
+
 #include "base.hpp"
-#include "../services/implementations/font_manager.hpp"
 
 namespace Game {
+    namespace Services {
+        namespace Implementations {
+            class FontManager;
+        }
+    }
+
     namespace Resources {
         class Font : public Base {
         public:

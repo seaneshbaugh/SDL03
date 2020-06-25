@@ -3,8 +3,9 @@
 
 #include <map>
 
-#include "SDL.h"
-#include "sqlite3.h"
+#include <SDL.h>
+
+#include "../../../../lib/sqlite/sqlite3.h"
 
 #include "../locator.hpp"
 #include "../interfaces/settings_service.hpp"

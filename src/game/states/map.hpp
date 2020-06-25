@@ -5,6 +5,7 @@
 #include "pause_menu.hpp"
 #include "battle.hpp"
 #include "../objects/maps/map.hpp"
+#include "../objects/world.hpp"
 
 namespace Game {
     namespace States {

@@ -5,18 +5,19 @@
 #include <string>
 #include <vector>
 
-#include "SDL.h"
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-#include "sol.hpp"
+#include <SDL.h>
 
-#include "../../helpers/file_system.hpp"
+#include "../../../lib/lua/src/lua.h"
+#include "../../../lib/lua/src/lualib.h"
+#include "../../../lib/lua/src/lauxlib.h"
+#include "../../../lib/sol/sol.hpp"
+
 #include "../resources/texture.hpp"
 #include "../resources/sound.hpp"
 #include "../resources/song.hpp"
 #include "../parsers/asset_list_parser.hpp"
 #include "../objects/text.hpp"
+#include "../../helpers/file_system.hpp"
 
 namespace Game {
     namespace States {

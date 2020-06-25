@@ -1,4 +1,3 @@
-#include "../../resources/font.hpp"
 #include "font_manager.hpp"
 
 namespace Game {
