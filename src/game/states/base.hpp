@@ -7,10 +7,13 @@
 
 #include <SDL.h>
 
-// #include "../../../lib/lua/src/lua.h"
-// #include "../../../lib/lua/src/lualib.h"
-// #include "../../../lib/lua/src/lauxlib.h"
+#ifdef __APPLE__
+#include "../../../lib/lua/src/lua.h"
+#include "../../../lib/lua/src/lualib.h"
+#include "../../../lib/lua/src/lauxlib.h"
+#else
 #include "../../../lib/lua/src/lua.hpp"
+#endif
 #include "../../../lib/sol/sol.hpp"
 
 #include "../resources/texture.hpp"

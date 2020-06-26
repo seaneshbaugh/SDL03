@@ -4,10 +4,13 @@
 #include <memory>
 
 #include "../../../lib/LoggerCpp/include/LoggerCpp/LoggerCpp.h"
-// #include "../../../lib/lua/src/lua.h"
-// #include "../../../lib/lua/src/lualib.h"
-// #include "../../../lib/lua/src/lauxlib.h"
+#ifdef __APPLE__
+#include "../../../lib/lua/src/lua.h"
+#include "../../../lib/lua/src/lualib.h"
+#include "../../../lib/lua/src/lauxlib.h"
+#else
 #include "../../../lib/lua/src/lua.hpp"
+#endif
 #include "../../../lib/sol/sol.hpp"
 
 namespace Game {
