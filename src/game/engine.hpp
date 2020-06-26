@@ -5,7 +5,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/param.h>
 #elif _WIN32
-#error Windows is not yet supported.
+// Nothing to include for now.
 #elif __linux
 #error Linux is not yet supported.
 #else

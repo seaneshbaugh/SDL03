@@ -4,7 +4,7 @@
 #ifdef __APPLE__
 #include "apple_file_system.hpp"
 #elif _WIN32
-#error Windows is not yet supported.
+#include "windows_file_system.hpp"
 #elif __linux
 #error Linux is not yet supported.
 #else

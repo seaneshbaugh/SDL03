@@ -41,6 +41,7 @@ namespace Game {
         return 0;
     }
 
+    // TODO: Put each OS's version of Engine::StartSystem in its own method.
     void Engine::StartSystem() {
 #ifdef __APPLE__
         char resourceDirectory[MAXPATHLEN];
@@ -49,7 +50,7 @@ namespace Game {
             chdir(resourceDirectory);
         }
 #elif _WIN32
-#error Windows is not yet supported.
+        // For now nothing to do.
 #elif __linux
 #error Linux is not yet supported.
 #else

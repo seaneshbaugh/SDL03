@@ -2,6 +2,7 @@
 #define SDL03_Game_Services_Interfaces_FontService
 
 #include <memory>
+#include <string>
 
 namespace Game {
     namespace Resources {

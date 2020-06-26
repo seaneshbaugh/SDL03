@@ -2,6 +2,7 @@
 #define SDL03_Helpers_String
 
 #include <numeric>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
