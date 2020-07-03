@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextobjectid="7">
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="7">
  <tileset firstgid="1" name="Tiles" tilewidth="32" tileheight="32" tilecount="5" columns="0">
   <tile id="0">
    <properties>
@@ -37,7 +37,7 @@
    <image width="32" height="32" source="../../assets/images/map_tiles/brick-1.png"/>
   </tile>
  </tileset>
- <layer name="base_terrain" width="100" height="100">
+ <layer id="1" name="base_terrain" width="100" height="100">
   <data>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -10041,7 +10041,7 @@
    <tile gid="2"/>
   </data>
  </layer>
- <layer name="walkability" width="100" height="100" opacity="0.2">
+ <layer id="2" name="walkability" width="100" height="100" opacity="0.2">
   <data>
    <tile gid="4"/>
    <tile gid="4"/>
@@ -20045,7 +20045,7 @@
    <tile gid="3"/>
   </data>
  </layer>
- <layer name="objects" width="100" height="100">
+ <layer id="3" name="objects" width="100" height="100">
   <data>
    <tile/>
    <tile/>
@@ -30049,7 +30049,7 @@
    <tile/>
   </data>
  </layer>
- <objectgroup name="load_points">
+ <objectgroup id="4" name="load_points">
   <object id="1" type="map" x="96" y="0" width="32" height="32">
    <properties>
     <property name="map" value="world01"/>

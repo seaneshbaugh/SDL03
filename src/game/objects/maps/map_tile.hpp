@@ -14,6 +14,8 @@ namespace Game {
                 int id;
                 std::string filename;
                 std::string name;
+                unsigned int width;
+                unsigned int height;
                 std::shared_ptr<Resources::Texture> texture;
 
                 MapTile();

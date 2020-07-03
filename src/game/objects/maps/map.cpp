@@ -57,9 +57,15 @@ namespace Game {
             bool Map::Load(const std::string& filename) {
                 this->logger->info() << "Loading map \"" << filename << "\".";
 
+                this->filename = filename;
+
+                this->name = Helpers::Path::BaseName(this->filename, true);
+
                 std::string jsonString;
 
                 if (!Helpers::FileSystem::ReadFile(filename, jsonString)) {
+                    this->logger->error() << "Failed to load map.";
+
                     return false;
                 }
 
@@ -82,10 +88,6 @@ namespace Game {
 
                     return false;
                 }
-
-                this->filename = filename;
-
-                this->SetNameFromFilename();
 
                 this->logger->info() << "Map loaded.";
 
@@ -171,10 +173,6 @@ namespace Game {
                 }
             }
 
-            void Map::SetNameFromFilename() {
-                this->name = Helpers::Path::BaseName(this->filename, true);
-            }
-
             const std::string Map::Parser::logChannel = "json";
 
             Map::Parser::Parser() {
@@ -184,22 +182,31 @@ namespace Game {
             Map::Parser::~Parser() {
             }
 
+            // TODO: Strongly consider making ALL parse methods take a json node as an argument
+            // instead of a string. Turning a string into a json node, while technically "parsing"
+            // isn't the "parsing" I have in mind here. This would allow for a greater amount of
+            // consistency between parsing functions and make moving them into their own nested
+            // classes easier. The Map::Parser shouldn't need to know anything about what it means
+            // to parse a MapLayer. A hypothetical MapLayer::Parser should be able to handle that
+            // and have a cosnsitent interface with a hypothetical MapObject::Parser class.
             void Map::Parser::Parse(const std::string& jsonString, std::shared_ptr<Map> map) {
                 this->logger->debug() << "Parsing map file.";
 
+                this->mapName = map->name;
+
                 json mapNode = json::parse(jsonString);
+
+                map->tilewidth = mapNode["tilewidth"].get<int>();
+                map->tileheight = mapNode["tileheight"].get<int>();
+                map->width = mapNode["width"].get<int>();
+                map->height = mapNode["height"].get<int>();
+
+                this->tilewidth = map->tilewidth;
+                this->tileheight = map->tileheight;
 
                 map->layers = this->ParseLayers(mapNode["layers"]);
 
                 map->tiles = this->ParseTilesets(mapNode["tilesets"]);
-
-                map->width = mapNode["width"].get<int>();
-
-                map->height = mapNode["height"].get<int>();
-
-                map->tilewidth = mapNode["tilewidth"].get<int>();
-
-                map->tileheight = mapNode["tileheight"].get<int>();
 
                 this->logger->debug() << "Parsed map file.";
             }
@@ -247,84 +254,128 @@ namespace Game {
                 }
             }
 
-            void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
-                this->logger->debug() << "Parsing layer objects";
+            std::vector<std::shared_ptr<MapEncounterArea>> Map::Parser::ParseEncounterAreas(const json& node) {
+                std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas;
 
-                for (auto i = node.begin();  i != node.end(); ++i) {
-                    // TODO: Break this out into its own method.
-                    if (layer->name == "encounter_areas") {
-                        this->logger->debug() << "Creating encounter area.";
+                for (auto i = node.begin(); i != node.end(); ++i) {
+                    this->logger->info() << "Creating encounter area.";
 
-                        // TODO: Figure out a better way to handle this. Obviously hard coding the map name is bogus.
-                        std::string filename = "resources/encounter_areas/world01-" + (*i)["properties"]["name"].get<std::string>() + ".json";
+                    std::map<std::string, std::string> properties;
 
-                        std::shared_ptr<MapEncounterArea> encounterArea = std::make_shared<MapEncounterArea>(filename);
+                    for  (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                        const std::string name = (*j)["name"].get<std::string>();
+                        const std::string value = (*j)["value"].get<std::string>();
 
-                        // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
-                        // TODO: Use map tileheight and tilewidth.
-                        encounterArea->SetType((*i)["type"].get<std::string>());
-                        encounterArea->x = (*i)["x"].get<int>() / 32;
-                        encounterArea->y = (*i)["y"].get<int>() / 32;
-                        encounterArea->width = (*i)["width"].get<int>() / 32;
-                        encounterArea->height = (*i)["height"].get<int>() / 32;
-
-                        std::map<std::string, std::string> properties;
-
-                        for  (auto k = (*i)["properties"].begin(); k != (*i)["properties"].end(); ++k) {
-                            properties[k.key()] = k->get<std::string>();
-                        }
-
-                        encounterArea->SetProperties(properties);
-
-                        layer->objects.push_back(encounterArea);
-                    } else if (layer->name == "load_points") {
-                        this->logger->debug() << "Creating load point.";
-
-                        std::shared_ptr<MapLoadPoint> loadPoint = std::make_shared<MapLoadPoint>();
-
-                        // For some reason Tiled exports the coordinates as pixels. Divide by 32, for now, to get the coordinates.
-                        // TODO: Use map tileheight and tilewidth.
-                        loadPoint->SetType((*i)["type"].get<std::string>());
-                        loadPoint->x = (*i)["x"].get<int>() / 32;
-                        loadPoint->y = (*i)["y"].get<int>() / 32;
-                        loadPoint->width = (*i)["width"].get<int>() / 32;
-                        loadPoint->height = (*i)["height"].get<int>() / 32;
-
-                        std::map<std::string, std::string> properties;
-
-                        for  (auto k = (*i)["properties"].begin(); k != (*i)["properties"].end(); ++k) {
-                            properties[k.key()] = k->get<std::string>();
-                        }
-
-                        loadPoint->SetProperties(properties);
-
-                        layer->objects.push_back(loadPoint);
-                    } else {
-                        throw;
+                        properties[name] = value;
                     }
+
+                    std::string filename = "resources/encounter_areas/" + this->mapName + "-" + properties["name"] + ".json";
+
+                    std::shared_ptr<MapEncounterArea> encounterArea = std::make_shared<MapEncounterArea>(filename);
+
+                    encounterArea->SetType((*i)["type"].get<std::string>());
+                    encounterArea->x = (*i)["x"].get<int>() / this->tilewidth;
+                    encounterArea->y = (*i)["y"].get<int>() / this->tileheight;
+                    encounterArea->width = (*i)["width"].get<int>() / this->tilewidth;
+                    encounterArea->height = (*i)["height"].get<int>() / this->tileheight;
+
+                    encounterArea->SetProperties(properties);
+
+                    encounterAreas.push_back(encounterArea);
+                }
+
+                return encounterAreas;
+            }
+
+            std::vector<std::shared_ptr<MapLoadPoint>> Map::Parser::ParseLoadPoints(const json& node) {
+                std::vector<std::shared_ptr<MapLoadPoint>> loadPoints;
+
+                for (auto i = node.begin(); i != node.end(); ++i) {
+                    this->logger->debug() << "Creating load point.";
+
+                    std::shared_ptr<MapLoadPoint> loadPoint = std::make_shared<MapLoadPoint>();
+
+                    std::map<std::string, std::string> properties;
+
+                    for  (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                        const std::string name = (*j)["name"].get<std::string>();
+                        const std::string value = (*j)["value"].get<std::string>();
+
+                        properties[name] = value;
+                    }
+
+                    loadPoint->SetType((*i)["type"].get<std::string>());
+                    loadPoint->x = (*i)["x"].get<int>() / this->tilewidth;
+                    loadPoint->y = (*i)["y"].get<int>() / this->tileheight;
+                    loadPoint->width = (*i)["width"].get<int>() / this->tilewidth;
+                    loadPoint->height = (*i)["height"].get<int>() / this->tileheight;
+
+                    loadPoint->SetProperties(properties);
+
+                    loadPoints.push_back(loadPoint);
+                }
+
+                return loadPoints;
+            }
+
+            // TODO: Figure out a better way to handle this. Maybe some sort of map between layer name
+            // (which should really layer type as some sort of enum) and a parsing function. This
+            // works for now.
+            void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
+                if (layer->name == "encounter_areas") {
+                    this->logger->debug() << "Parsing encounter area layer objects.";
+
+                    std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas = this->ParseEncounterAreas(node);
+
+                    layer->objects.insert(layer->objects.end(), encounterAreas.begin(), encounterAreas.end());
+                } else if (layer->name == "load_points") {
+                    this->logger->debug() << "Parsing load point layer objects.";
+
+                    std::vector<std::shared_ptr<MapLoadPoint>> loadPoints = this->ParseLoadPoints(node);
+
+                    layer->objects.insert(layer->objects.end(), loadPoints.begin(), loadPoints.end());
+                } else {
+                    // TODO: Maybe just skip unknown object layer types? I can see a possible need for
+                    // layers of objects that are only used for the map editor or for some other sort
+                    // of informational purpose (comments? notes?) that aren't used by the game. But
+                    // that thought makes me think that maybe I need some sort of asset pipeline to
+                    // take the raw assets and strip them down and condition them for final use. But
+                    // in that case why use JSON and not some sort of custom binary format that closely
+                    // mirrors how things laid out at runtime? I dunno.
+                    throw std::runtime_error("Unknown map object layer type.");
                 }
             }
 
             std::map<int, std::shared_ptr<Objects::Maps::MapTile>> Map::Parser::ParseTileset(const json& node) {
                 std::vector<std::shared_ptr<MapTile>> tiles;
 
-                for (auto it = node["tileproperties"].begin(); it != node["tileproperties"].end(); ++it) {
+                for (auto i = node["tiles"].begin(); i != node["tiles"].end(); ++i) {
                     std::shared_ptr<MapTile> tile = std::make_shared<MapTile>();
 
-                    tile->filename = (*it)["filename"].get<std::string>();
+                    std::map<std::string, std::string> properties;
 
-                    tile->name = (*it)["name"].get<std::string>();
+                    for  (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                        const std::string name = (*j)["name"].get<std::string>();
+                        const std::string value = (*j)["value"].get<std::string>();
+
+                        properties[name] = value;
+                    }
+
+                    tile->filename = properties["filename"];
+                    tile->name = properties["name"];
+                    tile->width = (*i)["imagewidth"];
+                    tile->height = (*i)["imageheight"];
 
                     tiles.push_back(tile);
                 }
 
-                int GID = node["firstgid"].get<int>();
+                int gid = node["firstgid"].get<int>();
                 std::map <int, std::shared_ptr<MapTile>> result;
 
-                for (auto it = tiles.begin(); it != tiles.end(); it++) {
-                    result[GID] = *it;
+                for (auto it = tiles.begin(); it != tiles.end(); ++it) {
+                    result[gid] = *it;
 
-                    GID++;
+                    gid++;
                 }
 
                 return result;

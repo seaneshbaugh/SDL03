@@ -56,9 +56,6 @@ namespace Game {
             private:
                 static const std::string logChannel;
 
-                // TODO: Reconsider this function.
-                void SetNameFromFilename();
-
                 class Parser {
                 public:
                     Parser();
@@ -69,10 +66,16 @@ namespace Game {
                     static const std::string logChannel;
 
                     std::shared_ptr<Log::Logger> logger;
+                    std::string mapName;
+                    int tilewidth;
+                    int tileheight;
+
                     std::shared_ptr<MapLayer> ParseLayer(const json& node);
                     std::vector<std::shared_ptr<MapLayer>> ParseLayers(const json& node);
                     void ParseLayerData(const json& node, std::shared_ptr<MapLayer> layer);
                     void ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer);
+                    std::vector<std::shared_ptr<MapEncounterArea>> ParseEncounterAreas(const json& node);
+                    std::vector<std::shared_ptr<MapLoadPoint>> ParseLoadPoints(const json& node);
                     std::map<int, std::shared_ptr<MapTile>> ParseTileset(const json& node);
                     std::map<int, std::shared_ptr<MapTile>> ParseTilesets(const json& node);
                 };
