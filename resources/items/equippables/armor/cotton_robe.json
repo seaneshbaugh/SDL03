@@ -1,0 +1,8 @@
+{
+    "id": "cotton_robe",
+    "name": "Cotton Robe",
+    "type": "armor",
+    "subtype": "cloth",
+    "defense": 2,
+    "weight": 0.6
+}

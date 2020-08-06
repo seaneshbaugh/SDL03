@@ -1,0 +1,10 @@
+{
+    "lesser_health_potion": "resources/items/consumables/lesser_health_potion.json",
+    "health_potion": "resources/items/consumables/health_potion.json",
+    "bronze_dagger": "resources/items/equippables/weapons/bronze_dagger.json",
+    "oak_staff": "resources/items/equippables/weapons/oak_staff.json",
+    "cotton_robe": "resources/items/equippables/armor/cotton_robe.json",
+    "cotton_hood": "resources/items/equippables/armor/cotton_hood.json",
+    "leather_jerkin": "resources/items/equippables/armor/leather_jerkin.json",
+    "leather_helm": "resources/items/equippables/armor/leather_helm.json"
+}

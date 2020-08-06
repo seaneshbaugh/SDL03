@@ -26,6 +26,7 @@
 #include "services/implementations/clock.hpp"
 #include "services/implementations/font_manager.hpp"
 #include "services/implementations/input_manager.hpp"
+#include "services/implementations/item_manager.hpp"
 #include "services/implementations/logger_manager.hpp"
 #include "services/implementations/settings_manager.hpp"
 #include "services/implementations/texture_manager.hpp"
@@ -58,6 +59,7 @@ namespace Game {
         void StartFontService();
         void StartAudioService();
         void StartInputService();
+        void StartItemService();
         void StartWorldService();
         void StartSaveService();
         void MainLoop();
@@ -65,6 +67,7 @@ namespace Game {
         void DestroyStates();
         void StopSaveService();
         void StopWorldService();
+        void StopItemService();
         void StopInputService();
         void StopAudioService();
         void StopFontService();

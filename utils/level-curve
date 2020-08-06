@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+puts ([0] + (1..98)
+  .map { |x| (450.0 * Math.exp(0.1739 * x)).ceil(-1) - 460 })
+  .map(&:to_s)
+  .each_slice(10)
+  .map { |s| s.join(', ') }
+  .join(",\n")

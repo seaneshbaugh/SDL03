@@ -1,0 +1,8 @@
+{
+    "id": "leather_helm",
+    "name": "Leather Helm",
+    "type": "armor",
+    "subtype": "leather",
+    "defense": 2,
+    "weight": 0.3
+}

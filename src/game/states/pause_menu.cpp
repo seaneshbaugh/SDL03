@@ -61,6 +61,23 @@ namespace Game {
             (*this->luaState.get())["render"]();
         }
 
+        Objects::Characters::Party PauseMenu::GetParty() {
+            return *Services::Locator::WorldService()->GetWorld()->playerParty;
+        }
+
+        std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> PauseMenu::GetPartyCharacters() {
+            std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> result;
+
+            std::transform(Services::Locator::WorldService()->GetWorld()->playerParty->characters.begin(),
+                           Services::Locator::WorldService()->GetWorld()->playerParty->characters.end(),
+                           std::back_inserter(result),
+                           [](std::shared_ptr<Objects::Characters::Base> playerCharacter) {
+                               return std::static_pointer_cast<Objects::Characters::PlayerCharacter>(playerCharacter);
+                           });
+
+            return result;
+        }
+
         std::tuple<unsigned int, unsigned int, unsigned int> PauseMenu::GetClockTime() {
             return Services::Locator::TimeService()->GetClockTime();
         }
@@ -68,10 +85,14 @@ namespace Game {
         void PauseMenu::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 
-            this->luaState->open_libraries(sol::lib::string);
+            this->luaState->open_libraries(sol::lib::math, sol::lib::string);
 
             Objects::Text::LuaInterface::Bind(this->luaState);
             Objects::Image::LuaInterface::Bind(this->luaState);
+            Objects::Characters::Party::LuaInterface::Bind(this->luaState);
+            Objects::Characters::PlayerCharacter::LuaInterface::Bind(this->luaState);
+            Objects::Items::Inventory::LuaInterface::Bind(this->luaState);
+            Objects::Items::Consumable::LuaInterface::Bind(this->luaState);
             PauseMenu::LuaInterface::Bind(this->luaState);
 
             this->luaState->set("pause_menu_state", this);
@@ -93,6 +114,8 @@ namespace Game {
                                            sol::no_constructor,
                                            "pop", &PauseMenu::Pop,
                                            "processInput", static_cast<std::string (PauseMenu::*)(const int)>(&PauseMenu::ProcessInput),
+                                           "getParty", &PauseMenu::GetParty,
+                                           "getPartyCharacters", &PauseMenu::GetPartyCharacters,
                                            "getClockTime", &PauseMenu::GetClockTime
                                            );
         }

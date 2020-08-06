@@ -4,6 +4,7 @@
 #include "../../../lib/nlohmann/json.hpp"
 
 #include "characters/party.hpp"
+#include "characters/player_character.hpp"
 #include "characters/monster.hpp"
 #include "maps/map.hpp"
 

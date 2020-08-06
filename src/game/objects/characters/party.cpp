@@ -4,6 +4,7 @@ namespace Game {
     namespace Objects {
         namespace Characters {
             Party::Party() {
+                this->inventory = std::make_shared<Items::Inventory>();
             }
 
             Party::~Party() {
@@ -11,6 +12,10 @@ namespace Game {
 
             std::shared_ptr<Characters::Base> Party::GetLeader() {
                 return this->leader;
+            }
+
+            std::shared_ptr<Items::Inventory> Party::GetInventory() {
+                return this->inventory;
             }
 
             std::shared_ptr<Characters::Base> Party::SetLeader(const int index) {
@@ -27,7 +32,8 @@ namespace Game {
 
                 characters.new_usertype<Party>("Party",
                                                sol::no_constructor,
-                                               "setLeader", &Party::SetLeader
+                                               "setLeader", &Party::SetLeader,
+                                               "getInventory", &Party::GetInventory
                                                );
             }
         }

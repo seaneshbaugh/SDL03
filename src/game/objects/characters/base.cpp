@@ -295,41 +295,6 @@ namespace Game {
                 character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode["sprite"].get<std::string>());
                 character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode["spritesheet"].get<std::string>());
             }
-
-            void Base::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
-                sol::table objects = (*luaState.get())["objects"].get_or_create<sol::table>(sol::new_table());
-
-                sol::table characters = objects["characters"].get_or_create<sol::table>(sol::new_table());
-
-                characters.new_usertype<Base>("Base",
-                                              sol::constructors<Base()>(),
-                                              "getName", &Base::GetName,
-                                              "setName", &Base::SetName,
-                                              "getLevel", &Base::GetLevel,
-                                              "setLevel", &Base::SetLevel,
-                                              "getCurrentHitPoints", &Base::GetCurrentHitPoints,
-                                              "setCurrentHitPoints", &Base::SetCurrentHitPoints,
-                                              "getMaxHitPoints", &Base::GetMaxHitPoints,
-                                              "setMaxHitPoints", &Base::SetMaxHitPoints,
-                                              "getCurrentMagicPoints", &Base::GetCurrentMagicPoints,
-                                              "setCurrentMagicPoints", &Base::SetCurrentMagicPoints,
-                                              "getMaxMagicPoints", &Base::GetMaxMagicPoints,
-                                              "setMaxMagicPoints", &Base::SetMaxMagicPoints,
-                                              "getStrength", &Base::GetStrength,
-                                              "getDexterity", &Base::GetDexterity,
-                                              "getIntelligence", &Base::GetIntelligence,
-                                              "atbStart", &Base::ATBStart,
-                                              "damage", sol::overload(
-                                                                      static_cast<unsigned long long int (Base::*)(const unsigned long long int)>(&Base::Damage),
-                                                                      static_cast<unsigned long long int (Base::*)(const unsigned long long int, const bool)>(&Base::Damage)
-                                                                      ),
-                                              "heal", sol::overload(
-                                                                    static_cast<unsigned long long int (Base::*)(const unsigned long long int)>(&Base::Heal),
-                                                                    static_cast<unsigned long long int (Base::*)(const unsigned long long int, const bool)>(&Base::Heal)
-                                                                      ),
-                                              "render", &Base::Render
-                                              );
-            }
         }
     }
 }

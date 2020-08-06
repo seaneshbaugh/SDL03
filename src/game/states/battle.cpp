@@ -54,8 +54,17 @@ namespace Game {
             (*this->luaState.get())["render"]();
         }
 
-        std::vector<std::shared_ptr<Objects::Characters::Base>> Battle::GetParty() {
-            return Services::Locator::WorldService()->GetWorld()->playerParty->characters;
+        std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> Battle::GetParty() {
+            std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> result;
+
+            std::transform(Services::Locator::WorldService()->GetWorld()->playerParty->characters.begin(),
+                           Services::Locator::WorldService()->GetWorld()->playerParty->characters.end(),
+                           std::back_inserter(result),
+                           [](std::shared_ptr<Objects::Characters::Base> playerCharacter) {
+                               return std::static_pointer_cast<Objects::Characters::PlayerCharacter>(playerCharacter);
+                           });
+
+            return result;
         }
 
         std::vector<std::shared_ptr<Objects::Characters::Monster>> Battle::GetMonsters() {
@@ -78,7 +87,7 @@ namespace Game {
 
             Objects::Text::LuaInterface::Bind(this->luaState);
             Objects::Image::LuaInterface::Bind(this->luaState);
-            Objects::Characters::Base::LuaInterface::Bind(this->luaState);
+            Objects::Characters::PlayerCharacter::LuaInterface::Bind(this->luaState);
             Objects::Characters::Monster::LuaInterface::Bind(this->luaState);
             Battle::LuaInterface::Bind(this->luaState);
 

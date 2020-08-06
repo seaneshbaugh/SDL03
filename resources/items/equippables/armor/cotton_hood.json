@@ -1,0 +1,8 @@
+{
+    "id": "cotton_hood",
+    "name": "Cotton Hood",
+    "type": "armor",
+    "subtype": "cloth",
+    "defense": 1,
+    "weight": 0.1
+}

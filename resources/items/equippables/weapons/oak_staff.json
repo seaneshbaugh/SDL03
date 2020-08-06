@@ -1,0 +1,8 @@
+{
+    "id": "oak_staff",
+    "name": "Oak Staff",
+    "type": "weapon",
+    "subtype": "staff",
+    "damage": [2, 4],
+    "speed": 1.0
+}

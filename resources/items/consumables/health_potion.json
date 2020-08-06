@@ -1,0 +1,11 @@
+{
+    "id": "health_potion",
+    "name": "Health Potion",
+    "type": "consumable",
+    "subtype": "restorative",
+    "sortOrder": 1,
+    "flags": {
+        "stealable": true
+    },
+    "script": "scripts/items/consumables/health_potion.lua"
+}

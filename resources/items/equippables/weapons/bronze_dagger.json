@@ -1,0 +1,8 @@
+{
+    "id": "bronze_dagger",
+    "name": "Bronze Dagger",
+    "type": "weapon",
+    "subtype": "knife",
+    "damage": [1, 5],
+    "speed": 2.0
+}

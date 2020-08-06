@@ -1,0 +1,8 @@
+{
+    "id": "leather_jerkin",
+    "name": "Leather Jerkin",
+    "type": "armor",
+    "subtype": "leather",
+    "defense": 4,
+    "weight": 0.8
+}

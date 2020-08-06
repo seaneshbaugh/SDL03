@@ -5,7 +5,7 @@
 
 #include "base.hpp"
 #include "../objects/image.hpp"
-#include "../objects/characters/base.hpp"
+#include "../objects/characters/player_character.hpp"
 #include "../objects/characters/monster.hpp"
 #include "../objects/maps/map_encounter_area.hpp"
 #include "../objects/world.hpp"
@@ -24,7 +24,7 @@ namespace Game {
             std::shared_ptr<Base> Update(const SDL_Event& event);
             std::string ProcessInput(const int key);
             void Render();
-            std::vector<std::shared_ptr<Objects::Characters::Base>> GetParty();
+            std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> GetParty();
             std::vector<std::shared_ptr<Objects::Characters::Monster>> GetMonsters();
 
         private:

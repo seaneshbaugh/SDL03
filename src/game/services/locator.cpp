@@ -5,6 +5,7 @@ namespace Game {
         std::shared_ptr<Interfaces::AudioService> Locator::audioService = nullptr;
         std::shared_ptr<Interfaces::FontService> Locator::fontService = nullptr;
         std::shared_ptr<Interfaces::InputService> Locator::inputService = nullptr;
+        std::shared_ptr<Interfaces::ItemService> Locator::itemService = nullptr;
         std::shared_ptr<Interfaces::LoggerService> Locator::loggerService = nullptr;
         std::shared_ptr<Interfaces::SettingsService> Locator::settingsService = nullptr;
         std::shared_ptr<Interfaces::TextureService> Locator::textureService = nullptr;
@@ -23,6 +24,10 @@ namespace Game {
 
         std::shared_ptr<Interfaces::InputService> Locator::InputService() {
             return Locator::inputService;
+        }
+
+        std::shared_ptr<Interfaces::ItemService> Locator::ItemService() {
+            return Locator::itemService;
         }
 
         std::shared_ptr<Interfaces::LoggerService> Locator::LoggerService() {
@@ -63,6 +68,10 @@ namespace Game {
 
         void Locator::ProvideService(std::shared_ptr<Interfaces::InputService> inputService) {
             Locator::inputService = inputService;
+        }
+
+        void Locator::ProvideService(std::shared_ptr<Interfaces::ItemService> itemService) {
+            Locator::itemService = itemService;
         }
 
         void Locator::ProvideService(std::shared_ptr<Interfaces::LoggerService> loggerService) {
@@ -108,6 +117,12 @@ namespace Game {
         void Locator::StopInputService() {
             if (Locator::inputService != nullptr) {
                 Locator::inputService.reset();
+            }
+        }
+
+        void Locator::StopItemService() {
+            if (Locator::itemService != nullptr) {
+                Locator::itemService.reset();
             }
         }
 

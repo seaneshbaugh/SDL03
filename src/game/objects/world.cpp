@@ -23,19 +23,27 @@ namespace Game {
 
             this->playerParty = std::make_shared<Objects::Characters::Party>();
 
-            std::shared_ptr<Objects::Characters::Base> sean = std::make_shared<Objects::Characters::Base>();
+            std::shared_ptr<Objects::Characters::PlayerCharacter> sean = std::make_shared<Objects::Characters::PlayerCharacter>();
 
             sean->Load("resources/characters/character01.json");
 
             this->playerParty->characters.push_back(sean);
 
-            std::shared_ptr<Objects::Characters::Base> casie = std::make_shared<Objects::Characters::Base>();
+            std::shared_ptr<Objects::Characters::PlayerCharacter> casie = std::make_shared<Objects::Characters::PlayerCharacter>();
 
             casie->Load("resources/characters/character02.json");
 
             this->playerParty->characters.push_back(casie);
 
             this->playerParty->SetLeader(0);
+
+            // TODO: Move this elsewhere...
+            std::shared_ptr<Objects::Items::Consumable> potion = std::static_pointer_cast<Objects::Items::Consumable>(Services::Locator::ItemService()->GetItem("lesser_health_potion"));
+
+            // Something something law of demeter.
+            this->playerParty->GetInventory()->AddItem(potion);
+            this->playerParty->GetInventory()->AddItem(potion);
+            this->playerParty->GetInventory()->AddItem(potion);
         }
 
         void World::UnloadPlayerParty() {

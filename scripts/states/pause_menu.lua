@@ -1,3 +1,5 @@
+local inspect = require "scripts/inspect"
+
 dofile "scripts/keys.lua"
 
 items_menu = {
@@ -81,6 +83,13 @@ top_level_menu_y_offset = 20
 
 time_text = nil
 
+-- TODO: THIS IS A TEST
+items = {}
+
+characters = {}
+
+character_statuses = {}
+
 function initialize()
     menu_background = objects.Image.new("ui.menu.background", 0, 0)
 
@@ -99,6 +108,35 @@ function initialize()
     texts = top_level_menu_texts
 
     time_text = objects.Text.new("", font_name, font_size, top_level_menu_x_offset, 440, 255, 255, 255)
+
+    inventory = pause_menu_state:getParty():getInventory()
+
+    inventory_items = inventory:getConsumables()
+
+    print(inspect(inventory_items))
+
+    for item, quantity in pairs(inventory_items) do
+        print(item:getName())
+        print(quantity)
+    end
+
+    characters = pause_menu_state:getPartyCharacters()
+
+    y = 20
+
+    for i, character in ipairs(characters) do
+        name = character:getName()
+        level = string.format("Level %9d", character:getLevel())
+        hp = string.format("HP %4d/%4d", character:getCurrentHitPoints(), character:getMaxHitPoints())
+        mp = string.format("MP   %3d/%3d", character:getCurrentMagicPoints(), character:getMaxMagicPoints())
+
+        character_statuses[string.format("%s_name", character:getName())] = objects.Text.new(name, font_name, font_size, 30, y, 255, 255, 255)
+        character_statuses[string.format("%s_level", character:getName())] = objects.Text.new(level, font_name, font_size, 80, y + 20, 255, 255, 255)
+        character_statuses[string.format("%s_hp", character:getName())] = objects.Text.new(hp, font_name, font_size, 80, y + 40, 255, 255, 255)
+        character_statuses[string.format("%s_mp", character:getName())] = objects.Text.new(mp, font_name, font_size, 80, y + 60, 255, 255, 255)
+
+        y = y + 100
+    end
 end
 
 function process_input(key_code)
@@ -161,6 +199,10 @@ function render()
     end
 
     hand:render()
+
+    for k, v in pairs(character_statuses) do
+        v:render()
+    end
 
     hours, minutes, seconds = pause_menu_state:getClockTime()
 
