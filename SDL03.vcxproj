@@ -71,9 +71,14 @@
     <ClCompile Include="src\game\objects\base.cpp" />
     <ClCompile Include="src\game\objects\characters\base.cpp" />
     <ClCompile Include="src\game\objects\characters\monster.cpp" />
+    <ClCompile Include="src\game\objects\characters\non_player_character.cpp" />
     <ClCompile Include="src\game\objects\characters\party.cpp" />
+    <ClCompile Include="src\game\objects\characters\player_character.cpp" />
     <ClCompile Include="src\game\objects\image.cpp" />
     <ClCompile Include="src\game\objects\items\base.cpp" />
+    <ClCompile Include="src\game\objects\items\consumable.cpp" />
+    <ClCompile Include="src\game\objects\items\equippable.cpp" />
+    <ClCompile Include="src\game\objects\items\inventory.cpp" />
     <ClCompile Include="src\game\objects\maps\map.cpp" />
     <ClCompile Include="src\game\objects\maps\map_encounter_area.cpp" />
     <ClCompile Include="src\game\objects\maps\map_layer.cpp" />
@@ -93,6 +98,7 @@
     <ClCompile Include="src\game\services\implementations\clock.cpp" />
     <ClCompile Include="src\game\services\implementations\font_manager.cpp" />
     <ClCompile Include="src\game\services\implementations\input_manager.cpp" />
+    <ClCompile Include="src\game\services\implementations\item_manager.cpp" />
     <ClCompile Include="src\game\services\implementations\logger_manager.cpp" />
     <ClCompile Include="src\game\services\implementations\save_manager.cpp" />
     <ClCompile Include="src\game\services\implementations\settings_manager.cpp" />
@@ -187,9 +193,14 @@
     <ClInclude Include="src\game\objects\base.hpp" />
     <ClInclude Include="src\game\objects\characters\base.hpp" />
     <ClInclude Include="src\game\objects\characters\monster.hpp" />
+    <ClInclude Include="src\game\objects\characters\non_player_character.hpp" />
     <ClInclude Include="src\game\objects\characters\party.hpp" />
+    <ClInclude Include="src\game\objects\characters\player_character.hpp" />
     <ClInclude Include="src\game\objects\image.hpp" />
     <ClInclude Include="src\game\objects\items\base.hpp" />
+    <ClInclude Include="src\game\objects\items\consumable.hpp" />
+    <ClInclude Include="src\game\objects\items\equippable.hpp" />
+    <ClInclude Include="src\game\objects\items\inventory.hpp" />
     <ClInclude Include="src\game\objects\maps\map.hpp" />
     <ClInclude Include="src\game\objects\maps\map_encounter_area.hpp" />
     <ClInclude Include="src\game\objects\maps\map_layer.hpp" />
@@ -209,6 +220,7 @@
     <ClInclude Include="src\game\services\implementations\clock.hpp" />
     <ClInclude Include="src\game\services\implementations\font_manager.hpp" />
     <ClInclude Include="src\game\services\implementations\input_manager.hpp" />
+    <ClInclude Include="src\game\services\implementations\item_manager.hpp" />
     <ClInclude Include="src\game\services\implementations\logger_manager.hpp" />
     <ClInclude Include="src\game\services\implementations\save_manager.hpp" />
     <ClInclude Include="src\game\services\implementations\settings_manager.hpp" />
@@ -253,26 +265,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -301,8 +313,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Sean\source\repos\SDL03\lib\LoggerCpp\include;C:\Users\Sean\source\repos\SDL03\lib\sqlite;C:\Users\Sean\source\repos\SDL03\lib\LoggerCpp\include\LoggerCpp;C:\Users\Sean\source\repos\SDL03\lib\lua\src;C:\Users\Sean\source\repos\SDL03\lib\sol;C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\include;C:\Users\Sean\source\devel\SDL2_ttf-2.0.15\include;C:\Users\Sean\source\devel\SDL2_image-2.0.5\include;C:\Users\Sean\source\devel\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Sean\source\devel\SDL2_image-2.0.5\lib\x64;C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64;C:\Users\Sean\source\devel\SDL2_ttf-2.0.15\lib\x64;C:\Users\Sean\source\devel\SDL2-2.0.12\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)lib\LoggerCpp\include;$(SolutionDir)lib\sqlite;$(SolutionDir)lib\LoggerCpp\include\LoggerCpp;$(SolutionDir)lib\lua\src;$(SolutionDir)lib\sol;$(SolutionDir)lib\SDL3-3.4.8\include;$(SolutionDir)lib\SDL3_image-3.4.4\include;$(SolutionDir)lib\SDL3_mixer-3.2.0\include;$(SolutionDir)lib\SDL3_ttf-3.2.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\SDL3-3.4.8\lib\x64;$(SolutionDir)lib\SDL3_image-3.4.4\lib\x64;$(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64;$(SolutionDir)lib\SDL3_ttf-3.2.2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -329,32 +341,34 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;WIN32;JSON_DEBUG;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <ObjectFileName>$(IntDir)/%(RelativeDir)/</ObjectFileName>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib\LoggerCpp\include\LoggerCpp;$(SolutionDir)lib\SDL3-3.4.8\include;$(SolutionDir)lib\SDL3_image-3.4.4\include;$(SolutionDir)lib\SDL3_mixer-3.2.0\include;$(SolutionDir)lib\SDL3_ttf-3.2.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL3.lib;SDL3_image.lib;SDL3_mixer.lib;SDL3_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\SDL3-3.4.8\lib\x64;$(SolutionDir)lib\SDL3_image-3.4.4\lib\x64;$(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64;$(SolutionDir)lib\SDL3_ttf-3.2.2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y C:\Users\Sean\source\devel\SDL2-2.0.12\lib\x64\SDL2.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_image-2.0.5\lib\x64\SDL2_image.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_image-2.0.5\lib\x64\libjpeg-9.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_image-2.0.5\lib\x64\libpng16-16.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_image-2.0.5\lib\x64\libtiff-5.dl $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_image-2.0.5\lib\x64\zlib1.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\SDL2_mixer.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libFLAC-8.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libmodplug-1.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libmpg123-0.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libogg-0.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libopus-0.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libopusfile-0.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libvorbis-0.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_mixer-2.0.4\lib\x64\libvorbisfile-3.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_ttf-2.0.15\lib\x64\SDL2_ttf.dll $(OutDir)
-xcopy /y C:\Users\Sean\source\devel\SDL2_ttf-2.0.15\lib\x64\libfreetype-6.dll $(OutDir)</Command>
+      <Command>xcopy /y $(SolutionDir)lib\SDL3-3.4.8\lib\x64\SDL3.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_image-3.4.4\lib\x64\SDL3_image.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_image-3.4.4\lib\x64\optional\libavif-16.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_image-3.4.4\lib\x64\optional\libpng16-16.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_image-3.4.4\lib\x64\optional\libtiff-6.dl $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_image-3.4.4\lib\x64\optional\libwebp-7.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_image-3.4.4\lib\x64\optional\libwebpdemux-2.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_image-3.4.4\lib\x64\optional\libwebpmux-3.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64\SDL3_mixer.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64\optional\libgme.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64\optional\libogg-0.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64\optional\libopus-0.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64\optional\libopusfile-0.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64\optional\libwavpack-1.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_mixer-3.2.0\lib\x64\optional\libxmp.dll $(OutDir)
+xcopy /y $(SolutionDir)lib\SDL3_ttf-3.2.2\lib\x64\SDL3_ttf.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -381,6 +395,8 @@ xcopy /y C:\Users\Sean\source\devel\SDL2_ttf-2.0.15\lib\x64\libfreetype-6.dll $(
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
