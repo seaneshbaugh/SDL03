@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "../../resources/texture.hpp"
 

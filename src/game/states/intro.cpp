@@ -37,7 +37,7 @@ namespace Game {
         }
 
         std::shared_ptr<Base> Intro::Update(const SDL_Event& event) {
-            return this->Update(event.key.keysym.sym);
+            return this->Update(event.key.key);
         }
 
         // For the intro state the Lua process_input function does nothing. This is because

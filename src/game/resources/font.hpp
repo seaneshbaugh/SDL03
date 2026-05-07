@@ -1,7 +1,7 @@
 #ifndef SDL03_Game_Resources_Font
 #define SDL03_Game_Resources_Font
 
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "base.hpp"
 

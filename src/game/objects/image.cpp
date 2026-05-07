@@ -24,7 +24,9 @@ namespace Game {
             this->texture = texture;
 
             if (this->texture) {
-                SDL_QueryTexture(this->texture->GetSDLTexture().get(), nullptr, nullptr, &this->position.w, &this->position.h);
+                this->position.w = this->texture->GetSDLTexture().get()->w;
+
+                this->position.h = this->texture->GetSDLTexture().get()->h;
             }
         }
 

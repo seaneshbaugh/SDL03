@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #ifdef __APPLE__
 #include "../../../lib/lua/src/lua.h"

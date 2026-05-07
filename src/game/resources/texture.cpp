@@ -25,15 +25,15 @@ namespace Game {
 
             SDL_Surface* surface = IMG_Load(this->filename.c_str());
 
-            if (!surface) {
-                this->logger->error() << "Error creating surface from \"" << filename << "\":" << IMG_GetError();
+            if (surface == nullptr) {
+                this->logger->error() << "Error creating surface from \"" << filename << "\":" << SDL_GetError();
 
                 throw;
             }
 
             this->sdlTexture = std::shared_ptr<SDL_Texture>(SDL_CreateTextureFromSurface(Services::Locator::VideoService()->GetRenderer().get(), surface), SDL_DestroyTexture);
 
-            SDL_FreeSurface(surface);
+            SDL_DestroySurface(surface);
 
             if (!this->sdlTexture) {
                 this->logger->error() << "Error creating texture from \"" << filename << "\":" << SDL_GetError();

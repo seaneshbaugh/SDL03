@@ -17,8 +17,8 @@ namespace Game {
                 {InputKey::DOWN_KEY, SDLK_DOWN},
                 {InputKey::LEFT_KEY, SDLK_LEFT},
                 {InputKey::RIGHT_KEY, SDLK_RIGHT},
-                {InputKey::CONFIRM_KEY, SDLK_z},
-                {InputKey::CANCEL_KEY, SDLK_x},
+                {InputKey::CONFIRM_KEY, SDLK_Z},
+                {InputKey::CANCEL_KEY, SDLK_X},
                 {InputKey::MENU_KEY, SDLK_TAB}
             };
 
@@ -42,15 +42,19 @@ namespace Game {
             }
 
             bool SettingsManager::LoadSettings() {
-                this->settingsDirectoryPath = Helpers::FileSystem::GetApplicationDataDirectory() + "/" + this->applicationName;
+                this->settingsDirectoryPath = (std::filesystem::path(Helpers::FileSystem::GetApplicationDataDirectory()) / this->applicationName).string();
 
                 if (!this->CreateSettingsDirectory()) {
+                    this->logger->error() << "Failed to create settings directory \"" << this->settingsDirectoryPath << "\"";
+
                     return false;
                 }
 
-                this->settingsFilePath = this->settingsDirectoryPath + "/settings.sqlite3";
+                this->settingsFilePath = (std::filesystem::path(this->settingsDirectoryPath) / "settings.sqlite3").string();
 
                 if (!this->OpenSettingsDatabase()) {
+                    this->logger->error() << "Failed to open settings database \"" << this->settingsFilePath << "\"";
+
                     return false;
                 }
 

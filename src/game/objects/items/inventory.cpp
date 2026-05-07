@@ -11,7 +11,7 @@ namespace Game {
 
             std::shared_ptr<Items::Consumable> Inventory::AddItem(std::shared_ptr<Items::Consumable> item) {
                 if (this->consumables.find(item->GetId()) == this->consumables.end()) {
-                    this->consumables[item->GetId()] = std::make_tuple(item, 1);
+                    this->consumables[item->GetId()] = std::make_pair(item, 1);
                 } else {
                     std::get<1>(this->consumables[item->GetId()])++;
                 }
@@ -21,7 +21,7 @@ namespace Game {
 
             std::shared_ptr<Items::Equippable> Inventory::AddItem(std::shared_ptr<Items::Equippable> item) {
                 if (this->equippables.find(item->GetId()) == this->equippables.end()) {
-                    this->equippables[item->GetId()] = std::make_tuple(item, 1);
+                    this->equippables[item->GetId()] = std::make_pair(item, 1);
                 } else {
                     std::get<1>(this->equippables[item->GetId()])++;
                 }

@@ -8,8 +8,8 @@ namespace Game {
             FontManager::FontManager(const std::string& fontAssetListPath) {
                 this->logger = Locator::LoggerService()->GetLogger(FontManager::logChannel);
 
-                if (TTF_Init() == -1) {
-                    this->logger->critic() << "Failed to initialize SDL_ttf. " << TTF_GetError();
+                if (TTF_Init() == false) {
+                    this->logger->critic() << "Failed to initialize SDL_ttf. " << SDL_GetError();
 
                     throw;
                 }

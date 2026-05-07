@@ -32,7 +32,7 @@ namespace Game {
         }
 
         std::shared_ptr<Base> SettingsMenu::Update(const SDL_Event& event) {
-            return this->Update(event.key.keysym.sym);
+            return this->Update(event.key.key);
         }
 
         std::string SettingsMenu::ProcessInput(const int key) {

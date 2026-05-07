@@ -81,7 +81,9 @@ namespace Game {
             int h = 0;
 
             if (this->texture) {
-                SDL_QueryTexture(this->texture, nullptr, nullptr, &w, &h);
+                w = this->texture->w;
+
+                h = this->texture->h;
             }
 
             this->position = {x, y, w, h};
@@ -112,11 +114,11 @@ namespace Game {
                 this->texture = nullptr;
             }
 
-            SDL_Surface* textSurface = TTF_RenderText_Blended(this->font->GetTTFFont().get(), this->text.c_str(), this->color);
+            SDL_Surface* textSurface = TTF_RenderText_Blended(this->font->GetTTFFont().get(), this->text.c_str(), 0, this->color);
 
             this->texture = SDL_CreateTextureFromSurface(Services::Locator::VideoService()->GetRenderer().get(), textSurface);
 
-            SDL_FreeSurface(textSurface);
+            SDL_DestroySurface(textSurface);
 
             this->SetPosition(this->position.x, this->position.y);
         }

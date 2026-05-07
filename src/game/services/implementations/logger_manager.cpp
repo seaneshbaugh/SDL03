@@ -24,15 +24,18 @@ namespace Game {
 
                 // TODO: Add the ability to set log levels via a config file.
                 // TODO: Use class constants for log channel name.
-                Log::Manager::get("engine")->setLevel(Log::Log::eError);
-                Log::Manager::get("settings")->setLevel(Log::Log::eError);
-                Log::Manager::get("json")->setLevel(Log::Log::eInfo);
-                Log::Manager::get("lua")->setLevel(Log::Log::eInfo);
-                Log::Manager::get("map")->setLevel(Log::Log::eInfo);
-                Log::Manager::get("input")->setLevel(Log::Log::eInfo);
+                // TODO: Set defaults based on whether this is a debug or release build.
+                // Turns out for debug builds we REALLY want to use eDebug for everything.
+                // Output mysteriously not showing when you expect it to is very frustrating.
+                Log::Manager::get("engine")->setLevel(Log::Log::eDebug);
+                Log::Manager::get("settings")->setLevel(Log::Log::eDebug);
+                Log::Manager::get("json")->setLevel(Log::Log::eDebug);
+                Log::Manager::get("lua")->setLevel(Log::Log::eDebug);
+                Log::Manager::get("map")->setLevel(Log::Log::eDebug);
+                Log::Manager::get("input")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("states.intro")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("states.main_menu")->setLevel(Log::Log::eDebug);
-                Log::Manager::get("states.map")->setLevel(Log::Log::eInfo);
+                Log::Manager::get("states.map")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("states.battle")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("assets.fonts")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("assets.songs")->setLevel(Log::Log::eDebug);

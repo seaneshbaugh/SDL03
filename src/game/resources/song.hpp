@@ -1,8 +1,8 @@
 #ifndef SDL03_Game_Resources_Song
 #define SDL03_Game_Resources_Song
 
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "base.hpp"
 #include "../services/locator.hpp"
@@ -11,7 +11,7 @@ namespace Game {
     namespace Resources {
         class Song : public Base {
         public:
-            Mix_Music* music;
+            MIX_Audio* audio;
 
             Song();
             Song(const std::string& filename);
@@ -21,7 +21,7 @@ namespace Game {
         private:
             std::string filename;
 
-            bool DestroyMusic();
+            bool DestroyAudio();
         };
     }
 }

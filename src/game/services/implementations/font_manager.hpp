@@ -4,8 +4,8 @@
 #include <map>
 #include <utility>
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "../interfaces/font_service.hpp"
 #include "../../resources/font.hpp"

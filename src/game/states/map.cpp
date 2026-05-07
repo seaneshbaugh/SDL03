@@ -38,7 +38,7 @@ namespace Game {
         }
 
         std::shared_ptr<Base> Map::Update(const SDL_Event& event) {
-            return this->Update(event.key.keysym.sym);
+            return this->Update(event.key.key);
         }
 
         std::string Map::ProcessInput(const int key) {

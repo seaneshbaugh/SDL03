@@ -19,7 +19,7 @@ namespace Game {
 
             InputKey InputManager::GetInputMapKey(const SDL_Event& event) {
                 try {
-                    if (event.type == SDL_KEYDOWN) {
+                    if (event.type == SDL_EVENT_KEY_DOWN) {
                         return this->inputMapper->GetInputMapKey(event);
                     } else {
                         return InputKey::NO_KEY;

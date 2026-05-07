@@ -12,7 +12,7 @@ namespace Game {
 
                 this->logger = Locator::LoggerService()->GetLogger(VideoManager::logChannel);
 
-                if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
+                if (SDL_InitSubSystem(SDL_INIT_VIDEO) == false) {
                     this->logger->critic() << "Failed to initialize SDL video: " << SDL_GetError();
 
                     throw;
@@ -26,7 +26,7 @@ namespace Game {
 
                 this->windowTitle = windowTitle;
 
-                this->window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(this->windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL), SDL_DestroyWindow);
+                this->window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(this->windowTitle.c_str(), this->screenWidth, this->screenHeight, SDL_WINDOW_OPENGL), SDL_DestroyWindow);
 
                 if (this->window == nullptr) {
                     this->logger->critic() << "Failed to create window: " << SDL_GetError();
@@ -36,7 +36,7 @@ namespace Game {
 
                 this->logger->info() << "Window created.";
 
-                this->renderer = std::shared_ptr<SDL_Renderer>(SDL_CreateRenderer(this->window.get(), -1, SDL_RENDERER_ACCELERATED), SDL_DestroyRenderer);
+                this->renderer = std::shared_ptr<SDL_Renderer>(SDL_CreateRenderer(this->window.get(), NULL), SDL_DestroyRenderer);
 
                 if (this->renderer == nullptr) {
                     this->logger->critic() << "Failed to create renderer: " << SDL_GetError();
@@ -58,7 +58,34 @@ namespace Game {
             }
 
             bool VideoManager::Render(SDL_Texture* texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect) {
-                if (SDL_RenderCopy(this->renderer.get(), texture, srcrect, dstrect) < 0) {
+                // TODO: Remove this temporary shim to convert SDL_Rect to SDL_FRect.
+                SDL_FRect srcf;
+                SDL_FRect dstf;
+
+                SDL_FRect* srcp = nullptr;
+                SDL_FRect* dstp = nullptr;
+
+                if (srcrect) {
+                    srcf = SDL_FRect{
+                        static_cast<float>(srcrect->x),
+                        static_cast<float>(srcrect->y),
+                        static_cast<float>(srcrect->w),
+                        static_cast<float>(srcrect->h)};
+
+                    srcp = &srcf;
+                }
+
+                if (dstrect) {
+                    dstf = SDL_FRect{
+                        static_cast<float>(dstrect->x),
+                        static_cast<float>(dstrect->y),
+                        static_cast<float>(dstrect->w),
+                        static_cast<float>(dstrect->h)};
+
+                    dstp = &dstf;
+                }
+
+                if (SDL_RenderTexture(this->renderer.get(), texture, srcp, dstp) == false) {
                     this->logger->error() << "Failed to render texture: " << SDL_GetError();
 
                     return false;

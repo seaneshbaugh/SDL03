@@ -3,7 +3,7 @@
 namespace Game {
     namespace Resources {
         Song::Song() {
-            this->music = nullptr;
+            this->audio = nullptr;
             this->filename = "";
         }
 
@@ -12,33 +12,35 @@ namespace Game {
         }
 
         Song::~Song() {
-            this->DestroyMusic();
+            this->DestroyAudio();
         }
 
         void Song::Load(const std::string& filename) {
-            this->DestroyMusic();
+            this->DestroyAudio();
 
             this->filename = filename;
 
-            this->music = Mix_LoadMUS(filename.c_str());
+            this->audio = MIX_LoadAudio(Services::Locator::AudioService()->GetMixer(), this->filename.c_str(), true);
 
-            if (this->music == nullptr) {
-                this->logger->error() << "Error creating music from \"" << filename << "\":" << Mix_GetError();
+            if (this->audio == nullptr) {
+                this->logger->critic() << "Error creating audio from \"" << filename << "\":" << SDL_GetError();
+
+                throw;
             }
         }
 
-        bool Song::DestroyMusic() {
-            if (this->music == nullptr) {
+        bool Song::DestroyAudio() {
+            if (this->audio == nullptr) {
                 return false;
             }
 
-            this->logger->info() << "Destroying music \"" << this->filename << "\".";
+            this->logger->info() << "Destroying audio \"" << this->filename << "\".";
 
-            Mix_FreeMusic(this->music);
+            MIX_DestroyAudio(this->audio);
 
-            this->logger->info() << "Destroyed music \"" << this->filename << "\".";
+            this->logger->info() << "Destroyed audio \"" << this->filename << "\".";
 
-            this->music = nullptr;
+            this->audio = nullptr;
 
             return true;
         }

@@ -1,8 +1,8 @@
 #ifndef SDL03_Game_Resources_Sound
 #define SDL03_Game_Resources_Sound
 
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 #include "base.hpp"
 
@@ -10,7 +10,7 @@ namespace Game {
     namespace Resources {
         class Sound : public Base {
         public:
-            Mix_Chunk* chunk;
+            MIX_Audio* audio;
 
             Sound();
             Sound(const std::string& filepath);
@@ -22,7 +22,7 @@ namespace Game {
 
             std::string filename;
 
-            bool DestroyChunk();
+            bool DestroyAudio();
         };
     }
 }

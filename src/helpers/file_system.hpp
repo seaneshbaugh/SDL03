@@ -1,6 +1,8 @@
 #ifndef SDL03_Helpers_FileSystem
 #define SDL03_Helpers_FileSystem
 
+#include <filesystem>
+
 #ifdef __APPLE__
 #include "apple_file_system.hpp"
 #elif _WIN32

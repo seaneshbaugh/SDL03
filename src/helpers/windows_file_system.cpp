@@ -1,6 +1,7 @@
 #ifdef _WIN32
 
 #include "windows_file_system.hpp"
+#include <string>
 
 namespace Helpers
 {
@@ -61,12 +62,15 @@ namespace Helpers
         }
 
         bool CreateDirectory(std::string path, mode_t mode = 0755, bool recursive = false) {
+            std::error_code ec;
+
             if (recursive) {
-                return std::filesystem::create_directories(path);
+                std::filesystem::create_directories(path, ec);
             } else {
-                return std::filesystem::create_directory(path);
+                std::filesystem::create_directory(path, ec);
             }
 
+            return !ec && std::filesystem::exists(path) && std::filesystem::is_directory(path);
         }
 
         // TODO: This is probably not very good.

@@ -1,7 +1,7 @@
 #ifndef SDL03_Helpers_AppleFileSystem
 #define SDL03_Helpers_AppleFileSystem
 
-#ifdef WIN32
+#ifdef _WIN32
 
 #include <shlobj.h>
 #include <winerror.h>

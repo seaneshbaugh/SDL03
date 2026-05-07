@@ -3,8 +3,8 @@
 
 #include <utility>
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include "../locator.hpp"
 #include "../interfaces/texture_service.hpp"

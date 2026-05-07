@@ -41,7 +41,7 @@ namespace Game {
         }
 
         std::shared_ptr<Base> Battle::Update(const SDL_Event& event) {
-            return this->Update(event.key.keysym.sym);
+            return this->Update(event.key.key);
         }
 
         std::string Battle::ProcessInput(const int key) {

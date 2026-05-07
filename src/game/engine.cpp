@@ -75,7 +75,7 @@ namespace Game {
     }
 
     void Engine::StartSDL() {
-        if (SDL_Init(0) < 0) {
+        if (SDL_Init(0) == false) {
             this->logger->critic() << "Failed to initialize SDL. " << SDL_GetError();
         }
 
@@ -146,7 +146,7 @@ namespace Game {
             int key = static_cast<int>(InputKey::NO_KEY);
 
             if (pendingEvent) {
-                if (event.type == SDL_QUIT) {
+                if (event.type == SDL_EVENT_QUIT) {
                     break;
                 }
 

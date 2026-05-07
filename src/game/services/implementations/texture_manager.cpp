@@ -11,18 +11,9 @@ namespace Game {
                 }
 
                 this->logger = Locator::LoggerService()->GetLogger(TextureManager::logChannel);
-
-                if ((IMG_Init(IMG_INIT_PNG)&IMG_INIT_PNG) != IMG_INIT_PNG) {
-                    this->logger->critic() << "Failed to initialize SDL_image: " << IMG_GetError();
-
-                    throw;
-                }
-
-                this->logger->info() << "SDL_image initialized.";
             }
 
             TextureManager::~TextureManager() {
-                IMG_Quit();
             }
 
             std::shared_ptr<Resources::Texture> TextureManager::AddTexture(const std::string& textureName, const std::string& filename) {

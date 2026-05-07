@@ -43,7 +43,7 @@ namespace Game {
             if (this->ttfFont != nullptr) {
                 this->logger->debug() << "Loaded font \"" << filename << "\" at size " << pointSize << ".";
             } else {
-                this->logger->error() << "Error loading font \"" << filename << "\" at size " << pointSize << ": " << TTF_GetError();
+                this->logger->error() << "Error loading font \"" << filename << "\" at size " << pointSize << ": " << SDL_GetError();
 
                 throw;
             }

@@ -6,7 +6,7 @@ namespace Game {
 
         Sound::Sound() {
             this->logger = Services::Locator::LoggerService()->GetLogger(Sound::logChannel);
-            this->chunk = nullptr;
+            this->audio = nullptr;
             this->filename = "";
         }
 
@@ -15,35 +15,35 @@ namespace Game {
         }
 
         Sound::~Sound() {
-            this->DestroyChunk();
+            this->DestroyAudio();
         }
 
         void Sound::Load(const std::string& filename) {
-            this->DestroyChunk();
+            this->DestroyAudio();
 
             this->filename = filename;
 
-            this->chunk = Mix_LoadWAV(this->filename.c_str());
+            this->audio = MIX_LoadAudio(Services::Locator::AudioService()->GetMixer(), this->filename.c_str(), true);
 
-            if (this->chunk == nullptr) {
-                this->logger->critic() << "Error creating chunk from \"" << filename << "\":" << Mix_GetError();
+            if (this->audio == nullptr) {
+                this->logger->critic() << "Error creating audio from \"" << filename << "\":" << SDL_GetError();
 
                 throw;
             }
         }
 
-        bool Sound::DestroyChunk() {
-            if (this->chunk == nullptr) {
+        bool Sound::DestroyAudio() {
+            if (this->audio == nullptr) {
                 return false;
             }
 
-            this->logger->info() << "Destroying chunk \"" << this->filename << "\".";
+            this->logger->info() << "Destroying audio \"" << this->filename << "\".";
 
-            Mix_FreeChunk(this->chunk);
+            MIX_DestroyAudio(this->audio);
 
-            this->logger->info() << "Destroyed chunk \"" << this->filename << "\".";
+            this->logger->info() << "Destroyed audio \"" << this->filename << "\".";
 
-            this->chunk = nullptr;
+            this->audio = nullptr;
 
             return true;
         }
