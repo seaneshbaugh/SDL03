@@ -7,7 +7,6 @@ namespace Game {
         PauseMenu::PauseMenu() {
             this->logger = Services::Locator::LoggerService()->GetLogger(PauseMenu::logChannel);
             this->pop = false;
-            this->acceptRawInput = false;
 
             // TODO: Figure out a way to either pre-load these resources or otherwise
             // keep them around after this state is popped. Parsing a JSON file every
@@ -28,11 +27,15 @@ namespace Game {
         PauseMenu::~PauseMenu() {
         }
 
-        std::shared_ptr<Base> PauseMenu::Update(const int key) {
-            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
+        void PauseMenu::HandleEvent(const SDL_Event& event) {
+            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+
+            if (key != InputKey::NO_KEY) {
                 this->ProcessInput(key);
             }
+        }
 
+        std::shared_ptr<Base> PauseMenu::Update() {
             std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
@@ -40,19 +43,15 @@ namespace Game {
             }
 
             switch (StateNameToEnum(nextState)) {
-                case GameStateType::save_game_menu:
-                    return std::make_shared<SaveGameMenu>();
-                default:
-                    return this->shared_from_this();
+            case GameStateType::save_game_menu:
+                return std::make_shared<SaveGameMenu>();
+            default:
+                return this->shared_from_this();
             }
         }
 
-        std::shared_ptr<Base> PauseMenu::Update(const SDL_Event& event) {
-            return this->Update(event.key.key);
-        }
-
-        std::string PauseMenu::ProcessInput(const int key) {
-            std::string result = (*this->luaState.get())["process_input"](key);
+        std::string PauseMenu::ProcessInput(const InputKey key) {
+            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
         }
@@ -113,7 +112,7 @@ namespace Game {
             states.new_usertype<PauseMenu>("PauseMenu",
                                            sol::no_constructor,
                                            "pop", &PauseMenu::Pop,
-                                           "processInput", static_cast<std::string (PauseMenu::*)(const int)>(&PauseMenu::ProcessInput),
+                                           "processInput", static_cast<std::string (PauseMenu::*)(const InputKey)>(&PauseMenu::ProcessInput),
                                            "getParty", &PauseMenu::GetParty,
                                            "getPartyCharacters", &PauseMenu::GetPartyCharacters,
                                            "getClockTime", &PauseMenu::GetClockTime

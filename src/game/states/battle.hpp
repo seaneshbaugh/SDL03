@@ -20,9 +20,8 @@ namespace Game {
 
             Battle(const Objects::Maps::MapEncounterArea* encounterArea);
             ~Battle();
-            std::shared_ptr<Base> Update(const int key);
-            std::shared_ptr<Base> Update(const SDL_Event& event);
-            std::string ProcessInput(const int key);
+            void HandleEvent(const SDL_Event& event);
+            std::shared_ptr<Base> Update();
             void Render();
             std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> GetParty();
             std::vector<std::shared_ptr<Objects::Characters::Monster>> GetMonsters();
@@ -33,6 +32,7 @@ namespace Game {
             std::string backgroundName;
             std::shared_ptr<Resources::Texture> background;
 
+            std::string ProcessInput(const InputKey key);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

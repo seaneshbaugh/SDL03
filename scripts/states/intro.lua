@@ -2,6 +2,7 @@ time = 0
 texts = {}
 vx = {}
 vy = {}
+next_state = "intro"
 
 function initialize()
     font_name = "DroidSans"
@@ -31,10 +32,16 @@ function initialize()
 end
 
 function process_input(key_code)
-    return "main_menu"
+    next_state = "main_menu"
+
+    return next_state
 end
 
 function update()
+    if next_state ~= "intro" then
+        return next_state
+    end
+
     -- Right now the time counter does nothing.
     time = time + 1
 
@@ -53,6 +60,8 @@ function update()
             vy[i] = vy[i] * -1
         end
     end
+
+    return next_state
 end
 
 function render()

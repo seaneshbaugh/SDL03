@@ -7,7 +7,6 @@ namespace Game {
         MainMenu::MainMenu() {
             this->logger = Services::Locator::LoggerService()->GetLogger(MainMenu::logChannel);
             this->pop = false;
-            this->acceptRawInput = false;
             this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/main_menu_sounds.json");
             this->LoadLuaState("scripts/states/main_menu.lua");
         }
@@ -15,37 +14,35 @@ namespace Game {
         MainMenu::~MainMenu() {
         }
 
-        std::shared_ptr<Base> MainMenu::Update(const int key) {
-            std::string nextState = "main_menu";
+        void MainMenu::HandleEvent(const SDL_Event& event) {
+            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
 
-            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
-                nextState = this->ProcessInput(key);
+            if (key != InputKey::NO_KEY) {
+                this->ProcessInput(key);
             }
+        }
 
-            (*this->luaState.get())["update"]();
+        std::shared_ptr<Base> MainMenu::Update() {
+            std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
                 return nullptr;
             }
 
-            switch(StateNameToEnum(nextState)) {
-                case GameStateType::new_game:
-                    return Services::Locator::WorldService()->NewGame();
-                case GameStateType::settings_menu:
-                    return std::make_shared<SettingsMenu>();
-//                case GameStateType::load_game_menu:
-//                    return std::make_shared<LoadGameMenu>();
-                default:
-                    return this->shared_from_this();
+            switch (StateNameToEnum(nextState)) {
+            case GameStateType::new_game:
+                return Services::Locator::WorldService()->NewGame();
+            case GameStateType::settings_menu:
+                return std::make_shared<SettingsMenu>();
+            // case GameStateType::load_game_menu:
+            //     return std::make_shared<LoadGameMenu>();
+            default:
+                return this->shared_from_this();
             }
         }
 
-        std::shared_ptr<Base> MainMenu::Update(const SDL_Event& event) {
-            return this->Update(event.key.key);
-        }
-
-        std::string MainMenu::ProcessInput(const int key) {
-            std::string result = (*this->luaState.get())["process_input"](key);
+        std::string MainMenu::ProcessInput(const InputKey key) {
+            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
         }
@@ -79,7 +76,7 @@ namespace Game {
             states.new_usertype<MainMenu>("MainMenu",
                                           sol::no_constructor,
                                           "pop", &MainMenu::Pop,
-                                          "process_input", static_cast<std::string (MainMenu::*)(const int)>(&MainMenu::ProcessInput),
+                                          "process_input", static_cast<std::string (MainMenu::*)(const InputKey)>(&MainMenu::ProcessInput),
                                           "render", &MainMenu::Render
                                           );
         }

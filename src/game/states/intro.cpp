@@ -7,7 +7,6 @@ namespace Game {
         Intro::Intro() {
             this->logger = Services::Locator::LoggerService()->GetLogger(Intro::logChannel);
             this->pop = false;
-            this->acceptRawInput = false;
             this->LoadResources("resources/asset_lists/intro_textures.json", "resources/asset_lists/intro_sounds.json");
             this->LoadLuaState("scripts/states/intro.lua");
         }
@@ -15,37 +14,31 @@ namespace Game {
         Intro::~Intro() {
         }
 
-        std::shared_ptr<Base> Intro::Update(const int key) {
-            std::string nextState = "intro";
+        void Intro::HandleEvent(const SDL_Event& event) {
+            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
 
-            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
-                nextState = this->ProcessInput(key);
+            if (key != InputKey::NO_KEY) {
+                this->ProcessInput(key);
             }
+        }
 
-            (*this->luaState.get())["update"]();
+        std::shared_ptr<Base> Intro::Update() {
+            std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
                 return nullptr;
             }
 
-            switch(StateNameToEnum(nextState)) {
-                case GameStateType::main_menu:
-                    return std::make_shared<MainMenu>();
-                default:
-                    return this->shared_from_this();
+            switch (StateNameToEnum(nextState)) {
+            case GameStateType::main_menu:
+                return std::make_shared<MainMenu>();
+            default:
+                return this->shared_from_this();
             }
         }
 
-        std::shared_ptr<Base> Intro::Update(const SDL_Event& event) {
-            return this->Update(event.key.key);
-        }
-
-        // For the intro state the Lua process_input function does nothing. This is because
-        // any keyboard input with a valid input mapper binding just immediately causes a
-        // transition to the main menu state. Honestly it doesn't even make sense to call
-        // the Lua function at all, but I'm leaving it in for consistency's sake.
-        std::string Intro::ProcessInput(const int key) {
-            std::string result = (*this->luaState.get())["process_input"](key);
+        std::string Intro::ProcessInput(const InputKey key) {
+            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
         }
@@ -80,7 +73,7 @@ namespace Game {
             states.new_usertype<Intro>("Intro",
                                        sol::no_constructor,
                                        "pop", &Intro::Pop,
-                                       "process_input", static_cast<std::string (Intro::*)(const int)>(&Intro::ProcessInput),
+                                       "process_input", static_cast<std::string (Intro::*)(const InputKey)>(&Intro::ProcessInput),
                                        "render", &Intro::Render,
                                        "get_texture", &Intro::GetTexture
                                        );

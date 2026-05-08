@@ -7,7 +7,6 @@ namespace Game {
         SaveGameMenu::SaveGameMenu() {
             this->logger = Services::Locator::LoggerService()->GetLogger(SaveGameMenu::logChannel);
             this->pop = false;
-            this->acceptRawInput = false;
 
             this->LoadResources("resources/asset_lists/save_game_menu_textures.json", "resources/asset_lists/save_game_menu_sounds.json");
 
@@ -17,11 +16,15 @@ namespace Game {
         SaveGameMenu::~SaveGameMenu() {
         }
 
-        std::shared_ptr<Base> SaveGameMenu::Update(const int key) {
-            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
+        void SaveGameMenu::HandleEvent(const SDL_Event& event) {
+            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+
+            if (key != InputKey::NO_KEY) {
                 this->ProcessInput(key);
             }
+        }
 
+        std::shared_ptr<Base> SaveGameMenu::Update() {
             std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
@@ -31,12 +34,8 @@ namespace Game {
             return this->shared_from_this();
         }
 
-        std::shared_ptr<Base> SaveGameMenu::Update(const SDL_Event& event) {
-            return this->Update(event.key.key);
-        }
-
-        std::string SaveGameMenu::ProcessInput(const int key) {
-            std::string result = (*this->luaState.get())["process_input"](key);
+        std::string SaveGameMenu::ProcessInput(const InputKey key) {
+            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
         }
@@ -76,7 +75,7 @@ namespace Game {
             states.new_usertype<SaveGameMenu>("SaveGameMenu",
                                               sol::no_constructor,
                                               "pop", &SaveGameMenu::Pop,
-                                              "processInput", static_cast<std::string (SaveGameMenu::*)(const int)>(&SaveGameMenu::ProcessInput),
+                                              "processInput", static_cast<std::string (SaveGameMenu::*)(const InputKey)>(&SaveGameMenu::ProcessInput),
                                               "saveGame", &SaveGameMenu::SaveGame
                                               );
         }

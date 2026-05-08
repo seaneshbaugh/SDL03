@@ -173,6 +173,8 @@ function process_input(key_code)
     if key_code == CONFIRM_KEY then
         current_menu["selected_option"] = current_menu["current_option"]
     end
+
+    return ""
 end
 
 function update()

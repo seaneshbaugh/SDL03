@@ -148,6 +148,8 @@ function process_input(key_code)
             end
         end
     end
+
+    return ""
 end
 
 function step(x, y)
@@ -172,7 +174,7 @@ function step(x, y)
             map_state:step(player_current_x, player_current_y)
 
             -- TODO: This is probably where the bug where going into the town map and then back makes it so
-            -- the player's screen position and map position get off by 1 (32 pixel) quare is caused.
+            -- the player's screen position and map position get off by 1 (32 pixel) square is caused.
             player_screen_x_position = 320
 
             player_screen_y_position = 224

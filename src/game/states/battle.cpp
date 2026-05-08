@@ -7,7 +7,6 @@ namespace Game {
         Battle::Battle(const Objects::Maps::MapEncounterArea* encounterArea) {
             this->logger = Services::Locator::LoggerService()->GetLogger(Battle::logChannel);
             this->pop = false;
-            this->acceptRawInput = false;
             // This loads all background textures (well, just one for now, but if there were more
             // they would be loaded). In the future they should be removed from the texture list
             // and loaded only based on what's in the encounter area.
@@ -24,13 +23,27 @@ namespace Game {
 
         Battle::~Battle() {
             // TODO: CLEAR MONSTERS FROM WORLD VIA WORLD SERVICE!!!!!!
+            // Not sure why I left above comment, but I think it was because I
+            // was thinking that the WorldService should have a method to clear
+            // the enemy party. But it does have a method to set the enemy
+            // party, which is what is used in the constructor. So maybe this
+            // comment is just a reminder to make sure that when the battle
+            // state is destroyed, the enemy party is cleared from the world.
+            // But since the WorldService manages the world, it should be
+            // responsible for clearing the enemy party when the battle state
+            // is destroyed. So maybe this comment can be removed. I'll figure
+            // this out later.
         }
 
-        std::shared_ptr<Base> Battle::Update(const int key) {
-            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
+        void Battle::HandleEvent(const SDL_Event& event) {
+            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+
+            if (key != InputKey::NO_KEY) {
                 this->ProcessInput(key);
             }
+        }
 
+        std::shared_ptr<Base> Battle::Update() {
             std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
@@ -40,12 +53,8 @@ namespace Game {
             return this->shared_from_this();
         }
 
-        std::shared_ptr<Base> Battle::Update(const SDL_Event& event) {
-            return this->Update(event.key.key);
-        }
-
-        std::string Battle::ProcessInput(const int key) {
-            std::string result = (*this->luaState.get())["process_input"](key);
+        std::string Battle::ProcessInput(const InputKey key) {
+            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
         }
@@ -109,7 +118,7 @@ namespace Game {
             states.new_usertype<Battle>("Battle",
                                         sol::no_constructor,
                                         "pop", &Battle::Pop,
-                                        "processInput", static_cast<std::string (Battle::*)(const int)>(&Battle::ProcessInput),
+                                        "processInput", static_cast<std::string (Battle::*)(const InputKey)>(&Battle::ProcessInput),
                                         "getParty", &Battle::GetParty,
                                         "getMonsters", &Battle::GetMonsters
                                         );

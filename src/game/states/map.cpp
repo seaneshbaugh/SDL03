@@ -7,7 +7,6 @@ namespace Game {
         Map::Map() {
             this->logger = Services::Locator::LoggerService()->GetLogger(Map::logChannel);
             this->pop = false;
-            this->acceptRawInput = false;
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
@@ -16,11 +15,15 @@ namespace Game {
         Map::~Map() {
         }
 
-        std::shared_ptr<Base> Map::Update(const int key) {
-            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
+        void Map::HandleEvent(const SDL_Event& event) {
+            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+
+            if (key != InputKey::NO_KEY) {
                 this->ProcessInput(key);
             }
+        }
 
+        std::shared_ptr<Base> Map::Update() {
             std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
@@ -28,21 +31,17 @@ namespace Game {
             }
 
             switch (StateNameToEnum(nextState)) {
-                case GameStateType::pause_menu:
-                    return std::make_shared<PauseMenu>();
-                case GameStateType::battle:
-                    return std::make_shared<Battle>(this->currentMapEncounterArea);
-                default:
-                    return this->shared_from_this();
+            case GameStateType::pause_menu:
+                return std::make_shared<PauseMenu>();
+            case GameStateType::battle:
+                return std::make_shared<Battle>(this->currentMapEncounterArea);
+            default:
+                return this->shared_from_this();
             }
         }
 
-        std::shared_ptr<Base> Map::Update(const SDL_Event& event) {
-            return this->Update(event.key.key);
-        }
-
-        std::string Map::ProcessInput(const int key) {
-            std::string result = (*this->luaState.get())["process_input"](key);
+        std::string Map::ProcessInput(const InputKey key) {
+            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
         }
@@ -133,7 +132,7 @@ namespace Game {
             states.new_usertype<Map>("Map",
                                      sol::no_constructor,
                                      "pop", &Map::Pop,
-                                     "process_input", static_cast<std::string (Map::*)(const int)>(&Map::ProcessInput),
+                                     "process_input", static_cast<std::string (Map::*)(const InputKey)>(&Map::ProcessInput),
                                      "getCurrentMap", &Map::GetCurrentMap,
                                      "getCurrentMapEncounterArea", &Map::GetCurrentMapEncounterArea,
                                      "setCurrentMapEncounterArea", &Map::SetCurrentMapEncounterArea,

@@ -44,12 +44,9 @@ namespace Game {
 
         class Base : public std::enable_shared_from_this<Base> {
         public:
-            bool acceptRawInput;
-
             virtual ~Base();
-            virtual std::shared_ptr<Base> Update(const int key) = 0;
-            virtual std::shared_ptr<Base> Update(const SDL_Event& event) = 0;
-            virtual std::string ProcessInput(const int key) = 0;
+            virtual void HandleEvent(const SDL_Event& event) = 0;
+            virtual std::shared_ptr<Base> Update() = 0;
             virtual void Render() = 0;
             virtual void Pop();
 
@@ -61,6 +58,7 @@ namespace Game {
             std::vector<std::string> textureNames;
             std::vector<std::shared_ptr<Objects::Text>> texts;
 
+            virtual std::string ProcessInput(const InputKey key) = 0;
             virtual void LoadResources(const std::string& textureListPath, const std::string& soundListPath);
             virtual void LoadResources(const std::string& textureListPath, const std::string& soundListPath, const std::string& songListPath);
             virtual void LoadTextures(const std::string& resourceListPath);

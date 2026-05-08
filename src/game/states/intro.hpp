@@ -12,14 +12,14 @@ namespace Game {
         public:
             Intro();
             ~Intro();
-            std::shared_ptr<Base> Update(const int key);
-            std::shared_ptr<Base> Update(const SDL_Event& event);
-            std::string ProcessInput(const int key);
+            void HandleEvent(const SDL_Event& event);
+            std::shared_ptr<Base> Update();
             void Render();
 
         private:
             static const std::string logChannel;
 
+            std::string ProcessInput(const InputKey key);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

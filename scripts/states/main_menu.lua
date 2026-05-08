@@ -6,6 +6,7 @@ hand = nil
 previous_menu_option = 0
 menu_option = 0
 time = 0
+next_state = "main_menu"
 
 -- I probably need to make some sort of proper menu object.
 function initialize()
@@ -38,22 +39,28 @@ function process_input(key_code)
 
     if key_code == CONFIRM_KEY then
         if menu_option == 0 then
-            return "new_game"
+            next_state = "new_game"
         end
         
         if menu_option == 1 then
-            return "load_game"
+            -- Commenting this out for now since it causes a crash.
+            -- next_state = "load_game"
         end
         
         if menu_option == 2 then
-            return "settings_menu"
+            -- Commenting this out for now since it causes a crash.
+            -- next_state = "settings_menu"
         end
     end
 
-    return "main_menu"
+    return ""
 end
 
 function update()
+    if next_state ~= "main_menu" then
+        return next_state
+    end
+
     -- Right now the time counter does nothing.
     time = time + 1
 
@@ -66,6 +73,8 @@ function update()
 
         previous_menu_option = menu_option
     end
+
+    return next_state
 end
 
 function render()

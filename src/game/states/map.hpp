@@ -13,9 +13,8 @@ namespace Game {
         public:
             Map();
             ~Map();
-            std::shared_ptr<Base> Update(const int key);
-            std::shared_ptr<Base> Update(const SDL_Event& event);
-            std::string ProcessInput(const int key);
+            void HandleEvent(const SDL_Event& event);
+            std::shared_ptr<Base> Update();
             void Render();
             bool LoadMap(const std::string& filename);
             bool UnloadMap();
@@ -31,6 +30,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
 
+            std::string ProcessInput(const InputKey key);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

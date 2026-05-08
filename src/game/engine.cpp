@@ -116,11 +116,9 @@ namespace Game {
 
     void Engine::MainLoop() {
         SDL_Event event;
+        bool quit = false;
 
-        // The way this works right now is very tentative and is probably very bad. I have
-        // no idea what I'm doing, but I think this should work while things are still
-        // simple.
-        // The basic idea is, each pass of the loop checks to see if there is a state
+        // The basic idea here is, each pass of the loop checks to see if there is a state
         // object left in the stack, if not then do nothing and then quit. Otherwise, check
         // for any pending events then call the update function for the current state (and
         // quit if desired).
@@ -141,23 +139,22 @@ namespace Game {
             int startTicks = SDL_GetTicks();
             std::shared_ptr<States::Base> currentState = this->states.top();
             std::shared_ptr<States::Base> nextState = currentState;
-            int pendingEvent = SDL_PollEvent(&event);
-            // TODO: Get rid of this casting.
-            int key = static_cast<int>(InputKey::NO_KEY);
 
-            if (pendingEvent) {
+            while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_EVENT_QUIT) {
+                    quit = true;
+
                     break;
+                } else {
+                    currentState->HandleEvent(event);
                 }
-
-                key = static_cast<int>(Services::Locator::InputService()->GetInputMapKey(event));
             }
 
-            if (currentState->acceptRawInput) {
-                nextState = currentState->Update(event);
-            } else {
-                nextState = currentState->Update(key);
+            if (quit) {
+                break;
             }
+
+            nextState = currentState->Update();
 
             this->Render();
 

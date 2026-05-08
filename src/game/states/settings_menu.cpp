@@ -7,7 +7,6 @@ namespace Game {
         SettingsMenu::SettingsMenu() {
             this->logger = Services::Locator::LoggerService()->GetLogger(SettingsMenu::logChannel);
             this->pop = false;
-            this->acceptRawInput = false;
 
             this->LoadResources("resources/asset_lists/settings_menu_textures.json", "resources/asset_lists/settings_menu_sounds.json");
 
@@ -17,11 +16,15 @@ namespace Game {
         SettingsMenu::~SettingsMenu() {
         }
 
-        std::shared_ptr<Base> SettingsMenu::Update(const int key) {
-            if (static_cast<InputKey>(key) != InputKey::NO_KEY) {
+        void SettingsMenu::HandleEvent(const SDL_Event& event) {
+            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+
+            if (key != InputKey::NO_KEY) {
                 this->ProcessInput(key);
             }
+        }
 
+        std::shared_ptr<Base> SettingsMenu::Update() {
             std::string nextState = (*this->luaState.get())["update"]();
 
             if (this->pop) {
@@ -31,26 +34,15 @@ namespace Game {
             return this->shared_from_this();
         }
 
-        std::shared_ptr<Base> SettingsMenu::Update(const SDL_Event& event) {
-            return this->Update(event.key.key);
-        }
 
-        std::string SettingsMenu::ProcessInput(const int key) {
-            std::string result = (*this->luaState.get())["process_input"](key);
+        std::string SettingsMenu::ProcessInput(const InputKey key) {
+            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
         }
 
         void SettingsMenu::Render() {
             (*this->luaState.get())["render"]();
-        }
-
-        void SettingsMenu::EnableRawInput() {
-            this->acceptRawInput = true;
-        }
-
-        void SettingsMenu::DisableRawInput() {
-            this->acceptRawInput = false;
         }
 
         void SettingsMenu::LoadLuaState(const std::string& scriptFilePath) {
@@ -80,9 +72,7 @@ namespace Game {
             states.new_usertype<SettingsMenu>("SettingsMenu",
                                               sol::no_constructor,
                                               "pop", &SettingsMenu::Pop,
-                                              "processInput", static_cast<std::string (SettingsMenu::*)(const int)>(&SettingsMenu::ProcessInput),
-                                              "disableRawInput", &SettingsMenu::DisableRawInput,
-                                              "enableRawInput", &SettingsMenu::EnableRawInput
+                                              "processInput", static_cast<std::string (SettingsMenu::*)(const InputKey)>(&SettingsMenu::ProcessInput)
                                               );
         }
     }
