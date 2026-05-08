@@ -78,6 +78,7 @@ namespace Game {
         void StopTimeService();
         void StopLoggerService();
         void StopSystem();
+        std::string EventTypeName(const SDL_Event& event);
     };
 }
 

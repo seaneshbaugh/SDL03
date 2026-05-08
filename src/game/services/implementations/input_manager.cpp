@@ -18,6 +18,10 @@ namespace Game {
             }
 
             InputKey InputManager::GetInputMapKey(const SDL_Event& event) {
+                //if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN) {
+                //    this->logger->debug() << "Button: " << static_cast<int>(event.gbutton.button);
+                //}
+
                 try {
                     if (event.type == SDL_EVENT_KEY_DOWN) {
                         return this->inputMapper->GetInputMapKey(event);
