@@ -255,6 +255,9 @@
     <ClInclude Include="src\helpers\windows_file_system.hpp" />
     <ClInclude Include="src\main.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{D5A7467A-CEF1-4EF6-B772-C6289614C502}</ProjectGuid>
