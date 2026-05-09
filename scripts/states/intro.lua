@@ -18,15 +18,15 @@ function initialize()
 
     for i, v in ipairs(texts) do
         if math.random(0, 1) == 0 then
-            table.insert(vx, math.random(-3, -1))
+            table.insert(vx, math.random(-180, -60))
         else
-            table.insert(vx, math.random(1, 3))
+            table.insert(vx, math.random(60, 180))
         end
         
         if math.random(0, 1) == 0 then
-            table.insert(vy, math.random(-3, -1))
+            table.insert(vy, math.random(-180, -60))
         else
-            table.insert(vy, math.random(1, 3))
+            table.insert(vy, math.random(60, 180))
         end
     end
 end
@@ -37,7 +37,7 @@ function process_input(key_code)
     return next_state
 end
 
-function update()
+function update(delta_time)
     if next_state ~= "intro" then
         return next_state
     end
@@ -48,15 +48,33 @@ function update()
     if time % 60 == 0 then
         time = 0
     end
-    
-    for i, v in ipairs(texts) do
-        v:setPosition(v:getX() + vx[i], v:getY() + vy[i])
 
-        if vx[i] + v:getX() <= 0 or vx[i] + v:getX() + v:getWidth() >= 640 then
+    -- Leaving this here in case I need to do some more debugging as I work on timing.
+    -- Right now this only works because of the call to SDL_Delay in the engine loop.
+    -- This causes delta_time to be ~0.16 which is large enough to increase the position
+    -- by an amount that does not get truncated when the position is converted back to
+    -- to integers. I need to update pretty much everything for positions to use
+    -- SDL_FRect or floats. I'm pretty sure SDL handles sub pixel rendering fine.
+    -- local x_1 = texts[1]:getX()
+    -- local y_1 = texts[1]:getY()
+    -- local vx_1 = vx[1]
+    -- local vy_1 = vy[1]
+    -- local new_x_1 = (vx[1] * delta_time) + x_1
+    -- local new_y_1 = (vy[1] * delta_time) + y_1
+    -- print("x: " .. x_1 .. " y: " .. y_1 .. " vx: " .. vx_1 .. " vy: " .. vy_1 .. " new_x: " .. new_x_1 .. " new_y: " .. new_y_1 .. " delta_time: " .. delta_time)
+
+    for i, v in ipairs(texts) do
+        v:setPosition(v:getX() + (vx[i] * delta_time), v:getY() + (vy[i] * delta_time))
+
+        local next_x = (vx[i] * delta_time) + v:getX()
+
+        if next_x <= 0 or next_x + v:getWidth() >= 640 then
             vx[i] = vx[i] * -1
         end
-        
-        if vy[i] + v:getY() <= 0 or vy[i] + v:getY() + v:getHeight() >= 480 then
+
+        local next_y = (vy[i] * delta_time) + v:getY()
+
+        if next_y <= 0 or next_y + v:getHeight() >= 480 then
             vy[i] = vy[i] * -1
         end
     end

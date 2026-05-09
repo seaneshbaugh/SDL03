@@ -56,7 +56,7 @@ function process_input(key_code)
     return ""
 end
 
-function update()
+function update(delta_time)
     if next_state ~= "main_menu" then
         return next_state
     end

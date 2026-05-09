@@ -13,7 +13,7 @@ namespace Game {
             Intro();
             ~Intro();
             void HandleEvent(const SDL_Event& event);
-            std::shared_ptr<Base> Update();
+            std::shared_ptr<Base> Update(const double deltaTime);
             void Render();
 
         private:

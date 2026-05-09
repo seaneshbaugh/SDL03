@@ -139,6 +139,8 @@ namespace Game {
         // objects independently.
         while (this->states.size() > 0) {
             int startTicks = SDL_GetTicks();
+            Services::Locator::TimeService()->BeginFrame();
+
             std::shared_ptr<States::Base> currentState = this->states.top();
             std::shared_ptr<States::Base> nextState = currentState;
 
@@ -169,7 +171,7 @@ namespace Game {
                 break;
             }
 
-            nextState = currentState->Update();
+            nextState = currentState->Update(Services::Locator::TimeService()->GetDeltaTime());
 
             this->Render();
 

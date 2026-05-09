@@ -175,7 +175,7 @@ function tick()
     end
 end
 
-function update()
+function update(delta_time)
     m = 0
 
     for i, v in ipairs(monsters) do

@@ -46,7 +46,7 @@ namespace Game {
         public:
             virtual ~Base();
             virtual void HandleEvent(const SDL_Event& event) = 0;
-            virtual std::shared_ptr<Base> Update() = 0;
+            virtual std::shared_ptr<Base> Update(const double deltaTime) = 0;
             virtual void Render() = 0;
             virtual void Pop();
 

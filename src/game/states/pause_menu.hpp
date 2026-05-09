@@ -16,7 +16,7 @@ namespace Game {
             PauseMenu();
             ~PauseMenu();
             void HandleEvent(const SDL_Event& event);
-            std::shared_ptr<Base> Update();
+            std::shared_ptr<Base> Update(const double deltaTime);
             void Render();
             Objects::Characters::Party GetParty();
             std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> GetPartyCharacters();

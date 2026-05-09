@@ -22,8 +22,8 @@ namespace Game {
             }
         }
 
-        std::shared_ptr<Base> Intro::Update() {
-            std::string nextState = (*this->luaState.get())["update"]();
+        std::shared_ptr<Base> Intro::Update(const double deltaTime) {
+            std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {
                 return nullptr;

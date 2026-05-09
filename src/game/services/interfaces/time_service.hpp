@@ -9,6 +9,9 @@ namespace Game {
             class TimeService {
             public:
                 virtual ~TimeService() {}
+                virtual void BeginFrame() = 0;
+                virtual double GetDeltaTime() const = 0;
+                virtual double GetElapsedTime() const = 0;
                 virtual void IncrementFrameCount() = 0;
                 virtual void StartClock(const unsigned int offset) = 0;
                 virtual unsigned int GetFrameCount() = 0;

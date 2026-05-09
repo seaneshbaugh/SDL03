@@ -83,7 +83,7 @@ function process_input(key_code)
     return ""
 end
 
-function update()
+function update(delta_time)
     if save_game_menu["selected_option"] ~= nil then
         save_game_menu_state:saveGame(save_game_menu["selected_option"])
 

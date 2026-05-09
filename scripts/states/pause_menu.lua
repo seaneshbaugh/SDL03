@@ -177,7 +177,7 @@ function process_input(key_code)
     return ""
 end
 
-function update()
+function update(delta_time)
     if current_menu["selected_option"] == 7 then
         current_menu["selected_option"] = nil
 

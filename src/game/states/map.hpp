@@ -14,7 +14,7 @@ namespace Game {
             Map();
             ~Map();
             void HandleEvent(const SDL_Event& event);
-            std::shared_ptr<Base> Update();
+            std::shared_ptr<Base> Update(const double deltaTime);
             void Render();
             bool LoadMap(const std::string& filename);
             bool UnloadMap();

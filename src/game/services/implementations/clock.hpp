@@ -5,6 +5,8 @@
 #include "../locator.hpp"
 #include "../interfaces/time_service.hpp"
 
+#define MAXIMUM_DELTA_TIME 0.05
+
 namespace Game {
     namespace Services {
         namespace Implementations {
@@ -12,14 +14,22 @@ namespace Game {
             public:
                 Clock();
                 ~Clock();
+                void BeginFrame();
+                double GetDeltaTime() const;
+                double GetElapsedTime() const;
                 void IncrementFrameCount();
                 void StartClock(const unsigned int offset);
                 unsigned int GetFrameCount();
                 std::tuple<unsigned int, unsigned int, unsigned int> GetClockTime();
+                double GetGameTimeSeconds() const;
 
             private:
                 static const std::string logChannel;
 
+                Uint64 previousCounter;
+                double deltaTime;
+                double elapsedTime;
+                double offsetSeconds;
                 unsigned int frameCount;
                 unsigned int startFrame;
                 unsigned int offset;

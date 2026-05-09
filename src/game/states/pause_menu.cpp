@@ -35,8 +35,8 @@ namespace Game {
             }
         }
 
-        std::shared_ptr<Base> PauseMenu::Update() {
-            std::string nextState = (*this->luaState.get())["update"]();
+        std::shared_ptr<Base> PauseMenu::Update(const double deltaTime) {
+            std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {
                 return nullptr;

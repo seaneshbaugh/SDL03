@@ -212,7 +212,7 @@ function step(x, y)
     return "map"
 end
 
-function update()
+function update(delta_time)
     done_moving = false
 
     screen_x_movement_offset = screen_x_movement_offset + screen_x_velocity

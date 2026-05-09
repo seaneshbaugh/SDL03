@@ -97,7 +97,7 @@ function process_input(key_code)
     return ""
 end
 
-function update()
+function update(delta_time)
 
 end
 
