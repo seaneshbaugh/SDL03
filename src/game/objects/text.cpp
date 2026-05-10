@@ -10,21 +10,21 @@ namespace Game {
             this->texture = nullptr;
         }
 
-        Text::Text(const std::string& text, std::shared_ptr<Resources::Font> font, const int x, const int y, const SDL_Color& color) {
+        Text::Text(const std::string& text, std::shared_ptr<Resources::Font> font, const float x, const float y, const SDL_Color& color) {
             this->text = text;
             this->font = font;
             this->color = color;
-            this->position = {x, y, 0, 0};
+            this->position = {x, y, 0.0f, 0.0f};
             this->texture = nullptr;
 
             this->UpdateTexture();
         }
 
-        Text::Text(const std::string& text, const std::string& fontName, const int fontSize, const int x, const int y, const Uint8 r, const Uint8 g, const Uint8 b) {
+        Text::Text(const std::string& text, const std::string& fontName, const int fontSize, const float x, const float y, const Uint8 r, const Uint8 g, const Uint8 b) {
             this->text = text;
             this->font = Services::Locator::FontService()->GetFont(fontName, fontSize);
             this->color = {r, g, b};
-            this->position = {x, y, 0, 0};
+            this->position = {x, y, 0.0f, 0.0f};
             this->texture = nullptr;
 
             this->UpdateTexture();
@@ -56,34 +56,33 @@ namespace Game {
             this->SetFont(Services::Locator::FontService()->GetFont(fontName, fontSize));
         }
 
-        SDL_Rect Text::GetPosition() {
+        SDL_FRect Text::GetPosition() {
             return this->position;
         }
 
-        int Text::GetX() {
+        float Text::GetX() {
             return this->position.x;
         }
 
-        int Text::GetY() {
+        float Text::GetY() {
             return this->position.y;
         }
 
-        int Text::GetWidth() {
+        float Text::GetWidth() {
             return this->position.w;
         }
 
-        int Text::GetHeight() {
+        float Text::GetHeight() {
             return this->position.h;
         }
 
-        void Text::SetPosition(int x, int y) {
-            int w = 0;
-            int h = 0;
+        void Text::SetPosition(float x, float y) {
+            float w = 0;
+            float h = 0;
 
             if (this->texture) {
-                w = this->texture->w;
-
-                h = this->texture->h;
+                w = static_cast<float>(this->texture->w);
+                h = static_cast<float>(this->texture->h);
             }
 
             this->position = {x, y, w, h};
@@ -104,7 +103,7 @@ namespace Game {
                 return;
             }
 
-            Services::Locator::VideoService()->Render(this->texture, nullptr, &this->position);
+            Services::Locator::VideoService()->RenderTexture(this->texture, nullptr, &this->position);
         }
 
         void Text::UpdateTexture() {

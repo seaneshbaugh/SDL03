@@ -51,7 +51,7 @@ namespace Game {
                 int GetHeight();
                 bool GetWalkability(const int x, const int y);
                 std::vector <std::shared_ptr<MapObject>> GetObjects(const int x, const int y);
-                void Render(const int xOffset, const int yOffset, const int xMovementOffset, const int yMovementOffset);
+                void Render(const float xOffset, const float yOffset, const float xMovementOffset, const float yMovementOffset);
 
             private:
                 static const std::string logChannel;

@@ -30,27 +30,27 @@ namespace Game {
             }
         }
 
-        SDL_Rect Image::GetPosition() {
+        SDL_FRect Image::GetPosition() {
             return this->position;
         }
 
-        int Image::GetX() {
+        float Image::GetX() {
             return this->position.x;
         }
 
-        int Image::GetY() {
+        float Image::GetY() {
             return this->position.y;
         }
 
-        int Image::GetWidth() {
+        float Image::GetWidth() {
             return this->position.w;
         }
 
-        int Image::GetHeight() {
+        float Image::GetHeight() {
             return this->position.h;
         }
 
-        void Image::SetPosition(int x, int y) {
+        void Image::SetPosition(float x, float y) {
             this->position = {x, y, this->position.w, this->position.h};
         }
 
@@ -58,39 +58,39 @@ namespace Game {
             this->Render(nullptr);
         }
 
-        void Image::Render(const int clipX, const int clipY, const int clipW, const int clipH) {
-            SDL_Rect clip = {clipX, clipY, clipW, clipH};
+        void Image::Render(const float clipX, const float clipY, const float clipW, const float clipH) {
+            SDL_FRect clip = {clipX, clipY, clipW, clipH};
 
             this->Render(&clip);
         }
 
-        void Image::Render(const SDL_Rect* const clip) {
+        void Image::Render(const SDL_FRect* const clip) {
             if (this->texture == nullptr) {
                 return;
             }
 
-            SDL_Rect renderQuad = {this->position.x, this->position.y, this->position.w, this->position.h};
+            SDL_FRect renderQuad = {this->position.x, this->position.y, this->position.w, this->position.h};
 
             if (clip != nullptr) {
                 renderQuad.w = clip->w;
                 renderQuad.h = clip->h;
             }
 
-            Services::Locator::VideoService()->Render(this->texture, clip, &renderQuad);
+            Services::Locator::VideoService()->RenderTexture(this->texture, clip, &renderQuad);
         }
 
         void Image::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
             sol::table objects = (*luaState.get())["objects"].get_or_create<sol::table>(sol::new_table());
 
             objects.new_usertype<Image>("Image",
-                                        sol::constructors<Image(), Image(const std::string&, const int, const int)>(),
+                                        sol::constructors<Image(), Image(const std::string&, const float, const float)>(),
                                         "getX", &Image::GetX,
                                         "getY", &Image::GetY,
                                         "getWidth", &Image::GetWidth,
                                         "getHeight", &Image::GetHeight,
                                         "setPosition", &Image::SetPosition,
                                         "render", sol::overload(static_cast<void (Image::*)()>(&Image::Render),
-                                                                static_cast<void (Image::*)(const int, const int, const int, const int)>(&Image::Render))
+                                                                static_cast<void (Image::*)(const float, const float, const float, const float)>(&Image::Render))
                                         );
         }
     }

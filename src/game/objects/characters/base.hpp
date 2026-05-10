@@ -59,7 +59,7 @@ namespace Game {
                 unsigned int ATBStart();
                 bool Load(const std::string& filename);
                 bool Parse(const std::string& jsonString);
-                void Render(const int x, const int y);
+                void Render(const float x, const float y);
 
             protected:
                 unsigned long long int level;

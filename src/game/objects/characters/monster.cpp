@@ -9,12 +9,14 @@ namespace Game {
             Monster::~Monster() {
             }
 
-            void Monster::Render(const int x, const int y) {
-                const SDL_Rect srcrect = {0, 0, 32, 32};
+            void Monster::Render(const float x, const float y) {
+                // TODO: Use actual width and height of the sprite instead of hardcoding 32x32.
+                // This is just a placeholder until I have actual sprites to work with.
+                const SDL_FRect srcrect = {0.0f, 0.0f, 32.0f, 32.0f};
 
-                const SDL_Rect dstrect = {x, y, 32, 32};
+                const SDL_FRect dstrect = {x, y, 32.0f, 32.0f};
 
-                Services::Locator::VideoService()->Render(this->sprite, &srcrect, &dstrect);
+                Services::Locator::VideoService()->RenderTexture(this->sprite, &srcrect, &dstrect);
             }
 
             void Monster::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {

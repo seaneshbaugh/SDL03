@@ -57,35 +57,8 @@ namespace Game {
                 SDL_RenderClear(this->renderer.get());
             }
 
-            bool VideoManager::Render(SDL_Texture* texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect) {
-                // TODO: Remove this temporary shim to convert SDL_Rect to SDL_FRect.
-                SDL_FRect srcf;
-                SDL_FRect dstf;
-
-                SDL_FRect* srcp = nullptr;
-                SDL_FRect* dstp = nullptr;
-
-                if (srcrect) {
-                    srcf = SDL_FRect{
-                        static_cast<float>(srcrect->x),
-                        static_cast<float>(srcrect->y),
-                        static_cast<float>(srcrect->w),
-                        static_cast<float>(srcrect->h)};
-
-                    srcp = &srcf;
-                }
-
-                if (dstrect) {
-                    dstf = SDL_FRect{
-                        static_cast<float>(dstrect->x),
-                        static_cast<float>(dstrect->y),
-                        static_cast<float>(dstrect->w),
-                        static_cast<float>(dstrect->h)};
-
-                    dstp = &dstf;
-                }
-
-                if (SDL_RenderTexture(this->renderer.get(), texture, srcp, dstp) == false) {
+            bool VideoManager::RenderTexture(SDL_Texture* texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) {
+                if (SDL_RenderTexture(this->renderer.get(), texture, srcrect, dstrect) == false) {
                     this->logger->error() << "Failed to render texture: " << SDL_GetError();
 
                     return false;
@@ -94,8 +67,8 @@ namespace Game {
                 return true;
             }
 
-            bool VideoManager::Render(std::shared_ptr<Resources::Texture> texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect) {
-                return this->Render(texture->GetSDLTexture().get(), srcrect, dstrect);
+            bool VideoManager::RenderTexture(std::shared_ptr<Resources::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) {
+                return this->RenderTexture(texture->GetSDLTexture().get(), srcrect, dstrect);
             }
 
             void VideoManager::UpdateScreen() {

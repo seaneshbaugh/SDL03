@@ -10,7 +10,7 @@ namespace Game {
             public:
                 Monster();
                 ~Monster();
-                void Render(const int x, const int y);
+                void Render(const float x, const float y);
 
                 class LuaInterface {
                 public:

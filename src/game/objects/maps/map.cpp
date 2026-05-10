@@ -128,20 +128,20 @@ namespace Game {
                 return result;
             }
 
-            void Map::Render(int xOffset, int yOffset, int xMovementOffset, int yMovementOffset) {
-                if (xOffset < 0) {
-                    xOffset = 0;
+            void Map::Render(float xOffset, float yOffset, float xMovementOffset, float yMovementOffset) {
+                if (xOffset < 0.0f) {
+                    xOffset = 0.0f;
                 } else {
-                    if (xOffset > this->width - 20) {
-                        xOffset = this->width - 20;
+                    if (xOffset > static_cast<float>(this->width) - 20.0f) {
+                        xOffset = static_cast<float>(this->width) - 20.0f;
                     }
                 }
 
-                if (yOffset < 0) {
-                    yOffset = 0;
+                if (yOffset < 0.0f) {
+                    yOffset = 0.0f;
                 } else {
-                    if (yOffset > this->height - 15) {
-                        yOffset = this->height - 15;
+                    if (yOffset > static_cast<float>(this->height) - 15.0f) {
+                        yOffset = static_cast<float>(this->height) - 15.0f;
                     }
                 }
 
@@ -152,20 +152,20 @@ namespace Game {
                         continue;
                     }
 
-                    int x = 0;
-                    int y = 0;
+                    float x = 0.0f;
+                    float y = 0.0f;
 
                     for (auto tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); ++tile) {
                         if (x >= this->width) {
-                            x = 0;
+                            x = 0.0f;
 
-                            y++;
+                            y += 1.0f;
                         }
 
                         if (*tile != 0) {
-                            SDL_Rect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
+                            SDL_FRect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
 
-                            Services::Locator::VideoService()->Render(this->tiles[*tile]->texture, nullptr, &tilePosition);
+                            Services::Locator::VideoService()->RenderTexture(this->tiles[*tile]->texture, nullptr, &tilePosition);
                         }
 
                         x++;

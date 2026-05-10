@@ -16,8 +16,8 @@ namespace Game {
             public:
                 ~VideoService() {}
                 virtual void ClearScreen() = 0;
-                virtual bool Render(SDL_Texture* texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect) = 0;
-                virtual bool Render(std::shared_ptr<Resources::Texture> texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect) = 0;
+                virtual bool RenderTexture(SDL_Texture* texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) = 0;
+                virtual bool RenderTexture(std::shared_ptr<Resources::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) = 0;
                 virtual void UpdateScreen() = 0;
                 virtual std::shared_ptr<SDL_Renderer> GetRenderer() = 0;
             };

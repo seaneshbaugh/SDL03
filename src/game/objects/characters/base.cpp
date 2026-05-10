@@ -256,12 +256,13 @@ namespace Game {
                 return true;
             }
 
-            void Base::Render(const int x, const int y) {
-                const SDL_Rect srcrect = {32, 32, 32, 32};
+            void Base::Render(const float x, const float y) {
+                // TODO: Figure out a better way than just hardcoding these numbers.
+                const SDL_FRect srcrect = {32.0f, 32.0f, 32.0f, 32.0f};
 
-                const SDL_Rect dstrect = {x, y, 32, 32};
+                const SDL_FRect dstrect = {x, y, 32.0f, 32.0f};
 
-                Services::Locator::VideoService()->Render(this->sprite, &srcrect, &dstrect);
+                Services::Locator::VideoService()->RenderTexture(this->sprite, &srcrect, &dstrect);
             }
 
             const std::string Base::Parser::logChannel = "json";

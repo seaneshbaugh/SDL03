@@ -17,8 +17,8 @@ namespace Game {
                 VideoManager(const int screenWidth, const int screenHeight, const std::string& windowTitle);
                 ~VideoManager();
                 void ClearScreen();
-                bool Render(SDL_Texture* texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect);
-                bool Render(std::shared_ptr<Resources::Texture> texture, const SDL_Rect* const srcrect, const SDL_Rect* const dstrect);
+                bool RenderTexture(SDL_Texture* texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect);
+                bool RenderTexture(std::shared_ptr<Resources::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect);
                 void UpdateScreen();
                 std::shared_ptr<SDL_Renderer> GetRenderer();
 

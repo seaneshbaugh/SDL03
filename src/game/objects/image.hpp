@@ -13,20 +13,19 @@ namespace Game {
             Image(const std::string& textureName, const int x, const int y);
             ~Image();
             void SetTexture(std::shared_ptr<Resources::Texture> texture);
-            SDL_Rect GetPosition();
-            void SetPosition(int x, int y);
-            int GetX();
-            int GetY();
-            int GetWidth();
-            int GetHeight();
+            SDL_FRect GetPosition();
+            void SetPosition(float x, float y);
+            float GetX();
+            float GetY();
+            float GetWidth();
+            float GetHeight();
             void Render();
-            void Render(const SDL_Rect* const clip);
-            void Render(const int clipX, const int clipY, const int clipW, const int clipH);
+            void Render(const SDL_FRect* const clip);
+            void Render(const float clipX, const float clipY, const float clipW, const float clipH);
 
         private:
             std::shared_ptr<Resources::Texture> texture;
-            SDL_Rect position;
-
+            SDL_FRect position;
             void UpdateTexture();
 
         public:
