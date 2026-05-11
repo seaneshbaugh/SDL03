@@ -6,6 +6,7 @@
 #include "battle.hpp"
 #include "../objects/maps/map.hpp"
 #include "../objects/world.hpp"
+#include "../camera.hpp"
 
 namespace Game {
     namespace States {
@@ -29,6 +30,10 @@ namespace Game {
 
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
+            std::unique_ptr<Camera> camera;
+            float worldX;
+            float worldY;
+            std::unique_ptr<Objects::Image> player;
 
             std::string ProcessInput(const InputKey key);
             void LoadLuaState(const std::string& scriptFilePath);

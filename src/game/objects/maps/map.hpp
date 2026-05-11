@@ -12,6 +12,7 @@
 #include "../../../helpers/file_system.hpp"
 #include "../../../helpers/path.hpp"
 
+#include "../../../game.hpp"
 #include "../base.hpp"
 #include "map_object.hpp"
 #include "map_layer.hpp"
@@ -51,7 +52,9 @@ namespace Game {
                 int GetHeight();
                 bool GetWalkability(const int x, const int y);
                 std::vector <std::shared_ptr<MapObject>> GetObjects(const int x, const int y);
-                void Render(const float xOffset, const float yOffset, const float xMovementOffset, const float yMovementOffset);
+                std::pair<int, int> GetLoadPoint();
+                // void Render(const float xOffset, const float yOffset, const float xMovementOffset, const float yMovementOffset);
+                void Render(const float cameraX, const float cameraY);
 
             private:
                 static const std::string logChannel;

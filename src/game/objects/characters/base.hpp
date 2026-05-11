@@ -73,6 +73,8 @@ namespace Game {
                 unsigned long long int vitality;
                 unsigned long long int stamina;
                 unsigned long long int luck;
+                unsigned int spriteWidth;
+                unsigned int spriteHeight;
 
                 bool ParseCharacterFile(const std::string& jsonString);
 

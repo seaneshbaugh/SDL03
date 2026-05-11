@@ -10,6 +10,30 @@ namespace Game {
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
+            // Get the viewport dimensions from the video service. This is just for testing purposes for now.
+            // Eventually the viewport dimensions will be determined by the window size and maybe some sort
+            // of settings option for how much of the map to show on screen at once.
+            this->camera = std::make_unique<Camera>(0.0f, 0.0f, 640.0f, 480.0f);
+
+            // TODO: Do not hard code starting position. This is just for testing purposes. Maybe add a
+            // "player_start" object type to the map files and use that to determine where the player
+            // starts on the map.
+            // I'm not sure if the load point's make much sense. It might be better if the map defines
+            // where the player starts.
+            // However it's possible there might be cases where depending on how a player
+            // enters a map they might start in different locations.
+            // What I'm doing here is just for starting on the main world map. Eventually the initial map
+            // will be something else entirely. But I need to get movement working smoothly first.
+            // What I'm going for right now is rendering the player at the top left corner of the map.
+            // They should move down to the right diagonally
+            // three tiles per second until they hit the edge of the map. This is just to make sure
+            // that Camera::Follow is working as expected.
+            Services::Locator::WorldService()->UpdatePlayerPosition(0, 0);
+            this->worldX = 0.0f;
+            this->worldY = 0.0f;
+
+
+            this->player = std::make_unique<Objects::Image>(this->GetPlayerSpriteName(), 320, 224);
         }
 
         Map::~Map() {
@@ -25,6 +49,41 @@ namespace Game {
 
         std::shared_ptr<Base> Map::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
+
+            float newX = this->worldX + (96 * deltaTime);
+            float newY = this->worldX + (96 * deltaTime);
+
+            this->logger->debug() << "newX: " << newX << ", newY: " << newY;
+
+            if (newX >= this->currentMap->width * this->currentMap->tilewidth) {
+                newX = this->currentMap->width * this->currentMap->tilewidth;
+            }
+
+            if (newY >= this->currentMap->height * this->currentMap->tileheight) {
+                newY = this->currentMap->height * this->currentMap->tileheight;
+            }
+
+            this->camera->Follow(newX, newY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+
+            this->worldX = newX;
+            this->worldY = newY;
+
+            float playerScreenX = this->worldX - this->camera->x;
+            float playerScreenY = this->worldY - this->camera->y - (48 - this->currentMap->tileheight);
+
+            this->logger->debug() << "playerScreenX: " << playerScreenX << ", playerScreenY: " << playerScreenY;
+
+            if (playerScreenX > this->camera->viewportWidth - 32) {
+                playerScreenX = this->camera->viewportWidth - 32;
+            }
+
+            if (playerScreenY > this->camera->viewportHeight - 48) {
+                playerScreenY = this->camera->viewportHeight - 48;
+            }
+
+            this->player->SetPosition(playerScreenX, playerScreenY);
+
+
 
             if (this->pop) {
                 return nullptr;
@@ -47,7 +106,13 @@ namespace Game {
         }
 
         void Map::Render() {
-            (*this->luaState.get())["render"]();
+            // (*this->luaState.get())["render"]();
+
+            //this->currentMap->Render(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth, Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
+
+            this->currentMap->Render(this->camera->x, this->camera->y);
+
+            this->player->Render(0, 48 * 0, 32, 48);
         }
 
         bool Map::LoadMap(const std::string& filename) {
