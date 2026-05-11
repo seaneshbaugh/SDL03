@@ -70,6 +70,8 @@
     <ClCompile Include="src\game\events\tick.cpp" />
     <ClCompile Include="src\game\input_mapper.cpp" />
     <ClCompile Include="src\game\objects\base.cpp" />
+    <ClCompile Include="src\game\objects\characters\animation.cpp" />
+    <ClCompile Include="src\game\objects\characters\animation_frame.cpp" />
     <ClCompile Include="src\game\objects\characters\base.cpp" />
     <ClCompile Include="src\game\objects\characters\monster.cpp" />
     <ClCompile Include="src\game\objects\characters\non_player_character.cpp" />
@@ -193,6 +195,9 @@
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
+    <ClInclude Include="src\game\objects\characters\animation.hpp" />
+    <ClInclude Include="src\game\objects\characters\animation_frame.hpp" />
+    <ClInclude Include="src\game\objects\characters\animation_offset.hpp" />
     <ClInclude Include="src\game\objects\characters\base.hpp" />
     <ClInclude Include="src\game\objects\characters\monster.hpp" />
     <ClInclude Include="src\game\objects\characters\non_player_character.hpp" />
@@ -259,6 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="resources\characters\character03.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

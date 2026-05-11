@@ -1,0 +1,17 @@
+{
+  "name": "Kyle",
+  "level": 1,
+  "hitPoints": 22,
+  "magicPoints": 0,
+  "strength": 5,
+  "dexterity": 6,
+  "intelligence": 3,
+  "vitality": 3,
+  "stamina": 4,
+  "luck": 7,
+  "abilities": [ "attack" ],
+  "sprite": "assets/images/characters/kyle.png",
+  "spritesheet": "assets/images/characters/kyle-sheet.png",
+  "spriteWidth": 32,
+  "spriteHeight": 48
+}

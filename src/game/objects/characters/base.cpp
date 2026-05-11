@@ -295,6 +295,52 @@ namespace Game {
                 character->spritesheetName = "characters.spritesheet." + character->name;
                 character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode["sprite"].get<std::string>());
                 character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode["spritesheet"].get<std::string>());
+                character->spriteWidth = characterNode["spriteWidth"].get<unsigned int>();
+                character->spriteHeight = characterNode["spriteHeight"].get<unsigned int>();
+                character->animations = this->ParseAnimations(characterNode["animations"]);
+            }
+
+            std::map<std::string, Animation> Base::Parser::ParseAnimations(const json& node) {
+                std::map<std::string, Animation> animations;
+
+                for (auto animationNode = node.begin(); animationNode != node.end(); ++animationNode) {
+                    const std::string animationName = animationNode.key();
+
+                    // animationNode.value() is a json object for this animation
+                    const json& directions = animationNode.value();
+                    for (auto animationDirectionNode = directions.begin(); animationDirectionNode != directions.end(); ++animationDirectionNode) {
+                        const std::string animationDirection = animationDirectionNode.key();
+
+                        if (animationDirection != "up" && animationDirection != "down" && animationDirection != "left" && animationDirection != "right") {
+                            this->logger->error() << "Invalid animation direction \"" << animationDirection << "\" for animation \"" << animationName << "\".";
+                            continue;
+                        }
+
+                        unsigned int width = animationDirectionNode.value()["width"].get<unsigned int>();
+                        unsigned int height = animationDirectionNode.value()["height"].get<unsigned int>();
+
+                        std::vector<AnimationFrame> frames;
+
+                        for (auto frameNode = animationDirectionNode.value()["frames"].begin(); frameNode != animationDirectionNode.value()["frames"].end(); ++frameNode) {
+                            frames.push_back(this->ParseAnimationFrame(frameNode.value()));
+                        }
+
+                        Animation animation(width, height, frames);
+
+                        animations.insert(std::make_pair(animationName + "." + animationDirection, animation));
+                    }
+                }
+
+                return animations;
+            }
+
+            AnimationFrame Base::Parser::ParseAnimationFrame(const json& node) {
+                const unsigned int offsetX = node[0].get<unsigned int>();
+                const unsigned int offsetY = node[1].get<unsigned int>();
+
+                Characters::AnimationFrame frame(offsetX, offsetY);
+
+                return frame;
             }
         }
     }

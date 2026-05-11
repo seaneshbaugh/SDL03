@@ -53,3 +53,5 @@ An attempt at an RPG.
 * http://www.mapeditor.org/
 * https://oclint-docs.readthedocs.io/en/stable/guide/xcode.html
 * https://clang.llvm.org/docs/ClangFormat.html
+
+https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator

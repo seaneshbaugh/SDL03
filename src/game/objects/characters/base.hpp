@@ -12,6 +12,7 @@
 #include "../../../helpers/file_system.hpp"
 #include "../../resources/texture.hpp"
 #include "../base.hpp"
+#include "animation.hpp"
 
 using json = nlohmann::json;
 
@@ -21,6 +22,10 @@ namespace Game {
             class Base : public Objects::Base {
             public:
                 std::string name;
+                // TODO: At some point I will want to combine all possible sprites for a character into a single spritesheet.
+                // Rigt now the sprite is just a single image that is used for rendering the character in the battle state.
+                // The spritesheet is used for animating the character in the map state. I'll need to add something to the JSON
+                // character files to specify the offsets for each different sprite in the spritesheet.
                 std::string spriteName;
                 std::string spritesheetName;
                 std::shared_ptr<Resources::Texture> sprite;
@@ -57,6 +62,8 @@ namespace Game {
                 unsigned long long int Heal(const unsigned long long int damage);
                 unsigned long long int Heal(const unsigned long long int damage, const bool limited);
                 unsigned int ATBStart();
+                unsigned int GetSpriteWidth();
+                unsigned int GetSpriteHeight();
                 bool Load(const std::string& filename);
                 bool Parse(const std::string& jsonString);
                 void Render(const float x, const float y);
@@ -75,6 +82,7 @@ namespace Game {
                 unsigned long long int luck;
                 unsigned int spriteWidth;
                 unsigned int spriteHeight;
+                std::map<std::string, Animation> animations;
 
                 bool ParseCharacterFile(const std::string& jsonString);
 
@@ -88,6 +96,9 @@ namespace Game {
                     static const std::string logChannel;
 
                     std::shared_ptr<Log::Logger> logger;
+
+                    std::map<std::string, Animation> ParseAnimations(const json& node);
+                    AnimationFrame ParseAnimationFrame(const json& node);
                 };
             };
         }
