@@ -139,7 +139,7 @@ namespace Game {
             //    this->playerScreenY = this->camera->viewportHeight - playerSpriteHeight;
             //}
 
-            this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
+            this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", targetTileX: " << this->targetTileX * this->currentMap->tilewidth << ", targetTileY: " << this->targetTileY * this->currentMap->tileheight << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
 
 
             //float newX = 0.0f;
@@ -214,17 +214,15 @@ namespace Game {
             case InputKey::UP_KEY:
                 this->logger->debug() << "Up key pressed.";
 
-                if (!this->moving) {
-                    // TODO: Add "walkability" layer collision detection here????
-                    if (this->targetTileY > 0) {
-                        this->targetTileY--;
-                    }
+                // TODO: Add "walkability" layer collision detection here????
+                if (this->targetTileY > 0) {
+                    this->targetTileY--;
+                }
 
-                    if (this->targetTileX != playerCurrentX || this->targetTileY != playerCurrentY) {
-                        this->moving = true;
+                if (this->targetTileX != playerCurrentX || this->targetTileY != playerCurrentY) {
+                    this->moving = true;
 
-                        this->movementDirection = 1; // Up
-                    }
+                    this->movementDirection = 1; // Up
                 }
 
                 this->movementInputHeld = true;
