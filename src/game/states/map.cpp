@@ -131,58 +131,7 @@ namespace Game {
             this->playerScreenX = this->worldX - this->camera->x;
             this->playerScreenY = this->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
-            //if (this->playerScreenX > this->camera->viewportWidth - playerSpriteWidth) {
-            //    this->playerScreenX = this->camera->viewportWidth - playerSpriteWidth;
-            //}
-
-            //if (this->playerScreenY > this->camera->viewportHeight - playerSpriteHeight) {
-            //    this->playerScreenY = this->camera->viewportHeight - playerSpriteHeight;
-            //}
-
             this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", targetTileX: " << this->targetTileX * this->currentMap->tilewidth << ", targetTileY: " << this->targetTileY * this->currentMap->tileheight << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
-
-
-            //float newX = 0.0f;
-            ////this->worldX + (128.0f * deltaTime);
-            //float newY = this->worldY + (this->movementSpeed * deltaTime);
-
-            //// this->logger->debug() << "newX: " << newX << ", newY: " << newY;
-
-            //if (newX >= this->currentMap->width * this->currentMap->tilewidth) {
-            //    newX = this->currentMap->width * this->currentMap->tilewidth;
-            //}
-
-            //if (newY >= this->currentMap->height * this->currentMap->tileheight) {
-            //    newY = this->currentMap->height * this->currentMap->tileheight;
-            //}
-
-            //this->camera->Follow(newX, newY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
-
-            //this->worldX = newX;
-            //this->worldY = newY;
-
-            //float playerSpriteWidth = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect("walk.down", 0).w);
-            //float playerSpriteHeight = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect("walk.down", 0).h);
-
-            //this->playerScreenX = this->worldX - this->camera->x;
-            //this->playerScreenY = this->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
-
-            //// this->logger->debug() << "playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY;
-
-            //if (this->playerScreenX > this->camera->viewportWidth - playerSpriteWidth) {
-            //    this->playerScreenX = this->camera->viewportWidth - playerSpriteWidth;
-            //}
-
-            //if (this->playerScreenY > this->camera->viewportHeight - playerSpriteHeight) {
-            //    this->playerScreenY = this->camera->viewportHeight - playerSpriteHeight;
-            //}
-
-            //this->timeSinceLastWalkAnimationFrame += deltaTime;
-
-            //if (this->timeSinceLastWalkAnimationFrame >= 0.125f) {
-            //    this->walkAnimationFrame = (this->walkAnimationFrame + 1) % 8;
-            //    this->timeSinceLastWalkAnimationFrame = 0.0f;
-            // }
 
             if (this->pop) {
                 return nullptr;
@@ -311,7 +260,6 @@ namespace Game {
         void Map::Render() {
             this->currentMap->Render(this->camera->x, this->camera->y);
 
-            // TODO: Add actual animation later. Currently this just loops the walk.down animation.
             Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->playerSpriteName, this->walkAnimationFrame, this->playerScreenX, this->playerScreenY);
         }
 
