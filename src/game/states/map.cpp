@@ -38,6 +38,9 @@ namespace Game {
             this->moving = false;
             this->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
             // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
+            // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
+            this->movementInputHeldDirection = 0;
+            this->movementInputHeld = false;
             this->movementDirection = 3;
             this->playerSpriteName = "stand.down";
         }
@@ -60,41 +63,53 @@ namespace Game {
         std::shared_ptr<Base> Map::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
+            if (!this->moving && this->movementInputHeld) {
+                this->BeginMovement(this->movementInputHeldDirection);
+            }
+
             if (this->moving) {
                 switch (this->movementDirection) {
                 case 1: // Up
                     this->worldY -= this->movementSpeed * deltaTime;
 
-                    if (this->worldY < this->targetTileY * this->currentMap->tileheight) {
+                    if (this->worldY <= this->targetTileY * this->currentMap->tileheight) {
                         this->worldY = this->targetTileY * this->currentMap->tileheight;
+
                         this->moving = false;
+
                         Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
                     }
                     break;
                 case 2: // Right
                     this->worldX += this->movementSpeed * deltaTime;
 
-                    if (this->worldX > this->targetTileX * this->currentMap->tilewidth) {
+                    if (this->worldX >= this->targetTileX * this->currentMap->tilewidth) {
                         this->worldX = this->targetTileX * this->currentMap->tilewidth;
+
                         this->moving = false;
+
                         Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
                     }
                     break;
                 case 3: // Down
                     this->worldY += this->movementSpeed * deltaTime;
 
-                    if (this->worldY > this->targetTileY * this->currentMap->tileheight) {
+                    if (this->worldY >= this->targetTileY * this->currentMap->tileheight) {
                         this->worldY = this->targetTileY * this->currentMap->tileheight;
+
                         this->moving = false;
+
                         Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
                     }
                     break;
                 case 4: // Left
                     this->worldX -= this->movementSpeed * deltaTime;
 
-                    if (this->worldX < this->targetTileX * this->currentMap->tilewidth) {
+                    if (this->worldX <= this->targetTileX * this->currentMap->tilewidth) {
                         this->worldX = this->targetTileX * this->currentMap->tilewidth;
+
                         this->moving = false;
+
                         Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
                     }
                     break;
@@ -131,7 +146,7 @@ namespace Game {
             this->playerScreenX = this->worldX - this->camera->x;
             this->playerScreenY = this->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
-            this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", targetTileX: " << this->targetTileX * this->currentMap->tilewidth << ", targetTileY: " << this->targetTileY * this->currentMap->tileheight << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
+            // this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", targetTileX: " << this->targetTileX * this->currentMap->tilewidth << ", targetTileY: " << this->targetTileY * this->currentMap->tileheight << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
 
             if (this->pop) {
                 return nullptr;
@@ -147,6 +162,50 @@ namespace Game {
             }
         }
 
+        void Map::BeginMovement(const int direction) {
+            this->startTileX = Services::Locator::WorldService()->GetWorld()->playerCurrentX;
+            this->startTileY = Services::Locator::WorldService()->GetWorld()->playerCurrentY;
+
+            this->targetTileX = this->startTileX;
+            this->targetTileY = this->startTileY;
+
+            switch (direction) {
+            case 1: // Up
+                // TODO: Add "walkability" layer collision detection here????
+                if (this->targetTileY > 0) {
+                    this->targetTileY--;
+                }
+
+                break;
+            case 2: // Right
+                if (this->targetTileX < Services::Locator::WorldService()->GetWorld()->currentMap->width - 1) {
+                    targetTileX++;
+                }
+
+                break;
+            case 3: // Down
+                if (this->targetTileY < Services::Locator::WorldService()->GetWorld()->currentMap->height - 1) {
+                    this->targetTileY++;
+                }
+
+                break;
+            case 4: // Left
+                if (this->targetTileX > 0) {
+                    this->targetTileX--;
+                }
+
+                break;
+            }
+
+            // Only start moving if the target tile is different from the starting tile.
+            if (this->targetTileX != this->startTileX || this->targetTileY != this->startTileY) {
+                this->moving = true;
+            }
+
+            // Always change movement direction so even if we can't move in that direction we still face the correct way.
+            this->movementDirection = direction;
+        }
+
         std::string Map::ProcessInput(const InputKey key) {
             //std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
@@ -154,25 +213,11 @@ namespace Game {
         }
 
         void Map::ProcessButtonDown(const InputKey key) {
-            unsigned int playerCurrentX = Services::Locator::WorldService()->GetWorld()->playerCurrentX;
-            unsigned int playerCurrentY = Services::Locator::WorldService()->GetWorld()->playerCurrentY;
-            this->targetTileX = playerCurrentX;
-            this->targetTileY = playerCurrentY;
-
             switch(key) {
             case InputKey::UP_KEY:
                 this->logger->debug() << "Up key pressed.";
 
-                // TODO: Add "walkability" layer collision detection here????
-                if (this->targetTileY > 0) {
-                    this->targetTileY--;
-                }
-
-                if (this->targetTileX != playerCurrentX || this->targetTileY != playerCurrentY) {
-                    this->moving = true;
-
-                    this->movementDirection = 1; // Up
-                }
+                this->movementInputHeldDirection = 1; // Up
 
                 this->movementInputHeld = true;
 
@@ -180,15 +225,7 @@ namespace Game {
             case InputKey::RIGHT_KEY:
                 this->logger->debug() << "Right key pressed.";
 
-                if (this->targetTileX < Services::Locator::WorldService()->GetWorld()->currentMap->width - 1) {
-                    targetTileX++;
-                }
-
-                if (this->targetTileX != playerCurrentX || this->targetTileY != playerCurrentY) {
-                    this->moving = true;
-
-                    this->movementDirection = 2; // Right
-                }
+                this->movementInputHeldDirection = 2; // Right
 
                 this->movementInputHeld = true;
 
@@ -196,15 +233,7 @@ namespace Game {
             case InputKey::DOWN_KEY:
                 this->logger->debug() << "Down key pressed.";
 
-                if (this->targetTileY < Services::Locator::WorldService()->GetWorld()->currentMap->height - 1) {
-                    this->targetTileY++;
-                }
-
-                if (this->targetTileX != playerCurrentX || this->targetTileY != playerCurrentY) {
-                    this->moving = true;
-
-                    this->movementDirection = 3; // Down
-                }
+                this->movementInputHeldDirection = 3; // Down
 
                 this->movementInputHeld = true;
 
@@ -212,15 +241,7 @@ namespace Game {
             case InputKey::LEFT_KEY:
                 this->logger->debug() << "Left key pressed.";
 
-                if (this->targetTileX > 0) {
-                    this->targetTileX--;
-                }
-
-                if (this->targetTileX != playerCurrentX || this->targetTileY != playerCurrentY) {
-                    this->moving = true;
-
-                    this->movementDirection = 4; // Left
-                }
+                this->movementInputHeldDirection = 4; // Left
 
                 this->movementInputHeld = true;
 
