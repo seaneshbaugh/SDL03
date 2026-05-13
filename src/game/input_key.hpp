@@ -2,6 +2,7 @@
 #define SDL03_Game_InputKey
 
 namespace Game {
+    // TODO: Rename this to something like InputAction or something since it's not really a key. It's more of an abstract representation of an input that can be mapped to different keys or buttons.   
     enum class InputKey : int {
         NO_KEY      = 0,
         UP_KEY      = 1,

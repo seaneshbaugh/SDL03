@@ -31,12 +31,28 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             std::unique_ptr<Camera> camera;
+            // A lot of these probably belong in a separate Player class. For now I'm putting them here just to get movement working smoothly.
             float worldX;
             float worldY;
-            std::unique_ptr<Objects::Image> player;
+            float playerScreenX;
+            float playerScreenY;
+            unsigned int walkAnimationFrame;
+            float timeSinceLastWalkAnimationFrame;
+            float movementSpeed;
+            bool moving;
+            int targetTileX;
+            int targetTileY;
+            int movementDirection;
+            bool movementInputHeld;
+            std::string playerSpriteName;
 
-            std::string ProcessInput(const InputKey key);
+            // TODO: Go through the rest of the game and change references to "keys" to "buttons".
+            // Button is a more accurate term for what these are. They're not necessarily keys on a keyboard. They could be buttons on a gamepad or something else entirely.
+            void ProcessButtonDown(const InputKey key);
+            void ProcessButtonUp(const InputKey key);
+            std::string ProcessInput(const InputKey key); 
             void LoadLuaState(const std::string& scriptFilePath);
+            std::string PlayerSpriteDirection();
 
         public:
             class LuaInterface {

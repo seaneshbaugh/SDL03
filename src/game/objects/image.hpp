@@ -9,8 +9,8 @@ namespace Game {
         class Image : public Base {
         public:
             Image();
-            Image(std::shared_ptr<Resources::Texture> texture, const int x, const int y);
-            Image(const std::string& textureName, const int x, const int y);
+            Image(std::shared_ptr<Resources::Texture> texture, const float x, const float y);
+            Image(const std::string& textureName, const float x, const float y);
             ~Image();
             void SetTexture(std::shared_ptr<Resources::Texture> texture);
             SDL_FRect GetPosition();

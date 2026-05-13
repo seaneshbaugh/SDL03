@@ -23,7 +23,7 @@ namespace Game {
                 //}
 
                 try {
-                    if (event.type == SDL_EVENT_KEY_DOWN) {
+                    if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) {
                         return this->inputMapper->GetInputMapKey(event);
                     } else {
                         return InputKey::NO_KEY;

@@ -32,6 +32,7 @@ namespace Game {
                 Log::Manager::get("json")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("lua")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("map")->setLevel(Log::Log::eDebug);
+                Log::Manager::get("camera")->setLevel(Log::Log::eInfo);
                 Log::Manager::get("input")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("states.intro")->setLevel(Log::Log::eDebug);
                 Log::Manager::get("states.main_menu")->setLevel(Log::Log::eDebug);

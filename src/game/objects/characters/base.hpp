@@ -64,9 +64,10 @@ namespace Game {
                 unsigned int ATBStart();
                 unsigned int GetSpriteWidth();
                 unsigned int GetSpriteHeight();
+                SDL_Rect GetSpriteRect(const std::string& animationName, const unsigned int frameIndex);
                 bool Load(const std::string& filename);
                 bool Parse(const std::string& jsonString);
-                void Render(const float x, const float y);
+                void Render(const std::string animationName, const unsigned int frameIndex, const float x, const float y);
 
             protected:
                 unsigned long long int level;

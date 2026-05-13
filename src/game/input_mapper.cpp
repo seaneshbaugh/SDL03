@@ -38,7 +38,7 @@ namespace Game {
 
     InputKey InputMapper::GetInputMapKey(const SDL_Event& event) {
         try {
-            if (event.type == SDL_EVENT_KEY_DOWN) {
+            if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) {
                 return this->inputMap.at(event.key.key);
             } else {
                 return InputKey::NO_KEY;

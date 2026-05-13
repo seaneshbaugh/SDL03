@@ -234,6 +234,14 @@ namespace Game {
                 return static_cast<unsigned int>(atbStart);
             }
 
+            SDL_Rect Base::GetSpriteRect(const std::string& animationName, const unsigned int frameIndex) {
+                const Animation& animation = this->animations.at(animationName);
+                const AnimationFrame& frame = animation.frames.at(frameIndex);
+                const SDL_Rect rect = {frame.offsetX, frame.offsetY, animation.width, animation.height};
+
+                return rect;
+            }
+
             bool Base::ParseCharacterFile(const std::string& jsonString) {
                 std::unique_ptr<Base::Parser> parser = std::make_unique<Base::Parser>();
 
@@ -256,13 +264,12 @@ namespace Game {
                 return true;
             }
 
-            void Base::Render(const float x, const float y) {
-                // TODO: Figure out a better way than just hardcoding these numbers.
-                const SDL_FRect srcrect = {32.0f, 32.0f, 32.0f, 32.0f};
-
-                const SDL_FRect dstrect = {x, y, 32.0f, 32.0f};
-
-                Services::Locator::VideoService()->RenderTexture(this->sprite, &srcrect, &dstrect);
+            void Base::Render(const std::string animationName, const unsigned int frameIndex, const float x, const float y) {
+                const SDL_Rect spriteRect = this->GetSpriteRect(animationName, frameIndex);
+                SDL_FRect srcrect = {0.0f, 0.0f, 0.0f, 0.0f};
+                SDL_RectToFRect(&spriteRect, &srcrect);
+                const SDL_FRect dstrect = {x, y, static_cast<float>(srcrect.w), static_cast<float>(srcrect.h)};
+                Services::Locator::VideoService()->RenderTexture(this->spritesheet, &srcrect, &dstrect);
             }
 
             const std::string Base::Parser::logChannel = "json";
