@@ -311,7 +311,6 @@ namespace Game {
             Services::Locator::WorldService()->UpdatePlayerPosition(x, y);
         }
 
-        
         std::string Map::PlayerSpriteDirection() {
             switch (this->movementDirection) {
             case 1:

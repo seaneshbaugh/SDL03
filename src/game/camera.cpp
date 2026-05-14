@@ -3,13 +3,6 @@
 namespace Game {
     const std::string Camera::logChannel = "camera";
 
-    Camera::Camera() {
-        this->logger = Services::Locator::LoggerService()->GetLogger(Camera::logChannel);
-
-        this->x = 0;
-        this->y = 0;
-    }
-
     Camera::Camera(const float x, const float y, const float viewportWidth, const float viewportHeight) {
         this->logger = Services::Locator::LoggerService()->GetLogger(Camera::logChannel);
 
