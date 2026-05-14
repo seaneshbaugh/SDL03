@@ -6,7 +6,6 @@
 namespace Game {
     class Camera {
     public:
-        // Camera();
         Camera(const float x, const float y, const float viewportWidth, const float viewportHeight);
         ~Camera();
         void Follow(const float targetX, const float targetY, int mapWidth, int mapHeight);
