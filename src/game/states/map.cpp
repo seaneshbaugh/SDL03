@@ -245,70 +245,10 @@ namespace Game {
 
         void Map::ProcessButtonDown(const InputKey key) {
             // Saving this method since it might be useful for other things later.
-
-            //switch(key) {
-            //case InputKey::UP_KEY:
-            //    this->logger->debug() << "Up key pressed.";
-
-            //    this->movementInputHeldDirection = 1; // Up
-
-            //    this->movementInputHeld = true;
-
-            //    break;
-            //case InputKey::RIGHT_KEY:
-            //    this->logger->debug() << "Right key pressed.";
-
-            //    this->movementInputHeldDirection = 2; // Right
-
-            //    this->movementInputHeld = true;
-
-            //    break;
-            //case InputKey::DOWN_KEY:
-            //    this->logger->debug() << "Down key pressed.";
-
-            //    this->movementInputHeldDirection = 3; // Down
-
-            //    this->movementInputHeld = true;
-
-            //    break;
-            //case InputKey::LEFT_KEY:
-            //    this->logger->debug() << "Left key pressed.";
-
-            //    this->movementInputHeldDirection = 4; // Left
-
-            //    this->movementInputHeld = true;
-
-            //    break;
-            //}
         }
 
         void Map::ProcessButtonUp(const InputKey key) {
-            //switch(key) {
-            //case InputKey::UP_KEY:
-            //    this->logger->debug() << "Up key released.";
-
-            //    this->movementInputHeld = false;
-
-            //    break;
-            //case InputKey::RIGHT_KEY:
-            //    this->logger->debug() << "Right key released.";
-
-            //    this->movementInputHeld = false;
-
-            //    break;
-            //case InputKey::DOWN_KEY:
-            //    this->logger->debug() << "Down key released.";
-
-            //    this->movementInputHeld = false;
-
-            //    break;
-            //case InputKey::LEFT_KEY:
-            //    this->logger->debug() << "Left key released.";
-
-            //    this->movementInputHeld = false;
-
-            //    break;
-            //}
+            // Saving this method since it might be useful for other things later.
         }
 
         void Map::Render() {
