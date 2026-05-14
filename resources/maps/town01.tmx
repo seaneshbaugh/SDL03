@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="7">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="7">
  <tileset firstgid="1" name="Tiles" tilewidth="32" tileheight="32" tilecount="5" columns="0">
   <tile id="0">
    <properties>
     <property name="filename" value="grass-1.png"/>
     <property name="name" value="grass-1"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/grass-1.png"/>
+   <image source="../../assets/images/map_tiles/grass-1.png" width="32" height="32"/>
   </tile>
   <tile id="1">
    <properties>
     <property name="filename" value="water-1.png"/>
     <property name="name" value="water-1"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/water-1.png"/>
+   <image source="../../assets/images/map_tiles/water-1.png" width="32" height="32"/>
   </tile>
   <tile id="2">
    <properties>
     <property name="filename" value="not-walkable.png"/>
     <property name="name" value="not-walkable"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/not-walkable.png"/>
+   <image source="../../assets/images/map_tiles/not-walkable.png" width="32" height="32"/>
   </tile>
   <tile id="3">
    <properties>
     <property name="filename" value="walkable.png"/>
     <property name="name" value="walkable"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/walkable.png"/>
+   <image source="../../assets/images/map_tiles/walkable.png" width="32" height="32"/>
   </tile>
   <tile id="4">
    <properties>
     <property name="filename" value="brick-1.png"/>
     <property name="name" value="brick-1"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/brick-1.png"/>
+   <image source="../../assets/images/map_tiles/brick-1.png" width="32" height="32"/>
   </tile>
  </tileset>
  <layer id="1" name="base_terrain" width="100" height="100">
@@ -10041,7 +10041,7 @@
    <tile gid="2"/>
   </data>
  </layer>
- <layer id="2" name="walkability" width="100" height="100" opacity="0.2">
+ <layer id="2" name="walkability" width="100" height="100" visible="0" opacity="0.2">
   <data>
    <tile gid="4"/>
    <tile gid="4"/>

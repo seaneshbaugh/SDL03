@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="5">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="8">
  <editorsettings>
   <export target="world01.json" format="json"/>
  </editorsettings>
@@ -9,35 +9,35 @@
     <property name="filename" value="grass-1.png"/>
     <property name="name" value="grass-1"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/grass-1.png"/>
+   <image source="../../assets/images/map_tiles/grass-1.png" width="32" height="32"/>
   </tile>
   <tile id="1">
    <properties>
     <property name="filename" value="water-1.png"/>
     <property name="name" value="water-1"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/water-1.png"/>
+   <image source="../../assets/images/map_tiles/water-1.png" width="32" height="32"/>
   </tile>
   <tile id="2">
    <properties>
     <property name="filename" value="not-walkable.png"/>
     <property name="name" value="not-walkable"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/not-walkable.png"/>
+   <image source="../../assets/images/map_tiles/not-walkable.png" width="32" height="32"/>
   </tile>
   <tile id="3">
    <properties>
     <property name="filename" value="walkable.png"/>
     <property name="name" value="walkable"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/walkable.png"/>
+   <image source="../../assets/images/map_tiles/walkable.png" width="32" height="32"/>
   </tile>
   <tile id="4">
    <properties>
     <property name="filename" value="town.png"/>
     <property name="name" value="town"/>
    </properties>
-   <image width="32" height="32" source="../../assets/images/map_tiles/town.png"/>
+   <image source="../../assets/images/map_tiles/town.png" width="32" height="32"/>
   </tile>
  </tileset>
  <layer id="1" name="base_terrain" width="100" height="100">
@@ -10044,7 +10044,7 @@
    <tile gid="2"/>
   </data>
  </layer>
- <layer id="2" name="walkability" width="100" height="100" opacity="0.2">
+ <layer id="2" name="walkability" width="100" height="100" visible="0" opacity="0.2">
   <data>
    <tile gid="3"/>
    <tile gid="3"/>
@@ -20048,7 +20048,7 @@
    <tile gid="3"/>
   </data>
  </layer>
- <layer id="3" name="objects" width="100" height="100">
+ <layer id="3" name="objects" width="100" height="100" visible="0">
   <data>
    <tile/>
    <tile/>
@@ -30053,7 +30053,7 @@
   </data>
  </layer>
  <objectgroup id="4" name="load_points">
-  <object id="1" type="map" x="544" y="192" width="32" height="32">
+  <object id="1" name="town01" type="map" x="544" y="192" width="32" height="32">
    <properties>
     <property name="map" value="town01"/>
     <property name="x" value="3"/>
@@ -30061,7 +30061,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="5" name="encounter_areas">
+ <objectgroup id="5" name="encounter_areas" visible="0">
   <object id="2" type="encounter_area" x="448" y="32" width="416" height="320">
    <properties>
     <property name="background" value="assets/images/backgrounds/battle/grass-1.png"/>
@@ -30074,5 +30074,8 @@
     <property name="name" value="02"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="6" name="start_points">
+  <object id="5" name="default" x="384" y="192" width="32" height="32"/>
  </objectgroup>
 </map>
