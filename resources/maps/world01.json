@@ -441,6 +441,12 @@
                  "id":5,
                  "name":"default",
                  "opacity":1,
+                 "properties":[
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"default"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,

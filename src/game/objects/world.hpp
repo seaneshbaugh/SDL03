@@ -14,8 +14,6 @@ namespace Game {
     namespace Objects {
         class World : public Base {
         public:
-            static const std::string defaultMap;
-
             World();
             ~World();
             void SetStartingPlayerParty();
@@ -23,7 +21,7 @@ namespace Game {
             // TODO: Make this take a mob list whenever I get around to making that a class.
             void SetEnemyParty(const Objects::Maps::MapEncounterArea& encounterArea);
             void UnloadEnemyParty();
-            void LoadMap(const std::string& filename);
+            void LoadMap(const std::string& mapName);
             void UnloadMap();
             json AsJSON();
 

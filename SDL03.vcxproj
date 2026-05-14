@@ -87,6 +87,7 @@
     <ClCompile Include="src\game\objects\maps\map_layer.cpp" />
     <ClCompile Include="src\game\objects\maps\map_load_point.cpp" />
     <ClCompile Include="src\game\objects\maps\map_object.cpp" />
+    <ClCompile Include="src\game\objects\maps\map_start_point.cpp" />
     <ClCompile Include="src\game\objects\maps\map_tile.cpp" />
     <ClCompile Include="src\game\objects\text.cpp" />
     <ClCompile Include="src\game\objects\world.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="src\game\objects\maps\map_layer.hpp" />
     <ClInclude Include="src\game\objects\maps\map_load_point.hpp" />
     <ClInclude Include="src\game\objects\maps\map_object.hpp" />
+    <ClInclude Include="src\game\objects\maps\map_start_point.hpp" />
     <ClInclude Include="src\game\objects\maps\map_tile.hpp" />
     <ClInclude Include="src\game\objects\text.hpp" />
     <ClInclude Include="src\game\objects\world.hpp" />
@@ -265,6 +267,7 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="resources\characters\character03.json" />
+    <None Include="resources\monsters\index.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

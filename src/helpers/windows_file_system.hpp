@@ -1,5 +1,5 @@
-#ifndef SDL03_Helpers_AppleFileSystem
-#define SDL03_Helpers_AppleFileSystem
+#ifndef SDL03_Helpers_WindowsFileSystem
+#define SDL03_Helpers_WindowsFileSystem
 
 #ifdef _WIN32
 

@@ -16,6 +16,9 @@ namespace Game {
             public:
                 ~VideoService() {}
                 virtual void ClearScreen() = 0;
+                // TODO: Make the version of this function that takes a raw pointer private.
+                // Ideally we should only publicly expose the version that takes a shared pointer.
+                // The version that takes a raw pointer can be used internally by the version that takes a shared pointer.
                 virtual bool RenderTexture(SDL_Texture* texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) = 0;
                 virtual bool RenderTexture(std::shared_ptr<Resources::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) = 0;
                 virtual void UpdateScreen() = 0;

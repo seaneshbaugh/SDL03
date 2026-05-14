@@ -28,21 +28,30 @@ namespace Game {
             // They should move down to the right diagonally
             // three tiles per second until they hit the edge of the map. This is just to make sure
             // that Camera::Follow is working as expected.
-            Services::Locator::WorldService()->UpdatePlayerPosition(0, 0);
-            this->worldX = 0.0f;
-            this->worldY = 0.0f;
-            this->playerScreenX = 0.0f;
-            this->playerScreenY = static_cast<float>(this->currentMap->tileheight);
+
+
             this->walkAnimationFrame = 0;
             this->timeSinceLastWalkAnimationFrame = 0.0f;
             this->moving = false;
             this->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
             // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
             // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
-            this->movementInputHeldDirection = 0;
-            this->movementInputHeld = false;
             this->movementDirection = 3;
             this->playerSpriteName = "stand.down";
+
+            this->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
+            this->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
+            this->playerScreenX = 0.0f;
+            this->playerScreenY = static_cast<float>(this->currentMap->tileheight);
+            this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->playerSpriteName, this->walkAnimationFrame);
+            float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
+            float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
+            this->playerScreenX = this->worldX - this->camera->x;
+            this->playerScreenY = this->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+
+            this->movementInputHeldDirection = 0;
+            this->movementInputHeld = false;
         }
 
         Map::~Map() {

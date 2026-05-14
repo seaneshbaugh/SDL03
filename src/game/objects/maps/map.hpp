@@ -17,6 +17,7 @@
 #include "map_object.hpp"
 #include "map_layer.hpp"
 #include "map_tile.hpp"
+#include "map_start_point.hpp"
 #include "map_encounter_area.hpp"
 #include "map_load_point.hpp"
 
@@ -52,8 +53,7 @@ namespace Game {
                 int GetHeight();
                 bool GetWalkability(const int x, const int y);
                 std::vector <std::shared_ptr<MapObject>> GetObjects(const int x, const int y);
-                std::pair<int, int> GetLoadPoint();
-                // void Render(const float xOffset, const float yOffset, const float xMovementOffset, const float yMovementOffset);
+                std::pair<unsigned int, unsigned int> GetDefaultStartPoint();
                 void Render(const float cameraX, const float cameraY);
 
             private:
@@ -78,6 +78,7 @@ namespace Game {
                     void ParseLayerData(const json& node, std::shared_ptr<MapLayer> layer);
                     void ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer);
                     std::vector<std::shared_ptr<MapEncounterArea>> ParseEncounterAreas(const json& node);
+                    std::vector<std::shared_ptr<MapStartPoint>> ParseStartPoints(const json& node);
                     std::vector<std::shared_ptr<MapLoadPoint>> ParseLoadPoints(const json& node);
                     std::map<int, std::shared_ptr<MapTile>> ParseTileset(const json& node);
                     std::map<int, std::shared_ptr<MapTile>> ParseTilesets(const json& node);

@@ -27,11 +27,19 @@ namespace Game {
             }
 
             // Eventually this will load an initial cutscene. For now it'll just go
-            // straight to the main "world" map.
-            // TODO: Consider making an actual NewGame state that just loads the world
-            // on initialization and then immediately returns the Map state on Update.
+            // straight to the main "world" map. Map loading should probably be paired with a
+            // lua script so that way I can load a map and immediately begin a cut scene.
+            // I probably want the initial map and starting party to be defined in a config file.
             std::shared_ptr<States::Map> WorldManager::NewGame() {
                 Services::Locator::WorldService()->SetWorld(std::make_shared<Objects::World>());
+
+                this->world->SetStartingPlayerParty();
+
+                this->world->LoadMap("world01");
+
+                std::pair<unsigned int, unsigned int> startingPosition = this->world->currentMap->GetDefaultStartPoint();
+
+                this->UpdatePlayerPosition(startingPosition.first, startingPosition.second);
 
                 return std::make_shared<States::Map>();
             }

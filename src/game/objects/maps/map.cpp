@@ -128,6 +128,20 @@ namespace Game {
                 return result;
             }
 
+            std::pair<unsigned int, unsigned int> Map::GetDefaultStartPoint() {
+                for (auto layer = this->layers.begin(); layer != this->layers.end(); ++layer) {
+                    if ((*layer)->name == "start_points") {
+                        for (auto object = (*layer)->objects.begin(); object != (*layer)->objects.end(); ++object) {
+                            if ((*object)->GetProperty("name") == "default") {
+                                return std::make_pair(static_cast<unsigned int>((*object)->x), static_cast<unsigned int>((*object)->y));
+                            }
+                        }
+                    }
+                }
+
+                return std::make_pair(0, 0);
+            }
+
             //void Map::Render(float xOffset, float yOffset, float xMovementOffset, float yMovementOffset) {
             void Map::Render(const float cameraX, const float cameraY) {
                 const int firstTileX = static_cast<int>(cameraX / this->tilewidth);
@@ -288,6 +302,35 @@ namespace Game {
                 }
             }
 
+            std::vector<std::shared_ptr<MapStartPoint>> Map::Parser::ParseStartPoints(const json& node) {
+                std::vector<std::shared_ptr<MapStartPoint>> startPoints;
+
+                for (auto i = node.begin(); i != node.end(); ++i) {
+                    this->logger->debug() << "Creating start point.";
+                    std::shared_ptr<MapStartPoint> startPoint = std::make_shared<MapStartPoint>();
+
+                    std::map<std::string, std::string> properties;
+
+                    for (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                        const std::string name = (*j)["name"].get<std::string>();
+                        const std::string value = (*j)["value"].get<std::string>();
+
+                        properties[name] = value;
+                    }
+
+                    startPoint->SetType((*i)["type"].get<std::string>());
+                    startPoint->x = (*i)["x"].get<int>() / this->tilewidth;
+                    startPoint->y = (*i)["y"].get<int>() / this->tileheight;
+                    startPoint->width = (*i)["width"].get<int>() / this->tilewidth;
+                    startPoint->height = (*i)["height"].get<int>() / this->tileheight;
+                    startPoint->SetProperties(properties);
+
+                    startPoints.push_back(startPoint);
+                }
+
+                return startPoints;
+            }
+
             std::vector<std::shared_ptr<MapEncounterArea>> Map::Parser::ParseEncounterAreas(const json& node) {
                 std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas;
 
@@ -356,7 +399,13 @@ namespace Game {
             // (which should really layer type as some sort of enum) and a parsing function. This
             // works for now.
             void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
-                if (layer->name == "encounter_areas") {
+                if (layer->name == "start_points") {
+                    this->logger->debug() << "Parsing start point layer objects.";
+
+                    std::vector<std::shared_ptr<MapStartPoint>> startPoints = this->ParseStartPoints(node);
+
+                    layer->objects.insert(layer->objects.end(), startPoints.begin(), startPoints.end());
+                } else if (layer->name == "encounter_areas") {
                     this->logger->debug() << "Parsing encounter area layer objects.";
 
                     std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas = this->ParseEncounterAreas(node);

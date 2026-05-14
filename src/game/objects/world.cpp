@@ -2,14 +2,12 @@
 
 namespace Game {
     namespace Objects {
-        const std::string World::defaultMap = "resources/maps/world01.json";
-
         World::World() {
             this->playerParty = nullptr;
-            this->SetStartingPlayerParty();
             this->enemyParty = nullptr;
             this->currentMap = nullptr;
-            this->LoadMap(World::defaultMap);
+            this->playerCurrentX = 0;
+            this->playerCurrentY = 0;
         }
 
         World::~World() {
@@ -18,6 +16,12 @@ namespace Game {
             this->UnloadMap();
         }
 
+        // TODO: Consider moving this to the WorldManager. The WorldManager is responsible for managing the world and its state,
+        // so it might make more sense for it to be responsible for setting up the player's starting party as well. For now I'm
+        // putting it in the World class since it's closely related to the world and it needs to be called from the NewGame
+        // method in the WorldManager anyway.
+        // Ideally the World class is just a dumb container and does very little actual work. The WorldManager should be the thing
+        // setting up the world and should be the interface through which the rest of the game interacts with the world.
         void World::SetStartingPlayerParty() {
             this->UnloadPlayerParty();
 
@@ -56,6 +60,8 @@ namespace Game {
             this->enemyParty = std::make_shared<Objects::Characters::Party>();
 
             // TODO: Consider making rd and mt be members of World.
+            // Or maybe better yet, create a separate EntropyService/EntropyManager that handles all random number generation for the game. This will make it easier to manage randomness
+            // and to make it so seeds can be manually set for determinisitic behavior when needed (for example for testing purposes or for certain gameplay features).
             std::random_device rd;
 
             std::mt19937_64 mt(rd());
@@ -93,10 +99,12 @@ namespace Game {
             this->enemyParty.reset();
         }
 
-        void World::LoadMap(const std::string& filename) {
+        void World::LoadMap(const std::string& mapName) {
             this->UnloadMap();
 
-            this->currentMap = std::make_shared<Objects::Maps::Map>(filename);
+            std::string mapFilePath = "resources/maps/" + mapName + ".json";
+
+            this->currentMap = std::make_shared<Objects::Maps::Map>(mapFilePath);
         }
 
         void World::UnloadMap() {
