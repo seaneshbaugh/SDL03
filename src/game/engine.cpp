@@ -83,6 +83,10 @@ namespace Game {
     }
 
     void Engine::StartVideoService() {
+        // TODO: Don't hardcode viewport dimensions here.
+        // First we should check the settings to see if they contain viewport dimensions and whether or not the game should be in fullscreen mode.
+        // If the settings don't contain viewport dimensions then we can use the current display mode's dimensions as the default.
+        // We can also add some settings options for scaling the viewport up or down from the display mode's dimensions.
         Services::Locator::ProvideService(std::make_shared<Services::Implementations::VideoManager>(Game::SCREEN_WIDTH, Game::SCREEN_HEIGHT, Game::APPLICATION_NAME));
     }
 
