@@ -49,6 +49,7 @@ namespace Game {
             bool movementInputHeld;
             std::string playerSpriteName;
 
+            void UpdateMovementInput();
             void BeginMovement(const int direction);
             // TODO: Go through the rest of the game and change references to "keys" to "buttons".
             // Button is a more accurate term for what these are. They're not necessarily keys on a keyboard. They could be buttons on a gamepad or something else entirely.

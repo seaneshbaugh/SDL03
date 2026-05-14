@@ -63,6 +63,8 @@ namespace Game {
         std::shared_ptr<Base> Map::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
+            this->UpdateMovementInput();
+
             if (!this->moving && this->movementInputHeld) {
                 this->BeginMovement(this->movementInputHeldDirection);
             }
@@ -162,6 +164,26 @@ namespace Game {
             }
         }
 
+        void Map::UpdateMovementInput() {
+            const bool* keyboardState = SDL_GetKeyboardState(nullptr);
+
+            if (keyboardState[SDL_SCANCODE_UP]) {
+                this->movementInputHeld = true;
+                this->movementInputHeldDirection = 1; // Up
+            } else if (keyboardState[SDL_SCANCODE_RIGHT]) {
+                this->movementInputHeld = true;
+                this->movementInputHeldDirection = 2; // Right
+            } else if (keyboardState[SDL_SCANCODE_DOWN]) {
+                this->movementInputHeld = true;
+                this->movementInputHeldDirection = 3; // Down
+            } else if (keyboardState[SDL_SCANCODE_LEFT]) {
+                this->movementInputHeld = true;
+                this->movementInputHeldDirection = 4; // Left
+            } else {
+               this->movementInputHeld = false;
+            }
+        }
+
         void Map::BeginMovement(const int direction) {
             this->startTileX = Services::Locator::WorldService()->GetWorld()->playerCurrentX;
             this->startTileY = Services::Locator::WorldService()->GetWorld()->playerCurrentY;
@@ -213,69 +235,71 @@ namespace Game {
         }
 
         void Map::ProcessButtonDown(const InputKey key) {
-            switch(key) {
-            case InputKey::UP_KEY:
-                this->logger->debug() << "Up key pressed.";
+            // Saving this method since it might be useful for other things later.
 
-                this->movementInputHeldDirection = 1; // Up
+            //switch(key) {
+            //case InputKey::UP_KEY:
+            //    this->logger->debug() << "Up key pressed.";
 
-                this->movementInputHeld = true;
+            //    this->movementInputHeldDirection = 1; // Up
 
-                break;
-            case InputKey::RIGHT_KEY:
-                this->logger->debug() << "Right key pressed.";
+            //    this->movementInputHeld = true;
 
-                this->movementInputHeldDirection = 2; // Right
+            //    break;
+            //case InputKey::RIGHT_KEY:
+            //    this->logger->debug() << "Right key pressed.";
 
-                this->movementInputHeld = true;
+            //    this->movementInputHeldDirection = 2; // Right
 
-                break;
-            case InputKey::DOWN_KEY:
-                this->logger->debug() << "Down key pressed.";
+            //    this->movementInputHeld = true;
 
-                this->movementInputHeldDirection = 3; // Down
+            //    break;
+            //case InputKey::DOWN_KEY:
+            //    this->logger->debug() << "Down key pressed.";
 
-                this->movementInputHeld = true;
+            //    this->movementInputHeldDirection = 3; // Down
 
-                break;
-            case InputKey::LEFT_KEY:
-                this->logger->debug() << "Left key pressed.";
+            //    this->movementInputHeld = true;
 
-                this->movementInputHeldDirection = 4; // Left
+            //    break;
+            //case InputKey::LEFT_KEY:
+            //    this->logger->debug() << "Left key pressed.";
 
-                this->movementInputHeld = true;
+            //    this->movementInputHeldDirection = 4; // Left
 
-                break;
-            }
+            //    this->movementInputHeld = true;
+
+            //    break;
+            //}
         }
 
         void Map::ProcessButtonUp(const InputKey key) {
-            switch(key) {
-            case InputKey::UP_KEY:
-                this->logger->debug() << "Up key released.";
+            //switch(key) {
+            //case InputKey::UP_KEY:
+            //    this->logger->debug() << "Up key released.";
 
-                this->movementInputHeld = false;
+            //    this->movementInputHeld = false;
 
-                break;
-            case InputKey::RIGHT_KEY:
-                this->logger->debug() << "Right key released.";
+            //    break;
+            //case InputKey::RIGHT_KEY:
+            //    this->logger->debug() << "Right key released.";
 
-                this->movementInputHeld = false;
+            //    this->movementInputHeld = false;
 
-                break;
-            case InputKey::DOWN_KEY:
-                this->logger->debug() << "Down key released.";
+            //    break;
+            //case InputKey::DOWN_KEY:
+            //    this->logger->debug() << "Down key released.";
 
-                this->movementInputHeld = false;
+            //    this->movementInputHeld = false;
 
-                break;
-            case InputKey::LEFT_KEY:
-                this->logger->debug() << "Left key released.";
+            //    break;
+            //case InputKey::LEFT_KEY:
+            //    this->logger->debug() << "Left key released.";
 
-                this->movementInputHeld = false;
+            //    this->movementInputHeld = false;
 
-                break;
-            }
+            //    break;
+            //}
         }
 
         void Map::Render() {
