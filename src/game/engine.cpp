@@ -199,9 +199,8 @@ namespace Game {
         //}
     }
 
-    // TODO: Strongly consider making this a method on the VideoService. The current Render
-    // method should probably be renamed RenderSprite. The current state's Render method
-    // could maybe be passed as a callback.
+    // TODO: Strongly consider making this a method on the VideoService. The current state's
+    // Render method could maybe be passed as a callback.
 
     // TODO: The VideoService Render function can take a list of visible states to render,
     // in order from bottom to top (so that the stuff in a higher state renders on top of
