@@ -229,7 +229,7 @@ namespace Game {
             }
 
             // Only start moving if the target tile is different from the starting tile.
-            if (this->targetTileX != this->startTileX || this->targetTileY != this->startTileY) {
+            if ((this->targetTileX != this->startTileX || this->targetTileY != this->startTileY) && this->currentMap->GetWalkability(this->targetTileX, this->targetTileY)) {
                 this->moving = true;
             }
 
