@@ -11,29 +11,9 @@ namespace Game {
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
             this->camera = std::make_unique<Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
-            this->player = std::make_unique<Player>();
-            this->player->currentMap = this->currentMap;
+            this->player = std::make_shared<Player>();
 
-
-            this->player->walkAnimationFrame = 0;
-            this->player->timeSinceLastWalkAnimationFrame = 0.0f;
-            this->player->moving = false;
-            this->player->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
-            // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
-            // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
-            this->player->movementDirection = 3;
-            this->player->playerSpriteName = "stand.down";
-
-            this->player->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
-            this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
-            this->player->screenX = 0.0f;
-            this->player->screenY = static_cast<float>(this->currentMap->tileheight);
-            this->camera->Follow(this->player->worldX, this->player->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
-            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
-            float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
-            float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
-            this->player->screenX = this->player->worldX - this->camera->x;
-            this->player->screenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            this->PlacePlayer(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY);
 
             this->movementInputHeldDirection = 0;
             this->movementInputHeld = false;
@@ -139,37 +119,38 @@ namespace Game {
             Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->player->playerSpriteName, this->player->walkAnimationFrame, this->player->screenX, this->player->screenY);
         }
 
+        // Take Player as an argument because eventually I'll want to be able to place NPCs as well.
+        void Map::PlacePlayer(std::shared_ptr<Player> player, const int x, const int y) {
+            player->currentMap = this->currentMap;
+
+            player->walkAnimationFrame = 0;
+            player->timeSinceLastWalkAnimationFrame = 0.0f;
+            player->moving = false;
+            player->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
+            // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
+            // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
+            player->movementDirection = 3;
+            player->playerSpriteName = "stand.down";
+            player->worldX = static_cast<float>(x * this->currentMap->tilewidth);
+            player->worldY = static_cast<float>(y * this->currentMap->tileheight);
+            player->screenX = 0.0f;
+            player->screenY = static_cast<float>(this->currentMap->tileheight);
+            this->camera->Follow(player->worldX, player->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(player->playerSpriteName, player->walkAnimationFrame);
+            float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
+            float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
+            player->screenX = player->worldX - this->camera->x;
+            player->screenY = player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+        }
+
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
             Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
-
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
-
-            // TODO: Obviously this needs to be turned into a function.
-            this->player->currentMap = this->currentMap;
-
-            this->player->walkAnimationFrame = 0;
-            this->player->timeSinceLastWalkAnimationFrame = 0.0f;
-            this->player->moving = false;
-            this->player->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
-            // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
-            // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
-            this->player->movementDirection = 3;
-            this->player->playerSpriteName = "stand.down";
-
-            this->player->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
-            this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
-            this->player->screenX = 0.0f;
-            this->player->screenY = static_cast<float>(this->currentMap->tileheight);
-            this->camera->Follow(this->player->worldX, this->player->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
-            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
-            float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
-            float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
-            this->player->screenX = this->player->worldX - this->camera->x;
-            this->player->screenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            this->PlacePlayer(this->player, startX, startY);
 
             (*this->luaState.get())["after_map_load"]();
 

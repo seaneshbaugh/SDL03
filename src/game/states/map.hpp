@@ -32,7 +32,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             std::unique_ptr<Camera> camera;
-            std::unique_ptr<Player> player;
+            std::shared_ptr<Player> player;
             int movementDirection;
             int movementInputHeldDirection;
             bool movementInputHeld;
@@ -45,6 +45,7 @@ namespace Game {
             std::string ProcessInput(const InputKey key); 
             void LoadLuaState(const std::string& scriptFilePath);
             std::string PlayerSpriteDirection();
+            void PlacePlayer(std::shared_ptr<Player> player, const int x, const int y);
 
         public:
             class LuaInterface {
