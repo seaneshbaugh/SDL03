@@ -44,14 +44,14 @@ namespace Game {
 
             this->player->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
             this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
-            this->player->playerScreenX = 0.0f;
-            this->player->playerScreenY = static_cast<float>(this->currentMap->tileheight);
+            this->player->screenX = 0.0f;
+            this->player->screenY = static_cast<float>(this->currentMap->tileheight);
             this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
             SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
             float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
             float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
-            this->player->playerScreenX = this->player->worldX - this->camera->x;
-            this->player->playerScreenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            this->player->screenX = this->player->worldX - this->camera->x;
+            this->player->screenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
             this->movementInputHeldDirection = 0;
             this->movementInputHeld = false;
@@ -98,8 +98,8 @@ namespace Game {
 
             this->camera->Follow(this->player->worldX, this->player->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
 
-            this->player->playerScreenX = this->player->worldX - this->camera->x;
-            this->player->playerScreenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            this->player->screenX = this->player->worldX - this->camera->x;
+            this->player->screenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
             // this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", targetTileX: " << this->targetTileX * this->currentMap->tilewidth << ", targetTileY: " << this->targetTileY * this->currentMap->tileheight << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
 
@@ -154,7 +154,7 @@ namespace Game {
         void Map::Render() {
             this->currentMap->Render(this->camera->x, this->camera->y);
 
-            Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->player->playerSpriteName, this->player->walkAnimationFrame, this->player->playerScreenX, this->player-> playerScreenY);
+            Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->player->playerSpriteName, this->player->walkAnimationFrame, this->player->screenX, this->player->screenY);
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
@@ -180,14 +180,14 @@ namespace Game {
 
             this->player->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
             this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
-            this->player->playerScreenX = 0.0f;
-            this->player->playerScreenY = static_cast<float>(this->currentMap->tileheight);
+            this->player->screenX = 0.0f;
+            this->player->screenY = static_cast<float>(this->currentMap->tileheight);
             this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
             SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
             float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
             float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
-            this->player->playerScreenX = this->player->worldX - this->camera->x;
-            this->player->playerScreenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            this->player->screenX = this->player->worldX - this->camera->x;
+            this->player->screenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
 
 

@@ -10,8 +10,8 @@ public:
     std::shared_ptr<Objects::Maps::Map> currentMap;
     float worldX;
     float worldY;
-    float playerScreenX;
-    float playerScreenY;
+    float screenX;
+    float screenY;
     unsigned int walkAnimationFrame;
     float timeSinceLastWalkAnimationFrame;
     float movementSpeed;
