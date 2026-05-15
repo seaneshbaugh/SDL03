@@ -1,13 +1,13 @@
-#include "player.hpp"
+#include "actor.hpp"
 
 namespace Game {
-    Player::Player() {
+    Actor::Actor() {
     }
 
-    Player::~Player() {
+    Actor::~Actor() {
     }
 
-    void Player::Update(const double deltaTime) {
+    void Actor::Update(const double deltaTime) {
         if (this->moving) {
             switch (this->movementDirection) {
             case 1: // Up
@@ -52,7 +52,7 @@ namespace Game {
                 this->endMovementCallback(this->targetTileX, this->targetTileY);
             }
 
-            this->playerSpriteName = "walk." + this->SpriteDirection();
+            this->spriteName = "walk." + this->SpriteDirection();
 
             this->timeSinceLastWalkAnimationFrame += deltaTime;
 
@@ -68,15 +68,15 @@ namespace Game {
             // But I'm already running at like 2000 FPS on my computer so I don't think it's a big deal. If it becomes
             // a problem then I can always add a separate variable to track the player's current sprite and only update
             // it when the direction changes or something like that.
-            this->playerSpriteName = "stand." + this->SpriteDirection();
+            this->spriteName = "stand." + this->SpriteDirection();
             this->walkAnimationFrame = 0;
             this->timeSinceLastWalkAnimationFrame = 0.0f;
         }
     }
 
-    void Player::BeginMovement(const int playerCurrentX, const int playerCurrentY, const int direction, std::function<void(const int, const int)> endMovementCallback) {
-        this->startTileX = playerCurrentX;
-        this->startTileY = playerCurrentY;
+    void Actor::BeginMovement(const int currentX, const int currentY, const int direction, std::function<void(const int, const int)> endMovementCallback) {
+        this->startTileX = currentX;
+        this->startTileY = currentY;
 
         this->targetTileX = this->startTileX;
         this->targetTileY = this->startTileY;
@@ -119,7 +119,7 @@ namespace Game {
         this->endMovementCallback = endMovementCallback;
     }
 
-    std::string Player::SpriteDirection() {
+    std::string Actor::SpriteDirection() {
         switch (this->movementDirection) {
         case 1:
             return "up";

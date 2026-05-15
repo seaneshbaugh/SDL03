@@ -360,7 +360,7 @@
     <ClCompile Include="src\game\objects\maps\map_start_point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\player.cpp">
+    <ClCompile Include="src\game\actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -746,7 +746,7 @@
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\player.hpp">
+    <ClInclude Include="src\game\actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\states\transition.hpp">

@@ -7,7 +7,7 @@
 #include "../objects/maps/map.hpp"
 #include "../objects/world.hpp"
 #include "../camera.hpp"
-#include "../player.hpp"
+#include "../actor.hpp"
 
 namespace Game {
     namespace States {
@@ -32,7 +32,8 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             std::unique_ptr<Camera> camera;
-            std::shared_ptr<Player> player;
+            std::shared_ptr<Actor> player;
+            std::vector<std::shared_ptr<Actor>> npcs;
             int movementDirection;
             int movementInputHeldDirection;
             bool movementInputHeld;
@@ -45,7 +46,7 @@ namespace Game {
             std::string ProcessInput(const InputKey key); 
             void LoadLuaState(const std::string& scriptFilePath);
             std::string PlayerSpriteDirection();
-            void PlacePlayer(std::shared_ptr<Player> player, const int x, const int y);
+            void PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y);
 
         public:
             class LuaInterface {

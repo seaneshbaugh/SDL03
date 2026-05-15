@@ -5,7 +5,7 @@
 #include "objects/maps/map.hpp"
 
 namespace Game {
-class Player {
+class Actor {
 public:
     std::shared_ptr<Objects::Maps::Map> currentMap;
     float worldX;
@@ -21,12 +21,12 @@ public:
     int targetTileX;
     int targetTileY;
     int movementDirection;
-    std::string playerSpriteName;
+    std::string spriteName;
 
-    Player();
-    ~Player();
+    Actor();
+    ~Actor();
     void Update(const double deltaTime);
-    void BeginMovement(const int playerCurrentX, const int playerCurrentY, const int direction, std::function<void(const int, const int)> endMovementCallback);
+    void BeginMovement(const int currentX, const int currentY, const int direction, std::function<void(const int, const int)> endMovementCallback);
 
     private:
         static const std::string logChannel;
