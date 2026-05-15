@@ -33,24 +33,9 @@ namespace Game {
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             std::unique_ptr<Camera> camera;
             std::unique_ptr<Player> player;
-
-            // A lot of these probably belong in a separate Player class. For now I'm putting them here just to get movement working smoothly.
-            float worldX;
-            float worldY;
-            float playerScreenX;
-            float playerScreenY;
-            unsigned int walkAnimationFrame;
-            float timeSinceLastWalkAnimationFrame;
-            float movementSpeed;
-            bool moving;
-            int startTileX;
-            int startTileY;
-            int targetTileX;
-            int targetTileY;
             int movementDirection;
             int movementInputHeldDirection;
             bool movementInputHeld;
-            std::string playerSpriteName;
 
             void UpdateMovementInput();
             // TODO: Go through the rest of the game and change references to "keys" to "buttons".

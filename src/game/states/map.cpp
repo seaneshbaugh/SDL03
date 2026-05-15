@@ -10,10 +10,7 @@ namespace Game {
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
-            // Get the viewport dimensions from the video service. This is just for testing purposes for now.
-            // Eventually the viewport dimensions will be determined by the window size and maybe some sort
-            // of settings option for how much of the map to show on screen at once.
-            this->camera = std::make_unique<Camera>(0.0f, 0.0f, 640.0f, 480.0f);
+            this->camera = std::make_unique<Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
 
             // TODO: Do not hard code starting position. This is just for testing purposes. Maybe add a
             // "player_start" object type to the map files and use that to determine where the player
@@ -46,7 +43,7 @@ namespace Game {
             this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
             this->player->screenX = 0.0f;
             this->player->screenY = static_cast<float>(this->currentMap->tileheight);
-            this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+            this->camera->Follow(this->player->worldX, this->player->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
             SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
             float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
             float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
@@ -182,16 +179,12 @@ namespace Game {
             this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
             this->player->screenX = 0.0f;
             this->player->screenY = static_cast<float>(this->currentMap->tileheight);
-            this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+            this->camera->Follow(this->player->worldX, this->player->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
             SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
             float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
             float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
             this->player->screenX = this->player->worldX - this->camera->x;
             this->player->screenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
-
-
-
-
 
             (*this->luaState.get())["after_map_load"]();
 

@@ -78,6 +78,14 @@ namespace Game {
             std::shared_ptr<SDL_Renderer> VideoManager::GetRenderer() {
                 return this->renderer;
             }
+
+            int VideoManager::GetScreenWidth() {
+                return this->screenWidth;
+            }
+
+            int VideoManager::GetScreenHeight() {
+                return this->screenHeight;
+            }
         }
     }
 }
