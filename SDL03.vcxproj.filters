@@ -749,6 +749,9 @@
     <ClInclude Include="src\game\player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\states\transition.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

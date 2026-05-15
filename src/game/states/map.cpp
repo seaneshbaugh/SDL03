@@ -11,21 +11,6 @@ namespace Game {
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
             this->camera = std::make_unique<Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
-
-            // TODO: Do not hard code starting position. This is just for testing purposes. Maybe add a
-            // "player_start" object type to the map files and use that to determine where the player
-            // starts on the map.
-            // I'm not sure if the load point's make much sense. It might be better if the map defines
-            // where the player starts.
-            // However it's possible there might be cases where depending on how a player
-            // enters a map they might start in different locations.
-            // What I'm doing here is just for starting on the main world map. Eventually the initial map
-            // will be something else entirely. But I need to get movement working smoothly first.
-            // What I'm going for right now is rendering the player at the top left corner of the map.
-            // They should move down to the right diagonally
-            // three tiles per second until they hit the edge of the map. This is just to make sure
-            // that Camera::Follow is working as expected.
-
             this->player = std::make_unique<Player>();
             this->player->currentMap = this->currentMap;
 
@@ -69,7 +54,7 @@ namespace Game {
             }
         }
 
-        std::shared_ptr<Base> Map::Update(const double deltaTime) {
+        Transition Map::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             this->UpdateMovementInput();
@@ -101,16 +86,16 @@ namespace Game {
             // this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", targetTileX: " << this->targetTileX * this->currentMap->tilewidth << ", targetTileY: " << this->targetTileY * this->currentMap->tileheight << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
 
             if (this->pop) {
-                return nullptr;
+                return Transition::Pop();
             }
 
             switch (StateNameToEnum(nextState)) {
             case GameStateType::pause_menu:
-                return std::make_shared<PauseMenu>();
+                return Transition::Push(std::make_shared<PauseMenu>());
             case GameStateType::battle:
-                return std::make_shared<Battle>(this->currentMapEncounterArea);
+                return Transition::Push(std::make_shared<Battle>(this->currentMapEncounterArea));
             default:
-                return this->shared_from_this();
+                return Transition::None();
             }
         }
 

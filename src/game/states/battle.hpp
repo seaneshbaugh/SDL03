@@ -21,7 +21,7 @@ namespace Game {
             Battle(const Objects::Maps::MapEncounterArea* encounterArea);
             ~Battle();
             void HandleEvent(const SDL_Event& event);
-            std::shared_ptr<Base> Update(const double deltaTime);
+            Transition Update(const double deltaTime);
             void Render();
             std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> GetParty();
             std::vector<std::shared_ptr<Objects::Characters::Monster>> GetMonsters();

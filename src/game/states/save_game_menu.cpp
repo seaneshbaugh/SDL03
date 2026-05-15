@@ -24,14 +24,14 @@ namespace Game {
             }
         }
 
-        std::shared_ptr<Base> SaveGameMenu::Update(const double deltaTime) {
+        Transition SaveGameMenu::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {
-                return nullptr;
+                return Transition::Pop();
             }
 
-            return this->shared_from_this();
+            return Transition::None();
         }
 
         std::string SaveGameMenu::ProcessInput(const InputKey key) {

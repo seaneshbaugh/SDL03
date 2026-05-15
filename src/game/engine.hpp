@@ -33,6 +33,7 @@
 #include "services/implementations/video_manager.hpp"
 #include "services/implementations/world_manager.hpp"
 #include "services/implementations/save_manager.hpp"
+#include "states/transition.hpp"
 #include "states/base.hpp"
 #include "states/intro.hpp"
 
@@ -64,7 +65,6 @@ namespace Game {
         void StartSaveService();
         void MainLoop();
         void Render();
-        void DestroyStates();
         void StopSaveService();
         void StopWorldService();
         void StopItemService();

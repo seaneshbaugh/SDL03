@@ -21,6 +21,7 @@
 #include "../resources/song.hpp"
 #include "../parsers/asset_list_parser.hpp"
 #include "../objects/text.hpp"
+#include "transition.hpp"
 #include "../../helpers/file_system.hpp"
 
 namespace Game {
@@ -46,7 +47,7 @@ namespace Game {
         public:
             virtual ~Base();
             virtual void HandleEvent(const SDL_Event& event) = 0;
-            virtual std::shared_ptr<Base> Update(const double deltaTime) = 0;
+            virtual Transition Update(const double deltaTime) = 0;
             virtual void Render() = 0;
             virtual void Pop();
 

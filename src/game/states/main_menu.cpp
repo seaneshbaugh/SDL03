@@ -22,22 +22,22 @@ namespace Game {
             }
         }
 
-        std::shared_ptr<Base> MainMenu::Update(const double deltaTime) {
+        Transition MainMenu::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {
-                return nullptr;
+                return Transition::Pop();
             }
 
             switch (StateNameToEnum(nextState)) {
             case GameStateType::new_game:
-                return Services::Locator::WorldService()->NewGame();
+                return Transition::Push(Services::Locator::WorldService()->NewGame());
             case GameStateType::settings_menu:
-                return std::make_shared<SettingsMenu>();
+                return Transition::Push(std::make_shared<SettingsMenu>());
             // case GameStateType::load_game_menu:
-            //     return std::make_shared<LoadGameMenu>();
+            //     return Transition::Push(std::make_shared<LoadGameMenu>());
             default:
-                return this->shared_from_this();
+                return Transition::None();
             }
         }
 

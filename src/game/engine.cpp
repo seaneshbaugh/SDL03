@@ -124,29 +124,30 @@ namespace Game {
 
         //SDL_Gamepad* gamepad = nullptr;
 
-        // The basic idea here is, each pass of the loop checks to see if there is a state
-        // object left in the stack, if not then do nothing and then quit. Otherwise, check
-        // for any pending events then call the update function for the current state (and
-        // quit if desired).
-        // This is the tricky part that I'm not convinced is a good idea: if the Update
-        // function returns nullptr then we pop the current state off the end of the stack.
-        // If it returns itself we do nothing. And finally, if it returns a pointer to
-        // another GameState object then that state is pushed onto the stack and is now the
-        // current state.
-        // Without passing the whole Engine object to the update function I can't
-        // really figure out a better way of telling the Engine to do stuff with its
-        // state stack.
-        // I'm hoping that doing things this way will ensure that only the current state
-        // initiates transitions to new states and by having that transition be opaque to
-        // the loop, the loop itself should remain very simple and unaware of what each
-        // state actually means. It should also allow each state to manage its own internal
-        // objects independently.
-        while (this->states.size() > 0) {
+        // Each pass of the main game loop checks to see if there is a state object
+        // left in the stack. If there isn't then the loop stops and the game quits. If
+        // there is a state object in the stack then the loop polls for events, passing
+        // each event to the current state to handle, until there are no more events. If
+        // a quit event is received then the loop stops and the game quits. Otherwise,
+        // the current state's Update function is called with the amount of time that
+        // has elapsed since the last frame. The Update function returns a
+        // States::Transition struct that contains a type (None, Pop, Push, Replace,
+        // etc.) and a pointer to the next state if applicable. If the type of the
+        // States::Transition struct is Pop then we pop the current state off the stack.
+        // If the type is Push then we push the next state on the stack. If the type is
+        // Replace then we pop the current state off the stack and then push the next
+        // state on the stack. If the type is None then we do nothing to the stack. This
+        // ensures that only states can initiate the transition to a new state and that
+        // main loop itself remains completely unaware of what each state actually is
+        // and how transitions between states work. Each state can manage its own
+        // internal objects and decide when it wants to transition to a new state and
+        // what that new state should be without needing to know anything about the
+        // Engine's state stack or how the loop works.
+        while (!this->states.empty()) {
             int startTicks = SDL_GetTicks();
             Services::Locator::TimeService()->BeginFrame();
 
             std::shared_ptr<States::Base> currentState = this->states.top();
-            std::shared_ptr<States::Base> nextState = currentState;
 
             while (SDL_PollEvent(&event)) {
                 this->logger->debug() << "Received event: " << EventTypeName(event);
@@ -175,15 +176,27 @@ namespace Game {
                 break;
             }
 
-            nextState = currentState->Update(Services::Locator::TimeService()->GetDeltaTime());
+            States::Transition transition = currentState->Update(Services::Locator::TimeService()->GetDeltaTime());
 
             this->Render();
 
-            if (nextState == nullptr) {
+            switch (transition.type) {
+            case States::Transition::Type::Push:
+                this->states.push(transition.nextState);
+
+                break;
+            case States::Transition::Type::Pop:
                 this->states.pop();
-            } else {
-                if (nextState != currentState) {
-                    this->states.push(nextState);
+
+                break;
+            case States::Transition::Type::Replace:
+                this->states.pop();
+                this->states.push(transition.nextState);
+
+                break;
+            case States::Transition::Type::Quit:
+                while (!this->states.empty()) {
+                    this->states.pop();
                 }
             }
 
@@ -216,15 +229,6 @@ namespace Game {
         this->states.top()->Render();
 
         Services::Locator::VideoService()->UpdateScreen();
-    }
-
-    // This is probably unecessary because the states are smart pointers in a std::stack.
-    void Engine::DestroyStates() {
-//        for (auto it = this->states.begin(); it != this->states.end(); ++it) {
-//            if (*it != nullptr) {
-//                (*it)->reset();
-//            }
-//        }
     }
 
     void Engine::StopSaveService() {

@@ -22,18 +22,18 @@ namespace Game {
             }
         }
 
-        std::shared_ptr<Base> Intro::Update(const double deltaTime) {
+        Transition Intro::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {
-                return nullptr;
+                return Transition::Pop();
             }
 
             switch (StateNameToEnum(nextState)) {
             case GameStateType::main_menu:
-                return std::make_shared<MainMenu>();
+                return Transition::Push(std::make_shared<MainMenu>());
             default:
-                return this->shared_from_this();
+                return Transition::None();
             }
         }
 

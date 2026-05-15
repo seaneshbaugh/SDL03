@@ -43,14 +43,14 @@ namespace Game {
             }
         }
 
-        std::shared_ptr<Base> Battle::Update(const double deltaTime) {
+        Transition Battle::Update(const double deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {
-                return nullptr;
+                return Transition::Pop();
             }
 
-            return this->shared_from_this();
+            return Transition::None();
         }
 
         std::string Battle::ProcessInput(const InputKey key) {

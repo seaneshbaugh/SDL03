@@ -259,6 +259,7 @@
     <ClInclude Include="src\game\states\pause_menu.hpp" />
     <ClInclude Include="src\game\states\save_game_menu.hpp" />
     <ClInclude Include="src\game\states\settings_menu.hpp" />
+    <ClInclude Include="src\game\states\transition.hpp" />
     <ClInclude Include="src\helpers\apple_file_system.hpp" />
     <ClInclude Include="src\helpers\file_system.hpp" />
     <ClInclude Include="src\helpers\path.hpp" />
