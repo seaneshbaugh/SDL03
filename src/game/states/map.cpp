@@ -12,11 +12,9 @@ namespace Game {
             this->LoadLuaState("scripts/states/map.lua");
             this->camera = std::make_unique<Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
             this->player = std::make_shared<Actor>();
-
-            this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY);
-
-            this->movementInputHeldDirection = 0;
+            this->movementInputHeldDirection = Actor::Direction::Down;
             this->movementInputHeld = false;
+            this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Actor::Direction::Down);
         }
 
         Map::~Map() {
@@ -84,16 +82,16 @@ namespace Game {
 
             if (keyboardState[SDL_SCANCODE_UP]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = 1; // Up
+                this->movementInputHeldDirection = Actor::Direction::Up;
             } else if (keyboardState[SDL_SCANCODE_RIGHT]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = 2; // Right
+                this->movementInputHeldDirection = Actor::Direction::Right;
             } else if (keyboardState[SDL_SCANCODE_DOWN]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = 3; // Down
+                this->movementInputHeldDirection = Actor::Direction::Down;
             } else if (keyboardState[SDL_SCANCODE_LEFT]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = 4; // Left
+                this->movementInputHeldDirection = Actor::Direction::Left;
             } else {
                 this->movementInputHeld = false;
             }
@@ -119,7 +117,7 @@ namespace Game {
             Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->player->spriteName, this->player->walkAnimationFrame, this->player->screenX, this->player->screenY);
         }
 
-        void Map::PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y) {
+        void Map::PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y, const Actor::Direction direction) {
             actor->currentMap = this->currentMap;
 
             actor->walkAnimationFrame = 0;
@@ -128,8 +126,8 @@ namespace Game {
             actor->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
             // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
             // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
-            actor->movementDirection = 3;
-            actor->spriteName = "stand.down";
+            actor->SetAnimation(Actor::Animation::Stand);
+            actor->SetDirection(direction);
             actor->worldX = static_cast<float>(x * this->currentMap->tilewidth);
             actor->worldY = static_cast<float>(y * this->currentMap->tileheight);
             actor->screenX = 0.0f;
@@ -149,7 +147,7 @@ namespace Game {
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
-            this->PlaceActor(this->player, startX, startY);
+            this->PlaceActor(this->player, startX, startY, Actor::Direction::Down);
 
             (*this->luaState.get())["after_map_load"]();
 
@@ -209,21 +207,6 @@ namespace Game {
                     this->LoadMap(mapLoadPoint->GetProperty("map"), startX, startY);
                 }
             }
-        }
-
-        std::string Map::PlayerSpriteDirection() {
-            switch (this->movementDirection) {
-            case 1:
-                return "up";
-            case 2:
-                return "right";
-            case 3:
-                return "down";
-            case 4:
-                return "left";
-            }
-
-            return "down";
         }
 
         void Map::LoadLuaState(const std::string& scriptFilePath) {

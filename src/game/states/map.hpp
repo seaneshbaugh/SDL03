@@ -34,8 +34,8 @@ namespace Game {
             std::unique_ptr<Camera> camera;
             std::shared_ptr<Actor> player;
             std::vector<std::shared_ptr<Actor>> npcs;
-            int movementDirection;
-            int movementInputHeldDirection;
+            Actor::Direction movementDirection;
+            Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;
 
             void UpdateMovementInput();
@@ -45,8 +45,7 @@ namespace Game {
             void ProcessButtonUp(const InputKey key);
             std::string ProcessInput(const InputKey key); 
             void LoadLuaState(const std::string& scriptFilePath);
-            std::string PlayerSpriteDirection();
-            void PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y);
+            void PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y, const Actor::Direction direction);
 
         public:
             class LuaInterface {
