@@ -13,7 +13,7 @@ namespace Helpers {
         }
 
         std::string RemoveExtension(const std::string& filename) {
-            typename std::string::size_type const p(filename.find_last_of('.'));
+            const std::string::size_type p(filename.find_last_of('.'));
 
             return p > 0 && p != std::string::npos ? filename.substr(0, p) : filename;
         }
