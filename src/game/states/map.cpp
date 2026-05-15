@@ -29,26 +29,29 @@ namespace Game {
             // three tiles per second until they hit the edge of the map. This is just to make sure
             // that Camera::Follow is working as expected.
 
+            this->player = std::make_unique<Player>();
+            this->player->currentMap = this->currentMap;
 
-            this->walkAnimationFrame = 0;
-            this->timeSinceLastWalkAnimationFrame = 0.0f;
-            this->moving = false;
-            this->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
+
+            this->player->walkAnimationFrame = 0;
+            this->player->timeSinceLastWalkAnimationFrame = 0.0f;
+            this->player->moving = false;
+            this->player->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
             // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
             // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
-            this->movementDirection = 3;
-            this->playerSpriteName = "stand.down";
+            this->player->movementDirection = 3;
+            this->player->playerSpriteName = "stand.down";
 
-            this->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
-            this->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
-            this->playerScreenX = 0.0f;
-            this->playerScreenY = static_cast<float>(this->currentMap->tileheight);
+            this->player->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
+            this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
+            this->player->playerScreenX = 0.0f;
+            this->player->playerScreenY = static_cast<float>(this->currentMap->tileheight);
             this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
-            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->playerSpriteName, this->walkAnimationFrame);
+            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
             float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
             float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
-            this->playerScreenX = this->worldX - this->camera->x;
-            this->playerScreenY = this->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            this->player->playerScreenX = this->player->worldX - this->camera->x;
+            this->player->playerScreenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
             this->movementInputHeldDirection = 0;
             this->movementInputHeld = false;
@@ -74,88 +77,27 @@ namespace Game {
 
             this->UpdateMovementInput();
 
-            if (!this->moving && this->movementInputHeld) {
-                this->BeginMovement(this->movementInputHeldDirection);
+            this->player->Update(deltaTime);
+
+            if (!this->player->moving && this->movementInputHeld) {
+                auto endMovmentCallback = [this](const int newX, const int newY) {
+                    Services::Locator::WorldService()->UpdatePlayerPosition(newX, newY);
+
+                    this->logger->debug() << "Player movement ended. New position: (" << newX << ", " << newY << ")";
+                };
+
+                this->player->BeginMovement(Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, this-> movementInputHeldDirection, endMovmentCallback);
             }
 
-            if (this->moving) {
-                switch (this->movementDirection) {
-                case 1: // Up
-                    this->worldY -= this->movementSpeed * deltaTime;
-
-                    if (this->worldY <= this->targetTileY * this->currentMap->tileheight) {
-                        this->worldY = this->targetTileY * this->currentMap->tileheight;
-
-                        this->moving = false;
-
-                        Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
-                    }
-                    break;
-                case 2: // Right
-                    this->worldX += this->movementSpeed * deltaTime;
-
-                    if (this->worldX >= this->targetTileX * this->currentMap->tilewidth) {
-                        this->worldX = this->targetTileX * this->currentMap->tilewidth;
-
-                        this->moving = false;
-
-                        Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
-                    }
-                    break;
-                case 3: // Down
-                    this->worldY += this->movementSpeed * deltaTime;
-
-                    if (this->worldY >= this->targetTileY * this->currentMap->tileheight) {
-                        this->worldY = this->targetTileY * this->currentMap->tileheight;
-
-                        this->moving = false;
-
-                        Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
-                    }
-                    break;
-                case 4: // Left
-                    this->worldX -= this->movementSpeed * deltaTime;
-
-                    if (this->worldX <= this->targetTileX * this->currentMap->tilewidth) {
-                        this->worldX = this->targetTileX * this->currentMap->tilewidth;
-
-                        this->moving = false;
-
-                        Services::Locator::WorldService()->UpdatePlayerPosition(this->targetTileX, this->targetTileY);
-                    }
-                    break;
-                }
-
-                this->playerSpriteName = "walk." + this->PlayerSpriteDirection();
-
-                this->timeSinceLastWalkAnimationFrame += deltaTime;
-
-                // There are 8 frames in the walk animation right now. It's very unlikely that'll ever change, but it'd
-                // still be a good idea to not hard code that value here. Maybe add a function to the Character class
-                // that returns the number of frames in the walk animation and then use the reciprocal.
-                if (this->timeSinceLastWalkAnimationFrame >= 0.125f) {
-                    this->walkAnimationFrame = (this->walkAnimationFrame + 1) % 8;
-                    this->timeSinceLastWalkAnimationFrame = 0.0f;
-                }
-            } else {
-                // I don't like how I'm resetting this on every frame where the player is standing still. It feels wasteful.
-                // But I'm already running at like 2000 FPS on my computer so I don't think it's a big deal. If it becomes
-                // a problem then I can always add a separate variable to track the player's current sprite and only update
-                // it when the direction changes or something like that.
-                this->playerSpriteName = "stand." + this->PlayerSpriteDirection();
-                this->walkAnimationFrame = 0;
-                this->timeSinceLastWalkAnimationFrame = 0.0f;
-            }
-
-            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->playerSpriteName, this->walkAnimationFrame);
+            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
 
             float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
             float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
 
-            this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+            this->camera->Follow(this->player->worldX, this->player->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
 
-            this->playerScreenX = this->worldX - this->camera->x;
-            this->playerScreenY = this->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            this->player->playerScreenX = this->player->worldX - this->camera->x;
+            this->player->playerScreenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
             // this->logger->debug() << "worldX: " << this->worldX << ", worldY: " << this->worldY << ", targetTileX: " << this->targetTileX * this->currentMap->tilewidth << ", targetTileY: " << this->targetTileY * this->currentMap->tileheight << ", cameraX: " << this->camera->x << ", cameraY: " << this->camera->y << ", playerScreenX: " << this->playerScreenX << ", playerScreenY: " << this->playerScreenY << ", moving: " << (this->moving ? "true" : "false") << ", movementDirection: " << this->movementDirection << ", playerspriteName : " << this->playerSpriteName;
 
@@ -189,52 +131,8 @@ namespace Game {
                 this->movementInputHeld = true;
                 this->movementInputHeldDirection = 4; // Left
             } else {
-               this->movementInputHeld = false;
+                this->movementInputHeld = false;
             }
-        }
-
-        void Map::BeginMovement(const int direction) {
-            this->startTileX = Services::Locator::WorldService()->GetWorld()->playerCurrentX;
-            this->startTileY = Services::Locator::WorldService()->GetWorld()->playerCurrentY;
-
-            this->targetTileX = this->startTileX;
-            this->targetTileY = this->startTileY;
-
-            switch (direction) {
-            case 1: // Up
-                // TODO: Add "walkability" layer collision detection here????
-                if (this->targetTileY > 0) {
-                    this->targetTileY--;
-                }
-
-                break;
-            case 2: // Right
-                if (this->targetTileX < Services::Locator::WorldService()->GetWorld()->currentMap->width - 1) {
-                    targetTileX++;
-                }
-
-                break;
-            case 3: // Down
-                if (this->targetTileY < Services::Locator::WorldService()->GetWorld()->currentMap->height - 1) {
-                    this->targetTileY++;
-                }
-
-                break;
-            case 4: // Left
-                if (this->targetTileX > 0) {
-                    this->targetTileX--;
-                }
-
-                break;
-            }
-
-            // Only start moving if the target tile is different from the starting tile.
-            if ((this->targetTileX != this->startTileX || this->targetTileY != this->startTileY) && this->currentMap->GetWalkability(this->targetTileX, this->targetTileY)) {
-                this->moving = true;
-            }
-
-            // Always change movement direction so even if we can't move in that direction we still face the correct way.
-            this->movementDirection = direction;
         }
 
         std::string Map::ProcessInput(const InputKey key) {
@@ -254,16 +152,45 @@ namespace Game {
         void Map::Render() {
             this->currentMap->Render(this->camera->x, this->camera->y);
 
-            Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->playerSpriteName, this->walkAnimationFrame, this->playerScreenX, this->playerScreenY);
+            Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->player->playerSpriteName, this->player->walkAnimationFrame, this->player->playerScreenX, this->player-> playerScreenY);
         }
 
-        bool Map::LoadMap(const std::string& filename) {
-            Services::Locator::WorldService()->GetWorld()->LoadMap(filename);
+        bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
+            Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
 
-            // The Lua after_map_load function is probably where we want to set the player's starting position and initial
-            // movement direction.
+            
+            Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
+
+
+            // TODO: Obviously this needs to be turned into a function.
+            this->player->currentMap = this->currentMap;
+
+            this->player->walkAnimationFrame = 0;
+            this->player->timeSinceLastWalkAnimationFrame = 0.0f;
+            this->player->moving = false;
+            this->player->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
+            // Start facing down. This is just for testing purposes. Eventually the player will start facing in a direction based on the map's load point or something like that.
+            // TODO: Use enums to represent directions instead of raw integers. This will make the code more readable and less error prone.
+            this->player->movementDirection = 3;
+            this->player->playerSpriteName = "stand.down";
+
+            this->player->worldX = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentX * this->currentMap->tilewidth);
+            this->player->worldY = static_cast<float>(Services::Locator::WorldService()->GetWorld()->playerCurrentY * this->currentMap->tileheight);
+            this->player->playerScreenX = 0.0f;
+            this->player->playerScreenY = static_cast<float>(this->currentMap->tileheight);
+            this->camera->Follow(this->worldX, this->worldY, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->playerSpriteName, this->player->walkAnimationFrame);
+            float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
+            float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
+            this->player->playerScreenX = this->player->worldX - this->camera->x;
+            this->player->playerScreenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+
+
+
+
+
             (*this->luaState.get())["after_map_load"]();
 
             return true;
@@ -309,6 +236,19 @@ namespace Game {
 
         void Map::Step(unsigned int x, unsigned int y) {
             Services::Locator::WorldService()->UpdatePlayerPosition(x, y);
+
+            auto objects = this->currentMap->GetObjects(x, y);
+
+            for (auto object = objects.begin(); object != objects.end(); object++) {
+                Objects::Maps::MapLoadPoint* mapLoadPoint = dynamic_cast<Objects::Maps::MapLoadPoint*>(object->get());
+
+                if (mapLoadPoint) {
+                    const int startX = mapLoadPoint->GetProperty("x") != "" ? std::stoi(mapLoadPoint->GetProperty("x")) : 0;
+                    const int startY = mapLoadPoint->GetProperty("y") != "" ? std::stoi(mapLoadPoint->GetProperty("y")) : 0;
+
+                    this->LoadMap(mapLoadPoint->GetProperty("map"), startX, startY);
+                }
+            }
         }
 
         std::string Map::PlayerSpriteDirection() {

@@ -142,7 +142,6 @@ namespace Game {
                 return std::make_pair(0, 0);
             }
 
-            //void Map::Render(float xOffset, float yOffset, float xMovementOffset, float yMovementOffset) {
             void Map::Render(const float cameraX, const float cameraY) {
                 const int firstTileX = static_cast<int>(cameraX / this->tilewidth);
                 const int firstTileY = static_cast<int>(cameraY / this->tileheight);
@@ -176,49 +175,6 @@ namespace Game {
                         }
                     }
                 }
-
-                // if (xOffset < 0.0f) {
-                //    xOffset = 0.0f;
-                //} else {
-                //    if (xOffset > static_cast<float>(this->width) - 20.0f) {
-                //        xOffset = static_cast<float>(this->width) - 20.0f;
-                //    }
-                //}
-
-                //if (yOffset < 0.0f) {
-                //    yOffset = 0.0f;
-                //} else {
-                //    if (yOffset > static_cast<float>(this->height) - 15.0f) {
-                //        yOffset = static_cast<float>(this->height) - 15.0f;
-                //    }
-                //}
-
-                //for (auto layer = this->layers.begin(); layer != this->layers.end(); ++layer) {
-                //    // TODO: Add visible flag to layers and use that rather than comparing strings
-                //    // every single frame.
-                //    if ((*layer)->name == "walkability") {
-                //        continue;
-                //    }
-
-                //    float x = 0.0f;
-                //    float y = 0.0f;
-
-                //    for (auto tile = (*layer)->tiles.begin(); tile != (*layer)->tiles.end(); ++tile) {
-                //        if (x >= this->width) {
-                //            x = 0.0f;
-
-                //            y += 1.0f;
-                //        }
-
-                //        if (*tile != 0) {
-                //            SDL_FRect tilePosition = {((x - xOffset) * 32) + xMovementOffset, ((y - yOffset) * 32) + yMovementOffset, 32, 32};
-
-                //            Services::Locator::VideoService()->RenderTexture(this->tiles[*tile]->texture, nullptr, &tilePosition);
-                //        }
-
-                //        x++;
-                //    }
-                //}
             }
 
             const std::string Map::Parser::logChannel = "json";

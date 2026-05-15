@@ -92,6 +92,7 @@
     <ClCompile Include="src\game\objects\text.cpp" />
     <ClCompile Include="src\game\objects\world.cpp" />
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp" />
+    <ClCompile Include="src\game\player.cpp" />
     <ClCompile Include="src\game\resources\base.cpp" />
     <ClCompile Include="src\game\resources\font.cpp" />
     <ClCompile Include="src\game\resources\resource_list.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="src\game\objects\text.hpp" />
     <ClInclude Include="src\game\objects\world.hpp" />
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp" />
+    <ClInclude Include="src\game\player.hpp" />
     <ClInclude Include="src\game\resources\base.hpp" />
     <ClInclude Include="src\game\resources\font.hpp" />
     <ClInclude Include="src\game\resources\resource_list.hpp" />
