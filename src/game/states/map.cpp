@@ -84,6 +84,8 @@ namespace Game {
                     Services::Locator::WorldService()->UpdatePlayerPosition(newX, newY);
 
                     this->logger->debug() << "Player movement ended. New position: (" << newX << ", " << newY << ")";
+
+                    this->Step(newX, newY);
                 };
 
                 this->player->BeginMovement(Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, this-> movementInputHeldDirection, endMovmentCallback);
