@@ -51,7 +51,6 @@ public:
         Direction direction;
         std::function<void(const int, const int)> endMovementCallback;
 
-        void SetSprite(const Animation animation, const Direction direction);
         std::string AnimationToString(const Animation animation);
         std::string DirectionToString(const Direction direction);
     };

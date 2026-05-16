@@ -74,10 +74,6 @@ namespace Game {
                 this->endMovementCallback(this->targetTileX, this->targetTileY);
             }
 
-            this->SetSprite(Animation::Walk, this->direction);
-
-            this->spriteName = "walk." + this->DirectionToString(this->direction);
-
             this->timeSinceLastWalkAnimationFrame += deltaTime;
 
             // There are 8 frames in the walk animation right now. It's very unlikely that'll ever change, but it'd
@@ -88,11 +84,10 @@ namespace Game {
                 this->timeSinceLastWalkAnimationFrame = 0.0f;
             }
         } else {
-            // I don't like how I'm resetting this on every frame where the player is standing still. It feels wasteful.
-            // But I'm already running at like 2000 FPS on my computer so I don't think it's a big deal. If it becomes
-            // a problem then I can always add a separate variable to track the player's current sprite and only update
-            // it when the direction changes or something like that.
-            this->spriteName = "stand." + this->DirectionToString(this->direction);
+            // I don't like how I'm resetting this on every frame where the player is standing still. But if I set
+            // the animation when the player is finished moving in the block above then it drops the last frame
+            // of the walk animation and looks really weird.
+            this->SetAnimation(Animation::Stand);
             this->walkAnimationFrame = 0;
             this->timeSinceLastWalkAnimationFrame = 0.0f;
         }
@@ -135,20 +130,14 @@ namespace Game {
         // Only start moving if the target tile is different from the starting tile and the target tile is walkable.
         if ((this->targetTileX != this->startTileX || this->targetTileY != this->startTileY) && this->currentMap->GetWalkability(this->targetTileX, this->targetTileY)) {
             this->moving = true;
+
+            this->SetAnimation(Animation::Walk);
         }
 
         // Always change movement direction so even if we can't move in that direction we still face the correct way.
         this->SetDirection(direction);
 
         this->endMovementCallback = endMovementCallback;
-    }
-
-    void Actor::SetSprite(const Animation animation, const Direction direction) {
-        this->animation = animation;
-
-        this->direction = direction;
-
-        this->spriteName = this->AnimationToString(this->animation) + "." + this->DirectionToString(this->direction);
     }
 
     std::string Actor::AnimationToString(const Animation animation) {
