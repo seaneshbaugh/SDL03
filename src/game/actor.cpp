@@ -74,22 +74,22 @@ namespace Game {
                 this->endMovementCallback(this->targetTileX, this->targetTileY);
             }
 
-            this->timeSinceLastWalkAnimationFrame += deltaTime;
+            this->timeSinceLastAnimationFrame += deltaTime;
 
             // There are 8 frames in the walk animation right now. It's very unlikely that'll ever change, but it'd
             // still be a good idea to not hard code that value here. Maybe add a function to the Character class
             // that returns the number of frames in the walk animation and then use the reciprocal.
-            if (this->timeSinceLastWalkAnimationFrame >= 0.125f) {
-                this->walkAnimationFrame = (this->walkAnimationFrame + 1) % 8;
-                this->timeSinceLastWalkAnimationFrame = 0.0f;
+            if (this->timeSinceLastAnimationFrame >= 0.125f) {
+                this->animationFrame = (this->animationFrame + 1) % 8;
+                this->timeSinceLastAnimationFrame = 0.0f;
             }
         } else {
             // I don't like how I'm resetting this on every frame where the player is standing still. But if I set
             // the animation when the player is finished moving in the block above then it drops the last frame
             // of the walk animation and looks really weird.
             this->SetAnimation(Animation::Stand);
-            this->walkAnimationFrame = 0;
-            this->timeSinceLastWalkAnimationFrame = 0.0f;
+            this->animationFrame = 0;
+            this->timeSinceLastAnimationFrame = 0.0f;
         }
     }
 

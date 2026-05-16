@@ -15,9 +15,9 @@ namespace Game {
     Camera::~Camera() {
     }
 
-    void Camera::Follow(const float targetX, const float targetY, int mapWidth, int mapHeight) {
-        float desiredX = targetX - (this->viewportWidth / 2.0f);
-        float desiredY = targetY - (this->viewportHeight / 2.0f);
+    void Camera::Follow(std::shared_ptr<Actor> target, int mapWidth, int mapHeight) {
+        float desiredX = target->worldX - (this->viewportWidth / 2.0f);
+        float desiredY = target->worldY - (this->viewportHeight / 2.0f);
 
         this->logger->debug() << "desiredX: " << desiredX << ", desiredY: " << desiredY;
 

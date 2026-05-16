@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Player
-#define SDL03_Game_Player
+#ifndef SDL03_Game_Actor
+#define SDL03_Game_Actor
 
 #include "services/locator.hpp"
 #include "objects/maps/map.hpp"
@@ -22,10 +22,10 @@ public:
     std::shared_ptr<Objects::Maps::Map> currentMap;
     float worldX;
     float worldY;
-    float screenX;
-    float screenY;
-    unsigned int walkAnimationFrame;
-    float timeSinceLastWalkAnimationFrame;
+    //float screenX;
+    //float screenY;
+    unsigned int animationFrame;
+    float timeSinceLastAnimationFrame;
     float movementSpeed;
     bool moving;
     int startTileX;

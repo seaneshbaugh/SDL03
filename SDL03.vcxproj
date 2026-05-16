@@ -196,6 +196,7 @@
     <ClInclude Include="src\game\events\tick.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
+    <ClInclude Include="src\game\MovementCommand.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
     <ClInclude Include="src\game\objects\characters\animation.hpp" />
     <ClInclude Include="src\game\objects\characters\animation_frame.hpp" />
