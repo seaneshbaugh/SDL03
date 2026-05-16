@@ -22,8 +22,6 @@ public:
     std::shared_ptr<Objects::Maps::Map> currentMap;
     float worldX;
     float worldY;
-    //float screenX;
-    //float screenY;
     unsigned int animationFrame;
     float timeSinceLastAnimationFrame;
     float movementSpeed;
@@ -41,7 +39,8 @@ public:
     Direction GetDirection();
     void SetDirection(const Direction direction);
     void Update(const double deltaTime);
-    void BeginMovement(const int currentX, const int currentY, const Direction direction, std::function<void(const int, const int)> endMovementCallback);
+    void BeginMovement(const int currentX, const int currentY, const Direction direction);
+    bool ConsumeCompletedStep();
 
     private:
         static const std::string logChannel;
@@ -49,6 +48,7 @@ public:
         std::shared_ptr<Log::Logger> logger;
         Animation animation;
         Direction direction;
+        bool completedStepThisFrame;
         std::function<void(const int, const int)> endMovementCallback;
 
         std::string AnimationToString(const Animation animation);

@@ -4,6 +4,7 @@ namespace Game {
     Actor::Actor() {
         this->animation = Animation::Stand;
         this->direction = Direction::Down;
+        this->completedStepThisFrame = false;
     }
 
     Actor::~Actor() {
@@ -71,7 +72,7 @@ namespace Game {
             }
 
             if (!this->moving) {
-                this->endMovementCallback(this->targetTileX, this->targetTileY);
+                this->completedStepThisFrame = true;
             }
 
             this->timeSinceLastAnimationFrame += deltaTime;
@@ -93,7 +94,7 @@ namespace Game {
         }
     }
 
-    void Actor::BeginMovement(const int currentX, const int currentY, const Direction direction, std::function<void(const int, const int)> endMovementCallback) {
+    void Actor::BeginMovement(const int currentX, const int currentY, const Direction direction) {
         this->startTileX = currentX;
         this->startTileY = currentY;
 
@@ -136,8 +137,16 @@ namespace Game {
 
         // Always change movement direction so even if we can't move in that direction we still face the correct way.
         this->SetDirection(direction);
+    }
 
-        this->endMovementCallback = endMovementCallback;
+    bool Actor::ConsumeCompletedStep() {
+        if (this->completedStepThisFrame) {
+            this->completedStepThisFrame = false;
+
+            return true;
+        }
+
+        return false;
     }
 
     std::string Actor::AnimationToString(const Animation animation) {

@@ -40,16 +40,16 @@ namespace Game {
 
             this->player->Update(deltaTime);
 
+            if (this->player->ConsumeCompletedStep()) {
+                Services::Locator::WorldService()->UpdatePlayerPosition(this->player->targetTileX, this->player->targetTileY);
+
+                this->logger->debug() << "Player completed a step. New position: (" << this->player->targetTileX << ", " << this->player->targetTileY << ")";
+
+                this->Step(this->player->targetTileX, this->player->targetTileY);
+            }
+
             if (!this->player->moving && this->movementInputHeld) {
-                auto endMovmentCallback = [this](const int newX, const int newY) {
-                    Services::Locator::WorldService()->UpdatePlayerPosition(newX, newY);
-
-                    this->logger->debug() << "Player movement ended. New position: (" << newX << ", " << newY << ")";
-
-                    this->Step(newX, newY);
-                };
-
-                this->player->BeginMovement(Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, this-> movementInputHeldDirection, endMovmentCallback);
+                this->player->BeginMovement(Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, this-> movementInputHeldDirection);
             }
 
             this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
