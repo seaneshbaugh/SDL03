@@ -15,6 +15,7 @@ namespace Game {
             this->movementInputHeldDirection = Actor::Direction::Down;
             this->movementInputHeld = false;
             this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Actor::Direction::Down);
+            this->camera->Follow(this->player);
         }
 
         Map::~Map() {
@@ -51,7 +52,7 @@ namespace Game {
                 this->player->BeginMovement(Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, this-> movementInputHeldDirection, endMovmentCallback);
             }
 
-            this->camera->Follow(this->player, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+            this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
 
             if (this->pop) {
                 return Transition::Pop();
@@ -123,7 +124,6 @@ namespace Game {
             actor->SetDirection(direction);
             actor->worldX = static_cast<float>(x * this->currentMap->tilewidth);
             actor->worldY = static_cast<float>(y * this->currentMap->tileheight);
-            this->camera->Follow(actor, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
@@ -134,6 +134,8 @@ namespace Game {
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
             this->PlaceActor(this->player, startX, startY, Actor::Direction::Down);
+
+            this->camera->Follow(this->player);
 
             (*this->luaState.get())["after_map_load"]();
 

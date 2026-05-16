@@ -9,19 +9,21 @@ namespace Game {
     public:
         Camera(const float x, const float y, const float viewportWidth, const float viewportHeight);
         ~Camera();
-        void Follow(std::shared_ptr<Actor> target, int mapWidth, int mapHeight);
-        // void Follow(const float targetX, const float targetY, int mapWidth, int mapHeight);
+        void Follow(std::shared_ptr<Actor> target);
+        void Update(const double deltaTime, int mapWidth, int mapHeight);
 
         float x;
         float y;
         float viewportWidth;
         float viewportHeight;
-        std::shared_ptr<Actor> target;
+        bool panning;
+        float panSpeed;
 
     private:
         static const std::string logChannel;
 
         std::shared_ptr<Log::Logger> logger;
+        std::shared_ptr<Actor> target;
     };
 }
 
