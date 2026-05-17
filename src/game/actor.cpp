@@ -9,7 +9,6 @@ namespace Game {
         this->direction = Direction::Down;
         this->moving = false;
         this->movementSpeed = 4.0f;
-        this->completedStepThisFrame = false;
     }
 
     Actor::~Actor() {
@@ -120,7 +119,7 @@ namespace Game {
             }
 
             if (!this->moving) {
-                this->completedStepThisFrame = true;
+                this->completedSteps.push({this->currentTileX, this->currentTileY});
             }
 
             this->timeSinceLastAnimationFrame += deltaTime;
@@ -187,14 +186,19 @@ namespace Game {
         this->SetDirection(direction);
     }
 
-    bool Actor::ConsumeCompletedStep() {
-        if (this->completedStepThisFrame) {
-            this->completedStepThisFrame = false;
+    bool Actor::HasCompletedSteps() const {
+        return !this->completedSteps.empty();
+    }
 
-            return true;
+    std::optional<Actor::CompletedStep> Actor::ConsumeCompletedStep() {
+        if (this->completedSteps.empty()) {
+            return std::nullopt;
         }
 
-        return false;
+        CompletedStep step = this->completedSteps.front();
+        this->completedSteps.pop();
+
+        return step;
     }
 
     std::string Actor::AnimationToString(const Animation animation) {

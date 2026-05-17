@@ -1,26 +1,33 @@
 #ifndef SDL03_Game_Actor
 #define SDL03_Game_Actor
 
+#include <queue>
+#include <optional>
+
 #include "services/locator.hpp"
 #include "objects/maps/map.hpp"
 
 namespace Game {
-class Actor {
-public:
-    enum class Direction {
-        Up,
-        Right,
-        Down,
-        Left
-    };
-
-    enum class Animation {
-        Stand,
-        Walk,
-        Idle
-    };
-
+    class Actor {
     public:
+        enum class Direction {
+            Up,
+            Right,
+            Down,
+            Left
+        };
+
+        enum class Animation {
+            Stand,
+            Walk,
+            Idle
+        };
+
+        struct CompletedStep {
+            int tileX;
+            int tileY;
+        };
+
         std::shared_ptr<Objects::Maps::Map> currentMap;
 
         unsigned int animationFrame;
@@ -41,7 +48,8 @@ public:
         bool IsMoving() const;
         void Update(const double deltaTime);
         void BeginMovement(const Direction direction, const unsigned int distance);
-        bool ConsumeCompletedStep();
+        bool HasCompletedSteps() const;
+        std::optional<CompletedStep> ConsumeCompletedStep();
 
     private:
         static const std::string logChannel;
@@ -59,7 +67,7 @@ public:
         int targetWorldY;
         Animation animation;
         Direction direction;
-        bool completedStepThisFrame;
+        std::queue<CompletedStep> completedSteps;
         std::function<void(const int, const int)> endMovementCallback;
 
         std::string AnimationToString(const Animation animation);

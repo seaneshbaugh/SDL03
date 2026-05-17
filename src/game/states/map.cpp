@@ -40,12 +40,12 @@ namespace Game {
 
             this->player->Update(deltaTime);
 
-            if (this->player->ConsumeCompletedStep()) {
-                Services::Locator::WorldService()->UpdatePlayerPosition(this->player->GetCurrentTileX(), this->player->GetCurrentTileY());
+            while (auto step = this->player->ConsumeCompletedStep()) {
+                Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
 
-                this->logger->debug() << "Player completed a step. New position: (" << this->player->GetCurrentTileX() << ", " << this->player->GetCurrentTileY() << ")";
+                this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
 
-                this->Step(this->player->GetCurrentTileX(), this->player->GetCurrentTileY());
+                this->Step(step->tileX, step->tileY);
             }
 
             if (!this->player->IsMoving() && this->movementInputHeld) {
