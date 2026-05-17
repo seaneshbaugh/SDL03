@@ -6,6 +6,7 @@
 
 #include "services/locator.hpp"
 #include "objects/maps/map.hpp"
+#include "actor_appearance.hpp"
 
 namespace Game {
     class Actor {
@@ -29,10 +30,10 @@ namespace Game {
         };
 
         std::shared_ptr<Objects::Maps::Map> currentMap;
-
         unsigned int animationFrame;
         float timeSinceLastAnimationFrame;
         std::string spriteName;
+        std::shared_ptr<ActorAppearance> appearance;
 
         Actor();
         ~Actor();

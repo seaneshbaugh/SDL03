@@ -62,6 +62,7 @@
     <ClCompile Include="lib\sago\platform_folders.cpp" />
     <ClCompile Include="lib\sqlite\sqlite3.c" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\game\actor_appearance.cpp" />
     <ClCompile Include="src\game\camera.cpp" />
     <ClCompile Include="src\game\engine.cpp" />
     <ClCompile Include="src\game\events\base.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="lib\sol\sol.hpp" />
     <ClInclude Include="lib\sqlite\sqlite3.h" />
     <ClInclude Include="src\game.hpp" />
+    <ClInclude Include="src\game\actor_appearance.hpp" />
     <ClInclude Include="src\game\camera.hpp" />
     <ClInclude Include="src\game\engine.hpp" />
     <ClInclude Include="src\game\events\base.hpp" />
@@ -196,7 +198,7 @@
     <ClInclude Include="src\game\events\tick.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
-    <ClInclude Include="src\game\MovementCommand.hpp" />
+    <ClInclude Include="src\game\movement_command.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
     <ClInclude Include="src\game\objects\characters\animation.hpp" />
     <ClInclude Include="src\game\objects\characters\animation_frame.hpp" />

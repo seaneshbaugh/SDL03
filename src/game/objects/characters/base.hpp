@@ -22,10 +22,6 @@ namespace Game {
             class Base : public Objects::Base {
             public:
                 std::string name;
-                // TODO: At some point I will want to combine all possible sprites for a character into a single spritesheet.
-                // Rigt now the sprite is just a single image that is used for rendering the character in the battle state.
-                // The spritesheet is used for animating the character in the map state. I'll need to add something to the JSON
-                // character files to specify the offsets for each different sprite in the spritesheet.
                 std::string spriteName;
                 std::string spritesheetName;
                 std::shared_ptr<Resources::Texture> sprite;

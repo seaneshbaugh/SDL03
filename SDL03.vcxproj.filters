@@ -363,6 +363,9 @@
     <ClCompile Include="src\game\actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\actor_visual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -752,7 +755,7 @@
     <ClInclude Include="src\game\states\transition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\MovementCommand.hpp">
+    <ClInclude Include="src\game\movement_command.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
