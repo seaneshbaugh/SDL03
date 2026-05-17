@@ -16,36 +16,47 @@ public:
 
     enum class Animation {
         Stand,
-        Walk
+        Walk,
+        Idle
     };
 
-    std::shared_ptr<Objects::Maps::Map> currentMap;
-    float worldX;
-    float worldY;
-    unsigned int animationFrame;
-    float timeSinceLastAnimationFrame;
-    float movementSpeed;
-    bool moving;
-    int startTileX;
-    int startTileY;
-    int targetTileX;
-    int targetTileY;
-    std::string spriteName;
+    public:
+        std::shared_ptr<Objects::Maps::Map> currentMap;
 
-    Actor();
-    ~Actor();
-    Animation GetAnimation();
-    void SetAnimation(const Animation animation);
-    Direction GetDirection();
-    void SetDirection(const Direction direction);
-    void Update(const double deltaTime);
-    void BeginMovement(const int currentX, const int currentY, const Direction direction);
-    bool ConsumeCompletedStep();
+        unsigned int animationFrame;
+        float timeSinceLastAnimationFrame;
+        std::string spriteName;
+
+        Actor();
+        ~Actor();
+        void SetPosition(const int x, const int y);
+        int GetCurrentTileX() const;
+        int GetCurrentTileY() const;
+        float GetCurrentWorldX() const;
+        float GetCurrentWorldY() const;
+        Animation GetAnimation() const;
+        void SetAnimation(const Animation animation);
+        Direction GetDirection() const;
+        void SetDirection(const Direction direction);
+        bool IsMoving() const;
+        void Update(const double deltaTime);
+        void BeginMovement(const Direction direction, const unsigned int distance);
+        bool ConsumeCompletedStep();
 
     private:
         static const std::string logChannel;
 
         std::shared_ptr<Log::Logger> logger;
+        int currentTileX;
+        int currentTileY;
+        float worldX;
+        float worldY;
+        float movementSpeed;
+        bool moving;
+        int startTileX;
+        int startTileY;
+        int targetTileX;
+        int targetTileY;
         Animation animation;
         Direction direction;
         bool completedStepThisFrame;

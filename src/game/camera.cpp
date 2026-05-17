@@ -28,8 +28,8 @@ namespace Game {
             return;
         }
 
-        float desiredX = std::clamp(target->worldX - (this->viewportWidth / 2.0f), 0.0f, static_cast<float>(mapWidth) - this->viewportWidth);
-        float desiredY = std::clamp(target->worldY - (this->viewportHeight / 2.0f), 0.0f, static_cast<float>(mapHeight) - this->viewportHeight);
+        float desiredX = std::clamp(target->GetCurrentWorldX() - (this->viewportWidth / 2.0f), 0.0f, static_cast<float>(mapWidth) - this->viewportWidth);
+        float desiredY = std::clamp(target->GetCurrentWorldY() - (this->viewportHeight / 2.0f), 0.0f, static_cast<float>(mapHeight) - this->viewportHeight);
 
         this->logger->debug() << "desiredX: " << desiredX << ", desiredY: " << desiredY;
 

@@ -33,7 +33,7 @@ namespace Game {
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             std::unique_ptr<Camera> camera;
             std::shared_ptr<Actor> player;
-            std::vector<std::shared_ptr<Actor>> npcs;
+            std::vector<std::shared_ptr<Actor>> actors;
             Actor::Direction movementDirection;
             Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;

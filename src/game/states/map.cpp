@@ -41,15 +41,15 @@ namespace Game {
             this->player->Update(deltaTime);
 
             if (this->player->ConsumeCompletedStep()) {
-                Services::Locator::WorldService()->UpdatePlayerPosition(this->player->targetTileX, this->player->targetTileY);
+                Services::Locator::WorldService()->UpdatePlayerPosition(this->player->GetCurrentTileX(), this->player->GetCurrentTileY());
 
-                this->logger->debug() << "Player completed a step. New position: (" << this->player->targetTileX << ", " << this->player->targetTileY << ")";
+                this->logger->debug() << "Player completed a step. New position: (" << this->player->GetCurrentTileX() << ", " << this->player->GetCurrentTileY() << ")";
 
-                this->Step(this->player->targetTileX, this->player->targetTileY);
+                this->Step(this->player->GetCurrentTileX(), this->player->GetCurrentTileY());
             }
 
-            if (!this->player->moving && this->movementInputHeld) {
-                this->player->BeginMovement(Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, this-> movementInputHeldDirection);
+            if (!this->player->IsMoving() && this->movementInputHeld) {
+                this->player->BeginMovement(this->movementInputHeldDirection, 1);
             }
 
             this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
@@ -108,22 +108,19 @@ namespace Game {
             SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->spriteName, this->player->animationFrame);
             float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
             float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
-            float playerScreenX = this->player->worldX - this->camera->x;
-            float playerScreenY = this->player->worldY - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
+            float playerScreenX = this->player->GetCurrentWorldX() - this->camera->x;
+            float playerScreenY = this->player->GetCurrentWorldY() - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
 
             Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->player->spriteName, this->player->animationFrame, playerScreenX, playerScreenY);
         }
 
         void Map::PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y, const Actor::Direction direction) {
             actor->currentMap = this->currentMap;
-            actor->animationFrame = 0;
-            actor->timeSinceLastAnimationFrame = 0.0f;
-            actor->moving = false;
-            actor->movementSpeed = 4.0f * static_cast<float>(this->currentMap->tilewidth);
+            actor->SetPosition(x, y);
             actor->SetAnimation(Actor::Animation::Stand);
             actor->SetDirection(direction);
-            actor->worldX = static_cast<float>(x * this->currentMap->tilewidth);
-            actor->worldY = static_cast<float>(y * this->currentMap->tileheight);
+            actor->animationFrame = 0;
+            actor->timeSinceLastAnimationFrame = 0.0f;
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
