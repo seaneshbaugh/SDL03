@@ -73,16 +73,16 @@ namespace Game {
         if (this->moving) {
             float movementSpeedX = this->movementSpeed * static_cast<float>(this->currentMap->tilewidth);
             float movementSpeedY = this->movementSpeed * static_cast<float>(this->currentMap->tileheight);
-            float targetTileX = static_cast<float>(this->targetTileX * this->currentMap->tilewidth);
-            float targetTileY = static_cast<float>(this->targetTileY * this->currentMap->tileheight);
+            float targetWorldX = static_cast<float>(this->targetWorldX * this->currentMap->tilewidth);
+            float targetWorldY = static_cast<float>(this->targetWorldY * this->currentMap->tileheight);
 
             switch (this->direction) {
             case Direction::Up:
                 this->worldY -= movementSpeedY * deltaTime;
 
-                if (this->worldY <= targetTileY) {
-                    this->currentTileY = this->targetTileY;
-                    this->worldY = targetTileY;
+                if (this->worldY <= targetWorldY) {
+                    this->currentTileY = this->targetWorldY;
+                    this->worldY = targetWorldY;
 
                     this->moving = false;
                 }
@@ -90,9 +90,9 @@ namespace Game {
             case Direction::Right:
                 this->worldX += movementSpeedX * deltaTime;
 
-                if (this->worldX >= targetTileX) {
-                    this->currentTileX = this->targetTileX;
-                    this->worldX = targetTileX;
+                if (this->worldX >= targetWorldX) {
+                    this->currentTileX = this->targetWorldX;
+                    this->worldX = targetWorldX;
 
                     this->moving = false;
                 }
@@ -100,9 +100,9 @@ namespace Game {
             case Direction::Down:
                 this->worldY += movementSpeedY * deltaTime;
 
-                if (this->worldY >= targetTileY) {
-                    this->currentTileY = this->targetTileY;
-                    this->worldY = targetTileY;
+                if (this->worldY >= targetWorldY) {
+                    this->currentTileY = this->targetWorldY;
+                    this->worldY = targetWorldY;
 
                     this->moving = false;
                 }
@@ -110,9 +110,9 @@ namespace Game {
             case Direction::Left:
                 this->worldX -= movementSpeedX * deltaTime;
 
-                if (this->worldX <= targetTileX) {
-                    this->currentTileX = this->targetTileX;
-                    this->worldX = targetTileX;
+                if (this->worldX <= targetWorldX) {
+                    this->currentTileX = this->targetWorldX;
+                    this->worldX = targetWorldX;
 
                     this->moving = false;
                 }
@@ -146,38 +146,38 @@ namespace Game {
         this->startTileX = this->currentTileX;
         this->startTileY = this->currentTileY;
 
-        this->targetTileX = this->startTileX;
-        this->targetTileY = this->startTileY;
+        this->targetWorldX = this->startTileX;
+        this->targetWorldY = this->startTileY;
 
         switch (direction) {
         case Direction::Up:
-            if (this->targetTileY > 0) {
-                this->targetTileY--;
+            if (this->targetWorldY > 0) {
+                this->targetWorldY--;
             }
 
             break;
         case Direction::Right:
-            if (this->targetTileX < this->currentMap->width - 1) {
-                targetTileX++;
+            if (this->targetWorldX < this->currentMap->width - 1) {
+                targetWorldX++;
             }
 
             break;
         case Direction::Down:
-            if (this->targetTileY < this->currentMap->height - 1) {
-                this->targetTileY++;
+            if (this->targetWorldY < this->currentMap->height - 1) {
+                this->targetWorldY++;
             }
 
             break;
         case Direction::Left:
-            if (this->targetTileX > 0) {
-                this->targetTileX--;
+            if (this->targetWorldX > 0) {
+                this->targetWorldX--;
             }
 
             break;
         }
 
         // Only start moving if the target tile is different from the starting tile and the target tile is walkable.
-        if ((this->targetTileX != this->startTileX || this->targetTileY != this->startTileY) && this->currentMap->GetWalkability(this->targetTileX, this->targetTileY)) {
+        if ((this->targetWorldX != this->startTileX || this->targetWorldY != this->startTileY) && this->currentMap->GetWalkability(this->targetWorldX, this->targetWorldY)) {
             this->moving = true;
 
             this->SetAnimation(Animation::Walk);

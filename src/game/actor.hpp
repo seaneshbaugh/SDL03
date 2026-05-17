@@ -55,8 +55,8 @@ public:
         bool moving;
         int startTileX;
         int startTileY;
-        int targetTileX;
-        int targetTileY;
+        int targetWorldX;
+        int targetWorldY;
         Animation animation;
         Direction direction;
         bool completedStepThisFrame;
