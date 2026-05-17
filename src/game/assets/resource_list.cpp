@@ -1,5 +1,8 @@
 #include "resource_list.hpp"
 
+// TODO: Determine if I even want to keep this class around. If I do I'll
+// definitely want to rename it. Keeping it as is for now since nothing even
+// uses it yet.
 namespace Game {
     namespace Resources {
         template<class T>ResourceList<T>::ResourceList() {

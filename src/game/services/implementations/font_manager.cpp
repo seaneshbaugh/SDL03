@@ -30,18 +30,18 @@ namespace Game {
                 TTF_Quit();
             }
 
-            std::shared_ptr<Resources::Font> FontManager::GetFont(const std::string& fontName, const int fontSize = Resources::Font::DEFAULT_FONT_SIZE) {
+            std::shared_ptr<Assets::Font> FontManager::GetFont(const std::string& fontName, const int fontSize = Assets::Font::DEFAULT_FONT_SIZE) {
                 auto font = this->fonts.find(std::make_pair(fontName, fontSize));
 
                 if (font != this->fonts.end()) {
                     return font->second;
                 }
 
-                std::shared_ptr<Resources::Font> defaultSizeFont = this->fonts.at(std::make_pair(fontName, Resources::Font::DEFAULT_FONT_SIZE));
+                std::shared_ptr<Assets::Font> defaultSizeFont = this->fonts.at(std::make_pair(fontName, Assets::Font::DEFAULT_FONT_SIZE));
 
                 const std::pair<std::string, int> fontKey = std::make_pair(fontName, fontSize);
 
-                this->fonts[fontKey] = std::make_shared<Resources::Font>(defaultSizeFont->GetFilename(), fontSize);
+                this->fonts[fontKey] = std::make_shared<Assets::Font>(defaultSizeFont->GetFilename(), fontSize);
 
                 return this->fonts[fontKey];
             }
@@ -69,7 +69,7 @@ namespace Game {
 
                 for (std::map<std::string, std::string>::iterator fontFilename = assetList.begin(); fontFilename != assetList.end(); fontFilename++) {
 
-                    this->fonts[std::make_pair(fontFilename->first, Resources::Font::DEFAULT_FONT_SIZE)] = std::make_shared<Resources::Font>(fontFilename->second, Resources::Font::DEFAULT_FONT_SIZE);
+                    this->fonts[std::make_pair(fontFilename->first, Assets::Font::DEFAULT_FONT_SIZE)] = std::make_shared<Assets::Font>(fontFilename->second, Assets::Font::DEFAULT_FONT_SIZE);
                 }
 
                 return true;

@@ -9,7 +9,7 @@
 namespace Game {
     class Engine;
 
-    namespace Resources {
+    namespace Assets {
         class Texture : public Base {
         public:
             Texture();

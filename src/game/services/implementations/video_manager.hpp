@@ -3,10 +3,10 @@
 
 #include "../locator.hpp"
 #include "../interfaces/video_service.hpp"
-#include "../../resources/texture.hpp"
+#include "../../assets/texture.hpp"
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         class Texture;
     }
 
@@ -18,7 +18,7 @@ namespace Game {
                 ~VideoManager();
                 void ClearScreen();
                 bool RenderTexture(SDL_Texture* texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect);
-                bool RenderTexture(std::shared_ptr<Resources::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect);
+                bool RenderTexture(std::shared_ptr<Assets::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect);
                 void UpdateScreen();
                 std::shared_ptr<SDL_Renderer> GetRenderer();
                 int GetScreenWidth();

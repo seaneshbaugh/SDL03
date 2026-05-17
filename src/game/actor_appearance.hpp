@@ -2,7 +2,7 @@
 #define SDL03_Game_ActorAppearance
 
 #include "services/locator.hpp"
-#include "objects/characters/animation.hpp"
+#include "graphics/animation.hpp"
 
 namespace Game {
     class ActorAppearance {
@@ -11,8 +11,8 @@ namespace Game {
 
     private:
         std::string spritesheetName;
-        std::shared_ptr<Resources::Texture> spritesheet;
-        std::map<std::string, Objects::Characters::Animation> animations;
+        std::shared_ptr<Assets::Texture> spritesheet;
+        std::map<std::string, Graphics::Animation> animations;
     };
 }
 

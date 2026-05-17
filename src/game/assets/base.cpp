@@ -1,7 +1,7 @@
 #include "base.hpp"
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         std::string Base::GetFilename() {
             return this->filename;
         }

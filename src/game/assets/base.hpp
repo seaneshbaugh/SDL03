@@ -9,7 +9,7 @@
 #include "../services/locator.hpp"
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         class Base {
         public:
             virtual ~Base() {}

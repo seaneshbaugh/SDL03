@@ -1,21 +1,24 @@
-#include "song.hpp"
+#include "sound.hpp"
 
 namespace Game {
-    namespace Resources {
-        Song::Song() {
+    namespace Assets {
+        const std::string Sound::logChannel = "assets.sounds";
+
+        Sound::Sound() {
+            this->logger = Services::Locator::LoggerService()->GetLogger(Sound::logChannel);
             this->audio = nullptr;
             this->filename = "";
         }
 
-        Song::Song(const std::string& filename) : Song() {
+        Sound::Sound(const std::string& filename) : Sound() {
             this->Load(filename);
         }
 
-        Song::~Song() {
+        Sound::~Sound() {
             this->DestroyAudio();
         }
 
-        void Song::Load(const std::string& filename) {
+        void Sound::Load(const std::string& filename) {
             this->DestroyAudio();
 
             this->filename = filename;
@@ -29,7 +32,7 @@ namespace Game {
             }
         }
 
-        bool Song::DestroyAudio() {
+        bool Sound::DestroyAudio() {
             if (this->audio == nullptr) {
                 return false;
             }

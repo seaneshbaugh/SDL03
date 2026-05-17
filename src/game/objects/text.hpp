@@ -5,20 +5,21 @@
 #include <iostream>
 
 #include "../services/locator.hpp"
-#include "../resources/font.hpp"
+#include "../assets/font.hpp"
 #include "base.hpp"
 
 namespace Game {
+    // TODO: Move this to Graphics namespace.
     namespace Objects {
         class Text : public Base {
         public:
             Text();
-            Text(const std::string& text, std::shared_ptr<Resources::Font> font, const float x, const float y, const SDL_Color& color);
+            Text(const std::string& text, std::shared_ptr<Assets::Font> font, const float x, const float y, const SDL_Color& color);
             Text(const std::string& text, const std::string& fontName, const int fontSize, const float x, const float y, const Uint8 r, const Uint8 g, const Uint8 b);
             ~Text();
             std::string GetText();
             void SetText(const std::string& text);
-            void SetFont(std::shared_ptr<Resources::Font> font);
+            void SetFont(std::shared_ptr<Assets::Font> font);
             void SetFont(const std::string& fontName, const int fontSize);
             SDL_FRect GetPosition();
             float GetX();
@@ -33,7 +34,7 @@ namespace Game {
 
         private:
             std::string text;
-            std::shared_ptr<Resources::Font> font;
+            std::shared_ptr<Assets::Font> font;
             SDL_FRect position;
             SDL_Color color;
             SDL_Texture* texture;

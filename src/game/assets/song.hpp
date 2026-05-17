@@ -8,7 +8,7 @@
 #include "../services/locator.hpp"
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         class Song : public Base {
         public:
             MIX_Audio* audio;

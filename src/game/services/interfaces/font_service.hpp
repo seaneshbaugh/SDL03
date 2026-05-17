@@ -5,7 +5,7 @@
 #include <string>
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         class Font;
     }
 
@@ -14,7 +14,7 @@ namespace Game {
             class FontService {
             public:
                 virtual ~FontService() {}
-                virtual std::shared_ptr<Resources::Font> GetFont(const std::string& fontName, const int fontSize) = 0;
+                virtual std::shared_ptr<Assets::Font> GetFont(const std::string& fontName, const int fontSize) = 0;
             };
         }
     }

@@ -5,7 +5,7 @@
 #include <string>
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         class Texture;
     }
 
@@ -14,8 +14,8 @@ namespace Game {
             class TextureService {
             public:
                 virtual ~TextureService() {}
-                virtual std::shared_ptr<Resources::Texture> AddTexture(const std::string& textureName, const std::string& filename) = 0;
-                virtual std::shared_ptr<Resources::Texture> GetTexture(const std::string& textureName) = 0;
+                virtual std::shared_ptr<Assets::Texture> AddTexture(const std::string& textureName, const std::string& filename) = 0;
+                virtual std::shared_ptr<Assets::Texture> GetTexture(const std::string& textureName) = 0;
                 virtual void ReleaseTexture(const std::string& textureName) = 0;
             };
         }

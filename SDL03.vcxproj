@@ -69,10 +69,11 @@
     <ClCompile Include="src\game\events\observer.cpp" />
     <ClCompile Include="src\game\events\subject.cpp" />
     <ClCompile Include="src\game\events\tick.cpp" />
+    <ClCompile Include="src\game\graphics\spritesheet.cpp" />
     <ClCompile Include="src\game\input_mapper.cpp" />
     <ClCompile Include="src\game\objects\base.cpp" />
-    <ClCompile Include="src\game\objects\characters\animation.cpp" />
-    <ClCompile Include="src\game\objects\characters\animation_frame.cpp" />
+    <ClCompile Include="src\game\graphics\animation.cpp" />
+    <ClCompile Include="src\game\graphics\animation_frame.cpp" />
     <ClCompile Include="src\game\objects\characters\base.cpp" />
     <ClCompile Include="src\game\objects\characters\monster.cpp" />
     <ClCompile Include="src\game\objects\characters\non_player_character.cpp" />
@@ -94,12 +95,12 @@
     <ClCompile Include="src\game\objects\world.cpp" />
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp" />
     <ClCompile Include="src\game\actor.cpp" />
-    <ClCompile Include="src\game\resources\base.cpp" />
-    <ClCompile Include="src\game\resources\font.cpp" />
-    <ClCompile Include="src\game\resources\resource_list.cpp" />
-    <ClCompile Include="src\game\resources\song.cpp" />
-    <ClCompile Include="src\game\resources\sound.cpp" />
-    <ClCompile Include="src\game\resources\texture.cpp" />
+    <ClCompile Include="src\game\assets\base.cpp" />
+    <ClCompile Include="src\game\assets\font.cpp" />
+    <ClCompile Include="src\game\assets\resource_list.cpp" />
+    <ClCompile Include="src\game\assets\song.cpp" />
+    <ClCompile Include="src\game\assets\sound.cpp" />
+    <ClCompile Include="src\game\assets\texture.cpp" />
     <ClCompile Include="src\game\services\implementations\audio_manager.cpp" />
     <ClCompile Include="src\game\services\implementations\clock.cpp" />
     <ClCompile Include="src\game\services\implementations\font_manager.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="src\game\services\interfaces\audio_service.cpp" />
     <ClCompile Include="src\game\services\interfaces\font_service.cpp" />
     <ClCompile Include="src\game\services\interfaces\input_service.cpp" />
+    <ClCompile Include="src\game\services\interfaces\item_service.cpp" />
     <ClCompile Include="src\game\services\interfaces\logger_service.cpp" />
     <ClCompile Include="src\game\services\interfaces\renderer_service.cpp" />
     <ClCompile Include="src\game\services\interfaces\save_service.cpp" />
@@ -196,12 +198,13 @@
     <ClInclude Include="src\game\events\observer.hpp" />
     <ClInclude Include="src\game\events\subject.hpp" />
     <ClInclude Include="src\game\events\tick.hpp" />
+    <ClInclude Include="src\game\graphics\spritesheet.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
     <ClInclude Include="src\game\movement_command.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
-    <ClInclude Include="src\game\objects\characters\animation.hpp" />
-    <ClInclude Include="src\game\objects\characters\animation_frame.hpp" />
+    <ClInclude Include="src\game\graphics\animation.hpp" />
+    <ClInclude Include="src\game\graphics\animation_frame.hpp" />
     <ClInclude Include="src\game\objects\characters\animation_offset.hpp" />
     <ClInclude Include="src\game\objects\characters\base.hpp" />
     <ClInclude Include="src\game\objects\characters\monster.hpp" />
@@ -224,12 +227,12 @@
     <ClInclude Include="src\game\objects\world.hpp" />
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp" />
     <ClInclude Include="src\game\actor.hpp" />
-    <ClInclude Include="src\game\resources\base.hpp" />
-    <ClInclude Include="src\game\resources\font.hpp" />
-    <ClInclude Include="src\game\resources\resource_list.hpp" />
-    <ClInclude Include="src\game\resources\song.hpp" />
-    <ClInclude Include="src\game\resources\sound.hpp" />
-    <ClInclude Include="src\game\resources\texture.hpp" />
+    <ClInclude Include="src\game\assets\base.hpp" />
+    <ClInclude Include="src\game\assets\font.hpp" />
+    <ClInclude Include="src\game\assets\resource_list.hpp" />
+    <ClInclude Include="src\game\assets\song.hpp" />
+    <ClInclude Include="src\game\assets\sound.hpp" />
+    <ClInclude Include="src\game\assets\texture.hpp" />
     <ClInclude Include="src\game\services\implementations\audio_manager.hpp" />
     <ClInclude Include="src\game\services\implementations\clock.hpp" />
     <ClInclude Include="src\game\services\implementations\font_manager.hpp" />
@@ -244,6 +247,7 @@
     <ClInclude Include="src\game\services\interfaces\audio_service.hpp" />
     <ClInclude Include="src\game\services\interfaces\font_service.hpp" />
     <ClInclude Include="src\game\services\interfaces\input_service.hpp" />
+    <ClInclude Include="src\game\services\interfaces\item_service.hpp" />
     <ClInclude Include="src\game\services\interfaces\logger_service.hpp" />
     <ClInclude Include="src\game\services\interfaces\renderer_service.hpp" />
     <ClInclude Include="src\game\services\interfaces\save_service.hpp" />
@@ -274,6 +278,9 @@
     <None Include=".editorconfig" />
     <None Include="resources\characters\character03.json" />
     <None Include="resources\monsters\index.json" />
+    <None Include="resources\spritesheets\characters\casie.json" />
+    <None Include="resources\spritesheets\characters\kyle.json" />
+    <None Include="resources\spritesheets\characters\sean.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

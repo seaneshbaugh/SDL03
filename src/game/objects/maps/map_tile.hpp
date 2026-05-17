@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../../resources/texture.hpp"
+#include "../../assets/texture.hpp"
 #include "../base.hpp"
 
 namespace Game {
@@ -16,7 +16,7 @@ namespace Game {
                 std::string name;
                 unsigned int width;
                 unsigned int height;
-                std::shared_ptr<Resources::Texture> texture;
+                std::shared_ptr<Assets::Texture> texture;
 
                 MapTile();
                 ~MapTile();

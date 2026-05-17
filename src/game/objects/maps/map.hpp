@@ -40,7 +40,7 @@ namespace Game {
                 int tileheight;
                 std::vector <std::shared_ptr<MapLayer>> layers;
                 std::map <int, std::shared_ptr<MapTile>> tiles;
-                std::map<std::string, std::shared_ptr<Resources::Texture>> textures;
+                std::map<std::string, std::shared_ptr<Assets::Texture>> textures;
                 std::shared_ptr<MapLayer> walkabilityLayer;
 
                 Map();

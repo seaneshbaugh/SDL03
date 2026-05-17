@@ -60,22 +60,22 @@
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\resources\base.cpp">
+    <ClCompile Include="src\game\assets\base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\resources\font.cpp">
+    <ClCompile Include="src\game\assets\font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\resources\resource_list.cpp">
+    <ClCompile Include="src\game\assets\resource_list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\resources\song.cpp">
+    <ClCompile Include="src\game\assets\song.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\resources\sound.cpp">
+    <ClCompile Include="src\game\assets\sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\resources\texture.cpp">
+    <ClCompile Include="src\game\assets\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\services\implementations\audio_manager.cpp">
@@ -351,10 +351,10 @@
     <ClCompile Include="src\game\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\objects\characters\animation_frame.cpp">
+    <ClCompile Include="src\game\graphics\animation_frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\objects\characters\animation.cpp">
+    <ClCompile Include="src\game\graphics\animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\objects\maps\map_start_point.cpp">
@@ -363,7 +363,13 @@
     <ClCompile Include="src\game\actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\actor_visual.cpp">
+    <ClCompile Include="src\game\actor_appearance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\graphics\spritesheet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\services\interfaces\item_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -413,22 +419,22 @@
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\resources\base.hpp">
+    <ClInclude Include="src\game\assets\base.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\resources\font.hpp">
+    <ClInclude Include="src\game\assets\font.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\resources\resource_list.hpp">
+    <ClInclude Include="src\game\assets\resource_list.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\resources\song.hpp">
+    <ClInclude Include="src\game\assets\song.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\resources\sound.hpp">
+    <ClInclude Include="src\game\assets\sound.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\resources\texture.hpp">
+    <ClInclude Include="src\game\assets\texture.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\services\implementations\audio_manager.hpp">
@@ -737,13 +743,13 @@
     <ClInclude Include="src\game\camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\objects\characters\animation.hpp">
+    <ClInclude Include="src\game\graphics\animation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\objects\characters\animation_offset.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\objects\characters\animation_frame.hpp">
+    <ClInclude Include="src\game\graphics\animation_frame.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp">
@@ -758,10 +764,22 @@
     <ClInclude Include="src\game\movement_command.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\actor_appearance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\graphics\spritesheet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\services\interfaces\item_service.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="resources\characters\character03.json" />
     <None Include="resources\monsters\index.json" />
+    <None Include="resources\spritesheets\characters\sean.json" />
+    <None Include="resources\spritesheets\characters\casie.json" />
+    <None Include="resources\spritesheets\characters\kyle.json" />
   </ItemGroup>
 </Project>

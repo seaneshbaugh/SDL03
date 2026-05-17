@@ -5,7 +5,7 @@
 
 #include <SDL3/SDL.h>
 
-#include "../../resources/texture.hpp"
+#include "../../assets/texture.hpp"
 
 namespace Game {
     namespace Services {
@@ -14,7 +14,7 @@ namespace Game {
             public:
                 virtual ~RendererService() {}
                 virtual bool Render(SDL_Texture* texture, const SDL_Rect* srcrect, const SDL_Rect* dstrect) = 0;
-                virtual bool Render(std::shared_ptr<Resources::Texture> texture, const SDL_Rect* srcrect, const SDL_Rect* dstrect) = 0;
+                virtual bool Render(std::shared_ptr<Assets::Texture> texture, const SDL_Rect* srcrect, const SDL_Rect* dstrect) = 0;
                 virtual std::shared_ptr<SDL_Renderer> GetRenderer() = 0;
             };
         }

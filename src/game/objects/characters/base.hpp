@@ -10,9 +10,9 @@
 #include "../../../../lib/nlohmann/json.hpp"
 
 #include "../../../helpers/file_system.hpp"
-#include "../../resources/texture.hpp"
+#include "../../assets/texture.hpp"
 #include "../base.hpp"
-#include "animation.hpp"
+#include "../../graphics/animation.hpp"
 
 using json = nlohmann::json;
 
@@ -24,8 +24,8 @@ namespace Game {
                 std::string name;
                 std::string spriteName;
                 std::string spritesheetName;
-                std::shared_ptr<Resources::Texture> sprite;
-                std::shared_ptr<Resources::Texture> spritesheet;
+                std::shared_ptr<Assets::Texture> sprite;
+                std::shared_ptr<Assets::Texture> spritesheet;
 
                 Base();
                 ~Base();
@@ -79,7 +79,7 @@ namespace Game {
                 unsigned long long int luck;
                 unsigned int spriteWidth;
                 unsigned int spriteHeight;
-                std::map<std::string, Animation> animations;
+                std::map<std::string, Graphics::Animation> animations;
 
                 bool ParseCharacterFile(const std::string& jsonString);
 
@@ -94,8 +94,8 @@ namespace Game {
 
                     std::shared_ptr<Log::Logger> logger;
 
-                    std::map<std::string, Animation> ParseAnimations(const json& node);
-                    AnimationFrame ParseAnimationFrame(const json& node);
+                    std::map<std::string, Graphics::Animation> ParseAnimations(const json& node);
+                    Graphics::AnimationFrame ParseAnimationFrame(const json& node);
                 };
             };
         }

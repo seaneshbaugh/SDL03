@@ -16,9 +16,9 @@
 #endif
 #include "../../../lib/sol/sol.hpp"
 
-#include "../resources/texture.hpp"
-#include "../resources/sound.hpp"
-#include "../resources/song.hpp"
+#include "../assets/texture.hpp"
+#include "../assets/sound.hpp"
+#include "../assets/song.hpp"
 #include "../parsers/asset_list_parser.hpp"
 #include "../objects/text.hpp"
 #include "transition.hpp"
@@ -66,7 +66,7 @@ namespace Game {
             virtual void LoadSounds(const std::string& resourceListPath);
             virtual void LoadSongs(const std::string& resourceListPath);
             virtual void LoadLuaState(const std::string& scriptFilePath);
-            std::shared_ptr<Resources::Texture> GetTexture(const std::string& textureName);
+            std::shared_ptr<Assets::Texture> GetTexture(const std::string& textureName);
         };
     }
 }

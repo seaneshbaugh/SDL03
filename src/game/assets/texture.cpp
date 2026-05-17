@@ -1,7 +1,7 @@
 #include "texture.hpp"
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         const std::string Texture::logChannel = "assets.texures";
 
         Texture::Texture() {

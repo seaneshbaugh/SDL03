@@ -10,7 +10,7 @@ namespace Game {
             this->texture = nullptr;
         }
 
-        Text::Text(const std::string& text, std::shared_ptr<Resources::Font> font, const float x, const float y, const SDL_Color& color) {
+        Text::Text(const std::string& text, std::shared_ptr<Assets::Font> font, const float x, const float y, const SDL_Color& color) {
             this->text = text;
             this->font = font;
             this->color = color;
@@ -46,7 +46,7 @@ namespace Game {
             this->UpdateTexture();
         }
 
-        void Text::SetFont(std::shared_ptr<Resources::Font> font) {
+        void Text::SetFont(std::shared_ptr<Assets::Font> font) {
             this->font = font;
 
             this->UpdateTexture();

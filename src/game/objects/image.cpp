@@ -7,7 +7,7 @@ namespace Game {
             this->position = {0, 0, 0, 0};
         }
 
-        Image::Image(std::shared_ptr<Resources::Texture> texture, const float x, const float y) : Image() {
+        Image::Image(std::shared_ptr<Assets::Texture> texture, const float x, const float y) : Image() {
             this->SetTexture(texture);
             this->SetPosition(x, y);
         }
@@ -20,7 +20,7 @@ namespace Game {
         Image::~Image() {
         }
 
-        void Image::SetTexture(std::shared_ptr<Resources::Texture> texture) {
+        void Image::SetTexture(std::shared_ptr<Assets::Texture> texture) {
             this->texture = texture;
 
             if (this->texture) {

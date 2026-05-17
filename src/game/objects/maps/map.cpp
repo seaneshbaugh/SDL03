@@ -40,7 +40,7 @@ namespace Game {
             // Maybe this should be put in some sort of texture loading class. Same with other resources.
             bool Map::LoadTextures() {
                 for (auto tile = this->tiles.begin(); tile != this->tiles.end(); tile++) {
-                    std::shared_ptr<Resources::Texture> texture = std::make_shared<Resources::Texture>();
+                    std::shared_ptr<Assets::Texture> texture = std::make_shared<Assets::Texture>();
 
                     this->logger->debug() << "Loading map tile texture \"assets/images/map_tiles/" << tile->second->filename << "\".";
 

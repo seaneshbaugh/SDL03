@@ -30,7 +30,7 @@ namespace Game {
             static const std::string logChannel;
 
             std::string backgroundName;
-            std::shared_ptr<Resources::Texture> background;
+            std::shared_ptr<Assets::Texture> background;
 
             std::string ProcessInput(const InputKey key);
             void LoadLuaState(const std::string& scriptFilePath);

@@ -12,7 +12,7 @@ namespace Game {
         }
     }
 
-    namespace Resources {
+    namespace Assets {
         class Font : public Base {
         public:
             friend class Services::Implementations::FontManager;

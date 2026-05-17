@@ -16,7 +16,7 @@ namespace Game {
             TextureManager::~TextureManager() {
             }
 
-            std::shared_ptr<Resources::Texture> TextureManager::AddTexture(const std::string& textureName, const std::string& filename) {
+            std::shared_ptr<Assets::Texture> TextureManager::AddTexture(const std::string& textureName, const std::string& filename) {
                 auto it = this->textures.find(textureName);
 
                 if (it != this->textures.end()) {
@@ -25,14 +25,14 @@ namespace Game {
                     return it->second.first;
                 }
 
-                auto texture = std::make_shared<Resources::Texture>(filename);
+                auto texture = std::make_shared<Assets::Texture>(filename);
 
                 this->textures[textureName] = std::make_pair(texture, 1);
 
                 return texture;
             }
 
-            std::shared_ptr<Resources::Texture> TextureManager::GetTexture(const std::string& textureName) {
+            std::shared_ptr<Assets::Texture> TextureManager::GetTexture(const std::string& textureName) {
                 auto it = this->textures.find(textureName);
 
                 if (it != this->textures.end()) {

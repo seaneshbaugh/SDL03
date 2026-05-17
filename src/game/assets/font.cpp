@@ -1,7 +1,7 @@
 #include "font.hpp"
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         const std::string Font::DEFAULT_FONT_NAME = "DroidSans";
         const int Font::DEFAULT_FONT_SIZE = 10;
         const std::string Font::logChannel = "assets.fonts";

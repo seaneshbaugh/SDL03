@@ -67,7 +67,7 @@ namespace Game {
                 return true;
             }
 
-            bool VideoManager::RenderTexture(std::shared_ptr<Resources::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) {
+            bool VideoManager::RenderTexture(std::shared_ptr<Assets::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) {
                 return this->RenderTexture(texture->GetSDLTexture().get(), srcrect, dstrect);
             }
 

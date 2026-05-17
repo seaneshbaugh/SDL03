@@ -2,17 +2,20 @@
 #define SDL03_Game_Objects_Image
 
 #include "base.hpp"
-#include "../resources/texture.hpp"
+#include "../assets/texture.hpp"
 
 namespace Game {
+    // TODO: Move this to Graphics namespace. Maybe even get rid of it entirely. Or
+    // have it just be a thin wrapper around a single static from a Spritesheet? For
+    // now I'm leaving it here.
     namespace Objects {
         class Image : public Base {
         public:
             Image();
-            Image(std::shared_ptr<Resources::Texture> texture, const float x, const float y);
+            Image(std::shared_ptr<Assets::Texture> texture, const float x, const float y);
             Image(const std::string& textureName, const float x, const float y);
             ~Image();
-            void SetTexture(std::shared_ptr<Resources::Texture> texture);
+            void SetTexture(std::shared_ptr<Assets::Texture> texture);
             SDL_FRect GetPosition();
             void SetPosition(float x, float y);
             float GetX();
@@ -24,7 +27,7 @@ namespace Game {
             void Render(const float clipX, const float clipY, const float clipW, const float clipH);
 
         private:
-            std::shared_ptr<Resources::Texture> texture;
+            std::shared_ptr<Assets::Texture> texture;
             SDL_FRect position;
             void UpdateTexture();
 

@@ -6,7 +6,7 @@
 #include <SDL3/SDL.h>
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         class Texture;
     }
 
@@ -20,7 +20,7 @@ namespace Game {
                 // Ideally we should only publicly expose the version that takes a shared pointer.
                 // The version that takes a raw pointer can be used internally by the version that takes a shared pointer.
                 virtual bool RenderTexture(SDL_Texture* texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) = 0;
-                virtual bool RenderTexture(std::shared_ptr<Resources::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) = 0;
+                virtual bool RenderTexture(std::shared_ptr<Assets::Texture> texture, const SDL_FRect* const srcrect, const SDL_FRect* const dstrect) = 0;
                 virtual void UpdateScreen() = 0;
                 virtual std::shared_ptr<SDL_Renderer> GetRenderer() = 0;
                 virtual int GetScreenWidth() = 0;

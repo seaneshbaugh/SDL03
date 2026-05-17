@@ -8,7 +8,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #include "../interfaces/font_service.hpp"
-#include "../../resources/font.hpp"
+#include "../../assets/font.hpp"
 #include "../../parsers/asset_list_parser.hpp"
 #include "../../../helpers/file_system.hpp"
 
@@ -19,13 +19,13 @@ namespace Game {
             public:
                 FontManager(const std::string& fontAssetListPath);
                 ~FontManager();
-                std::shared_ptr<Resources::Font> GetFont(const std::string& fontName, const int fontSize);
+                std::shared_ptr<Assets::Font> GetFont(const std::string& fontName, const int fontSize);
 
             private:
                 static const std::string logChannel;
 
                 std::shared_ptr<Log::Logger> logger;
-                std::map<std::pair<std::string, int>, std::shared_ptr<Resources::Font>> fonts;
+                std::map<std::pair<std::string, int>, std::shared_ptr<Assets::Font>> fonts;
 
                 bool LoadFonts(const std::string& fontAssetListPath);
             };

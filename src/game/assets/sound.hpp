@@ -7,7 +7,7 @@
 #include "base.hpp"
 
 namespace Game {
-    namespace Resources {
+    namespace Assets {
         class Sound : public Base {
         public:
             MIX_Audio* audio;

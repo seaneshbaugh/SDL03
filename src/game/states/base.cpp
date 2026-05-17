@@ -79,7 +79,7 @@ namespace Game {
             std::map<std::string, std::string> assetList = parser.Parse(jsonString);
 
             for (auto it = assetList.begin(); it != assetList.end(); ++it) {
-                std::shared_ptr<Resources::Sound> sound = std::make_shared<Resources::Sound>(it->second);
+                std::shared_ptr<Assets::Sound> sound = std::make_shared<Assets::Sound>(it->second);
 
                 // TODO: Actually add ability to add sounds to audio service.
                 // Services::Locator::AudioService()->AddSound(sound, it->first, shared_from_this());
@@ -102,7 +102,7 @@ namespace Game {
             std::map<std::string, std::string> assetList = parser.Parse(jsonString);
 
             for (auto it = assetList.begin(); it != assetList.end(); ++it) {
-                std::shared_ptr<Resources::Song> song = std::make_shared<Resources::Song>(it->second);
+                std::shared_ptr<Assets::Song> song = std::make_shared<Assets::Song>(it->second);
 
                 // TODO: Actually add ability to add songs to audio service.
                 // Services::Locator::AudioService()->AddSound(song, it->first, shared_from_this());
@@ -115,7 +115,7 @@ namespace Game {
             this->luaState->open_libraries(sol::lib::base, sol::lib::package, sol::lib::table);
         }
 
-        std::shared_ptr<Resources::Texture> Base::GetTexture(const std::string& textureName) {
+        std::shared_ptr<Assets::Texture> Base::GetTexture(const std::string& textureName) {
             return Services::Locator::TextureService()->GetTexture(textureName);
         }
     }

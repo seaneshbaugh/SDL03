@@ -235,8 +235,8 @@ namespace Game {
             }
 
             SDL_Rect Base::GetSpriteRect(const std::string& animationName, const unsigned int frameIndex) {
-                const Animation& animation = this->animations.at(animationName);
-                const AnimationFrame& frame = animation.frames.at(frameIndex);
+                const Graphics::Animation& animation = this->animations.at(animationName);
+                const Graphics::AnimationFrame& frame = animation.frames.at(frameIndex);
                 const SDL_Rect rect = {frame.offsetX, frame.offsetY, animation.width, animation.height};
 
                 return rect;
@@ -298,17 +298,21 @@ namespace Game {
                 character->SetVitality(characterNode["vitality"].get<unsigned long long int>());
                 character->SetStamina(characterNode["stamina"].get<unsigned long long int>());
                 character->SetLuck(characterNode["luck"].get<unsigned long long int>());
-                character->spriteName = "characters.sprite." + character->name;
-                character->spritesheetName = "characters.spritesheet." + character->name;
-                character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode["sprite"].get<std::string>());
+                // I removed the old spritesheet image for the main character.
+                // This not being here will almost certainly cause the Battle state to crash when I reenable it.
+                // That's okay because I should have completely overhaulded how spritesheets are used everywhere
+                // by the time I get to that point.
+                // character->spriteName = "characters.sprite." + character->name;
+                // character->spritesheetName = "characters.spritesheet." + character->name;
+                // character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode["sprite"].get<std::string>());
                 character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode["spritesheet"].get<std::string>());
                 character->spriteWidth = characterNode["spriteWidth"].get<unsigned int>();
                 character->spriteHeight = characterNode["spriteHeight"].get<unsigned int>();
                 character->animations = this->ParseAnimations(characterNode["animations"]);
             }
 
-            std::map<std::string, Animation> Base::Parser::ParseAnimations(const json& node) {
-                std::map<std::string, Animation> animations;
+            std::map<std::string, Graphics::Animation> Base::Parser::ParseAnimations(const json& node) {
+                std::map<std::string, Graphics::Animation> animations;
 
                 for (auto animationNode = node.begin(); animationNode != node.end(); ++animationNode) {
                     const std::string animationName = animationNode.key();
@@ -326,13 +330,13 @@ namespace Game {
                         unsigned int width = animationDirectionNode.value()["width"].get<unsigned int>();
                         unsigned int height = animationDirectionNode.value()["height"].get<unsigned int>();
 
-                        std::vector<AnimationFrame> frames;
+                        std::vector<Graphics::AnimationFrame> frames;
 
                         for (auto frameNode = animationDirectionNode.value()["frames"].begin(); frameNode != animationDirectionNode.value()["frames"].end(); ++frameNode) {
                             frames.push_back(this->ParseAnimationFrame(frameNode.value()));
                         }
 
-                        Animation animation(width, height, frames);
+                        Graphics::Animation animation(width, height, frames);
 
                         animations.insert(std::make_pair(animationName + "." + animationDirection, animation));
                     }
@@ -341,11 +345,11 @@ namespace Game {
                 return animations;
             }
 
-            AnimationFrame Base::Parser::ParseAnimationFrame(const json& node) {
+            Graphics::AnimationFrame Base::Parser::ParseAnimationFrame(const json& node) {
                 const unsigned int offsetX = node[0].get<unsigned int>();
                 const unsigned int offsetY = node[1].get<unsigned int>();
 
-                Characters::AnimationFrame frame(offsetX, offsetY);
+                Graphics::AnimationFrame frame(offsetX, offsetY);
 
                 return frame;
             }
