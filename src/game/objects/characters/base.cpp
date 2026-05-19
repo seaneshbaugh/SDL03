@@ -30,8 +30,6 @@ namespace Game {
                 this->vitality = MIN_STAT;
                 this->stamina = MIN_STAT;
                 this->luck = MIN_STAT;
-                this->spriteName = "";
-                this->spritesheetName = "";
             }
 
             Base::~Base() {
@@ -234,12 +232,8 @@ namespace Game {
                 return static_cast<unsigned int>(atbStart);
             }
 
-            SDL_Rect Base::GetSpriteRect(const std::string& animationName, const unsigned int frameIndex) {
-                const Graphics::Animation& animation = this->animations.at(animationName);
-                const Graphics::AnimationFrame& frame = animation.frames.at(frameIndex);
-                const SDL_Rect rect = {frame.offsetX, frame.offsetY, animation.width, animation.height};
-
-                return rect;
+            std::shared_ptr<Graphics::Spritesheet> Base::GetSpritesheet() const {
+                return this->spritesheet;
             }
 
             bool Base::ParseCharacterFile(const std::string& jsonString) {
@@ -262,14 +256,6 @@ namespace Game {
                 }
 
                 return true;
-            }
-
-            void Base::Render(const std::string animationName, const unsigned int frameIndex, const float x, const float y) {
-                const SDL_Rect spriteRect = this->GetSpriteRect(animationName, frameIndex);
-                SDL_FRect srcrect = {0.0f, 0.0f, 0.0f, 0.0f};
-                SDL_RectToFRect(&spriteRect, &srcrect);
-                const SDL_FRect dstrect = {x, y, static_cast<float>(srcrect.w), static_cast<float>(srcrect.h)};
-                Services::Locator::VideoService()->RenderTexture(this->spritesheet, &srcrect, &dstrect);
             }
 
             const std::string Base::Parser::logChannel = "json";
@@ -298,60 +284,7 @@ namespace Game {
                 character->SetVitality(characterNode["vitality"].get<unsigned long long int>());
                 character->SetStamina(characterNode["stamina"].get<unsigned long long int>());
                 character->SetLuck(characterNode["luck"].get<unsigned long long int>());
-                // I removed the old spritesheet image for the main character.
-                // This not being here will almost certainly cause the Battle state to crash when I reenable it.
-                // That's okay because I should have completely overhaulded how spritesheets are used everywhere
-                // by the time I get to that point.
-                // character->spriteName = "characters.sprite." + character->name;
-                // character->spritesheetName = "characters.spritesheet." + character->name;
-                // character->sprite = Services::Locator::TextureService()->AddTexture(character->spriteName, characterNode["sprite"].get<std::string>());
-                character->spritesheet = Services::Locator::TextureService()->AddTexture(character->spritesheetName, characterNode["spritesheet"].get<std::string>());
-                character->spriteWidth = characterNode["spriteWidth"].get<unsigned int>();
-                character->spriteHeight = characterNode["spriteHeight"].get<unsigned int>();
-                character->animations = this->ParseAnimations(characterNode["animations"]);
-            }
-
-            std::map<std::string, Graphics::Animation> Base::Parser::ParseAnimations(const json& node) {
-                std::map<std::string, Graphics::Animation> animations;
-
-                for (auto animationNode = node.begin(); animationNode != node.end(); ++animationNode) {
-                    const std::string animationName = animationNode.key();
-
-                    // animationNode.value() is a json object for this animation
-                    const json& directions = animationNode.value();
-                    for (auto animationDirectionNode = directions.begin(); animationDirectionNode != directions.end(); ++animationDirectionNode) {
-                        const std::string animationDirection = animationDirectionNode.key();
-
-                        if (animationDirection != "up" && animationDirection != "down" && animationDirection != "left" && animationDirection != "right") {
-                            this->logger->error() << "Invalid animation direction \"" << animationDirection << "\" for animation \"" << animationName << "\".";
-                            continue;
-                        }
-
-                        unsigned int width = animationDirectionNode.value()["width"].get<unsigned int>();
-                        unsigned int height = animationDirectionNode.value()["height"].get<unsigned int>();
-
-                        std::vector<Graphics::AnimationFrame> frames;
-
-                        for (auto frameNode = animationDirectionNode.value()["frames"].begin(); frameNode != animationDirectionNode.value()["frames"].end(); ++frameNode) {
-                            frames.push_back(this->ParseAnimationFrame(frameNode.value()));
-                        }
-
-                        Graphics::Animation animation(width, height, frames);
-
-                        animations.insert(std::make_pair(animationName + "." + animationDirection, animation));
-                    }
-                }
-
-                return animations;
-            }
-
-            Graphics::AnimationFrame Base::Parser::ParseAnimationFrame(const json& node) {
-                const unsigned int offsetX = node[0].get<unsigned int>();
-                const unsigned int offsetY = node[1].get<unsigned int>();
-
-                Graphics::AnimationFrame frame(offsetX, offsetY);
-
-                return frame;
+                character->spritesheet = std::make_shared<Graphics::Spritesheet>(characterNode["spritesheet"].get<std::string>());
             }
         }
     }

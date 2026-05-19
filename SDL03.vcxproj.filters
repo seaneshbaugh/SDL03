@@ -776,10 +776,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
-    <None Include="resources\characters\character03.json" />
+    <None Include="resources\characters\kyle.json" />
     <None Include="resources\monsters\index.json" />
-    <None Include="resources\spritesheets\characters\sean.json" />
-    <None Include="resources\spritesheets\characters\casie.json" />
-    <None Include="resources\spritesheets\characters\kyle.json" />
+    <None Include="assets\spritesheets\characters\sean.json" />
+    <None Include="assets\spritesheets\characters\casie.json" />
+    <None Include="assets\spritesheets\characters\kyle.json" />
+    <None Include="resources\characters\sean.json" />
+    <None Include="resources\characters\casie.json" />
   </ItemGroup>
 </Project>

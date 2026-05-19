@@ -2,17 +2,18 @@
 #define SDL03_Game_ActorAppearance
 
 #include "services/locator.hpp"
-#include "graphics/animation.hpp"
+#include "graphics/spritesheet.hpp"
 
 namespace Game {
+    class Camera;
+
     class ActorAppearance {
     public:
-        ActorAppearance(const std::string& spritesheetName, const unsigned int width, const unsigned int height, const unsigned int offsetX, const unsigned int offsetY);
+        ActorAppearance(std::shared_ptr<Graphics::Spritesheet> spritesheet);
+        void Render(const std::string& animationName, const unsigned int frameIndex, const float worldX, const float worldY, const int tileheight, std::shared_ptr<Camera> camera);
 
     private:
-        std::string spritesheetName;
-        std::shared_ptr<Assets::Texture> spritesheet;
-        std::map<std::string, Graphics::Animation> animations;
+        std::shared_ptr<Graphics::Spritesheet> spritesheet;
     };
 }
 

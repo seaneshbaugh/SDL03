@@ -48,8 +48,7 @@ namespace Game {
                                                          "heal", sol::overload(
                                                                                static_cast<unsigned long long int (PlayerCharacter::*)(const unsigned long long int)>(&PlayerCharacter::Heal),
                                                                                static_cast<unsigned long long int (PlayerCharacter::*)(const unsigned long long int, const bool)>(&PlayerCharacter::Heal)
-                                                                    ),
-                                                         "render", &PlayerCharacter::Render
+                                                                    )
                                                          );
             }
         }

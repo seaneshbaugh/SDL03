@@ -2,9 +2,10 @@
 #define SDL03_Game_Camera
 
 #include "services/locator.hpp"
-#include "actor.hpp"
 
 namespace Game {
+    class Actor;
+
     class Camera {
     public:
         Camera(const float x, const float y, const float viewportWidth, const float viewportHeight);

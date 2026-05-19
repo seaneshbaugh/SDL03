@@ -1,7 +1,7 @@
 #include "actor.hpp"
 
 namespace Game {
-    Actor::Actor() {
+    Actor::Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet) {
         this->currentMap = nullptr;
         this->currentTileX = 0;
         this->currentTileY = 0;
@@ -9,6 +9,7 @@ namespace Game {
         this->direction = Direction::Down;
         this->moving = false;
         this->movementSpeed = 4.0f;
+        this->appearance = std::make_shared<ActorAppearance>(spritesheet);
     }
 
     Actor::~Actor() {
@@ -199,6 +200,10 @@ namespace Game {
         this->completedSteps.pop();
 
         return step;
+    }
+
+    void Actor::Render(std::shared_ptr<Camera> camera) {
+        this->appearance->Render(this->spriteName, this->animationFrame, this->worldX, this->worldY, this->currentMap->tileheight, camera);
     }
 
     std::string Actor::AnimationToString(const Animation animation) {

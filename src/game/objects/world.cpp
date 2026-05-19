@@ -29,13 +29,13 @@ namespace Game {
 
             std::shared_ptr<Objects::Characters::PlayerCharacter> sean = std::make_shared<Objects::Characters::PlayerCharacter>();
 
-            sean->Load("resources/characters/character01.json");
+            sean->Load("resources/characters/sean.json");
 
             this->playerParty->characters.push_back(sean);
 
             std::shared_ptr<Objects::Characters::PlayerCharacter> casie = std::make_shared<Objects::Characters::PlayerCharacter>();
 
-            casie->Load("resources/characters/character02.json");
+            casie->Load("resources/characters/casie.json");
 
             this->playerParty->characters.push_back(casie);
 

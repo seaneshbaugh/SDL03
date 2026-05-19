@@ -10,12 +10,22 @@ namespace Game {
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
-            this->camera = std::make_unique<Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
-            this->player = std::make_shared<Actor>();
-            this->movementInputHeldDirection = Actor::Direction::Down;
-            this->movementInputHeld = false;
+            this->camera = std::make_shared<Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
+            this->player = std::make_shared<Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
+            this->actors.push_back(this->player);
             this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Actor::Direction::Down);
             this->camera->Follow(this->player);
+
+            // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
+            std::shared_ptr<Actor> casie = std::make_shared<Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
+            std::shared_ptr<Actor> kyle = std::make_shared<Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
+            this->actors.push_back(casie);
+            this->actors.push_back(kyle);
+            this->PlaceActor(casie, 8, 10, Actor::Direction::Down);
+            this->PlaceActor(kyle, 20, 4, Actor::Direction::Left);
+
+            this->movementInputHeldDirection = Actor::Direction::Down;
+            this->movementInputHeld = false;
         }
 
         Map::~Map() {
@@ -38,7 +48,9 @@ namespace Game {
 
             this->UpdateMovementInput();
 
-            this->player->Update(deltaTime);
+            for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
+                (*actor)->Update(deltaTime);
+            }
 
             while (auto step = this->player->ConsumeCompletedStep()) {
                 Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
@@ -105,13 +117,9 @@ namespace Game {
         void Map::Render() {
             this->currentMap->Render(this->camera->x, this->camera->y);
 
-            SDL_Rect playerSpriteRect = Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpriteRect(this->player->spriteName, this->player->animationFrame);
-            float playerSpriteWidth = static_cast<float>(playerSpriteRect.w);
-            float playerSpriteHeight = static_cast<float>(playerSpriteRect.h);
-            float playerScreenX = this->player->GetCurrentWorldX() - this->camera->x;
-            float playerScreenY = this->player->GetCurrentWorldY() - this->camera->y - (playerSpriteHeight - static_cast<float>(this->currentMap->tileheight));
-
-            Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->Render(this->player->spriteName, this->player->animationFrame, playerScreenX, playerScreenY);
+            for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
+                (*actor)->Render(this->camera);
+            }
         }
 
         void Map::PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y, const Actor::Direction direction) {
@@ -173,10 +181,6 @@ namespace Game {
             this->currentMapEncounterArea = dynamic_cast<Objects::Maps::MapEncounterArea*>(mapEncounterArea);
         }
 
-        std::string Map::GetPlayerSpriteName() {
-            return Services::Locator::WorldService()->GetWorld()->playerParty->characters[0]->spritesheetName;
-        }
-
         void Map::Step(unsigned int x, unsigned int y) {
             Services::Locator::WorldService()->UpdatePlayerPosition(x, y);
 
@@ -228,7 +232,6 @@ namespace Game {
                                      "getCurrentMap", &Map::GetCurrentMap,
                                      "getCurrentMapEncounterArea", &Map::GetCurrentMapEncounterArea,
                                      "setCurrentMapEncounterArea", &Map::SetCurrentMapEncounterArea,
-                                     "getPlayerSpriteName", &Map::GetPlayerSpriteName,
                                      "loadMap", &Map::LoadMap,
                                      "render", &Map::Render,
                                      "step", &Map::Step

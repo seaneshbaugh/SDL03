@@ -1,4 +1,5 @@
 #include "camera.hpp"
+#include "actor.hpp"
 
 namespace Game {
     const std::string Camera::logChannel = "camera";

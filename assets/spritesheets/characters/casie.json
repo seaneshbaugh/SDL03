@@ -1,21 +1,6 @@
 {
-  "name": "Casie",
-  "level": 1,
-  "hitPoints": 19,
-  "magicPoints": 7,
-  "strength": 3,
-  "dexterity": 3,
-  "intelligence": 7,
-  "vitality": 3,
-  "stamina": 2,
-  "luck": 4,
-  "abilities": [
-    "attack"
-  ],
-  "sprite": "assets/images/characters/casie.png",
-  "spritesheet": "assets/images/characters/casie-sheet.png",
-  "spriteWidth": 32,
-  "spriteHeight": 48,
+  "name": "characters/casie",
+  "texture": "assets/images/characters/casie-sheet.png",
   "animations": {
     "stand": {
       "up": {
@@ -45,6 +30,16 @@
           [
             16,
             654
+          ]
+        ]
+      },
+      "right": {
+        "width": 32,
+        "height": 48,
+        "frames": [
+          [
+            16,
+            718
           ]
         ]
       }
@@ -203,5 +198,6 @@
         ]
       }
     }
-  }
+  },
+  "statics": {}
 }

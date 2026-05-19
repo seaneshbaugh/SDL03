@@ -23,7 +23,6 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> GetCurrentMap();
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y);
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
-            std::string GetPlayerSpriteName();
             void Step(unsigned int x, unsigned int y);
 
         private:
@@ -31,7 +30,7 @@ namespace Game {
 
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            std::unique_ptr<Camera> camera;
+            std::shared_ptr<Camera> camera;
             std::shared_ptr<Actor> player;
             std::vector<std::shared_ptr<Actor>> actors;
             Actor::Direction movementDirection;

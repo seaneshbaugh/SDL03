@@ -9,6 +9,8 @@
 #include "actor_appearance.hpp"
 
 namespace Game {
+    class Camera;
+
     class Actor {
     public:
         enum class Direction {
@@ -35,7 +37,7 @@ namespace Game {
         std::string spriteName;
         std::shared_ptr<ActorAppearance> appearance;
 
-        Actor();
+        Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet);
         ~Actor();
         void SetPosition(const int x, const int y);
         int GetCurrentTileX() const;
@@ -51,6 +53,7 @@ namespace Game {
         void BeginMovement(const Direction direction, const unsigned int distance);
         bool HasCompletedSteps() const;
         std::optional<CompletedStep> ConsumeCompletedStep();
+        void Render(std::shared_ptr<Camera> camera);
 
     private:
         static const std::string logChannel;

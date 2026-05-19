@@ -12,7 +12,7 @@
 #include "../../../helpers/file_system.hpp"
 #include "../../assets/texture.hpp"
 #include "../base.hpp"
-#include "../../graphics/animation.hpp"
+#include "../../graphics/spritesheet.hpp"
 
 using json = nlohmann::json;
 
@@ -21,12 +21,6 @@ namespace Game {
         namespace Characters {
             class Base : public Objects::Base {
             public:
-                std::string name;
-                std::string spriteName;
-                std::string spritesheetName;
-                std::shared_ptr<Assets::Texture> sprite;
-                std::shared_ptr<Assets::Texture> spritesheet;
-
                 Base();
                 ~Base();
                 std::string GetName();
@@ -58,14 +52,11 @@ namespace Game {
                 unsigned long long int Heal(const unsigned long long int damage);
                 unsigned long long int Heal(const unsigned long long int damage, const bool limited);
                 unsigned int ATBStart();
-                unsigned int GetSpriteWidth();
-                unsigned int GetSpriteHeight();
-                SDL_Rect GetSpriteRect(const std::string& animationName, const unsigned int frameIndex);
+                std::shared_ptr<Graphics::Spritesheet> GetSpritesheet() const;
                 bool Load(const std::string& filename);
-                bool Parse(const std::string& jsonString);
-                void Render(const std::string animationName, const unsigned int frameIndex, const float x, const float y);
 
             protected:
+                std::string name;
                 unsigned long long int level;
                 unsigned long long int currentHitPoints;
                 unsigned long long int maxHitPoints;
@@ -77,9 +68,7 @@ namespace Game {
                 unsigned long long int vitality;
                 unsigned long long int stamina;
                 unsigned long long int luck;
-                unsigned int spriteWidth;
-                unsigned int spriteHeight;
-                std::map<std::string, Graphics::Animation> animations;
+                std::shared_ptr<Graphics::Spritesheet> spritesheet;
 
                 bool ParseCharacterFile(const std::string& jsonString);
 
