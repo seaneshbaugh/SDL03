@@ -53,6 +53,8 @@ namespace Game {
             }
 
             while (auto step = this->player->ConsumeCompletedStep()) {
+                // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
+                // every step and there's no reason to update it unless there's a chance we might save the game.
                 Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
 
                 this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
