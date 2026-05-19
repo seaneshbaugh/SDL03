@@ -348,7 +348,7 @@
     <ClCompile Include="src\game\objects\characters\non_player_character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\camera.cpp">
+    <ClCompile Include="src\game\scene\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\graphics\animation_frame.cpp">
@@ -360,10 +360,10 @@
     <ClCompile Include="src\game\objects\maps\map_start_point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\actor.cpp">
+    <ClCompile Include="src\game\scene\actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\actor_appearance.cpp">
+    <ClCompile Include="src\game\scene\actor_appearance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\graphics\spritesheet.cpp">
@@ -740,7 +740,7 @@
     <ClInclude Include="src\game\objects\characters\non_player_character.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\camera.hpp">
+    <ClInclude Include="src\game\scene\camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\graphics\animation.hpp">
@@ -755,16 +755,16 @@
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\actor.hpp">
+    <ClInclude Include="src\game\scene\actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\states\transition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\movement_command.hpp">
+    <ClInclude Include="src\game\scene\movement_command.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\actor_appearance.hpp">
+    <ClInclude Include="src\game\scene\actor_appearance.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\graphics\spritesheet.hpp">
@@ -783,5 +783,6 @@
     <None Include="assets\spritesheets\characters\kyle.json" />
     <None Include="resources\characters\sean.json" />
     <None Include="resources\characters\casie.json" />
+    <None Include="TODO.md" />
   </ItemGroup>
 </Project>

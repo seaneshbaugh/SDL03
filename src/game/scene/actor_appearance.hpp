@@ -1,8 +1,8 @@
 #ifndef SDL03_Game_ActorAppearance
 #define SDL03_Game_ActorAppearance
 
-#include "services/locator.hpp"
-#include "graphics/spritesheet.hpp"
+#include "../services/locator.hpp"
+#include "../graphics/spritesheet.hpp"
 
 namespace Game {
     class Camera;

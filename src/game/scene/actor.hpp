@@ -4,8 +4,8 @@
 #include <queue>
 #include <optional>
 
-#include "services/locator.hpp"
-#include "objects/maps/map.hpp"
+#include "../services/locator.hpp"
+#include "../objects/maps/map.hpp"
 #include "actor_appearance.hpp"
 
 namespace Game {

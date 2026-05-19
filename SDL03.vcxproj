@@ -62,8 +62,8 @@
     <ClCompile Include="lib\sago\platform_folders.cpp" />
     <ClCompile Include="lib\sqlite\sqlite3.c" />
     <ClCompile Include="src\game.cpp" />
-    <ClCompile Include="src\game\actor_appearance.cpp" />
-    <ClCompile Include="src\game\camera.cpp" />
+    <ClCompile Include="src\game\scene\actor_appearance.cpp" />
+    <ClCompile Include="src\game\scene\camera.cpp" />
     <ClCompile Include="src\game\engine.cpp" />
     <ClCompile Include="src\game\events\base.cpp" />
     <ClCompile Include="src\game\events\observer.cpp" />
@@ -94,7 +94,7 @@
     <ClCompile Include="src\game\objects\text.cpp" />
     <ClCompile Include="src\game\objects\world.cpp" />
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp" />
-    <ClCompile Include="src\game\actor.cpp" />
+    <ClCompile Include="src\game\scene\actor.cpp" />
     <ClCompile Include="src\game\assets\base.cpp" />
     <ClCompile Include="src\game\assets\font.cpp" />
     <ClCompile Include="src\game\assets\resource_list.cpp" />
@@ -191,8 +191,8 @@
     <ClInclude Include="lib\sol\sol.hpp" />
     <ClInclude Include="lib\sqlite\sqlite3.h" />
     <ClInclude Include="src\game.hpp" />
-    <ClInclude Include="src\game\actor_appearance.hpp" />
-    <ClInclude Include="src\game\camera.hpp" />
+    <ClInclude Include="src\game\scene\actor_appearance.hpp" />
+    <ClInclude Include="src\game\scene\camera.hpp" />
     <ClInclude Include="src\game\engine.hpp" />
     <ClInclude Include="src\game\events\base.hpp" />
     <ClInclude Include="src\game\events\observer.hpp" />
@@ -201,7 +201,7 @@
     <ClInclude Include="src\game\graphics\spritesheet.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
-    <ClInclude Include="src\game\movement_command.hpp" />
+    <ClInclude Include="src\game\scene\movement_command.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
     <ClInclude Include="src\game\graphics\animation.hpp" />
     <ClInclude Include="src\game\graphics\animation_frame.hpp" />
@@ -226,7 +226,7 @@
     <ClInclude Include="src\game\objects\text.hpp" />
     <ClInclude Include="src\game\objects\world.hpp" />
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp" />
-    <ClInclude Include="src\game\actor.hpp" />
+    <ClInclude Include="src\game\scene\actor.hpp" />
     <ClInclude Include="src\game\assets\base.hpp" />
     <ClInclude Include="src\game\assets\font.hpp" />
     <ClInclude Include="src\game\assets\resource_list.hpp" />
@@ -283,6 +283,7 @@
     <None Include="assets\spritesheets\characters\casie.json" />
     <None Include="assets\spritesheets\characters\kyle.json" />
     <None Include="assets\spritesheets\characters\sean.json" />
+    <None Include="TODO.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

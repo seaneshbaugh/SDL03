@@ -1,7 +1,7 @@
 #ifndef SDL03_Game_Camera
 #define SDL03_Game_Camera
 
-#include "services/locator.hpp"
+#include "../services/locator.hpp"
 
 namespace Game {
     class Actor;

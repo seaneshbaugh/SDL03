@@ -6,8 +6,8 @@
 #include "battle.hpp"
 #include "../objects/maps/map.hpp"
 #include "../objects/world.hpp"
-#include "../camera.hpp"
-#include "../actor.hpp"
+#include "../scene/camera.hpp"
+#include "../scene/actor.hpp"
 
 namespace Game {
     namespace States {
