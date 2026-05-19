@@ -30,11 +30,11 @@ namespace Game {
 
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            std::shared_ptr<Camera> camera;
-            std::shared_ptr<Actor> player;
-            std::vector<std::shared_ptr<Actor>> actors;
-            Actor::Direction movementDirection;
-            Actor::Direction movementInputHeldDirection;
+            std::shared_ptr<Scene::Camera> camera;
+            std::shared_ptr<Scene::Actor> player;
+            std::vector<std::shared_ptr<Scene::Actor>> actors;
+            Scene::Actor::Direction movementDirection;
+            Scene::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;
 
             void UpdateMovementInput();
@@ -44,7 +44,7 @@ namespace Game {
             void ProcessButtonUp(const InputKey key);
             std::string ProcessInput(const InputKey key); 
             void LoadLuaState(const std::string& scriptFilePath);
-            void PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y, const Actor::Direction direction);
+            void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
 
         public:
             class LuaInterface {

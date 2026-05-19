@@ -10,21 +10,21 @@ namespace Game {
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
-            this->camera = std::make_shared<Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
-            this->player = std::make_shared<Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
+            this->camera = std::make_shared<Scene::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
+            this->player = std::make_shared<Scene::Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
             this->actors.push_back(this->player);
-            this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Actor::Direction::Down);
+            this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down);
             this->camera->Follow(this->player);
 
             // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
-            std::shared_ptr<Actor> casie = std::make_shared<Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
-            std::shared_ptr<Actor> kyle = std::make_shared<Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
+            std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
+            std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
             this->actors.push_back(casie);
             this->actors.push_back(kyle);
-            this->PlaceActor(casie, 8, 10, Actor::Direction::Down);
-            this->PlaceActor(kyle, 20, 4, Actor::Direction::Left);
+            this->PlaceActor(casie, 8, 10, Scene::Actor::Direction::Down);
+            this->PlaceActor(kyle, 20, 4, Scene::Actor::Direction::Left);
 
-            this->movementInputHeldDirection = Actor::Direction::Down;
+            this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             this->movementInputHeld = false;
         }
 
@@ -87,16 +87,16 @@ namespace Game {
 
             if (keyboardState[SDL_SCANCODE_UP]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = Actor::Direction::Up;
+                this->movementInputHeldDirection = Scene::Actor::Direction::Up;
             } else if (keyboardState[SDL_SCANCODE_RIGHT]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = Actor::Direction::Right;
+                this->movementInputHeldDirection = Scene::Actor::Direction::Right;
             } else if (keyboardState[SDL_SCANCODE_DOWN]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = Actor::Direction::Down;
+                this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             } else if (keyboardState[SDL_SCANCODE_LEFT]) {
                 this->movementInputHeld = true;
-                this->movementInputHeldDirection = Actor::Direction::Left;
+                this->movementInputHeldDirection = Scene::Actor::Direction::Left;
             } else {
                 this->movementInputHeld = false;
             }
@@ -124,10 +124,10 @@ namespace Game {
             }
         }
 
-        void Map::PlaceActor(std::shared_ptr<Actor> actor, const int x, const int y, const Actor::Direction direction) {
+        void Map::PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction) {
             actor->currentMap = this->currentMap;
             actor->SetPosition(x, y);
-            actor->SetAnimation(Actor::Animation::Stand);
+            actor->SetAnimation(Scene::Actor::Animation::Stand);
             actor->SetDirection(direction);
             actor->animationFrame = 0;
             actor->timeSinceLastAnimationFrame = 0.0f;
@@ -140,7 +140,7 @@ namespace Game {
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
-            this->PlaceActor(this->player, startX, startY, Actor::Direction::Down);
+            this->PlaceActor(this->player, startX, startY, Scene::Actor::Direction::Down);
 
             this->camera->Follow(this->player);
 

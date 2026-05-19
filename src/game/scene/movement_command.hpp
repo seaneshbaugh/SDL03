@@ -4,10 +4,12 @@
 #include "actor.hpp"
 
 namespace Game {
-    struct MovementCommand {
-        Actor::Direction direction;
-        int distance;
-    };
+    namespace Scene {
+        struct MovementCommand {
+            Actor::Direction direction;
+            int distance;
+        };
+    }
 }
 
 #endif
