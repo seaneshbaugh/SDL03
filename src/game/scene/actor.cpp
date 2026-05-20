@@ -24,6 +24,22 @@ namespace Game {
             return this->currentTileY;
         }
 
+        int Actor::GetOccupiedTileX() const {
+            if (this->moving) {
+                return this->targetWorldX;
+            }
+
+            return this->currentTileX;
+        }
+
+        int Actor::GetOccupiedTileY() const {
+            if (this->moving) {
+                return this->targetWorldY;
+            }
+
+            return this->currentTileY;
+        }
+
         float Actor::GetCurrentWorldX() const {
             return this->worldX;
         }
@@ -66,6 +82,10 @@ namespace Game {
             this->direction = direction;
 
             this->spriteName = this->AnimationToString(this->animation) + "." + this->DirectionToString(this->direction);
+        }
+
+        void Actor::SetMovementSpeed(const float movementSpeed) {
+            this->movementSpeed = movementSpeed;
         }
 
         bool Actor::IsMoving() const {

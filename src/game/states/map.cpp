@@ -20,8 +20,10 @@ namespace Game {
             // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
             std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
             casie->name = "Casie";
+            casie->SetMovementSpeed(2.0f);
             std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
             kyle->name = "Kyle";
+            kyle->SetMovementSpeed(2.0f);
             this->actors.push_back(casie);
             this->actors.push_back(kyle);
             this->PlaceActor(casie, 8, 10, Scene::Actor::Direction::Down);
@@ -73,6 +75,16 @@ namespace Game {
             }
 
             // TODO: Move NPCs here.
+            for (int i = 1; i < this->actors.size(); i++) {
+                if (!this->actors[i]->IsMoving()) {
+                    this->actors[i]->ClearPendingMoves();
+
+                    // For now just have the NPCs randomly move around. Eventually this will be replaced with some sort of pathfinding and behavior system.
+                    Scene::Actor::Direction randomDirection = static_cast<Scene::Actor::Direction>(rand() % 4);
+
+                    this->Move(this->actors[i].get(), randomDirection, 1);
+                }
+            }
 
             for (auto& actor : this->actors) {
                 if (!actor->IsMoving()) {
@@ -151,11 +163,11 @@ namespace Game {
             }
 
             std::sort(renderActors.begin(), renderActors.end(), [](const Scene::Actor* a, const Scene::Actor* b) {
-                if (a->GetCurrentTileY() == b->GetCurrentTileY()) {
-                    return a->GetCurrentTileX() < b->GetCurrentTileX();
+                if (a->GetOccupiedTileY() == b->GetOccupiedTileY()) {
+                    return a->GetOccupiedTileX() < b->GetOccupiedTileX();
                 }
 
-                return a->GetCurrentTileY() < b->GetCurrentTileY();
+                return a->GetOccupiedTileY() < b->GetOccupiedTileY();
             });
 
             for (auto actor = renderActors.begin(); actor != renderActors.end(); actor++) {

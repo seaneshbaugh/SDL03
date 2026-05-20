@@ -49,12 +49,15 @@ namespace Game {
             void SetPosition(const int x, const int y);
             int GetCurrentTileX() const;
             int GetCurrentTileY() const;
+            int GetOccupiedTileX() const;
+            int GetOccupiedTileY() const;
             float GetCurrentWorldX() const;
             float GetCurrentWorldY() const;
             Animation GetAnimation() const;
             void SetAnimation(const Animation animation);
             Direction GetDirection() const;
             void SetDirection(const Direction direction);
+            void SetMovementSpeed(const float movementSpeed);
             bool IsMoving() const;
             void Update(const double deltaTime);
             void QueueStep(const Direction direction);
