@@ -42,8 +42,10 @@ namespace Game {
                 return;
             }
 
-            this->worldX = static_cast<float>(x * this->currentMap->tilewidth);
-            this->worldY = static_cast<float>(y * this->currentMap->tileheight);
+            // this->worldX = static_cast<float>(x * this->currentMap->tilewidth);
+            // this->worldY = static_cast<float>(y * this->currentMap->tileheight);
+            this->worldX = static_cast<float>(x * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
+            this->worldY = static_cast<float>((y + 1) * this->currentMap->tileheight);
         }
 
         Actor::Animation Actor::GetAnimation() const {
@@ -74,8 +76,10 @@ namespace Game {
             if (this->moving) {
                 float movementSpeedX = this->movementSpeed * static_cast<float>(this->currentMap->tilewidth);
                 float movementSpeedY = this->movementSpeed * static_cast<float>(this->currentMap->tileheight);
-                float targetWorldX = static_cast<float>(this->targetWorldX * this->currentMap->tilewidth);
-                float targetWorldY = static_cast<float>(this->targetWorldY * this->currentMap->tileheight);
+                // float targetWorldX = static_cast<float>(this->targetWorldX * this->currentMap->tilewidth);
+                // float targetWorldY = static_cast<float>(this->targetWorldY * this->currentMap->tileheight);
+                float targetWorldX = static_cast<float>(this->targetWorldX * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
+                float targetWorldY = static_cast<float>((this->targetWorldY + 1) * this->currentMap->tileheight);
 
                 switch (this->direction) {
                 case Direction::Up:
