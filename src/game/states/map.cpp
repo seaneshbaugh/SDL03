@@ -142,7 +142,23 @@ namespace Game {
         void Map::Render() {
             this->currentMap->Render(this->camera->x, this->camera->y);
 
-            for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
+            std::vector<Scene::Actor*> renderActors;
+
+            renderActors.reserve(this->actors.size());
+
+            for (auto& actor : this->actors) {
+                renderActors.push_back(actor.get());
+            }
+
+            std::sort(renderActors.begin(), renderActors.end(), [](const Scene::Actor* a, const Scene::Actor* b) {
+                if (a->GetCurrentTileY() == b->GetCurrentTileY()) {
+                    return a->GetCurrentTileX() < b->GetCurrentTileX();
+                }
+
+                return a->GetCurrentTileY() < b->GetCurrentTileY();
+            });
+
+            for (auto actor = renderActors.begin(); actor != renderActors.end(); actor++) {
                 (*actor)->Render(this->camera);
             }
         }
