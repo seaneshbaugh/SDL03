@@ -147,7 +147,41 @@ namespace Game {
             }
         }
 
-        void Actor::BeginMovement(const Direction direction, const unsigned int distance) {
+        void Actor::QueueStep(const Direction direction) {
+            this->pendingSteps.push(direction);
+        }
+
+        std::optional<Actor::Direction> Actor::PeekMove() const {
+           if (this->pendingSteps.empty()) {
+                return std::nullopt;
+           }
+
+           return this->pendingSteps.front();
+        }
+
+        std::optional<Actor::Direction> Actor::PopMove() {
+            if (this->pendingSteps.empty()) {
+                return std::nullopt;
+            }
+
+            Direction direction = this->pendingSteps.front();
+
+            this->pendingSteps.pop();
+
+            return direction;
+        }
+
+        void Actor::ClearPendingMoves() {
+            while (!this->pendingSteps.empty()) {
+                this->pendingSteps.pop();
+            }
+        }
+
+        void Actor::BeginStep(const Direction direction) {
+            if (this->moving) {
+                return;
+            }
+
             this->startTileX = this->currentTileX;
             this->startTileY = this->currentTileY;
 
@@ -181,14 +215,11 @@ namespace Game {
                 break;
             }
 
-            // Only start moving if the target tile is different from the starting tile and the target tile is walkable.
-            if ((this->targetWorldX != this->startTileX || this->targetWorldY != this->startTileY) && this->currentMap->GetWalkability(this->targetWorldX, this->targetWorldY)) {
-                this->moving = true;
+            this->moving = true;
 
-                this->SetAnimation(Animation::Walk);
-            }
+            this->SetAnimation(Animation::Walk);
 
-            // Always change movement direction so even if we can't move in that direction we still face the correct way.
+            // Always change movement direction just in case.
             this->SetDirection(direction);
         }
 
@@ -205,6 +236,14 @@ namespace Game {
             this->completedSteps.pop();
 
             return step;
+        }
+
+        bool Actor::OccupiesTile(const int x, const int y) const {
+            if (this->moving) {
+                return this->targetWorldX == x && this->targetWorldY == y;
+            }
+
+            return this->currentTileX == x && this->currentTileY == y;
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) {

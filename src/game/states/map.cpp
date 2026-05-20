@@ -12,13 +12,16 @@ namespace Game {
             this->LoadLuaState("scripts/states/map.lua");
             this->camera = std::make_shared<Scene::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
             this->player = std::make_shared<Scene::Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
+            this->player->name = "Sean";
             this->actors.push_back(this->player);
             this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down);
             this->camera->Follow(this->player);
 
             // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
             std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
+            casie->name = "Casie";
             std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
+            kyle->name = "Kyle";
             this->actors.push_back(casie);
             this->actors.push_back(kyle);
             this->PlaceActor(casie, 8, 10, Scene::Actor::Direction::Down);
@@ -52,6 +55,7 @@ namespace Game {
                 (*actor)->Update(deltaTime);
             }
 
+            // TODO: Run this loop for each Actor.
             while (auto step = this->player->ConsumeCompletedStep()) {
                 // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
                 // every step and there's no reason to update it unless there's a chance we might save the game.
@@ -63,7 +67,26 @@ namespace Game {
             }
 
             if (!this->player->IsMoving() && this->movementInputHeld) {
-                this->player->BeginMovement(this->movementInputHeldDirection, 1);
+                this->player->ClearPendingMoves();
+
+                this->Move(this->player.get(), this->movementInputHeldDirection, 1);
+            }
+
+            // TODO: Move NPCs here.
+
+            for (auto& actor : this->actors) {
+                if (!actor->IsMoving()) {
+                    auto nextMove = actor->PeekMove();
+
+                    if (nextMove.has_value()) {
+                        actor->SetDirection(nextMove.value());
+
+                        if (this->TryMove(actor.get(), nextMove.value())) {
+                            actor->PopMove();
+                            actor->BeginStep(nextMove.value());
+                        }
+                    }
+                }
             }
 
             this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
@@ -131,6 +154,70 @@ namespace Game {
             actor->SetDirection(direction);
             actor->animationFrame = 0;
             actor->timeSinceLastAnimationFrame = 0.0f;
+        }
+
+        void Map::Move(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance) {
+            // Eventually this do pathfinding to enqueue the steps. For now this just enqueues distance number
+            // of steps in the direction specificed. Eventually there will probably be an overloaded version
+            // of this function that takes a target tile and does pathfinding to get there and enqueues the
+            // necessary steps to get there.
+            for (int step = 0; step < distance; step++) {
+                this->logger->debug() << "Enqueuing step for " << actor->name << " in direction " << static_cast<int>(direction) << ".";
+
+                actor->QueueStep(direction);
+            }
+        }
+
+        bool Map::TryMove(Scene::Actor* actor, const Scene::Actor::Direction direction) {
+            int targetX = actor->GetCurrentTileX();
+            int targetY = actor->GetCurrentTileY();
+
+            switch (direction) {
+            case Scene::Actor::Direction::Up:
+                targetY--;
+
+                break;
+            case Scene::Actor::Direction::Right:
+                targetX++;
+
+                break;
+            case Scene::Actor::Direction::Down:
+                targetY++;
+
+                break;
+            case Scene::Actor::Direction::Left:
+                targetX--;
+
+                break;
+            }
+
+            if (targetX < 0 || targetX >= this->currentMap->width || targetY < 0 || targetY >= this->currentMap->height) {
+                return false;
+            }
+
+            if (!this->currentMap->GetWalkability(targetX, targetY)) {
+                return false;
+            }
+
+            if (this->IsTileOccupied(targetX, targetY, actor)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool Map::IsTileOccupied(const int x, const int y, const Scene::Actor* ignore) const {
+            for (auto& actor : actors) {
+                if (actor.get() == ignore) {
+                    continue;
+                }
+
+                if (actor->OccupiesTile(x, y)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {

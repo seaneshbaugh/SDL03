@@ -27,11 +27,17 @@ namespace Game {
                 Idle
             };
 
+            struct AnimationState {
+                Animation animation;
+                Direction direction;
+            };
+
             struct CompletedStep {
                 int tileX;
                 int tileY;
             };
 
+            std::string name;
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int animationFrame;
             float timeSinceLastAnimationFrame;
@@ -51,9 +57,14 @@ namespace Game {
             void SetDirection(const Direction direction);
             bool IsMoving() const;
             void Update(const double deltaTime);
-            void BeginMovement(const Direction direction, const unsigned int distance);
+            void QueueStep(const Direction direction);
+            std::optional<Direction> PeekMove() const;
+            std::optional<Direction> PopMove();
+            void ClearPendingMoves();
+            void BeginStep(const Direction direction);
             bool HasCompletedSteps() const;
             std::optional<CompletedStep> ConsumeCompletedStep();
+            bool OccupiesTile(const int x, const int y) const;
             void Render(std::shared_ptr<Camera> camera);
 
         private:
@@ -72,8 +83,8 @@ namespace Game {
             int targetWorldY;
             Animation animation;
             Direction direction;
+            std::queue<Direction> pendingSteps;
             std::queue<CompletedStep> completedSteps;
-            std::function<void(const int, const int)> endMovementCallback;
 
             std::string AnimationToString(const Animation animation);
             std::string DirectionToString(const Direction direction);
