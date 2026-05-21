@@ -261,7 +261,7 @@ namespace Game {
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) {
-            this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, this->currentMap->tileheight, camera);
+            this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, camera);
         }
 
         std::string Actor::GetSpriteName() const {
