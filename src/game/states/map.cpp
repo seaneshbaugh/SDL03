@@ -69,33 +69,33 @@ namespace Game {
             }
 
             if (!this->player->IsMoving() && this->movementInputHeld) {
-                this->player->ClearPendingMoves();
+                this->player->ClearPendingMovement();
 
-                this->Move(this->player.get(), this->movementInputHeldDirection, 1);
+                this->QueueMovement(this->player.get(), this->movementInputHeldDirection, 1);
             }
 
             // TODO: Move NPCs here.
             for (int i = 1; i < this->actors.size(); i++) {
                 if (!this->actors[i]->IsMoving()) {
-                    this->actors[i]->ClearPendingMoves();
+                    this->actors[i]->ClearPendingMovement();
 
                     // For now just have the NPCs randomly move around. Eventually this will be replaced with some sort of pathfinding and behavior system.
                     Scene::Actor::Direction randomDirection = static_cast<Scene::Actor::Direction>(rand() % 4);
 
-                    this->Move(this->actors[i].get(), randomDirection, 1);
+                    this->QueueMovement(this->actors[i].get(), randomDirection, 1);
                 }
             }
 
             for (auto& actor : this->actors) {
                 if (!actor->IsMoving()) {
-                    auto nextMove = actor->PeekMove();
+                    auto nextMove = actor->PeekMovement();
 
                     if (nextMove.has_value()) {
                         actor->SetDirection(nextMove.value());
 
-                        if (this->TryMove(actor.get(), nextMove.value())) {
-                            actor->PopMove();
-                            actor->BeginStep(nextMove.value());
+                        if (this->CanMove(actor.get(), nextMove.value())) {
+                            actor->PopMovement();
+                            actor->StartMovement(nextMove.value());
                         }
                     }
                 }
@@ -184,7 +184,7 @@ namespace Game {
             actor->timeSinceLastAnimationFrame = 0.0f;
         }
 
-        void Map::Move(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance) {
+        void Map::QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance) {
             // Eventually this do pathfinding to enqueue the steps. For now this just enqueues distance number
             // of steps in the direction specificed. Eventually there will probably be an overloaded version
             // of this function that takes a target tile and does pathfinding to get there and enqueues the
@@ -192,11 +192,11 @@ namespace Game {
             for (int step = 0; step < distance; step++) {
                 this->logger->debug() << "Enqueuing step for " << actor->name << " in direction " << static_cast<int>(direction) << ".";
 
-                actor->QueueStep(direction);
+                actor->QueueMovement(direction);
             }
         }
 
-        bool Map::TryMove(Scene::Actor* actor, const Scene::Actor::Direction direction) {
+        bool Map::CanMove(Scene::Actor* actor, const Scene::Actor::Direction direction) {
             int targetX = actor->GetCurrentTileX();
             int targetY = actor->GetCurrentTileY();
 
@@ -227,14 +227,14 @@ namespace Game {
                 return false;
             }
 
-            if (this->IsTileOccupied(targetX, targetY, actor)) {
+            if (this->IsTileBlocked(targetX, targetY, actor)) {
                 return false;
             }
 
             return true;
         }
 
-        bool Map::IsTileOccupied(const int x, const int y, const Scene::Actor* ignore) const {
+        bool Map::IsTileBlocked(const int x, const int y, const Scene::Actor* ignore) const {
             for (auto& actor : actors) {
                 if (actor.get() == ignore) {
                     continue;

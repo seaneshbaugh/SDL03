@@ -8,7 +8,7 @@ namespace Game {
             this->currentTileY = 0;
             this->animation = Animation::Stand;
             this->direction = Direction::Down;
-            this->moving = false;
+            this->isMoving = false;
             this->movementSpeed = 4.0f;
             this->appearance = std::make_shared<ActorAppearance>(spritesheet);
         }
@@ -25,27 +25,27 @@ namespace Game {
         }
 
         int Actor::GetOccupiedTileX() const {
-            if (this->moving) {
-                return this->targetWorldX;
+            if (this->isMoving) {
+                return this->movementTargetTileX;
             }
 
             return this->currentTileX;
         }
 
         int Actor::GetOccupiedTileY() const {
-            if (this->moving) {
-                return this->targetWorldY;
+            if (this->isMoving) {
+                return this->movementTargetTileY;
             }
 
             return this->currentTileY;
         }
 
         float Actor::GetCurrentWorldX() const {
-            return this->worldX;
+            return this->currentWorldX;
         }
 
         float Actor::GetCurrentWorldY() const {
-            return this->worldY;
+            return this->currentWorldY;
         }
 
         void Actor::SetPosition(const int x, const int y) {
@@ -58,10 +58,10 @@ namespace Game {
                 return;
             }
 
-            // this->worldX = static_cast<float>(x * this->currentMap->tilewidth);
-            // this->worldY = static_cast<float>(y * this->currentMap->tileheight);
-            this->worldX = static_cast<float>(x * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
-            this->worldY = static_cast<float>((y + 1) * this->currentMap->tileheight);
+            // this->currentWorldX = static_cast<float>(x * this->currentMap->tilewidth);
+            // this->currentWorldY = static_cast<float>(y * this->currentMap->tileheight);
+            this->currentWorldX = static_cast<float>(x * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
+            this->currentWorldY = static_cast<float>((y + 1) * this->currentMap->tileheight);
         }
 
         Actor::Animation Actor::GetAnimation() const {
@@ -89,62 +89,62 @@ namespace Game {
         }
 
         bool Actor::IsMoving() const {
-            return this->moving;
+            return this->isMoving;
         }
 
         void Actor::Update(const double deltaTime) {
-            if (this->moving) {
+            if (this->isMoving) {
                 float movementSpeedX = this->movementSpeed * static_cast<float>(this->currentMap->tilewidth);
                 float movementSpeedY = this->movementSpeed * static_cast<float>(this->currentMap->tileheight);
-                // float targetWorldX = static_cast<float>(this->targetWorldX * this->currentMap->tilewidth);
-                // float targetWorldY = static_cast<float>(this->targetWorldY * this->currentMap->tileheight);
-                float targetWorldX = static_cast<float>(this->targetWorldX * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
-                float targetWorldY = static_cast<float>((this->targetWorldY + 1) * this->currentMap->tileheight);
+                // float movementTargetTileX = static_cast<float>(this->movementTargetTileX * this->currentMap->tilewidth);
+                // float movementTargetTileY = static_cast<float>(this->movementTargetTileY * this->currentMap->tileheight);
+                float movementTargetTileX = static_cast<float>(this->movementTargetTileX * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
+                float movementTargetTileY = static_cast<float>((this->movementTargetTileY + 1) * this->currentMap->tileheight);
 
                 switch (this->direction) {
                 case Direction::Up:
-                    this->worldY -= movementSpeedY * deltaTime;
+                    this->currentWorldY -= movementSpeedY * deltaTime;
 
-                    if (this->worldY <= targetWorldY) {
-                        this->currentTileY = this->targetWorldY;
-                        this->worldY = targetWorldY;
+                    if (this->currentWorldY <= movementTargetTileY) {
+                        this->currentTileY = this->movementTargetTileY;
+                        this->currentWorldY = movementTargetTileY;
 
-                        this->moving = false;
+                        this->isMoving = false;
                     }
                     break;
                 case Direction::Right:
-                    this->worldX += movementSpeedX * deltaTime;
+                    this->currentWorldX += movementSpeedX * deltaTime;
 
-                    if (this->worldX >= targetWorldX) {
-                        this->currentTileX = this->targetWorldX;
-                        this->worldX = targetWorldX;
+                    if (this->currentWorldX >= movementTargetTileX) {
+                        this->currentTileX = this->movementTargetTileX;
+                        this->currentWorldX = movementTargetTileX;
 
-                        this->moving = false;
+                        this->isMoving = false;
                     }
                     break;
                 case Direction::Down:
-                    this->worldY += movementSpeedY * deltaTime;
+                    this->currentWorldY += movementSpeedY * deltaTime;
 
-                    if (this->worldY >= targetWorldY) {
-                        this->currentTileY = this->targetWorldY;
-                        this->worldY = targetWorldY;
+                    if (this->currentWorldY >= movementTargetTileY) {
+                        this->currentTileY = this->movementTargetTileY;
+                        this->currentWorldY = movementTargetTileY;
 
-                        this->moving = false;
+                        this->isMoving = false;
                     }
                     break;
                 case Direction::Left:
-                    this->worldX -= movementSpeedX * deltaTime;
+                    this->currentWorldX -= movementSpeedX * deltaTime;
 
-                    if (this->worldX <= targetWorldX) {
-                        this->currentTileX = this->targetWorldX;
-                        this->worldX = targetWorldX;
+                    if (this->currentWorldX <= movementTargetTileX) {
+                        this->currentTileX = this->movementTargetTileX;
+                        this->currentWorldX = movementTargetTileX;
 
-                        this->moving = false;
+                        this->isMoving = false;
                     }
                     break;
                 }
 
-                if (!this->moving) {
+                if (!this->isMoving) {
                     this->completedSteps.push({this->currentTileX, this->currentTileY});
                 }
 
@@ -167,75 +167,75 @@ namespace Game {
             }
         }
 
-        void Actor::QueueStep(const Direction direction) {
-            this->pendingSteps.push(direction);
+        void Actor::QueueMovement(const Direction direction) {
+            this->movementQueue.push(direction);
         }
 
-        std::optional<Actor::Direction> Actor::PeekMove() const {
-           if (this->pendingSteps.empty()) {
+        std::optional<Actor::Direction> Actor::PeekMovement() const {
+           if (this->movementQueue.empty()) {
                 return std::nullopt;
            }
 
-           return this->pendingSteps.front();
+           return this->movementQueue.front();
         }
 
-        std::optional<Actor::Direction> Actor::PopMove() {
-            if (this->pendingSteps.empty()) {
+        std::optional<Actor::Direction> Actor::PopMovement() {
+            if (this->movementQueue.empty()) {
                 return std::nullopt;
             }
 
-            Direction direction = this->pendingSteps.front();
+            Direction direction = this->movementQueue.front();
 
-            this->pendingSteps.pop();
+            this->movementQueue.pop();
 
             return direction;
         }
 
-        void Actor::ClearPendingMoves() {
-            while (!this->pendingSteps.empty()) {
-                this->pendingSteps.pop();
+        void Actor::ClearPendingMovement() {
+            while (!this->movementQueue.empty()) {
+                this->movementQueue.pop();
             }
         }
 
-        void Actor::BeginStep(const Direction direction) {
-            if (this->moving) {
+        void Actor::StartMovement(const Direction direction) {
+            if (this->isMoving) {
                 return;
             }
 
-            this->startTileX = this->currentTileX;
-            this->startTileY = this->currentTileY;
+            this->movementStartTileX = this->currentTileX;
+            this->movementStartTileY = this->currentTileY;
 
-            this->targetWorldX = this->startTileX;
-            this->targetWorldY = this->startTileY;
+            this->movementTargetTileX = this->movementStartTileX;
+            this->movementTargetTileY = this->movementStartTileY;
 
             switch (direction) {
             case Direction::Up:
-                if (this->targetWorldY > 0) {
-                    this->targetWorldY--;
+                if (this->movementTargetTileY > 0) {
+                    this->movementTargetTileY--;
                 }
 
                 break;
             case Direction::Right:
-                if (this->targetWorldX < this->currentMap->width - 1) {
-                    targetWorldX++;
+                if (this->movementTargetTileX < this->currentMap->width - 1) {
+                    movementTargetTileX++;
                 }
 
                 break;
             case Direction::Down:
-                if (this->targetWorldY < this->currentMap->height - 1) {
-                    this->targetWorldY++;
+                if (this->movementTargetTileY < this->currentMap->height - 1) {
+                    this->movementTargetTileY++;
                 }
 
                 break;
             case Direction::Left:
-                if (this->targetWorldX > 0) {
-                    this->targetWorldX--;
+                if (this->movementTargetTileX > 0) {
+                    this->movementTargetTileX--;
                 }
 
                 break;
             }
 
-            this->moving = true;
+            this->isMoving = true;
 
             this->SetAnimation(Animation::Walk);
 
@@ -259,15 +259,15 @@ namespace Game {
         }
 
         bool Actor::OccupiesTile(const int x, const int y) const {
-            if (this->moving) {
-                return this->targetWorldX == x && this->targetWorldY == y;
+            if (this->isMoving) {
+                return this->movementTargetTileX == x && this->movementTargetTileY == y;
             }
 
             return this->currentTileX == x && this->currentTileY == y;
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) {
-            this->appearance->Render(this->spriteName, this->animationFrame, this->worldX, this->worldY, this->currentMap->tileheight, camera);
+            this->appearance->Render(this->spriteName, this->animationFrame, this->currentWorldX, this->currentWorldY, this->currentMap->tileheight, camera);
         }
 
         std::string Actor::AnimationToString(const Animation animation) {
