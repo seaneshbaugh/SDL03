@@ -70,8 +70,6 @@ namespace Game {
 
         void Actor::SetAnimation(const Animation animation) {
             this->animation = animation;
-
-            this->spriteName = this->AnimationToString(this->animation) + "." + this->DirectionToString(this->direction);
         }
 
         Actor::Direction Actor::GetDirection() const {
@@ -80,8 +78,6 @@ namespace Game {
 
         void Actor::SetDirection(const Direction direction) {
             this->direction = direction;
-
-            this->spriteName = this->AnimationToString(this->animation) + "." + this->DirectionToString(this->direction);
         }
 
         void Actor::SetMovementSpeed(const float movementSpeed) {
@@ -96,8 +92,6 @@ namespace Game {
             if (this->isMoving) {
                 float movementSpeedX = this->movementSpeed * static_cast<float>(this->currentMap->tilewidth);
                 float movementSpeedY = this->movementSpeed * static_cast<float>(this->currentMap->tileheight);
-                // float movementTargetTileX = static_cast<float>(this->movementTargetTileX * this->currentMap->tilewidth);
-                // float movementTargetTileY = static_cast<float>(this->movementTargetTileY * this->currentMap->tileheight);
                 float movementTargetTileX = static_cast<float>(this->movementTargetTileX * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
                 float movementTargetTileY = static_cast<float>((this->movementTargetTileY + 1) * this->currentMap->tileheight);
 
@@ -267,10 +261,14 @@ namespace Game {
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) {
-            this->appearance->Render(this->spriteName, this->animationFrame, this->currentWorldX, this->currentWorldY, this->currentMap->tileheight, camera);
+            this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, this->currentMap->tileheight, camera);
         }
 
-        std::string Actor::AnimationToString(const Animation animation) {
+        std::string Actor::GetSpriteName() const {
+            return this->AnimationToString(this->animation) + "." + this->DirectionToString(this->direction);
+        }
+
+        std::string Actor::AnimationToString(const Animation animation) const {
             switch (animation) {
             case Animation::Stand:
                 return "stand";
@@ -281,7 +279,7 @@ namespace Game {
             return "stand";
         }
 
-        std::string Actor::DirectionToString(const Direction direction) {
+        std::string Actor::DirectionToString(const Direction direction) const {
             switch (this->direction) {
             case Direction::Up:
                 return "up";

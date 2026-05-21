@@ -41,7 +41,6 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int animationFrame;
             float timeSinceLastAnimationFrame;
-            std::string spriteName;
             std::shared_ptr<ActorAppearance> appearance;
 
             Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet);
@@ -89,8 +88,9 @@ namespace Game {
             std::queue<Direction> movementQueue;
             std::queue<CompletedStep> completedSteps;
 
-            std::string AnimationToString(const Animation animation);
-            std::string DirectionToString(const Direction direction);
+            std::string GetSpriteName() const;
+            std::string AnimationToString(const Animation animation) const;
+            std::string DirectionToString(const Direction direction) const;
         };
     }
 }
