@@ -291,7 +291,8 @@
     <None Include="assets\spritesheets\characters\casie.json" />
     <None Include="assets\spritesheets\characters\kyle.json" />
     <None Include="assets\spritesheets\characters\sean.json" />
-    <None Include="scripts\actors\random_walk.lua" />
+    <None Include="scripts\actors\interaction\dialogue.lua" />
+    <None Include="scripts\actors\movement\random_walk.lua" />
     <None Include="TODO.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

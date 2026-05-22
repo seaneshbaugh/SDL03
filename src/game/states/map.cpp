@@ -21,11 +21,13 @@ namespace Game {
             std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
             casie->name = "Casie";
             casie->SetMovementSpeed(2.0f);
-            casie->LoadLuaScript("scripts/actors/random_walk.lua");
+            casie->LoadLuaScript("scripts/actors/movement/random_walk.lua");
+            casie->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
             std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
             kyle->name = "Kyle";
             kyle->SetMovementSpeed(2.0f);
-            kyle->LoadLuaScript("scripts/actors/random_walk.lua");
+            kyle->LoadLuaScript("scripts/actors/movement/random_walk.lua");
+            kyle->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
             this->actors.push_back(casie);
             this->actors.push_back(kyle);
             this->PlaceActor(casie, 8, 10, Scene::Actor::Direction::Down);

@@ -1,6 +1,6 @@
 function initialize()
   math.randomseed(os.time())
-  print("Random walk initialized for " .. actor.name)
+  print("movement/random_walk initialized for " .. actor.name)
 end
 
 function update(_delta_time)
@@ -11,8 +11,4 @@ function update(_delta_time)
 
     actor:queueMovement(randomDirection, 1)
   end
-end
-
-function on_interact(other_actor)
-  print(other_actor.name .. " interacted with " .. actor.name)
 end

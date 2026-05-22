@@ -808,6 +808,7 @@
     <None Include="resources\characters\sean.json" />
     <None Include="resources\characters\casie.json" />
     <None Include="TODO.md" />
-    <None Include="scripts\actors\random_walk.lua" />
+    <None Include="scripts\actors\movement\random_walk.lua" />
+    <None Include="scripts\actors\interaction\dialogue.lua" />
   </ItemGroup>
 </Project>
