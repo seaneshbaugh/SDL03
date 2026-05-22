@@ -339,6 +339,9 @@
     <None Include="scripts\states\save_game_menu.lua" />
     <None Include="scripts\states\settings_menu.lua" />
     <None Include="TODO.md" />
+    <None Include="utils\colormap" />
+    <None Include="utils\comment-wrap" />
+    <None Include="utils\level-curve" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

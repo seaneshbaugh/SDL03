@@ -855,5 +855,8 @@
     <None Include="resources\asset_lists\save_game_menu_sounds.json" />
     <None Include="resources\asset_lists\save_game_menu_textures.json" />
     <None Include="resources\asset_lists\settings_menu_sounds.json" />
+    <None Include="utils\level-curve" />
+    <None Include="utils\comment-wrap" />
+    <None Include="utils\colormap" />
   </ItemGroup>
 </Project>
