@@ -33,6 +33,7 @@ namespace Game {
 
             this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             this->movementInputHeld = false;
+            this->interactionRequested = false;
         }
 
         Map::~Map() {
@@ -51,8 +52,6 @@ namespace Game {
         }
 
         Transition Map::Update(const double deltaTime) {
-            std::string nextState = (*this->luaState.get())["update"](deltaTime);
-
             this->UpdateMovementInput();
 
             for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
@@ -76,16 +75,6 @@ namespace Game {
                 this->QueueMovement(this->player.get(), this->movementInputHeldDirection, 1);
             }
 
-            // Using position in actors vector to determine which ones are NPCs. Eventually
-            // I'll wanto to either implement some sort of interface or at least a "has Lua
-            // script" function to determine which actors should be controlled by a Lua
-            // script. I think I like that idea better than inheritance or interfaces
-            // because it's possible the player might be taken over by a Lua script as part
-            // of a cutscene.
-            for (int i = 1; i < this->actors.size(); i++) {
-                (*this->actors[i]->luaState.get())["update"](deltaTime);
-            }
-
             for (auto& actor : this->actors) {
                 if (!actor->IsMoving()) {
                     auto nextMove = actor->PeekMovement();
@@ -101,13 +90,28 @@ namespace Game {
                 }
             }
 
+            if (this->interactionRequested) {
+                this->interactionRequested = false;
+
+                if (this->TryInteract()) {
+                    this->logger->debug() << "Player interacted with something.";
+                } else {
+                    this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
+                }
+            }
+
             this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
 
             if (this->pop) {
                 return Transition::Pop();
             }
 
-            switch (StateNameToEnum(nextState)) {
+            // TODO: Add a flag to check to see if the pause button has been pressed.
+            // TODO: Add a check to see if the player has stepped on an encounter area and roll a dice
+            // to see if a battle should be triggered. For now we're always going to be in the Map state.
+            GameStateType nextState = GameStateType::map;
+
+            switch (nextState) {
             case GameStateType::pause_menu:
                 return Transition::Push(std::make_shared<PauseMenu>());
             case GameStateType::battle:
@@ -145,11 +149,7 @@ namespace Game {
 
         void Map::ProcessButtonDown(const InputKey key) {
             if (key == InputKey::CONFIRM_KEY) {
-                if (this->TryInteract()) {
-                    this->logger->debug() << "Player interacted with something.";
-                } else {
-                    this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
-                }
+                this->interactionRequested = true;
             }
         }
 

@@ -20,21 +20,3 @@ end
 function after_map_load()
     current_map = map_state:getCurrentMap()
 end
-
-function process_input(key_code)
-    if key_code == MENU_KEY then
-        pause_menu_opened = true
-    end
-
-    return ""
-end
-
-function update(delta_time)
-    if pause_menu_opened then
-        pause_menu_opened = false
-
-        return "pause_menu"
-    end
-
-    return "map"
-end

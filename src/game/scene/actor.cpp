@@ -62,8 +62,6 @@ namespace Game {
                 return;
             }
 
-            // this->currentWorldX = static_cast<float>(x * this->currentMap->tilewidth);
-            // this->currentWorldY = static_cast<float>(y * this->currentMap->tileheight);
             this->currentWorldX = static_cast<float>(x * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
             this->currentWorldY = static_cast<float>((y + 1) * this->currentMap->tileheight);
         }
@@ -163,6 +161,16 @@ namespace Game {
                 this->animationFrame = 0;
                 this->timeSinceLastAnimationFrame = 0.0f;
             }
+
+            sol::protected_function update = (*this->luaState.get())["update"];
+
+            if (update.valid()) {
+                try {
+                    update(deltaTime);
+                } catch (const sol::error& e) {
+                    this->logger->error() << "Error in Lua update function: " << e.what();
+                }
+            }
         }
 
         void Actor::QueueMovement(const Direction direction) {
@@ -251,6 +259,7 @@ namespace Game {
             }
 
             CompletedStep step = this->completedSteps.front();
+
             this->completedSteps.pop();
 
             return step;
@@ -265,7 +274,15 @@ namespace Game {
         }
 
         void Actor::Interact(std::shared_ptr<Actor> interactor) {
-            (*this->luaState.get())["on_interact"](*interactor);
+            sol::protected_function onInteract = (*this->luaState.get())["on_interact"];
+
+            if (onInteract.valid()) {
+                try {
+                    onInteract(*interactor);
+                } catch (const sol::error& e) {
+                    this->logger->error() << "Error in Lua on_interact function: " << e.what();
+                }
+            }
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) {
@@ -306,7 +323,8 @@ namespace Game {
             try {
                 this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
 
-                this->luaState->script_file(scriptFilePath, this->luaEnvironment);
+                // this->luaState->script_file(scriptFilePath, this->luaEnvironment);
+                this->luaState->script_file(scriptFilePath);
 
                 this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
 
@@ -324,10 +342,9 @@ namespace Game {
             this->luaState = std::make_shared<sol::state>();
             this->luaState->open_libraries(sol::lib::base, sol::lib::package, sol::lib::table, sol::lib::math, sol::lib::os);
             this->luaEnvironment = sol::environment(*this->luaState, sol::create, this->luaState->globals());
+            this->luaState->set("actor", this);
 
             Actor::LuaInterface::Bind(this->luaState);
-
-            this->luaState->set("actor", this);
         }
 
         void Actor::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {

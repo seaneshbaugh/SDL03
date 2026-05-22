@@ -42,6 +42,7 @@ namespace Game {
             Scene::Actor::Direction movementDirection;
             Scene::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;
+            bool interactionRequested;
 
             void UpdateMovementInput();
             // TODO: Go through the rest of the game and change references to "keys" to "buttons".
