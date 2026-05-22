@@ -307,7 +307,6 @@ namespace Game {
                 this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
 
                 this->luaState->script_file(scriptFilePath, this->luaEnvironment);
-                this->luaState->script_file(scriptFilePath);
 
                 this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
 
