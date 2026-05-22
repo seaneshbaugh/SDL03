@@ -72,6 +72,7 @@ namespace Game {
             bool HasCompletedSteps() const;
             std::optional<CompletedStep> ConsumeCompletedStep();
             bool OccupiesTile(const int x, const int y) const;
+            void Interact(std::shared_ptr<Actor> interactor);
             void Render(std::shared_ptr<Camera> camera);
             bool LoadLuaScript(const std::string& scriptFilePath);
 

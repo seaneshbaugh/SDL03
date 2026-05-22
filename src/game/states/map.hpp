@@ -48,6 +48,8 @@ namespace Game {
             void QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance);
             bool CanMove(Scene::Actor* actor, const Scene::Actor::Direction direction);
             bool IsTileBlocked(const int x, const int y, const Scene::Actor* ignore = nullptr) const;
+            bool TryInteract();
+            std::optional<std::shared_ptr<Scene::Actor>> GetActorAtTile(const int x, const int y) const;
 
         public:
             class LuaInterface {

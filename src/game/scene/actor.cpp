@@ -264,6 +264,10 @@ namespace Game {
             return this->currentTileX == x && this->currentTileY == y;
         }
 
+        void Actor::Interact(std::shared_ptr<Actor> interactor) {
+            (*this->luaState.get())["on_interact"](*interactor);
+        }
+
         void Actor::Render(std::shared_ptr<Camera> camera) {
             this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, camera);
         }

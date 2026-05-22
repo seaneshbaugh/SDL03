@@ -144,7 +144,13 @@ namespace Game {
         }
 
         void Map::ProcessButtonDown(const InputKey key) {
-            // Saving this method since it might be useful for other things later.
+            if (key == InputKey::CONFIRM_KEY) {
+                if (this->TryInteract()) {
+                    this->logger->debug() << "Player interacted with something.";
+                } else {
+                    this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
+                }
+            }
         }
 
         void Map::ProcessButtonUp(const InputKey key) {
@@ -246,6 +252,67 @@ namespace Game {
             }
 
             return false;
+        }
+
+        bool Map::TryInteract() {
+            int targetX = this->player->GetCurrentTileX();
+            int targetY = this->player->GetCurrentTileY();
+
+            switch (this->player->GetDirection()) {
+            case Scene::Actor::Direction::Up:
+                targetY--;
+
+                break;
+            case Scene::Actor::Direction::Right:
+                targetX++;
+
+                break;
+            case Scene::Actor::Direction::Down:
+                targetY++;
+
+                break;
+            case Scene::Actor::Direction::Left:
+                targetX--;
+
+                break;
+            }
+
+            if (targetX < 0 || targetX >= this->currentMap->width || targetY < 0 || targetY >= this->currentMap->height) {
+                return false;
+            }
+
+            auto actor = this->GetActorAtTile(targetX, targetY);
+
+            if (actor.has_value()) {
+                if (actor.value().get() == this->player.get()) {
+                    return false;
+                }
+
+                actor.value()->Interact(player);
+
+                return true;
+            }
+
+            //std::vector<std::shared_ptr<Objects::Maps::MapObject>> objects = this->currentMap->GetObjects(targetX, targetY);
+
+            //for (auto object = objects.begin(); object != objects.end(); object++) {
+            //    if ((*object)->GetType() == "interactable") {
+            //        (*this->luaState.get())["on_interact"](*object);
+            //        return true;
+            //    }
+            //}
+
+            return false;
+        }
+
+        std::optional<std::shared_ptr<Scene::Actor>> Map::GetActorAtTile(const int x, const int y) const {
+            for (auto& actor : actors) {
+                if (actor->OccupiesTile(x, y)) {
+                    return actor;
+                }
+            }
+
+            return std::nullopt;
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
