@@ -1,14 +1,34 @@
+pausing = false
+pause_for_time = 0
+paused_time = 0
+
 function initialize()
   math.randomseed(os.time())
   print("movement/random_walk initialized for " .. actor.name)
 end
 
-function update(_delta_time)
+function update(delta_time)
   if not actor:isMoving() then
-    actor:clearPendingMovement()
+    if pausing then
+      paused_time = paused_time + delta_time
 
-    randomDirection = math.random(0, 3)
+      if paused_time > pause_for_time then
+        pausing = false
+        pause_for_time = 0
+        paused_time = 0
+      end
+    else
+      actor:clearPendingMovement()
 
-    actor:queueMovement(randomDirection, 1)
+      if math.random(0, 5) == 0 then
+        pausing = true
+        pause_for_time = math.random(1, 3)
+        paused_time = 0
+      else
+        randomDirection = math.random(0, 3)
+
+        actor:queueMovement(randomDirection, 1)      
+      end
+    end
   end
 end
