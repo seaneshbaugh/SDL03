@@ -13,6 +13,12 @@ namespace Game {
     namespace States {
         class Map : public Base {
         public:
+            enum class MapMode {
+                Gameplay,
+                Dialogue,
+                Cutscene
+            };
+
             Map();
             ~Map();
             void HandleEvent(const SDL_Event& event);

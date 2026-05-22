@@ -101,6 +101,9 @@
     <ClCompile Include="src\game\assets\song.cpp" />
     <ClCompile Include="src\game\assets\sound.cpp" />
     <ClCompile Include="src\game\assets\texture.cpp" />
+    <ClCompile Include="src\game\scene\dialogue\dialogue_graph.cpp" />
+    <ClCompile Include="src\game\scene\dialogue\dialogue_node.cpp" />
+    <ClCompile Include="src\game\scene\dialogue\dialogue_session.cpp" />
     <ClCompile Include="src\game\services\implementations\audio_manager.cpp" />
     <ClCompile Include="src\game\services\implementations\clock.cpp" />
     <ClCompile Include="src\game\services\implementations\font_manager.cpp" />
@@ -188,6 +191,8 @@
     <ClInclude Include="lib\lua\src\lvm.h" />
     <ClInclude Include="lib\lua\src\lzio.h" />
     <ClInclude Include="lib\sago\platform_folders.h" />
+    <ClInclude Include="lib\sol\config.hpp" />
+    <ClInclude Include="lib\sol\forward.hpp" />
     <ClInclude Include="lib\sol\sol.hpp" />
     <ClInclude Include="lib\sqlite\sqlite3.h" />
     <ClInclude Include="src\game.hpp" />
@@ -201,6 +206,9 @@
     <ClInclude Include="src\game\graphics\spritesheet.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
+    <ClInclude Include="src\game\scene\dialogue\dialogue_graph.hpp" />
+    <ClInclude Include="src\game\scene\dialogue\dialogue_node.hpp" />
+    <ClInclude Include="src\game\scene\dialogue\dialogue_session.hpp" />
     <ClInclude Include="src\game\scene\movement_command.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
     <ClInclude Include="src\game\graphics\animation.hpp" />

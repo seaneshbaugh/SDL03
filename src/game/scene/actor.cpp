@@ -306,6 +306,7 @@ namespace Game {
             try {
                 this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
 
+                this->luaState->script_file(scriptFilePath, this->luaEnvironment);
                 this->luaState->script_file(scriptFilePath);
 
                 this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
@@ -322,8 +323,8 @@ namespace Game {
 
         void Actor::LoadLuaState() {
             this->luaState = std::make_shared<sol::state>();
-            sol::environment env(*this->luaState, sol::create, this->luaState->globals());
             this->luaState->open_libraries(sol::lib::base, sol::lib::package, sol::lib::table, sol::lib::math, sol::lib::os);
+            this->luaEnvironment = sol::environment(*this->luaState, sol::create, this->luaState->globals());
 
             Actor::LuaInterface::Bind(this->luaState);
 

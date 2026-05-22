@@ -94,6 +94,7 @@ namespace Game {
             Direction direction;
             std::queue<Direction> movementQueue;
             std::queue<CompletedStep> completedSteps;
+            sol::environment luaEnvironment;
 
             std::string GetSpriteName() const;
             std::string AnimationToString(const Animation animation) const;

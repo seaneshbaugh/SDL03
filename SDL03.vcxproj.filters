@@ -372,6 +372,15 @@
     <ClCompile Include="src\game\services\interfaces\item_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\dialogue\dialogue_session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\dialogue\dialogue_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\dialogue\dialogue_graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -771,6 +780,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\services\interfaces\item_service.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\dialogue\dialogue_session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\dialogue\dialogue_node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\dialogue\dialogue_graph.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\sol\forward.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\sol\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

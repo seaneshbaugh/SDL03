@@ -255,8 +255,8 @@ namespace Game {
         }
 
         bool Map::TryInteract() {
-            int targetX = this->player->GetCurrentTileX();
-            int targetY = this->player->GetCurrentTileY();
+            int targetX = this->player->GetOccupiedTileX();
+            int targetY = this->player->GetOccupiedTileY();
 
             switch (this->player->GetDirection()) {
             case Scene::Actor::Direction::Up:
