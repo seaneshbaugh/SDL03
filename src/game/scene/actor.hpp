@@ -4,6 +4,9 @@
 #include <queue>
 #include <optional>
 
+#include "../../../lib/lua/src/lua.hpp"
+#include "../../../lib/sol/sol.hpp"
+
 #include "../services/locator.hpp"
 #include "../objects/maps/map.hpp"
 #include "actor_appearance.hpp"
@@ -42,6 +45,8 @@ namespace Game {
             unsigned int animationFrame;
             float timeSinceLastAnimationFrame;
             std::shared_ptr<ActorAppearance> appearance;
+            // TODO: Make this private?
+            std::shared_ptr<sol::state> luaState;
 
             Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet);
             ~Actor();
@@ -68,6 +73,7 @@ namespace Game {
             std::optional<CompletedStep> ConsumeCompletedStep();
             bool OccupiesTile(const int x, const int y) const;
             void Render(std::shared_ptr<Camera> camera);
+            bool LoadLuaScript(const std::string& scriptFilePath);
 
         private:
             static const std::string logChannel;
@@ -91,6 +97,13 @@ namespace Game {
             std::string GetSpriteName() const;
             std::string AnimationToString(const Animation animation) const;
             std::string DirectionToString(const Direction direction) const;
+            void LoadLuaState();
+
+        public:
+            class LuaInterface {
+            public:
+                static void Bind(std::shared_ptr<sol::state> luaState);
+            };
         };
     }
 }

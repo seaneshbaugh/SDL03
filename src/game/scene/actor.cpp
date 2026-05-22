@@ -2,7 +2,10 @@
 
 namespace Game {
     namespace Scene {
+        const std::string Actor::logChannel = "scene.actor";
+
         Actor::Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet) {
+            this->logger = Services::Locator::LoggerService()->GetLogger(Actor::logChannel);
             this->currentMap = nullptr;
             this->currentTileX = 0;
             this->currentTileY = 0;
@@ -11,6 +14,7 @@ namespace Game {
             this->isMoving = false;
             this->movementSpeed = 4.0f;
             this->appearance = std::make_shared<ActorAppearance>(spritesheet);
+            this->LoadLuaState();
         }
 
         Actor::~Actor() {
@@ -292,6 +296,50 @@ namespace Game {
             }
 
             return "down";
+        }
+
+        bool Actor::LoadLuaScript(const std::string& scriptFilePath) {
+            try {
+                this->logger->debug() << "Loading \"" << scriptFilePath << "\".";
+
+                this->luaState->script_file(scriptFilePath);
+
+                this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
+
+                (*this->luaState.get())["initialize"]();
+            } catch (const sol::error& e) {
+                this->logger->error() << "Failed to load Lua script \"" << scriptFilePath << "\": " << e.what();
+
+                return false;
+            }
+
+            return true;
+        }
+
+        void Actor::LoadLuaState() {
+            this->luaState = std::make_shared<sol::state>();
+            sol::environment env(*this->luaState, sol::create, this->luaState->globals());
+            this->luaState->open_libraries(sol::lib::base, sol::lib::package, sol::lib::table, sol::lib::math, sol::lib::os);
+
+            Actor::LuaInterface::Bind(this->luaState);
+
+            this->luaState->set("actor", this);
+        }
+
+        void Actor::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
+            sol::table scene = (*luaState.get())["scene"].get_or_create<sol::table>(sol::new_table());
+
+            scene.new_usertype<Actor>("Actor",
+                                     sol::no_constructor,
+                                     "name", &Actor::name,
+                                     "getCurrentTileX", &Actor::GetCurrentTileX,
+                                     "getCurrentTileY", &Actor::GetCurrentTileY,
+                                     "getOccupiedTileX", &Actor::GetOccupiedTileX,
+                                     "getOccupiedTileY", &Actor::GetOccupiedTileY,
+                                     "isMoving", &Actor::IsMoving,
+                                     "clearPendingMovement", &Actor::ClearPendingMovement,
+                                     "queueMovement", &Actor::QueueMovement
+                                     );
         }
     }
 }

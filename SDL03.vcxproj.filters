@@ -784,5 +784,6 @@
     <None Include="resources\characters\sean.json" />
     <None Include="resources\characters\casie.json" />
     <None Include="TODO.md" />
+    <None Include="scripts\actors\random_walk.lua" />
   </ItemGroup>
 </Project>

@@ -21,9 +21,11 @@ namespace Game {
             std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
             casie->name = "Casie";
             casie->SetMovementSpeed(2.0f);
+            casie->LoadLuaScript("scripts/actors/random_walk.lua");
             std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
             kyle->name = "Kyle";
             kyle->SetMovementSpeed(2.0f);
+            kyle->LoadLuaScript("scripts/actors/random_walk.lua");
             this->actors.push_back(casie);
             this->actors.push_back(kyle);
             this->PlaceActor(casie, 8, 10, Scene::Actor::Direction::Down);
@@ -74,16 +76,14 @@ namespace Game {
                 this->QueueMovement(this->player.get(), this->movementInputHeldDirection, 1);
             }
 
-            // TODO: Move NPCs here.
+            // Using position in actors vector to determine which ones are NPCs. Eventually
+            // I'll wanto to either implement some sort of interface or at least a "has Lua
+            // script" function to determine which actors should be controlled by a Lua
+            // script. I think I like that idea better than inheritance or interfaces
+            // because it's possible the player might be taken over by a Lua script as part
+            // of a cutscene.
             for (int i = 1; i < this->actors.size(); i++) {
-                if (!this->actors[i]->IsMoving()) {
-                    this->actors[i]->ClearPendingMovement();
-
-                    // For now just have the NPCs randomly move around. Eventually this will be replaced with some sort of pathfinding and behavior system.
-                    Scene::Actor::Direction randomDirection = static_cast<Scene::Actor::Direction>(rand() % 4);
-
-                    this->QueueMovement(this->actors[i].get(), randomDirection, 1);
-                }
+                (*this->actors[i]->luaState.get())["update"](deltaTime);
             }
 
             for (auto& actor : this->actors) {
