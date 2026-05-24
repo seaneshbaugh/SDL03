@@ -11,7 +11,7 @@ namespace Game {
                 // TODO: Move this to its own class. This is just a test.
                 std::string registryFileContents;
 
-                if (!Helpers::FileSystem::ReadFile("resources/items/registry.json", registryFileContents)) {
+                if (!Helpers::FileSystem::ReadFile("data/items/registry.json", registryFileContents)) {
                     throw std::runtime_error("Error loading item registry file.");
                 }
 

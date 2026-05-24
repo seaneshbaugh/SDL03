@@ -8,7 +8,7 @@ namespace Game {
             this->logger = Services::Locator::LoggerService()->GetLogger(PauseMenu::logChannel);
             this->pop = false;
 
-            // TODO: Figure out a way to either pre-load these resources or otherwise
+            // TODO: Figure out a way to either pre-load these assets or otherwise
             // keep them around after this state is popped. Parsing a JSON file every
             // time the player opens the pause menu is not a good idea.
             // One possibility is having a list of pre-loadable resource lists that

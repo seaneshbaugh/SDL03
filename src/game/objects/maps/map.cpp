@@ -37,7 +37,7 @@ namespace Game {
                 return true;
             }
 
-            // Maybe this should be put in some sort of texture loading class. Same with other resources.
+            // Maybe this should be put in some sort of texture loading class. Same with other assets.
             bool Map::LoadTextures() {
                 for (auto tile = this->tiles.begin(); tile != this->tiles.end(); tile++) {
                     std::shared_ptr<Assets::Texture> texture = std::make_shared<Assets::Texture>();
@@ -302,7 +302,7 @@ namespace Game {
                         properties[name] = value;
                     }
 
-                    std::string filename = "resources/encounter_areas/" + this->mapName + "-" + properties["name"] + ".json";
+                    std::string filename = "data/encounter_areas/" + this->mapName + "-" + properties["name"] + ".json";
 
                     std::shared_ptr<MapEncounterArea> encounterArea = std::make_shared<MapEncounterArea>(filename);
 

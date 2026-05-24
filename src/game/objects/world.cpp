@@ -29,13 +29,13 @@ namespace Game {
 
             std::shared_ptr<Objects::Characters::PlayerCharacter> sean = std::make_shared<Objects::Characters::PlayerCharacter>();
 
-            sean->Load("resources/characters/sean.json");
+            sean->Load("data/characters/sean.json");
 
             this->playerParty->characters.push_back(sean);
 
             std::shared_ptr<Objects::Characters::PlayerCharacter> casie = std::make_shared<Objects::Characters::PlayerCharacter>();
 
-            casie->Load("resources/characters/casie.json");
+            casie->Load("data/characters/casie.json");
 
             this->playerParty->characters.push_back(casie);
 
@@ -83,7 +83,7 @@ namespace Game {
                 // the monster resource files should also include a reference to an AI (LOL) script
                 // that the monster will use for determining its actions.
                 if (*it == "Slime") {
-                    monster->Load("resources/monsters/slime.json");
+                    monster->Load("data/monsters/slime.json");
                 } else {
                     // For now raise an exception since the above needs to be done and there are no
                     // other monster types defined yet anyways. If we get here something has gone
@@ -102,7 +102,7 @@ namespace Game {
         void World::LoadMap(const std::string& mapName) {
             this->UnloadMap();
 
-            std::string mapFilePath = "resources/maps/" + mapName + ".json";
+            std::string mapFilePath = "data/maps/" + mapName + ".json";
 
             this->currentMap = std::make_shared<Objects::Maps::Map>(mapFilePath);
         }

@@ -1,6 +1,6 @@
 # TODO
 
-- Move resources directory to data.
+- Figure out what to do about the "asset lists". I never liked that design. If I keep them around they might just live in the assets directory the same way spritesheets do. They're all that's left in the resources directory and I'm just about done removing the concept of resources from this.
 - Find a better name for the Game::Objects namespace.
 - Implement MovmentCommand for Actor.
 - Add a way to keep track of whether an Actor has finished moving entirely (MoveCommand queue is empty maybe?).
