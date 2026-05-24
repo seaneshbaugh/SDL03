@@ -12,6 +12,10 @@
 #include "actor_appearance.hpp"
 
 namespace Game {
+    namespace States {
+        class Map;
+    }
+
     namespace Scene {
         class Camera;
 
@@ -75,6 +79,7 @@ namespace Game {
             void Interact(std::shared_ptr<Actor> interactor);
             void Render(std::shared_ptr<Camera> camera);
             bool LoadLuaScript(const std::string& scriptFilePath);
+            void SetMapState(States::Map* mapState);
 
         private:
             static const std::string logChannel;

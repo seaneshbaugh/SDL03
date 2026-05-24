@@ -6,6 +6,7 @@ namespace Game {
 
         Map::Map() {
             this->logger = Services::Locator::LoggerService()->GetLogger(Map::logChannel);
+            this->state = State::Gameplay;
             this->pop = false;
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
@@ -21,10 +22,12 @@ namespace Game {
             std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
             casie->name = "Casie";
             casie->SetMovementSpeed(2.0f);
+            casie->SetMapState(this);
             casie->LoadLuaScript("scripts/actors/movement/random_walk.lua");
             casie->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
             std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
             kyle->name = "Kyle";
+            kyle->SetMapState(this);
             kyle->SetMovementSpeed(2.0f);
             kyle->LoadLuaScript("scripts/actors/movement/random_walk.lua");
             kyle->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
@@ -54,72 +57,83 @@ namespace Game {
         }
 
         Transition Map::Update(const double deltaTime) {
-            this->UpdateMovementInput();
+            if (this->state == State::Dialogue) {
 
-            for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
-                (*actor)->Update(deltaTime);
-            }
+                this->dialogueSession.Update(deltaTime);
 
-            // TODO: Run this loop for each Actor.
-            while (auto step = this->player->ConsumeCompletedStep()) {
-                // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
-                // every step and there's no reason to update it unless there's a chance we might save the game.
-                Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
+                if (this->dialogueSession.completed) {
+                    this->state = State::Gameplay;
+                }
 
-                this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
+                return Transition::None();
+            } else {
+                this->UpdateMovementInput();
 
-                this->Step(step->tileX, step->tileY);
-            }
+                for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
+                    (*actor)->Update(deltaTime);
+                }
 
-            if (!this->player->IsMoving() && this->movementInputHeld) {
-                this->player->ClearPendingMovement();
+                // TODO: Run this loop for each Actor.
+                while (auto step = this->player->ConsumeCompletedStep()) {
+                    // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
+                    // every step and there's no reason to update it unless there's a chance we might save the game.
+                    Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
 
-                this->QueueMovement(this->player.get(), this->movementInputHeldDirection, 1);
-            }
+                    this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
 
-            for (auto& actor : this->actors) {
-                if (!actor->IsMoving()) {
-                    auto nextMove = actor->PeekMovement();
+                    this->Step(step->tileX, step->tileY);
+                }
 
-                    if (nextMove.has_value()) {
-                        actor->SetDirection(nextMove.value());
+                if (!this->player->IsMoving() && this->movementInputHeld) {
+                    this->player->ClearPendingMovement();
 
-                        if (this->CanMove(actor.get(), nextMove.value())) {
-                            actor->PopMovement();
-                            actor->StartMovement(nextMove.value());
+                    this->QueueMovement(this->player.get(), this->movementInputHeldDirection, 1);
+                }
+
+                for (auto& actor : this->actors) {
+                    if (!actor->IsMoving()) {
+                        auto nextMove = actor->PeekMovement();
+
+                        if (nextMove.has_value()) {
+                            actor->SetDirection(nextMove.value());
+
+                            if (this->CanMove(actor.get(), nextMove.value())) {
+                                actor->PopMovement();
+                                actor->StartMovement(nextMove.value());
+                            }
                         }
                     }
                 }
-            }
 
-            if (this->interactionRequested) {
-                this->interactionRequested = false;
+                if (this->interactionRequested) {
+                    this->interactionRequested = false;
 
-                if (this->TryInteract()) {
-                    this->logger->debug() << "Player interacted with something.";
-                } else {
-                    this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
+                    if (this->TryInteract()) {
+                        this->logger->debug() << "Player interacted with something.";
+                    } else {
+                        this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
+                    }
                 }
-            }
 
-            this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+                this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
 
-            if (this->pop) {
-                return Transition::Pop();
-            }
+                if (this->pop) {
+                    return Transition::Pop();
+                }
 
-            // TODO: Add a flag to check to see if the pause button has been pressed.
-            // TODO: Add a check to see if the player has stepped on an encounter area and roll a dice
-            // to see if a battle should be triggered. For now we're always going to be in the Map state.
-            GameStateType nextState = GameStateType::map;
+                // TODO: Add a flag to check to see if the pause button has been pressed.
+                // TODO: Add a check to see if the player has stepped on an encounter area and roll a dice
+                // to see if a battle should be triggered. For now we're always going to be in the Map state.
+                GameStateType nextState = GameStateType::map;
 
-            switch (nextState) {
-            case GameStateType::pause_menu:
-                return Transition::Push(std::make_shared<PauseMenu>());
-            case GameStateType::battle:
-                return Transition::Push(std::make_shared<Battle>(this->currentMapEncounterArea));
-            default:
-                return Transition::None();
+                switch (nextState) {
+                case GameStateType::pause_menu:
+                    return Transition::Push(std::make_shared<PauseMenu>());
+                case GameStateType::battle:
+                    return Transition::Push(std::make_shared<Battle>(this->currentMapEncounterArea));
+                default:
+                    return Transition::None();
+                }
             }
         }
 
@@ -150,8 +164,12 @@ namespace Game {
         }
 
         void Map::ProcessButtonDown(const InputKey key) {
-            if (key == InputKey::CONFIRM_KEY) {
-                this->interactionRequested = true;
+            if (this->state == State::Dialogue) {
+                this->dialogueSession.Next();
+            } else {
+                if (key == InputKey::CONFIRM_KEY) {
+                    this->interactionRequested = true;
+                }
             }
         }
 
@@ -180,6 +198,10 @@ namespace Game {
 
             for (auto actor = renderActors.begin(); actor != renderActors.end(); actor++) {
                 (*actor)->Render(this->camera);
+            }
+
+            if (this->state == State::Dialogue) {
+                this->dialogueSession.Render(this->camera);
             }
         }
 
@@ -384,6 +406,18 @@ namespace Game {
             }
         }
 
+        void Map::StartDialogue(std::string dialogueId) {
+            this->logger->debug() << "Starting dialogue with ID \"" << dialogueId << "\".";
+
+            std::shared_ptr<Scene::Dialogue::DialogueNode> hello = std::make_shared<Scene::Dialogue::DialogueNode>(Scene::Dialogue::DialogueNode::Type::Text, "hello", "Hello, world!");
+            std::shared_ptr<Scene::Dialogue::DialogueGraph> graph = std::make_shared<Scene::Dialogue::DialogueGraph>();
+            graph->root = hello;
+
+            this->dialogueSession.Start(graph);
+
+            this->state = State::Dialogue;
+        }
+
         void Map::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 
@@ -413,14 +447,7 @@ namespace Game {
 
             states.new_usertype<Map>("Map",
                                      sol::no_constructor,
-                                     "pop", &Map::Pop,
-                                     "process_input", static_cast<std::string (Map::*)(const InputKey)>(&Map::ProcessInput),
-                                     "getCurrentMap", &Map::GetCurrentMap,
-                                     "getCurrentMapEncounterArea", &Map::GetCurrentMapEncounterArea,
-                                     "setCurrentMapEncounterArea", &Map::SetCurrentMapEncounterArea,
-                                     "loadMap", &Map::LoadMap,
-                                     "render", &Map::Render,
-                                     "step", &Map::Step
+                                     "startDialogue", &Map::StartDialogue
                                      );
         }
     }

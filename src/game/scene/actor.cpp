@@ -1,4 +1,5 @@
 #include "actor.hpp"
+#include "../states/map.hpp"
 
 namespace Game {
     namespace Scene {
@@ -345,6 +346,11 @@ namespace Game {
             this->luaState->set("actor", this);
 
             Actor::LuaInterface::Bind(this->luaState);
+            States::Map::LuaInterface::Bind(this->luaState);
+        }
+
+        void Actor::SetMapState(States::Map* mapState) {
+            this->luaState->set("mapState", mapState);
         }
 
         void Actor::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {

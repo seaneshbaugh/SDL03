@@ -8,12 +8,13 @@
 #include "../objects/world.hpp"
 #include "../scene/camera.hpp"
 #include "../scene/actor.hpp"
+#include "../scene/dialogue/dialogue_session.hpp"
 
 namespace Game {
     namespace States {
         class Map : public Base {
         public:
-            enum class MapMode {
+            enum class State {
                 Gameplay,
                 Dialogue,
                 Cutscene
@@ -30,6 +31,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y);
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
             void Step(unsigned int x, unsigned int y);
+            void StartDialogue(std::string dialogueId);
 
         private:
             static const std::string logChannel;
@@ -43,6 +45,8 @@ namespace Game {
             Scene::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;
             bool interactionRequested;
+            Scene::Dialogue::DialogueSession dialogueSession;
+            State state;
 
             void UpdateMovementInput();
             // TODO: Go through the rest of the game and change references to "keys" to "buttons".
