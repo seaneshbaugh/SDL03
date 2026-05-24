@@ -26,7 +26,6 @@ namespace Game {
 
                 int selectedChoice;
                 bool completed;
-                std::string visibleText;
                 float characterTimer;
                 std::shared_ptr<DialogueGraph> currentGraph;
                 std::shared_ptr<DialogueNode> currentNode;
@@ -34,6 +33,7 @@ namespace Game {
 
             private:
                 std::vector<std::string> lines;
+                std::vector<std::string> visibleText;
             };
         }
     }
