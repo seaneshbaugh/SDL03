@@ -5,6 +5,8 @@ namespace Game {
         namespace Dialogue {
             DialogueSession::DialogueSession() : selectedChoice(0), completed(false), characterTimer(0.0f) {
                 this->backgroundTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_box", "assets/images/ui/battle/menu/background.png");
+                this->nextIndicatorTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_next_indicator", "assets/images/ui/dialogue/more.png");
+                this->choiceIndicatorTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_choice_indicator", "assets/images/ui/cursor-right.png");
             }
 
             DialogueSession::~DialogueSession() {
@@ -16,6 +18,7 @@ namespace Game {
                 this->selectedChoice = 0;
                 this->completed = false;
                 this->characterTimer = 0.0f;
+                this->nextIndicatorTimer = 0.0f;
                 this->lines = Helpers::String::Split(this->currentNode->text, "\n");
                 this->visibleText.clear();
 
@@ -45,6 +48,7 @@ namespace Game {
                             this->currentNode = this->currentNode->next;
                             this->selectedChoice = 0;
                             this->characterTimer = 0.0f;
+                            this->nextIndicatorTimer = 0.0f;
                             this->lines = Helpers::String::Split(this->currentNode->text, "\n");
                             this->visibleText.clear();
 
@@ -93,6 +97,7 @@ namespace Game {
                             while (this->characterTimer >= 0.05f && this->visibleText[i].size() < this->lines[i].size()) {
                                 this->visibleText[i] += this->lines[i][this->visibleText[i].size()];
                                 this->characterTimer -= 0.05f;
+                                this->nextIndicatorTimer = 0.0f;
                             }
 
                             if (this->visibleText[i].size() == this->lines[i].size()) {
@@ -101,6 +106,12 @@ namespace Game {
                         } else {
                             continue;
                         }
+                    }
+
+                    if (this->nextIndicatorTimer < 1.0f) {
+                        this->nextIndicatorTimer += static_cast<float>(deltaTime);
+                    } else {
+                        this->nextIndicatorTimer = 0.0f;
                     }
                 }
             }
@@ -116,6 +127,8 @@ namespace Game {
                         Services::Locator::VideoService()->RenderTexture(this->backgroundTexture, &srcrect, &dstrect);
                     }
 
+                    bool allTextVisible = true;
+
                     for (std::vector<std::string>::size_type i = 0; i < this->visibleText.size(); ++i) {
                         if (this->visibleText[i] != "") {
                             std::shared_ptr<Assets::Font> font = Services::Locator::FontService()->GetFont("PixChicago", 16);
@@ -124,6 +137,17 @@ namespace Game {
                             Objects::Text text = Objects::Text(this->visibleText[i], font, textDstRect.x, textDstRect.y, color);
                             text.Render();
                         }
+
+                        if (this->visibleText[i] != this->lines[i]) {
+                            allTextVisible = false;
+                        }
+                    }
+
+                    if (allTextVisible && this->nextIndicatorTexture && this->currentNode->next && this->nextIndicatorTimer < 0.5f) {
+                        SDL_FRect srcrect = {0.0f, 0.0f, static_cast<float>(this->nextIndicatorTexture->GetSDLTexture().get()->w), static_cast<float>(this->nextIndicatorTexture->GetSDLTexture().get()->h)};
+                        SDL_FRect dstrect = {camera->viewportWidth - 32.0f - srcrect.w, camera->viewportHeight - 16.0f - srcrect.h, srcrect.w, srcrect.h};
+
+                        Services::Locator::VideoService()->RenderTexture(this->nextIndicatorTexture, &srcrect, &dstrect);
                     }
                 }
             }

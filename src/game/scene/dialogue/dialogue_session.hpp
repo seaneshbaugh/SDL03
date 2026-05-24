@@ -30,10 +30,13 @@ namespace Game {
                 std::shared_ptr<DialogueGraph> currentGraph;
                 std::shared_ptr<DialogueNode> currentNode;
                 std::shared_ptr<Assets::Texture> backgroundTexture;
+                std::shared_ptr<Assets::Texture> nextIndicatorTexture;
+                std::shared_ptr<Assets::Texture> choiceIndicatorTexture;
 
             private:
                 std::vector<std::string> lines;
                 std::vector<std::string> visibleText;
+                float nextIndicatorTimer;
             };
         }
     }

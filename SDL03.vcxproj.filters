@@ -861,4 +861,70 @@
     <None Include="data\dialogue\nodes\hello_world.json" />
     <None Include="data\dialogue\graphs\hello_world.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\images\ui\dialogue\more.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\dot.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\box.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\ui\cursor-right.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\ui\cursor-left.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\ui\pause_menu\menu\pause-menu-background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\ui\battle\menu\background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\backgrounds\battle\grass-1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\characters\casie-sheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\characters\kyle-sheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\characters\sean-sheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\map_tiles\brick-1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\map_tiles\grass-1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\map_tiles\not-walkable.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\map_tiles\town.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\map_tiles\walkable.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\map_tiles\water-1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\images\monsters\slime.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\sounds\battle\swing.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\images\characters\casie-sheet-credits.txt" />
+    <Text Include="assets\images\characters\kyle-sheet-credits.txt" />
+    <Text Include="assets\images\characters\sean-sheet-credits.txt" />
+  </ItemGroup>
 </Project>

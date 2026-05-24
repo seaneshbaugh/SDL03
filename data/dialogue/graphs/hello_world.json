@@ -4,6 +4,11 @@
     "hello": {
       "type": "text",
       "text": "Hello, world!",
+      "next": "goodbye"
+    },
+    "goodbye": {
+      "type": "text",
+      "text": "Goodbye, world!",
       "next": null
     }
   }
