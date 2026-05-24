@@ -858,5 +858,7 @@
     <None Include="utils\level-curve" />
     <None Include="utils\comment-wrap" />
     <None Include="utils\colormap" />
+    <None Include="data\dialogue\nodes\hello_world.json" />
+    <None Include="data\dialogue\graphs\hello_world.json" />
   </ItemGroup>
 </Project>

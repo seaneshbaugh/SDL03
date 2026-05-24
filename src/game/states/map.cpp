@@ -409,9 +409,9 @@ namespace Game {
         void Map::StartDialogue(std::string dialogueId) {
             this->logger->debug() << "Starting dialogue with ID \"" << dialogueId << "\".";
 
-            std::shared_ptr<Scene::Dialogue::DialogueNode> hello = std::make_shared<Scene::Dialogue::DialogueNode>(Scene::Dialogue::DialogueNode::Type::Text, "hello", "Hello, world!");
-            std::shared_ptr<Scene::Dialogue::DialogueGraph> graph = std::make_shared<Scene::Dialogue::DialogueGraph>();
-            graph->root = hello;
+            //std::shared_ptr<Scene::Dialogue::DialogueNode> hello = std::make_shared<Scene::Dialogue::DialogueNode>(Scene::Dialogue::DialogueNode::Type::Text, "hello", "Hello, world!");
+            std::shared_ptr<Scene::Dialogue::DialogueGraph> graph = std::make_shared<Scene::Dialogue::DialogueGraph>(dialogueId);
+            //graph->root = hello;
 
             this->dialogueSession.Start(graph);
 

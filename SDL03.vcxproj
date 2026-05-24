@@ -287,6 +287,8 @@
     <None Include=".editorconfig" />
     <None Include=".gitignore" />
     <None Include=".oclint" />
+    <None Include="data\dialogue\graphs\hello_world.json" />
+    <None Include="data\dialogue\nodes\hello_world.json" />
     <None Include="README.md" />
     <None Include="resources\asset_lists\battle_sounds.json" />
     <None Include="resources\asset_lists\battle_textures.json" />

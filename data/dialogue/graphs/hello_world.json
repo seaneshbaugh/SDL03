@@ -1,0 +1,10 @@
+{
+  "start": "hello",
+  "nodes": {
+    "hello": {
+      "type": "text",
+      "text": "Hello, world!",
+      "next": null
+    }
+  }
+}

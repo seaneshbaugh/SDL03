@@ -9,6 +9,7 @@
 #include "../../objects/text.hpp"
 #include "../camera.hpp"
 #include "dialogue_graph.hpp"
+#include "../../../helpers/string.hpp"
 
 namespace Game {
     namespace Scene {
@@ -32,6 +33,7 @@ namespace Game {
                 std::shared_ptr<Assets::Texture> backgroundTexture;
 
             private:
+                std::vector<std::string> lines;
             };
         }
     }

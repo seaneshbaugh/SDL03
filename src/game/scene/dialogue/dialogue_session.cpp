@@ -17,6 +17,9 @@ namespace Game {
                 this->completed = false;
                 this->visibleText = "";
                 this->characterTimer = 0.0f;
+               // this->lines = Helpers::String::Split(this->currentNode->text, "\n");
+
+
             }
 
             void DialogueSession::Next() {
