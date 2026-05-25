@@ -3,5 +3,5 @@ function initialize()
 end
 
 function on_interact(other_actor)
-  mapState:startDialogue("hello_world")
+  mapState:startDialogue(actor.dialogueId)
 end

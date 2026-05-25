@@ -51,6 +51,7 @@ namespace Game {
             std::shared_ptr<ActorAppearance> appearance;
             // TODO: Make this private?
             std::shared_ptr<sol::state> luaState;
+            std::string dialogueId;
 
             Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet);
             ~Actor();

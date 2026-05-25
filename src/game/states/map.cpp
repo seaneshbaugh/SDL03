@@ -21,12 +21,14 @@ namespace Game {
             // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
             std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
             casie->name = "Casie";
+            casie->dialogueId = "hello_world";
             casie->SetMovementSpeed(2.0f);
             casie->SetMapState(this);
             casie->LoadLuaScript("scripts/actors/movement/random_walk.lua");
             casie->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
             std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
             kyle->name = "Kyle";
+            kyle->dialogueId = "ginger";
             kyle->SetMapState(this);
             kyle->SetMovementSpeed(2.0f);
             kyle->LoadLuaScript("scripts/actors/movement/random_walk.lua");

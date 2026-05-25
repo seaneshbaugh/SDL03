@@ -359,6 +359,7 @@ namespace Game {
             scene.new_usertype<Actor>("Actor",
                                      sol::no_constructor,
                                      "name", &Actor::name,
+                                     "dialogueId", &Actor::dialogueId,
                                      "getCurrentTileX", &Actor::GetCurrentTileX,
                                      "getCurrentTileY", &Actor::GetCurrentTileY,
                                      "getOccupiedTileX", &Actor::GetOccupiedTileX,

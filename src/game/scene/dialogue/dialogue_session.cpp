@@ -3,7 +3,7 @@
 namespace Game {
     namespace Scene {
         namespace Dialogue {
-            DialogueSession::DialogueSession() : selectedChoice(0), completed(false), characterTimer(0.0f) {
+            DialogueSession::DialogueSession() : selectedChoice(0), completed(false), characterTimer(0.0f), nextIndicatorTimer(0.0f) {
                 this->backgroundTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_box", "assets/images/ui/battle/menu/background.png");
                 this->nextIndicatorTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_next_indicator", "assets/images/ui/dialogue/more.png");
                 this->choiceIndicatorTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_choice_indicator", "assets/images/ui/cursor-right.png");
@@ -123,7 +123,7 @@ namespace Game {
                 if (this->currentNode->type == DialogueNode::Type::Text) {
                     if (this->backgroundTexture) {
                         SDL_FRect srcrect = {0.0f, 0.0f, static_cast<float>(this->backgroundTexture->GetSDLTexture().get()->w), static_cast<float>(this->backgroundTexture->GetSDLTexture().get()->h)};
-                        SDL_FRect dstrect = {0, camera->viewportHeight - 196.0f, srcrect.w, srcrect.h};
+                        SDL_FRect dstrect = {0, camera->viewportHeight - 200.0f, srcrect.w, srcrect.h};
                         Services::Locator::VideoService()->RenderTexture(this->backgroundTexture, &srcrect, &dstrect);
                     }
 

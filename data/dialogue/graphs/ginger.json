@@ -1,0 +1,10 @@
+{
+  "start": "ginger",
+  "nodes": {
+    "ginger": {
+      "type": "text",
+      "text": "Ginger is the doggie! Ho! Ho! Ho!",
+      "next": null
+    }
+  }
+}

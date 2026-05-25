@@ -860,6 +860,7 @@
     <None Include="utils\colormap" />
     <None Include="data\dialogue\nodes\hello_world.json" />
     <None Include="data\dialogue\graphs\hello_world.json" />
+    <None Include="data\dialogue\graphs\ginger.json" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\images\ui\dialogue\more.png">
