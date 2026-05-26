@@ -118,10 +118,6 @@ namespace Game {
                             this->characterTimer -= 0.05f;
                             this->nextIndicatorTimer = 0.0f;
                         }
-
-                        if (this->visibleText[i].size() == this->lines[i].size()) {
-                            this->characterTimer = 0.0f;
-                        }
                     } else {
                         continue;
                     }
