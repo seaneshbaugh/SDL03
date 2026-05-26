@@ -1,0 +1,67 @@
+{
+  "start": "help",
+  "nodes": {
+    "help": {
+      "type": "choice",
+      "text": "Hello, how can I help you?",
+      "choices": [
+        {
+          "text": "I need help with my account.",
+          "next": "account_help"
+        },
+        {
+          "text": "I have a question about billing.",
+          "next": "billing_help"
+        }
+      ]
+    },
+    "account_help": {
+      "type": "choice",
+      "text": "Sure, what seems to be the issue with your\naccount?",
+      "choices": [
+        {
+          "text": "I forgot my password.",
+          "next": "password_reset"
+        },
+        {
+          "text": "I want to update my email address.",
+          "next": "update_email"
+        }
+      ]
+    },
+    "billing_help": {
+      "type": "choice",
+      "text": "I'd be happy to help with billing. What is your\nquestion?",
+      "choices": [
+        {
+          "text": "I want to view my invoice.",
+          "next": "view_invoice"
+        },
+        {
+          "text": "I have a question about a charge.",
+          "next": "charge_question"
+        }
+      ]
+    },
+    "password_reset": {
+      "type": "text",
+      "text": "To reset your password, please click on the\n'Forgot Password' link on the login page and\nfollow the instructions.",
+      "next": null
+    },
+    "update_email": {
+      "type": "text",
+      "text": "To update your email address, go to your\naccount settings and click on 'Edit Email'.",
+      "next": null
+    },
+    "view_invoice": {
+      "type": "text",
+      "text": "You can view your invoices by going to the\nbilling section of your account.",
+      "next": null
+    },
+    "charge_question": {
+      "type": "text",
+      "text": "Please provide more details about the charge\nyou have a question about.",
+      "next": null
+    }
+  }
+}

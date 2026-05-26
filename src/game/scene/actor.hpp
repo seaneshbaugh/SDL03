@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Actor
-#define SDL03_Game_Actor
+#ifndef SDL03_Game_Scene_Actor
+#define SDL03_Game_Scene_Actor
 
 #include <queue>
 #include <optional>

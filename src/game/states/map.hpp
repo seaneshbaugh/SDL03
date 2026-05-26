@@ -45,6 +45,9 @@ namespace Game {
             Scene::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;
             bool interactionRequested;
+            bool dialogueNextPressed;
+            bool dialogueChoiceInputPressed;
+            Scene::Actor::Direction dialogueChoiceInputDirection;
             Scene::Dialogue::DialogueSession dialogueSession;
             State state;
 

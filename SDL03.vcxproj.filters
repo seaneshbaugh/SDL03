@@ -381,6 +381,9 @@
     <ClCompile Include="src\game\scene\dialogue\dialogue_graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\dialogue\dialogue_choice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -797,6 +800,9 @@
     <ClInclude Include="lib\sol\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\scene\dialogue\dialogue_choice.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -861,6 +867,7 @@
     <None Include="data\dialogue\nodes\hello_world.json" />
     <None Include="data\dialogue\graphs\hello_world.json" />
     <None Include="data\dialogue\graphs\ginger.json" />
+    <None Include="data\dialogue\graphs\help.json" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\images\ui\dialogue\more.png">

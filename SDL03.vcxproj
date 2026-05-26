@@ -101,6 +101,7 @@
     <ClCompile Include="src\game\assets\song.cpp" />
     <ClCompile Include="src\game\assets\sound.cpp" />
     <ClCompile Include="src\game\assets\texture.cpp" />
+    <ClCompile Include="src\game\scene\dialogue\dialogue_choice.cpp" />
     <ClCompile Include="src\game\scene\dialogue\dialogue_graph.cpp" />
     <ClCompile Include="src\game\scene\dialogue\dialogue_node.cpp" />
     <ClCompile Include="src\game\scene\dialogue\dialogue_session.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="src\game\graphics\spritesheet.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
+    <ClInclude Include="src\game\scene\dialogue\dialogue_choice.hpp" />
     <ClInclude Include="src\game\scene\dialogue\dialogue_graph.hpp" />
     <ClInclude Include="src\game\scene\dialogue\dialogue_node.hpp" />
     <ClInclude Include="src\game\scene\dialogue\dialogue_session.hpp" />
@@ -289,6 +291,7 @@
     <None Include=".oclint" />
     <None Include="data\dialogue\graphs\ginger.json" />
     <None Include="data\dialogue\graphs\hello_world.json" />
+    <None Include="data\dialogue\graphs\help.json" />
     <None Include="data\dialogue\nodes\hello_world.json" />
     <None Include="README.md" />
     <None Include="resources\asset_lists\battle_sounds.json" />

@@ -28,7 +28,7 @@ namespace Game {
             casie->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
             std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
             kyle->name = "Kyle";
-            kyle->dialogueId = "ginger";
+            kyle->dialogueId = "help";
             kyle->SetMapState(this);
             kyle->SetMovementSpeed(2.0f);
             kyle->LoadLuaScript("scripts/actors/movement/random_walk.lua");
@@ -41,6 +41,9 @@ namespace Game {
             this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             this->movementInputHeld = false;
             this->interactionRequested = false;
+            this->dialogueNextPressed = false;
+            this->dialogueChoiceInputPressed = false;
+            this->dialogueChoiceInputDirection = Scene::Actor::Direction::Down;
         }
 
         Map::~Map() {
@@ -60,6 +63,21 @@ namespace Game {
 
         Transition Map::Update(const double deltaTime) {
             if (this->state == State::Dialogue) {
+                if (this->dialogueChoiceInputPressed) {
+                    this->dialogueChoiceInputPressed = false;
+
+                    if (this->dialogueChoiceInputDirection == Scene::Actor::Direction::Up) {
+                        this->dialogueSession.PreviousChoice();
+                    } else if (this->dialogueChoiceInputDirection == Scene::Actor::Direction::Down) {
+                        this->dialogueSession.NextChoice();
+                    }
+                }
+
+                if (this->dialogueNextPressed) {
+                    this->dialogueNextPressed = false;
+
+                    this->dialogueSession.Next();
+                }
 
                 this->dialogueSession.Update(deltaTime);
 
@@ -167,7 +185,22 @@ namespace Game {
 
         void Map::ProcessButtonDown(const InputKey key) {
             if (this->state == State::Dialogue) {
-                this->dialogueSession.Next();
+                switch (key) {
+                case InputKey::UP_KEY:
+                    this->dialogueChoiceInputPressed = true;
+                    this->dialogueChoiceInputDirection = Scene::Actor::Direction::Up;
+
+                    break;
+                case InputKey::DOWN_KEY:
+                    this->dialogueChoiceInputPressed = true;
+                    this->dialogueChoiceInputDirection = Scene::Actor::Direction::Down;
+
+                    break;
+                case InputKey::CONFIRM_KEY:
+                    this->dialogueNextPressed = true;
+
+                    break;
+                }
             } else {
                 if (key == InputKey::CONFIRM_KEY) {
                     this->interactionRequested = true;

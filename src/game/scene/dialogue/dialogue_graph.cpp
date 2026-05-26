@@ -91,28 +91,22 @@ namespace Game {
                     }
 
                     if (dialogueNodeData.find("choices") != dialogueNodeData.end()) {
-                        // TODO: Figure out choices nodes. We won't have any in the data so it's fine for now.
-                        //json choicesData = dialogueNodeData["choices"];
+                        json choicesData = dialogueNodeData["choices"];
 
-                        //for (json::iterator choiceData = choicesData.begin(); choiceData != choicesData.end(); ++choiceData) {
+                        for (json::iterator choiceData = choicesData.begin(); choiceData != choicesData.end(); ++choiceData) {
+                            std::string choiceText = choiceData.value()["text"].get<std::string>();
+                            std::string nextDialogueNodeKey = choiceData.value()["next"].get<std::string>();
 
-                        //    // THIS IS VERY CLOSE BUT NOT QUITE RIGHT. I THINK I NEED A DialogueChoice CLASS THAT ENCODES THE DATA HERE.
+                            if (dialogueNodes.find(nextDialogueNodeKey) == dialogueNodes.end()) {
+                                this->logger->error() << "Invalid next node key \"" << nextDialogueNodeKey << "\" for choice with text \"" << choiceText << "\" for node with key \"" << dialogueNodeKey << "\".";
 
-                        //    std::string choiceText = choiceData.value()["text"].get<std::string>();
-                        //    std::string nextDialogueNodeKey = choiceData.value()["next"].get<std::string>();
+                                continue;
+                            }
 
-                        //    if (dialogueNodes.find(nextDialogueNodeKey) == dialogueNodes.end()) {
-                        //        this->logger->error() << "Invalid next node key \"" << nextDialogueNodeKey << "\" for choice with text \"" << choiceText << "\" for node with key \"" << dialogueNodeKey << "\".";
+                            DialogueChoice dialogueChoice(choiceText, dialogueNodes[nextDialogueNodeKey]);
 
-                        //        continue;
-                        //    }
-
-                        //    std::shared_ptr<DialogueNode> choice = std::make_shared<DialogueNode>(DialogueNode::Type::Choice, "", choiceText);
-
-                        //    choice->next = dialogueNodes[nextDialogueNodeKey];
-
-                        //    dialogueNodes[dialogueNodeKey]->choices.push_back(choice);
-                        //}
+                            dialogueNodes[dialogueNodeKey]->choices.push_back(dialogueChoice);
+                        }
                     }
                 }
 

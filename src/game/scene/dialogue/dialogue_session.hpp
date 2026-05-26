@@ -21,6 +21,8 @@ namespace Game {
 
                 void Start(std::shared_ptr<DialogueGraph> graph);
                 void Next();
+                void PreviousChoice();
+                void NextChoice();
                 void Update(const double deltaTime);
                 void Render(std::shared_ptr<Camera> camera);
 
