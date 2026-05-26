@@ -16,6 +16,13 @@ namespace Game {
         namespace Dialogue {
             class DialogueSession {
             public:
+                enum class State {
+                    Typing,
+                    WaitingForContinue,
+                    Choosing,
+                    Completed
+                };
+
                 DialogueSession();
                 ~DialogueSession();
 
