@@ -45,16 +45,7 @@ namespace Game {
                 } else {
                     if (this->currentNode->type == DialogueNode::Type::Text) {
                         if (this->currentNode->next) {
-                            this->currentNode = this->currentNode->next;
-                            this->selectedChoice = 0;
-                            this->characterTimer = 0.0f;
-                            this->nextIndicatorTimer = 0.0f;
-                            this->lines = Helpers::String::Split(this->currentNode->text, "\n");
-                            this->visibleText.clear();
-
-                            for (std::vector<std::string>::size_type i = 0; i < this->lines.size(); ++i) {
-                                this->visibleText.push_back("");
-                            }
+                            this->SetCurrentNode(this->currentNode->next);
                         } else {
                             this->completed = true;
                         }
@@ -64,17 +55,7 @@ namespace Game {
 
                             if (selectedNode) {
                                 // TODO: This is probably where we'll want to set game state flags based on the choice made.
-
-                                this->currentNode = selectedNode;
-                                this->selectedChoice = 0;
-                                this->characterTimer = 0.0f;
-                                this->nextIndicatorTimer = 0.0f;
-                                this->lines = Helpers::String::Split(this->currentNode->text, "\n");
-                                this->visibleText.clear();
-
-                                for (std::vector<std::string>::size_type i = 0; i < this->lines.size(); ++i) {
-                                    this->visibleText.push_back("");
-                                }
+                                this->SetCurrentNode(selectedNode);
                             } else {
                                 this->completed = true;
                             }
@@ -161,6 +142,7 @@ namespace Game {
                 if (this->backgroundTexture) {
                     SDL_FRect srcrect = {0.0f, 0.0f, static_cast<float>(this->backgroundTexture->GetSDLTexture().get()->w), static_cast<float>(this->backgroundTexture->GetSDLTexture().get()->h)};
                     SDL_FRect dstrect = {0, camera->viewportHeight - 200.0f, srcrect.w, srcrect.h};
+
                     Services::Locator::VideoService()->RenderTexture(this->backgroundTexture, &srcrect, &dstrect);
                 }
 
@@ -169,9 +151,10 @@ namespace Game {
 
                 for (std::vector<std::string>::size_type i = 0; i < this->visibleText.size(); ++i) {
                     if (this->visibleText[i] != "") {
-                            SDL_Color color = {255, 255, 255, 255};
+                        SDL_Color color = {255, 255, 255, 255};
                         SDL_FRect textDstRect = {32.0f, camera->viewportHeight - 180.0f + static_cast<float>(i) * 24.0f, 0.0f, 0.0f};
                         Objects::Text text = Objects::Text(this->visibleText[i], font, textDstRect.x, textDstRect.y, color);
+
                         text.Render();
                     }
 
@@ -193,15 +176,30 @@ namespace Game {
                             SDL_Color color = {255, 255, 255, 255};
                             SDL_FRect textDstRect = {64.0f, camera->viewportHeight - 180.0f + static_cast<float>(this->visibleText.size() + i) * 24.0f, 0.0f, 0.0f};
                             Objects::Text text = Objects::Text(this->currentNode->choices[i].text, font, textDstRect.x, textDstRect.y, color);
+
                             text.Render();
 
                             if (i == this->selectedChoice && this->choiceIndicatorTexture) {
                                 SDL_FRect srcrect = {0.0f, 0.0f, static_cast<float>(this->choiceIndicatorTexture->GetSDLTexture().get()->w), static_cast<float>(this->choiceIndicatorTexture->GetSDLTexture().get()->h)};
                                 SDL_FRect dstrect = {textDstRect.x - 8.0f - srcrect.w, textDstRect.y + (srcrect.h / 2.0f) - 4.0f /* + (textDstRect.h - srcrect.h) / 2.0f */, srcrect.w, srcrect.h};
+
                                 Services::Locator::VideoService()->RenderTexture(this->choiceIndicatorTexture, &srcrect, &dstrect);
                             }
                         }
                     }
+                }
+            }
+
+            void DialogueSession::SetCurrentNode(std::shared_ptr<DialogueNode> node) {
+                this->currentNode = node;
+                this->selectedChoice = 0;
+                this->characterTimer = 0.0f;
+                this->nextIndicatorTimer = 0.0f;
+                this->lines = Helpers::String::Split(this->currentNode->text, "\n");
+                this->visibleText.clear();
+
+                for (const auto& line : this->lines) {
+                    this->visibleText.push_back("");
                 }
             }
         }

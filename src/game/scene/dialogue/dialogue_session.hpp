@@ -39,6 +39,8 @@ namespace Game {
                 std::vector<std::string> lines;
                 std::vector<std::string> visibleText;
                 float nextIndicatorTimer;
+
+                void SetCurrentNode(std::shared_ptr<DialogueNode> node);
             };
         }
     }
