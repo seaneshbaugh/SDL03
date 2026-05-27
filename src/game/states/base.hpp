@@ -47,7 +47,7 @@ namespace Game {
         public:
             virtual ~Base();
             virtual void HandleEvent(const SDL_Event& event) = 0;
-            virtual Transition Update(const double deltaTime) = 0;
+            virtual Transition Update(const float deltaTime) = 0;
             virtual void Render() = 0;
             virtual void Pop();
 

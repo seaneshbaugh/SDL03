@@ -11,7 +11,7 @@ namespace Game {
             SettingsMenu();
             ~SettingsMenu();
             void HandleEvent(const SDL_Event& event);
-            Transition Update(const double deltaTime);
+            Transition Update(const float deltaTime);
             void Render();
 
         private:

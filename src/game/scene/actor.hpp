@@ -68,7 +68,7 @@ namespace Game {
             void SetDirection(const Direction direction);
             void SetMovementSpeed(const float movementSpeed);
             bool IsMoving() const;
-            void Update(const double deltaTime);
+            void Update(const float deltaTime);
             void QueueMovement(const Direction direction);
             bool HasPendingMovement() const;
             std::optional<Direction> PeekMovement() const;

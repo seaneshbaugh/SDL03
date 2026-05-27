@@ -102,12 +102,12 @@ namespace Game {
                 }
             }
 
-            void DialogueSession::Update(const double deltaTime) {
+            void DialogueSession::Update(const float deltaTime) {
                 if (this->completed) {
                     return;
                 }
 
-                this->characterTimer += static_cast<float>(deltaTime);
+                this->characterTimer += deltaTime;
 
                 float characterTimerOffset = 0.0f;
 
@@ -124,7 +124,7 @@ namespace Game {
                 }
 
                 if (this->nextIndicatorTimer < 1.0f) {
-                    this->nextIndicatorTimer += static_cast<float>(deltaTime);
+                    this->nextIndicatorTimer += deltaTime;
                 } else {
                     this->nextIndicatorTimer = 0.0f;
                 }

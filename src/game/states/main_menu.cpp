@@ -22,7 +22,7 @@ namespace Game {
             }
         }
 
-        Transition MainMenu::Update(const double deltaTime) {
+        Transition MainMenu::Update(const float deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {

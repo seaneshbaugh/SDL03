@@ -35,7 +35,7 @@ namespace Game {
             }
         }
 
-        Transition PauseMenu::Update(const double deltaTime) {
+        Transition PauseMenu::Update(const float deltaTime) {
             std::string nextState = (*this->luaState.get())["update"](deltaTime);
 
             if (this->pop) {

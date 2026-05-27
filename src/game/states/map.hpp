@@ -24,7 +24,7 @@ namespace Game {
             Map();
             ~Map();
             void HandleEvent(const SDL_Event& event);
-            Transition Update(const double deltaTime);
+            Transition Update(const float deltaTime);
             void Render();
             bool LoadMap(const std::string& mapName, const int startX, const int startY);
             bool UnloadMap();
@@ -62,9 +62,9 @@ namespace Game {
             void ProcessButtonDown(const InputKey key);
             void ProcessButtonUp(const InputKey key);
             std::string ProcessInput(const InputKey key);
-            Transition UpdateGameplay(const double deltaTime);
-            Transition UpdateDialogue(const double deltaTime);
-            Transition UpdateCutscene(const double deltaTime);
+            Transition UpdateGameplay(const float deltaTime);
+            Transition UpdateDialogue(const float deltaTime);
+            Transition UpdateCutscene(const float deltaTime);
             void LoadLuaState(const std::string& scriptFilePath);
             void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
             void QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance);

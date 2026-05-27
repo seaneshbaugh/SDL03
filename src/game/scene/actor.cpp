@@ -91,7 +91,7 @@ namespace Game {
             return this->isMoving;
         }
 
-        void Actor::Update(const double deltaTime) {
+        void Actor::Update(const float deltaTime) {
             if (this->isMoving) {
                 float movementSpeedX = this->movementSpeed * static_cast<float>(this->currentMap->tilewidth);
                 float movementSpeedY = this->movementSpeed * static_cast<float>(this->currentMap->tileheight);

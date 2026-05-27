@@ -12,7 +12,7 @@ namespace Game {
             Camera(const float x, const float y, const float viewportWidth, const float viewportHeight);
             ~Camera();
             void Follow(std::shared_ptr<Actor> target);
-            void Update(const double deltaTime, int mapWidth, int mapHeight);
+            void Update(const float deltaTime, int mapWidth, int mapHeight);
 
             float x;
             float y;

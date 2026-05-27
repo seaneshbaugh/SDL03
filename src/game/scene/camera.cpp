@@ -25,7 +25,7 @@ namespace Game {
         }
 
         // TODO: Store the current map so we always have a reference to the width and height?
-        void Camera::Update(const double deltaTime, int mapWidth, int mapHeight) {
+        void Camera::Update(const float deltaTime, int mapWidth, int mapHeight) {
             if (!target) {
                 return;
             }

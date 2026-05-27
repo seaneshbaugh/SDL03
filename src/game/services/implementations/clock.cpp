@@ -8,11 +8,12 @@ namespace Game {
             Clock::Clock() {
                 this->logger = Locator::LoggerService()->GetLogger(Clock::logChannel);
                 this->previousCounter = SDL_GetPerformanceCounter();
-                this->deltaTime = 0.0;
-                this->elapsedTime = 0.0;
+                this->deltaTime = 0.0f;
+                this->elapsedTime = 0.0f;
                 this->frameCount = 0;
                 this->startFrame = 0;
                 this->offset = 0;
+                this->offsetSeconds = 0.0f;
             }
 
             Clock::~Clock() {
@@ -21,18 +22,18 @@ namespace Game {
             void Clock::BeginFrame() {
                 Uint64 currentCounter = SDL_GetPerformanceCounter();
 
-                this->deltaTime = std::min(static_cast<double>(currentCounter - this->previousCounter) / static_cast<double>(SDL_GetPerformanceFrequency()), MAXIMUM_DELTA_TIME);
+                this->deltaTime = std::min(static_cast<float>(currentCounter - this->previousCounter) / static_cast<float>(SDL_GetPerformanceFrequency()), MAXIMUM_DELTA_TIME);
 
                 this->previousCounter = currentCounter;
 
                 this->elapsedTime += this->deltaTime;
             }
 
-            double Clock::GetDeltaTime() const {
+            float Clock::GetDeltaTime() const {
                 return this->deltaTime;
             }
 
-            double Clock::GetElapsedTime() const {
+            float Clock::GetElapsedTime() const {
                 return this->elapsedTime;
             }
 
@@ -48,7 +49,7 @@ namespace Game {
                 return this->frameCount;
             }
 
-            double Clock::GetGameTimeSeconds() const {
+            float Clock::GetGameTimeSeconds() const {
                 return this->elapsedTime + this->offsetSeconds;
             }
 

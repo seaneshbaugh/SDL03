@@ -62,7 +62,7 @@ namespace Game {
             }
         }
 
-        Transition Map::Update(const double deltaTime) {
+        Transition Map::Update(const float deltaTime) {
             switch (this->state) {
             case State::Gameplay:
                 return this->UpdateGameplay(deltaTime);
@@ -75,7 +75,7 @@ namespace Game {
             }
         }
 
-        Transition Map::UpdateGameplay(const double deltaTime) {
+        Transition Map::UpdateGameplay(const float deltaTime) {
             this->UpdateMovementInput();
 
             for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
@@ -145,7 +145,7 @@ namespace Game {
             }
         }
 
-        Transition Map::UpdateDialogue(const double deltaTime) {
+        Transition Map::UpdateDialogue(const float deltaTime) {
             if (this->dialogueChoiceInputPressed) {
                 this->dialogueChoiceInputPressed = false;
 
@@ -171,7 +171,7 @@ namespace Game {
             return Transition::None();
         }
 
-        Transition Map::UpdateCutscene(const double deltaTime) {
+        Transition Map::UpdateCutscene(const float deltaTime) {
             this->cutsceneSession.Update(deltaTime);
 
             for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {

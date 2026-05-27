@@ -30,7 +30,7 @@ namespace Game {
                 void Next();
                 void PreviousChoice();
                 void NextChoice();
-                void Update(const double deltaTime);
+                void Update(const float deltaTime);
                 void Render(std::shared_ptr<Camera> camera);
 
                 int selectedChoice;
