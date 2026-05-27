@@ -63,126 +63,141 @@ namespace Game {
         }
 
         Transition Map::Update(const double deltaTime) {
-            if (this->state == State::Dialogue) {
-                if (this->dialogueChoiceInputPressed) {
-                    this->dialogueChoiceInputPressed = false;
+            switch (this->state) {
+            case State::Gameplay:
+                return this->UpdateGameplay(deltaTime);
+            case State::Dialogue:
+                return this->UpdateDialogue(deltaTime);
+            case State::Cutscene:
+                return this->UpdateCutscene(deltaTime);
+            default:
+                return Transition::Pop();
+            }
+        }
 
-                    if (this->dialogueChoiceInputDirection == Scene::Actor::Direction::Up) {
-                        this->dialogueSession.PreviousChoice();
-                    } else if (this->dialogueChoiceInputDirection == Scene::Actor::Direction::Down) {
-                        this->dialogueSession.NextChoice();
-                    }
-                }
+        Transition Map::UpdateGameplay(const double deltaTime) {
+            this->UpdateMovementInput();
 
-                if (this->dialogueNextPressed) {
-                    this->dialogueNextPressed = false;
+            for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
+                (*actor)->Update(deltaTime);
+            }
 
-                    this->dialogueSession.Next();
-                }
+            // TODO: Run this loop for each Actor.
+            while (auto step = this->player->ConsumeCompletedStep()) {
+                // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
+                // every step and there's no reason to update it unless there's a chance we might save the game.
+                Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
 
-                this->dialogueSession.Update(deltaTime);
+                this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
 
-                if (this->dialogueSession.completed) {
-                    this->state = this->previousState;
-                }
+                this->Step(step->tileX, step->tileY);
+            }
 
-                return Transition::None();
-            } else if (this->state == State::Cutscene) {
-                this->cutsceneSession.Update(deltaTime);
+            if (!this->player->IsMoving() && this->movementInputHeld) {
+                this->player->ClearPendingMovement();
 
-                for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
-                    (*actor)->Update(deltaTime);
-                }
+                this->QueueMovement(this->player.get(), this->movementInputHeldDirection, 1);
+            }
 
-                for (auto& actor : this->actors) {
-                    if (!actor->IsMoving()) {
-                        auto nextMove = actor->PeekMovement();
+            for (auto& actor : this->actors) {
+                if (!actor->IsMoving()) {
+                    auto nextMove = actor->PeekMovement();
 
-                        if (nextMove.has_value()) {
-                            actor->SetDirection(nextMove.value());
+                    if (nextMove.has_value()) {
+                        actor->SetDirection(nextMove.value());
 
-                            if (this->CanMove(actor.get(), nextMove.value())) {
-                                actor->PopMovement();
-                                actor->StartMovement(nextMove.value());
-                            }
+                        if (this->CanMove(actor.get(), nextMove.value())) {
+                            actor->PopMovement();
+                            actor->StartMovement(nextMove.value());
                         }
                     }
-                }
-
-                if (this->cutsceneSession.IsCompleted()) {
-                    this->state = State::Gameplay;
-                }
-
-                return Transition::None();
-            } else {
-                this->UpdateMovementInput();
-
-                for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
-                    (*actor)->Update(deltaTime);
-                }
-
-                // TODO: Run this loop for each Actor.
-                while (auto step = this->player->ConsumeCompletedStep()) {
-                    // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
-                    // every step and there's no reason to update it unless there's a chance we might save the game.
-                    Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
-
-                    this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
-
-                    this->Step(step->tileX, step->tileY);
-                }
-
-                if (!this->player->IsMoving() && this->movementInputHeld) {
-                    this->player->ClearPendingMovement();
-
-                    this->QueueMovement(this->player.get(), this->movementInputHeldDirection, 1);
-                }
-
-                for (auto& actor : this->actors) {
-                    if (!actor->IsMoving()) {
-                        auto nextMove = actor->PeekMovement();
-
-                        if (nextMove.has_value()) {
-                            actor->SetDirection(nextMove.value());
-
-                            if (this->CanMove(actor.get(), nextMove.value())) {
-                                actor->PopMovement();
-                                actor->StartMovement(nextMove.value());
-                            }
-                        }
-                    }
-                }
-
-                if (this->interactionRequested) {
-                    this->interactionRequested = false;
-
-                    if (this->TryInteract()) {
-                        this->logger->debug() << "Player interacted with something.";
-                    } else {
-                        this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
-                    }
-                }
-
-                this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
-
-                if (this->pop) {
-                    return Transition::Pop();
-                }
-
-                // TODO: Add a flag to check to see if the pause button has been pressed.
-                // TODO: Add a check to see if the player has stepped on an encounter area and roll a dice
-                // to see if a battle should be triggered. For now we're always going to be in the Map state.
-                GameStateType nextState = GameStateType::map;
-
-                switch (nextState) {
-                case GameStateType::pause_menu:
-                    return Transition::Push(std::make_shared<PauseMenu>());
-                case GameStateType::battle:
-                    return Transition::Push(std::make_shared<Battle>(this->currentMapEncounterArea));
-                default:
-                    return Transition::None();
                 }
             }
+
+            if (this->interactionRequested) {
+                this->interactionRequested = false;
+
+                if (this->TryInteract()) {
+                    this->logger->debug() << "Player interacted with something.";
+                } else {
+                    this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
+                }
+            }
+
+            this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
+
+            if (this->pop) {
+                return Transition::Pop();
+            }
+
+            // TODO: Add a flag to check to see if the pause button has been pressed.
+            // TODO: Add a check to see if the player has stepped on an encounter area and roll a dice
+            // to see if a battle should be triggered. For now we're always going to be in the Map state.
+            GameStateType nextState = GameStateType::map;
+
+            switch (nextState) {
+            case GameStateType::pause_menu:
+                return Transition::Push(std::make_shared<PauseMenu>());
+            case GameStateType::battle:
+                return Transition::Push(std::make_shared<Battle>(this->currentMapEncounterArea));
+            default:
+                return Transition::None();
+            }
+        }
+
+        Transition Map::UpdateDialogue(const double deltaTime) {
+            if (this->dialogueChoiceInputPressed) {
+                this->dialogueChoiceInputPressed = false;
+
+                if (this->dialogueChoiceInputDirection == Scene::Actor::Direction::Up) {
+                    this->dialogueSession.PreviousChoice();
+                } else if (this->dialogueChoiceInputDirection == Scene::Actor::Direction::Down) {
+                    this->dialogueSession.NextChoice();
+                }
+            }
+
+            if (this->dialogueNextPressed) {
+                this->dialogueNextPressed = false;
+
+                this->dialogueSession.Next();
+            }
+
+            this->dialogueSession.Update(deltaTime);
+
+            if (this->dialogueSession.completed) {
+                this->state = this->previousState;
+            }
+
+            return Transition::None();
+        }
+
+        Transition Map::UpdateCutscene(const double deltaTime) {
+            this->cutsceneSession.Update(deltaTime);
+
+            for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
+                (*actor)->Update(deltaTime);
+            }
+
+            for (auto& actor : this->actors) {
+                if (!actor->IsMoving()) {
+                    auto nextMove = actor->PeekMovement();
+
+                    if (nextMove.has_value()) {
+                        actor->SetDirection(nextMove.value());
+
+                        if (this->CanMove(actor.get(), nextMove.value())) {
+                            actor->PopMovement();
+                            actor->StartMovement(nextMove.value());
+                        }
+                    }
+                }
+            }
+
+            if (this->cutsceneSession.IsCompleted()) {
+                this->state = State::Gameplay;
+            }
+
+            return Transition::None();
         }
 
         void Map::UpdateMovementInput() {

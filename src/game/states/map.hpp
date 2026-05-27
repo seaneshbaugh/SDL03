@@ -61,7 +61,10 @@ namespace Game {
             // Button is a more accurate term for what these are. They're not necessarily keys on a keyboard. They could be buttons on a gamepad or something else entirely.
             void ProcessButtonDown(const InputKey key);
             void ProcessButtonUp(const InputKey key);
-            std::string ProcessInput(const InputKey key); 
+            std::string ProcessInput(const InputKey key);
+            Transition UpdateGameplay(const double deltaTime);
+            Transition UpdateDialogue(const double deltaTime);
+            Transition UpdateCutscene(const double deltaTime);
             void LoadLuaState(const std::string& scriptFilePath);
             void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
             void QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance);
