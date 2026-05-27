@@ -9,6 +9,7 @@
 #include "../scene/camera.hpp"
 #include "../scene/actor.hpp"
 #include "../scene/dialogue/dialogue_session.hpp"
+#include "../scene/cutscenes/cutscene_session.hpp"
 
 namespace Game {
     namespace States {
@@ -31,7 +32,9 @@ namespace Game {
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y);
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
             void Step(unsigned int x, unsigned int y);
-            void StartDialogue(std::string dialogueId);
+            void StartDialogue(const std::string& dialogueId);
+            void StartCutscene(const std::string& cutsceneId);
+            std::shared_ptr<Scene::Actor> GetActor(const std::string& actorId);
 
         private:
             static const std::string logChannel;
@@ -49,7 +52,9 @@ namespace Game {
             bool dialogueChoiceInputPressed;
             Scene::Actor::Direction dialogueChoiceInputDirection;
             Scene::Dialogue::DialogueSession dialogueSession;
+            Scene::Cutscenes::CutsceneSession cutsceneSession;
             State state;
+            State previousState;
 
             void UpdateMovementInput();
             // TODO: Go through the rest of the game and change references to "keys" to "buttons".

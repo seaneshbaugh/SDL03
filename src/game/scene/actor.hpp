@@ -70,6 +70,7 @@ namespace Game {
             bool IsMoving() const;
             void Update(const double deltaTime);
             void QueueMovement(const Direction direction);
+            bool HasPendingMovement() const;
             std::optional<Direction> PeekMovement() const;
             std::optional<Direction> PopMovement();
             void ClearPendingMovement();

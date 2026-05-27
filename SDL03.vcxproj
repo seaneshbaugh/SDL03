@@ -62,6 +62,7 @@
     <ClCompile Include="lib\sago\platform_folders.cpp" />
     <ClCompile Include="lib\sqlite\sqlite3.c" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp" />
     <ClCompile Include="src\game\scene\actor_appearance.cpp" />
     <ClCompile Include="src\game\scene\camera.cpp" />
     <ClCompile Include="src\game\engine.cpp" />
@@ -101,6 +102,12 @@
     <ClCompile Include="src\game\assets\song.cpp" />
     <ClCompile Include="src\game\assets\sound.cpp" />
     <ClCompile Include="src\game\assets\texture.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\base.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\dialogue.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\wait.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\cutscene.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\move_actor.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\cutscene_session.cpp" />
     <ClCompile Include="src\game\scene\dialogue\dialogue_choice.cpp" />
     <ClCompile Include="src\game\scene\dialogue\dialogue_graph.cpp" />
     <ClCompile Include="src\game\scene\dialogue\dialogue_node.cpp" />
@@ -197,6 +204,7 @@
     <ClInclude Include="lib\sol\sol.hpp" />
     <ClInclude Include="lib\sqlite\sqlite3.h" />
     <ClInclude Include="src\game.hpp" />
+    <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp" />
     <ClInclude Include="src\game\scene\actor_appearance.hpp" />
     <ClInclude Include="src\game\scene\camera.hpp" />
     <ClInclude Include="src\game\engine.hpp" />
@@ -207,6 +215,12 @@
     <ClInclude Include="src\game\graphics\spritesheet.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\base.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\dialogue.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\move_actor.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\wait.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\cutscene.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\cutscene_session.hpp" />
     <ClInclude Include="src\game\scene\dialogue\dialogue_choice.hpp" />
     <ClInclude Include="src\game\scene\dialogue\dialogue_graph.hpp" />
     <ClInclude Include="src\game\scene\dialogue\dialogue_node.hpp" />
@@ -289,6 +303,7 @@
     <None Include=".editorconfig" />
     <None Include=".gitignore" />
     <None Include=".oclint" />
+    <None Include="data\cutscenes\town01.json" />
     <None Include="data\dialogue\graphs\ginger.json" />
     <None Include="data\dialogue\graphs\hello_world.json" />
     <None Include="data\dialogue\graphs\help.json" />
@@ -334,7 +349,10 @@
     <None Include="data\monsters\slime.json" />
     <None Include="scripts\actors\interaction\dialogue.lua" />
     <None Include="scripts\actors\movement\random_walk.lua" />
+    <None Include="scripts\actors\movement\stationary.lua" />
     <None Include="scripts\inspect.lua" />
+    <None Include="scripts\items\consumables\health_potion.lua" />
+    <None Include="scripts\items\consumables\lesser_health_potion.lua" />
     <None Include="scripts\keys.lua" />
     <None Include="scripts\sdl_keys.lua" />
     <None Include="scripts\states\battle.lua" />

@@ -94,11 +94,11 @@ namespace Game {
                 return true;
             }
 
-            int Map::GetWidth() {
+            int Map::GetWidth() const {
                 return this->width;
             }
 
-            int Map::GetHeight() {
+            int Map::GetHeight() const {
                 return this->height;
             }
 
@@ -179,7 +179,7 @@ namespace Game {
 
             const std::string Map::Parser::logChannel = "json";
 
-            Map::Parser::Parser() {
+            Map::Parser::Parser() : tilewidth(0), tileheight(0) {
                 this->logger = Services::Locator::LoggerService()->GetLogger(Map::Parser::logChannel);
             }
 
@@ -192,7 +192,7 @@ namespace Game {
             // consistency between parsing functions and make moving them into their own nested
             // classes easier. The Map::Parser shouldn't need to know anything about what it means
             // to parse a MapLayer. A hypothetical MapLayer::Parser should be able to handle that
-            // and have a cosnsitent interface with a hypothetical MapObject::Parser class.
+            // and have a consistent interface with a hypothetical MapObject::Parser class.
             void Map::Parser::Parse(const std::string& jsonString, std::shared_ptr<Map> map) {
                 this->logger->debug() << "Parsing map file.";
 
@@ -213,6 +213,22 @@ namespace Game {
                 map->tiles = this->ParseTilesets(mapNode["tilesets"]);
 
                 this->logger->debug() << "Parsed map file.";
+            }
+
+            std::vector<std::shared_ptr<MapLayer>> Map::Parser::ParseLayers(const json& node) {
+                std::vector<std::shared_ptr<Objects::Maps::MapLayer>> layers;
+
+                this->logger->debug() << "Parsing map layers.";
+
+                for (auto it = node.begin(); it != node.end(); ++it) {
+                    if (it->is_object()) {
+                        layers.push_back(this->ParseLayer(*it));
+                    }
+                }
+
+                this->logger->debug() << "Parsed map layers";
+
+                return layers;
             }
 
             // TODO: Move this to a nested class for MapLayer.
@@ -236,25 +252,50 @@ namespace Game {
                 return layer;
             }
 
-            std::vector<std::shared_ptr<MapLayer>> Map::Parser::ParseLayers(const json& node) {
-                std::vector<std::shared_ptr<Objects::Maps::MapLayer>> layers;
-
-                this->logger->debug() << "Parsing map layers.";
-
-                for (auto it = node.begin(); it != node.end(); ++it) {
-                    if (it->is_object()) {
-                        layers.push_back(this->ParseLayer(*it));
-                    }
-                }
-
-                this->logger->debug() << "Parsed map layers";
-
-                return layers;
-            }
-
             void Map::Parser::ParseLayerData(const json &node, std::shared_ptr<MapLayer> layer) {
                 for (auto it = node.begin(); it != node.end(); ++it) {
                     layer->tiles.push_back(it->get<int>());
+                }
+            }
+
+            // TODO: Figure out a better way to handle this. Maybe some sort of map between layer name
+            // (which should really layer type as some sort of enum) and a parsing function. This
+            // works for now.
+            void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
+                if (layer->name == "start_points") {
+                    this->logger->debug() << "Parsing start point layer objects.";
+
+                    std::vector<std::shared_ptr<MapStartPoint>> startPoints = this->ParseStartPoints(node);
+
+                    layer->objects.insert(layer->objects.end(), startPoints.begin(), startPoints.end());
+                } else if (layer->name == "load_points") {
+                    this->logger->debug() << "Parsing load point layer objects.";
+
+                    std::vector<std::shared_ptr<MapLoadPoint>> loadPoints = this->ParseLoadPoints(node);
+
+                    layer->objects.insert(layer->objects.end(), loadPoints.begin(), loadPoints.end());
+
+                } else if (layer->name == "encounter_areas") {
+                    this->logger->debug() << "Parsing encounter area layer objects.";
+
+                    std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas = this->ParseEncounterAreas(node);
+
+                    layer->objects.insert(layer->objects.end(), encounterAreas.begin(), encounterAreas.end());
+                } else if (layer->name == "cutscene_triggers") {
+                    this->logger->debug() << "Parsing cutscene trigger layer objects.";
+
+                    std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers = this->ParseCutsceneTriggers(node);
+
+                    layer->objects.insert(layer->objects.end(), cutsceneTriggers.begin(), cutsceneTriggers.end());
+                } else {
+                    // TODO: Maybe just skip unknown object layer types? I can see a possible need for
+                    // layers of objects that are only used for the map editor or for some other sort
+                    // of informational purpose (comments? notes?) that aren't used by the game. But
+                    // that thought makes me think that maybe I need some sort of asset pipeline to
+                    // take the raw assets and strip them down and condition them for final use. But
+                    // in that case why use JSON and not some sort of custom binary format that closely
+                    // mirrors how things laid out at runtime? I dunno.
+                    throw std::runtime_error("Unknown map object layer type.");
                 }
             }
 
@@ -285,6 +326,37 @@ namespace Game {
                 }
 
                 return startPoints;
+            }
+
+            std::vector<std::shared_ptr<MapLoadPoint>> Map::Parser::ParseLoadPoints(const json& node) {
+                std::vector<std::shared_ptr<MapLoadPoint>> loadPoints;
+
+                for (auto i = node.begin(); i != node.end(); ++i) {
+                    this->logger->debug() << "Creating load point.";
+
+                    std::shared_ptr<MapLoadPoint> loadPoint = std::make_shared<MapLoadPoint>();
+
+                    std::map<std::string, std::string> properties;
+
+                    for (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                        const std::string name = (*j)["name"].get<std::string>();
+                        const std::string value = (*j)["value"].get<std::string>();
+
+                        properties[name] = value;
+                    }
+
+                    loadPoint->SetType((*i)["type"].get<std::string>());
+                    loadPoint->x = (*i)["x"].get<int>() / this->tilewidth;
+                    loadPoint->y = (*i)["y"].get<int>() / this->tileheight;
+                    loadPoint->width = (*i)["width"].get<int>() / this->tilewidth;
+                    loadPoint->height = (*i)["height"].get<int>() / this->tileheight;
+
+                    loadPoint->SetProperties(properties);
+
+                    loadPoints.push_back(loadPoint);
+                }
+
+                return loadPoints;
             }
 
             std::vector<std::shared_ptr<MapEncounterArea>> Map::Parser::ParseEncounterAreas(const json& node) {
@@ -320,69 +392,50 @@ namespace Game {
                 return encounterAreas;
             }
 
-            std::vector<std::shared_ptr<MapLoadPoint>> Map::Parser::ParseLoadPoints(const json& node) {
-                std::vector<std::shared_ptr<MapLoadPoint>> loadPoints;
+            std::vector<std::shared_ptr<CutsceneTrigger>> Map::Parser::ParseCutsceneTriggers(const json& node) {
+                std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers;
 
                 for (auto i = node.begin(); i != node.end(); ++i) {
-                    this->logger->debug() << "Creating load point.";
-
-                    std::shared_ptr<MapLoadPoint> loadPoint = std::make_shared<MapLoadPoint>();
+                    this->logger->info() << "Creating cutscene trigger.";
 
                     std::map<std::string, std::string> properties;
 
-                    for  (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                    for (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
                         const std::string name = (*j)["name"].get<std::string>();
                         const std::string value = (*j)["value"].get<std::string>();
 
                         properties[name] = value;
                     }
 
-                    loadPoint->SetType((*i)["type"].get<std::string>());
-                    loadPoint->x = (*i)["x"].get<int>() / this->tilewidth;
-                    loadPoint->y = (*i)["y"].get<int>() / this->tileheight;
-                    loadPoint->width = (*i)["width"].get<int>() / this->tilewidth;
-                    loadPoint->height = (*i)["height"].get<int>() / this->tileheight;
+                    std::shared_ptr<CutsceneTrigger> cutsceneTrigger = std::make_shared<CutsceneTrigger>(properties["cutsceneId"]);
 
-                    loadPoint->SetProperties(properties);
+                    cutsceneTrigger->SetType((*i)["type"].get<std::string>());
+                    cutsceneTrigger->x = (*i)["x"].get<int>() / this->tilewidth;
+                    cutsceneTrigger->y = (*i)["y"].get<int>() / this->tileheight;
+                    cutsceneTrigger->width = (*i)["width"].get<int>() / this->tilewidth;
+                    cutsceneTrigger->height = (*i)["height"].get<int>() / this->tileheight;
 
-                    loadPoints.push_back(loadPoint);
+                    cutsceneTrigger->SetProperties(properties);
+
+                    cutsceneTriggers.push_back(cutsceneTrigger);
                 }
 
-                return loadPoints;
+                return cutsceneTriggers;
             }
 
-            // TODO: Figure out a better way to handle this. Maybe some sort of map between layer name
-            // (which should really layer type as some sort of enum) and a parsing function. This
-            // works for now.
-            void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
-                if (layer->name == "start_points") {
-                    this->logger->debug() << "Parsing start point layer objects.";
+            // For now this just sort of dumps all tilesets into one list of tiles.
+            // TODO: Maybe make some sort of TileSet class which holds the sets of
+            // tiles?
+            std::map<int, std::shared_ptr<MapTile>> Map::Parser::ParseTilesets(const json& node) {
+                std::map<int, std::shared_ptr<Objects::Maps::MapTile>> tiles;
 
-                    std::vector<std::shared_ptr<MapStartPoint>> startPoints = this->ParseStartPoints(node);
+                for (auto it = node.begin(); it != node.end(); ++it) {
+                    std::map<int, std::shared_ptr<MapTile>> t = this->ParseTileset(*it);
 
-                    layer->objects.insert(layer->objects.end(), startPoints.begin(), startPoints.end());
-                } else if (layer->name == "encounter_areas") {
-                    this->logger->debug() << "Parsing encounter area layer objects.";
-
-                    std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas = this->ParseEncounterAreas(node);
-
-                    layer->objects.insert(layer->objects.end(), encounterAreas.begin(), encounterAreas.end());
-                } else if (layer->name == "load_points") {
-                    this->logger->debug() << "Parsing load point layer objects.";
-
-                    std::vector<std::shared_ptr<MapLoadPoint>> loadPoints = this->ParseLoadPoints(node);
-
-                    layer->objects.insert(layer->objects.end(), loadPoints.begin(), loadPoints.end());
-                } else {
-                    // TODO: Maybe just skip unknown object layer types? I can see a possible need for
-                    // layers of objects that are only used for the map editor or for some other sort
-                    // of informational purpose (comments? notes?) that aren't used by the game. But
-                    // that thought makes me think that maybe I need some sort of asset pipeline to
-                    // take the raw assets and strip them down and condition them for final use. But
-                    // in that case why use JSON and not some sort of custom binary format that closely
-                    // mirrors how things laid out at runtime? I dunno.
-                    throw std::runtime_error("Unknown map object layer type.");
+                    tiles.insert(t.begin(), t.end());
                 }
+
+                return tiles;
             }
 
             std::map<int, std::shared_ptr<Objects::Maps::MapTile>> Map::Parser::ParseTileset(const json& node) {
@@ -418,21 +471,6 @@ namespace Game {
                 }
 
                 return result;
-            }
-
-            // For now this just sort of dumps all tilesets into one list of tiles.
-            // TODO: Maybe make some sort of TileSet class which holds the sets of
-            // tiles?
-            std::map<int, std::shared_ptr<MapTile>> Map::Parser::ParseTilesets(const json& node) {
-                std::map<int, std::shared_ptr<Objects::Maps::MapTile>> tiles;
-
-                for (auto it = node.begin(); it != node.end(); ++it) {
-                    std::map<int, std::shared_ptr<MapTile>> t = this->ParseTileset(*it);
-
-                    tiles.insert(t.begin(), t.end());
-                }
-
-                return tiles;
             }
 
             void Map::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {

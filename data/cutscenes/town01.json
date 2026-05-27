@@ -1,0 +1,18 @@
+{
+  "actions": [
+    {
+      "type": "move_actor",
+      "actorId": "guard",
+      "path": [ "left", "left", "up" ]
+    },
+    {
+      "type": "wait",
+      "duration": 5.0
+    },
+    {
+      "type": "dialogue",
+      "actor": "guard",
+      "dialogueId": "ginger"
+    }
+  ]
+}

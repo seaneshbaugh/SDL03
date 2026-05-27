@@ -40,7 +40,7 @@ namespace Game {
                 this->logger = Services::Locator::LoggerService()->GetLogger(DialogueGraph::Parser::logChannel);
             }
 
-                DialogueGraph::Parser::~Parser() {
+            DialogueGraph::Parser::~Parser() {
             }
 
             void DialogueGraph::Parser::Parse(const std::string& jsonString, DialogueGraph* graph) {

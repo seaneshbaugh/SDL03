@@ -19,6 +19,7 @@
 #include "map_tile.hpp"
 #include "map_start_point.hpp"
 #include "map_encounter_area.hpp"
+#include "cutscene_trigger.hpp"
 #include "map_load_point.hpp"
 
 using json = nlohmann::json;
@@ -49,8 +50,8 @@ namespace Game {
                 bool ParseMapFile(const std::string& jsonString);
                 bool LoadTextures();
                 bool Load(const std::string& filename);
-                int GetWidth();
-                int GetHeight();
+                int GetWidth() const;
+                int GetHeight() const;
                 bool GetWalkability(const int x, const int y);
                 std::vector <std::shared_ptr<MapObject>> GetObjects(const int x, const int y);
                 std::pair<unsigned int, unsigned int> GetDefaultStartPoint();
@@ -73,15 +74,16 @@ namespace Game {
                     int tilewidth;
                     int tileheight;
 
-                    std::shared_ptr<MapLayer> ParseLayer(const json& node);
                     std::vector<std::shared_ptr<MapLayer>> ParseLayers(const json& node);
+                    std::shared_ptr<MapLayer> ParseLayer(const json& node);
                     void ParseLayerData(const json& node, std::shared_ptr<MapLayer> layer);
                     void ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer);
-                    std::vector<std::shared_ptr<MapEncounterArea>> ParseEncounterAreas(const json& node);
                     std::vector<std::shared_ptr<MapStartPoint>> ParseStartPoints(const json& node);
                     std::vector<std::shared_ptr<MapLoadPoint>> ParseLoadPoints(const json& node);
-                    std::map<int, std::shared_ptr<MapTile>> ParseTileset(const json& node);
+                    std::vector<std::shared_ptr<MapEncounterArea>> ParseEncounterAreas(const json& node);
+                    std::vector<std::shared_ptr<CutsceneTrigger>> ParseCutsceneTriggers(const json& node);
                     std::map<int, std::shared_ptr<MapTile>> ParseTilesets(const json& node);
+                    std::map<int, std::shared_ptr<MapTile>> ParseTileset(const json& node);
                 };
 
             public:

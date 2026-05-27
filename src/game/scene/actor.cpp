@@ -178,6 +178,10 @@ namespace Game {
             this->movementQueue.push(direction);
         }
 
+        bool Actor::HasPendingMovement() const {
+            return !this->movementQueue.empty();
+        }
+
         std::optional<Actor::Direction> Actor::PeekMovement() const {
            if (this->movementQueue.empty()) {
                 return std::nullopt;

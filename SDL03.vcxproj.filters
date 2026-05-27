@@ -384,6 +384,27 @@
     <ClCompile Include="src\game\scene\dialogue\dialogue_choice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\actions\base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\cutscene_session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\actions\move_actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\cutscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\actions\wait.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\actions\dialogue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -803,6 +824,27 @@
     <ClInclude Include="src\game\scene\dialogue\dialogue_choice.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\actions\base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\actions\move_actor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\cutscene_session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\cutscene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\actions\wait.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\actions\dialogue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -868,6 +910,10 @@
     <None Include="data\dialogue\graphs\hello_world.json" />
     <None Include="data\dialogue\graphs\ginger.json" />
     <None Include="data\dialogue\graphs\help.json" />
+    <None Include="scripts\items\consumables\health_potion.lua" />
+    <None Include="scripts\items\consumables\lesser_health_potion.lua" />
+    <None Include="data\cutscenes\town01.json" />
+    <None Include="scripts\actors\movement\stationary.lua" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\images\ui\dialogue\more.png">

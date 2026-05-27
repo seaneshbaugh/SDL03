@@ -1,5 +1,6 @@
 # TODO
 
+- Remove Map prefix from classes in the Objects::Map namespace. It's redundant.
 - Clean up States::Map::Update function, break out different substate updates into their own functions.
 - Make it so going to dialogue substate doesn't necessarily freeze all other NPCs. We might want to be able to have NPCs moving while dialogue is happening.
 - Organize declarations and definitions for States::Map according to functionality. Need to do this with all classes but this one is especially bad right now.
@@ -22,6 +23,7 @@
 - Add Actor::PlayAnimation function that takes an animation name and plays the corresponding animation on the Actor's sprite.
 - Add Actor::FaceActor function that takes another Actor as a parameter and makes the first Actor face towards the second Actor. This will involve calculating the direction from the first Actor to the second Actor and setting first Actor's direction accordingly.
 - Maybe add Actor as a parameter to States::Map::StartDialogue so it's possible to display different names and portraits in the dialogue box depending on which Actor is speaking. Otherwise the dialogue data will need to keep track of the Actor's name and portrait, which seems less flexible.
+- Add UTF-8 support for dialogue text. Right now it REALLY assumes ASCII.
 - Right now a dialogue graph looks like
   ```
     {
@@ -83,6 +85,7 @@
   }
   ```
   I don't want to encode logic into the dialogue graph itself, but I do want to be able to trigger events and have conditional branches based on game state. So maybe the dialogue graph just specifies what events to trigger and what conditions to check, and the actual logic for those events and conditions lives in the game code somewhere.
+- Add different input handler interfaces for different States::Map substates. For example, in the dialogue substate the input handler would be responsible for advancing the dialogue and making choices, while in the normal gameplay substate the input handler would be responsible for moving the player and interacting with NPCs. This way we can avoid having a giant input handler that has to check the current substate every time it receives input.
 - Add a way to differentiate Player Actors and NPC Actors. Not sure if I want to go with inheritance here.
 - Figure out what to do about the "asset lists". I never liked that design. If I keep them around they might just live in the assets directory the same way spritesheets do. They're all that's left in the resources directory and I'm just about done removing the concept of resources from this.
 - Find a better name for the Game::Objects namespace.

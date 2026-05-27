@@ -7,6 +7,7 @@ namespace Game {
         Map::Map() {
             this->logger = Services::Locator::LoggerService()->GetLogger(Map::logChannel);
             this->state = State::Gameplay;
+            this->previousState = State::Gameplay;
             this->pop = false;
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
@@ -82,6 +83,33 @@ namespace Game {
                 this->dialogueSession.Update(deltaTime);
 
                 if (this->dialogueSession.completed) {
+                    this->state = this->previousState;
+                }
+
+                return Transition::None();
+            } else if (this->state == State::Cutscene) {
+                this->cutsceneSession.Update(deltaTime);
+
+                for (auto actor = this->actors.begin(); actor != this->actors.end(); actor++) {
+                    (*actor)->Update(deltaTime);
+                }
+
+                for (auto& actor : this->actors) {
+                    if (!actor->IsMoving()) {
+                        auto nextMove = actor->PeekMovement();
+
+                        if (nextMove.has_value()) {
+                            actor->SetDirection(nextMove.value());
+
+                            if (this->CanMove(actor.get(), nextMove.value())) {
+                                actor->PopMovement();
+                                actor->StartMovement(nextMove.value());
+                            }
+                        }
+                    }
+                }
+
+                if (this->cutsceneSession.IsCompleted()) {
                     this->state = State::Gameplay;
                 }
 
@@ -438,19 +466,64 @@ namespace Game {
 
                     this->LoadMap(mapLoadPoint->GetProperty("map"), startX, startY);
                 }
+
+                Objects::Maps::CutsceneTrigger* cutsceneTrigger = dynamic_cast<Objects::Maps::CutsceneTrigger*>(object->get());
+
+                if (cutsceneTrigger) {
+                    this->logger->debug() << "Player stepped on a cutscene trigger with cutscene ID \"" << cutsceneTrigger->GetCutsceneId() << "\".";
+
+                    this->StartCutscene(cutsceneTrigger->GetCutsceneId());
+                }
             }
         }
 
-        void Map::StartDialogue(std::string dialogueId) {
+        void Map::StartDialogue(const std::string& dialogueId) {
             this->logger->debug() << "Starting dialogue with ID \"" << dialogueId << "\".";
 
-            //std::shared_ptr<Scene::Dialogue::DialogueNode> hello = std::make_shared<Scene::Dialogue::DialogueNode>(Scene::Dialogue::DialogueNode::Type::Text, "hello", "Hello, world!");
             std::shared_ptr<Scene::Dialogue::DialogueGraph> graph = std::make_shared<Scene::Dialogue::DialogueGraph>(dialogueId);
-            //graph->root = hello;
 
             this->dialogueSession.Start(graph);
 
+            this->previousState = this->state;
             this->state = State::Dialogue;
+        }
+
+        void Map::StartCutscene(const std::string& cutsceneId) {
+            this->logger->debug() << "Starting cutscene with ID \"" << cutsceneId << "\".";
+
+            this->player->ClearPendingMovement();
+
+            // HARDCODING THE SPAWN FOR NOW.
+            // THIS IS DANGEROUS. WE ONLY HAVE ONE CUTSCENE FOR TESTING.
+            // IT NEEDS A "guard" NPC TO WORK. WE'll ADD A SPAWN ACTOR
+            // ACTION LATER.
+            std::shared_ptr<Scene::Actor> guard = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
+            guard->name = "guard";
+            guard->dialogueId = "ginger";
+            guard->SetMovementSpeed(2.0f);
+            guard->SetMapState(this);
+            guard->LoadLuaScript("scripts/actors/movement/stationary.lua");
+            guard->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
+            this->actors.push_back(guard);
+            this->PlaceActor(guard, 6, 6, Scene::Actor::Direction::Left);
+
+            std::shared_ptr<Scene::Cutscenes::Cutscene> cutscene = std::make_shared<Scene::Cutscenes::Cutscene>(this, cutsceneId);
+
+            this->cutsceneSession.Start(cutscene);
+
+            this->previousState = this->state;
+            this->state = State::Cutscene;
+        }
+
+        std::shared_ptr<Scene::Actor> Map::GetActor(const std::string& actorId) {
+            for (auto& actor : this->actors) {
+                // For now check against the actor's name, but eventually I'll want a separte ID field since names might not be unique.
+                if (actor->name == actorId) {
+                    return actor;
+                }
+            }
+
+            return nullptr;
         }
 
         void Map::LoadLuaState(const std::string& scriptFilePath) {

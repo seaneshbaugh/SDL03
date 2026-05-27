@@ -35,6 +35,7 @@ namespace Game {
 
                 private:
                     static const std::string logChannel;
+
                     std::shared_ptr<Log::Logger> logger;
                 };
             };
