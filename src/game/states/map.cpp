@@ -13,6 +13,7 @@ namespace Game {
             this->currentMapEncounterArea = nullptr;
             this->LoadLuaState("scripts/states/map.lua");
             this->camera = std::make_shared<Scene::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
+
             this->player = std::make_shared<Scene::Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
             this->player->name = "Sean";
             this->actors.push_back(this->player);
@@ -20,24 +21,8 @@ namespace Game {
             this->camera->Follow(this->player);
 
             // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
-            std::shared_ptr<Scene::Actor> casie = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/casie"));
-            casie->name = "Casie";
-            casie->dialogueId = "hello_world";
-            casie->SetMovementSpeed(2.0f);
-            casie->SetMapState(this);
-            casie->LoadLuaScript("scripts/actors/movement/random_walk.lua");
-            casie->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
-            std::shared_ptr<Scene::Actor> kyle = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
-            kyle->name = "Kyle";
-            kyle->dialogueId = "help";
-            kyle->SetMapState(this);
-            kyle->SetMovementSpeed(2.0f);
-            kyle->LoadLuaScript("scripts/actors/movement/random_walk.lua");
-            kyle->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
-            this->actors.push_back(casie);
-            this->actors.push_back(kyle);
-            this->PlaceActor(casie, 8, 10, Scene::Actor::Direction::Down);
-            this->PlaceActor(kyle, 20, 4, Scene::Actor::Direction::Left);
+            this->AddActor("casie", "Casie", "characters/casie", "hello_world", 8, 10, Scene::Actor::Direction::Down, "random_walk", "dialogue");
+            this->AddActor("kyle", "Kyle", "characters/kyle", "help", 20, 4, Scene::Actor::Direction::Left, "random_walk", "dialogue");
 
             this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             this->movementInputHeld = false;
@@ -541,6 +526,34 @@ namespace Game {
             return nullptr;
         }
 
+        std::shared_ptr<Scene::Actor> Map::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+            std::shared_ptr<Graphics::Spritesheet> spritesheet = std::make_shared<Graphics::Spritesheet>(spritesheetName);
+
+            std::shared_ptr<Scene::Actor> actor = std::make_shared<Scene::Actor>(spritesheet);
+
+            actor->id = id;
+            actor->name = name;
+            actor->dialogueId = dialogueId;
+            actor->SetMovementSpeed(2.0f);
+            actor->SetMapState(this);
+            actor->LoadLuaScript("scripts/actors/movement/" + movementScriptName + ".lua");
+            actor->LoadLuaScript("scripts/actors/interaction/" + interactionScriptName + ".lua");
+
+            this->actors.push_back(actor);
+
+            this->PlaceActor(actor, x, y, direction);
+
+            return actor;
+        }
+
+        void Map::RemoveActor(const std::string& actorId) {
+            auto actor = this->GetActor(actorId);
+
+            if (actor) {
+                this->actors.erase(std::remove(this->actors.begin(), this->actors.end(), actor), this->actors.end());
+            }
+        }
+
         void Map::LoadLuaState(const std::string& scriptFilePath) {
             Base::LoadLuaState(scriptFilePath);
 
@@ -570,7 +583,11 @@ namespace Game {
 
             states.new_usertype<Map>("Map",
                                      sol::no_constructor,
-                                     "startDialogue", &Map::StartDialogue
+                                     "startDialogue", &Map::StartDialogue,
+                                     "startCutscene", &Map::StartCutscene,
+                                     "getActor", &Map::GetActor,
+                                     "addActor", &Map::AddActor,
+                                     "removeActor", &Map::RemoveActor
                                      );
         }
     }

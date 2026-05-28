@@ -405,6 +405,9 @@
     <ClCompile Include="src\game\scene\cutscenes\actions\dialogue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\objects\maps\spawn_point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -845,6 +848,9 @@
     <ClInclude Include="src\game\scene\cutscenes\actions\dialogue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\objects\maps\spawn_point.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -914,6 +920,8 @@
     <None Include="scripts\items\consumables\lesser_health_potion.lua" />
     <None Include="data\cutscenes\town01.json" />
     <None Include="scripts\actors\movement\stationary.lua" />
+    <None Include="scripts\maps\world01.lua" />
+    <None Include="scripts\maps\town01.lua" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\images\ui\dialogue\more.png">

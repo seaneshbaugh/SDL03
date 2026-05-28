@@ -262,12 +262,18 @@ namespace Game {
             // (which should really layer type as some sort of enum) and a parsing function. This
             // works for now.
             void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
-                if (layer->name == "start_points") {
-                    this->logger->debug() << "Parsing start point layer objects.";
+                if (layer->name == "cutscene_triggers") {
+                    this->logger->debug() << "Parsing cutscene trigger layer objects.";
 
-                    std::vector<std::shared_ptr<MapStartPoint>> startPoints = this->ParseStartPoints(node);
+                    std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers = this->ParseCutsceneTriggers(node);
 
-                    layer->objects.insert(layer->objects.end(), startPoints.begin(), startPoints.end());
+                    layer->objects.insert(layer->objects.end(), cutsceneTriggers.begin(), cutsceneTriggers.end());
+                } else if (layer->name == "encounter_areas") {
+                    this->logger->debug() << "Parsing encounter area layer objects.";
+
+                    std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas = this->ParseEncounterAreas(node);
+
+                    layer->objects.insert(layer->objects.end(), encounterAreas.begin(), encounterAreas.end());
                 } else if (layer->name == "load_points") {
                     this->logger->debug() << "Parsing load point layer objects.";
 
@@ -275,36 +281,28 @@ namespace Game {
 
                     layer->objects.insert(layer->objects.end(), loadPoints.begin(), loadPoints.end());
 
-                } else if (layer->name == "encounter_areas") {
-                    this->logger->debug() << "Parsing encounter area layer objects.";
+                } else if (layer->name == "spawn_points") {
+                    this->logger->debug() << "Parsing spawn point layer objects.";
 
-                    std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas = this->ParseEncounterAreas(node);
+                    std::vector<std::shared_ptr<SpawnPoint>> spawnPoints = this->ParseSpawnPoints(node);
 
-                    layer->objects.insert(layer->objects.end(), encounterAreas.begin(), encounterAreas.end());
-                } else if (layer->name == "cutscene_triggers") {
-                    this->logger->debug() << "Parsing cutscene trigger layer objects.";
+                    layer->objects.insert(layer->objects.end(), spawnPoints.begin(), spawnPoints.end());
+                } else if (layer->name == "start_points") {
+                    this->logger->debug() << "Parsing start point layer objects.";
 
-                    std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers = this->ParseCutsceneTriggers(node);
+                    std::vector<std::shared_ptr<MapStartPoint>> startPoints = this->ParseStartPoints(node);
 
-                    layer->objects.insert(layer->objects.end(), cutsceneTriggers.begin(), cutsceneTriggers.end());
+                    layer->objects.insert(layer->objects.end(), startPoints.begin(), startPoints.end());
                 } else {
-                    // TODO: Maybe just skip unknown object layer types? I can see a possible need for
-                    // layers of objects that are only used for the map editor or for some other sort
-                    // of informational purpose (comments? notes?) that aren't used by the game. But
-                    // that thought makes me think that maybe I need some sort of asset pipeline to
-                    // take the raw assets and strip them down and condition them for final use. But
-                    // in that case why use JSON and not some sort of custom binary format that closely
-                    // mirrors how things laid out at runtime? I dunno.
-                    throw std::runtime_error("Unknown map object layer type.");
+                    this->logger->warning() << "Layer \"" << layer->name << "\" has objects but no parsing function.";
                 }
             }
 
-            std::vector<std::shared_ptr<MapStartPoint>> Map::Parser::ParseStartPoints(const json& node) {
-                std::vector<std::shared_ptr<MapStartPoint>> startPoints;
+            std::vector<std::shared_ptr<CutsceneTrigger>> Map::Parser::ParseCutsceneTriggers(const json& node) {
+                std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers;
 
                 for (auto i = node.begin(); i != node.end(); ++i) {
-                    this->logger->debug() << "Creating start point.";
-                    std::shared_ptr<MapStartPoint> startPoint = std::make_shared<MapStartPoint>();
+                    this->logger->info() << "Creating cutscene trigger.";
 
                     std::map<std::string, std::string> properties;
 
@@ -315,17 +313,53 @@ namespace Game {
                         properties[name] = value;
                     }
 
-                    startPoint->SetType((*i)["type"].get<std::string>());
-                    startPoint->x = (*i)["x"].get<int>() / this->tilewidth;
-                    startPoint->y = (*i)["y"].get<int>() / this->tileheight;
-                    startPoint->width = (*i)["width"].get<int>() / this->tilewidth;
-                    startPoint->height = (*i)["height"].get<int>() / this->tileheight;
-                    startPoint->SetProperties(properties);
+                    std::shared_ptr<CutsceneTrigger> cutsceneTrigger = std::make_shared<CutsceneTrigger>(properties["cutsceneId"]);
 
-                    startPoints.push_back(startPoint);
+                    cutsceneTrigger->SetType((*i)["type"].get<std::string>());
+                    cutsceneTrigger->x = (*i)["x"].get<int>() / this->tilewidth;
+                    cutsceneTrigger->y = (*i)["y"].get<int>() / this->tileheight;
+                    cutsceneTrigger->width = (*i)["width"].get<int>() / this->tilewidth;
+                    cutsceneTrigger->height = (*i)["height"].get<int>() / this->tileheight;
+
+                    cutsceneTrigger->SetProperties(properties);
+
+                    cutsceneTriggers.push_back(cutsceneTrigger);
                 }
 
-                return startPoints;
+                return cutsceneTriggers;
+            }
+
+            std::vector<std::shared_ptr<MapEncounterArea>> Map::Parser::ParseEncounterAreas(const json& node) {
+                std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas;
+
+                for (auto i = node.begin(); i != node.end(); ++i) {
+                    this->logger->info() << "Creating encounter area.";
+
+                    std::map<std::string, std::string> properties;
+
+                    for (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                        const std::string name = (*j)["name"].get<std::string>();
+                        const std::string value = (*j)["value"].get<std::string>();
+
+                        properties[name] = value;
+                    }
+
+                    std::string filename = "data/encounter_areas/" + this->mapName + "-" + properties["name"] + ".json";
+
+                    std::shared_ptr<MapEncounterArea> encounterArea = std::make_shared<MapEncounterArea>(filename);
+
+                    encounterArea->SetType((*i)["type"].get<std::string>());
+                    encounterArea->x = (*i)["x"].get<int>() / this->tilewidth;
+                    encounterArea->y = (*i)["y"].get<int>() / this->tileheight;
+                    encounterArea->width = (*i)["width"].get<int>() / this->tilewidth;
+                    encounterArea->height = (*i)["height"].get<int>() / this->tileheight;
+
+                    encounterArea->SetProperties(properties);
+
+                    encounterAreas.push_back(encounterArea);
+                }
+
+                return encounterAreas;
             }
 
             std::vector<std::shared_ptr<MapLoadPoint>> Map::Parser::ParseLoadPoints(const json& node) {
@@ -359,44 +393,46 @@ namespace Game {
                 return loadPoints;
             }
 
-            std::vector<std::shared_ptr<MapEncounterArea>> Map::Parser::ParseEncounterAreas(const json& node) {
-                std::vector<std::shared_ptr<MapEncounterArea>> encounterAreas;
+            std::vector<std::shared_ptr<SpawnPoint>> Map::Parser::ParseSpawnPoints(const json& node) {
+                std::vector<std::shared_ptr<SpawnPoint>> spawnPoints;
 
                 for (auto i = node.begin(); i != node.end(); ++i) {
-                    this->logger->info() << "Creating encounter area.";
+                    this->logger->debug() << "Creating spawn point.";
+
+                    std::shared_ptr<SpawnPoint> spawnPoint = std::make_shared<SpawnPoint>();
 
                     std::map<std::string, std::string> properties;
 
-                    for  (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
-                        const std::string name = (*j)["name"].get<std::string>();
-                        const std::string value = (*j)["value"].get<std::string>();
+                    if ((*i).find("properties") != (*i).end()) {
+                        for (auto j = (*i)["properties"].begin(); j != (*i)["properties"].end(); ++j) {
+                            const std::string name = (*j)["name"].get<std::string>();
+                            const std::string value = (*j)["value"].get<std::string>();
 
-                        properties[name] = value;
+                            properties[name] = value;
+                        }
                     }
 
-                    std::string filename = "data/encounter_areas/" + this->mapName + "-" + properties["name"] + ".json";
+                    spawnPoint->name = (*i)["name"].get<std::string>();
+                    spawnPoint->SetType((*i)["type"].get<std::string>());
+                    spawnPoint->x = (*i)["x"].get<int>() / this->tilewidth;
+                    spawnPoint->y = (*i)["y"].get<int>() / this->tileheight;
+                    spawnPoint->width = (*i)["width"].get<int>() / this->tilewidth;
+                    spawnPoint->height = (*i)["height"].get<int>() / this->tileheight;
 
-                    std::shared_ptr<MapEncounterArea> encounterArea = std::make_shared<MapEncounterArea>(filename);
+                    spawnPoint->SetProperties(properties);
 
-                    encounterArea->SetType((*i)["type"].get<std::string>());
-                    encounterArea->x = (*i)["x"].get<int>() / this->tilewidth;
-                    encounterArea->y = (*i)["y"].get<int>() / this->tileheight;
-                    encounterArea->width = (*i)["width"].get<int>() / this->tilewidth;
-                    encounterArea->height = (*i)["height"].get<int>() / this->tileheight;
-
-                    encounterArea->SetProperties(properties);
-
-                    encounterAreas.push_back(encounterArea);
+                    spawnPoints.push_back(spawnPoint);
                 }
 
-                return encounterAreas;
+                return spawnPoints;
             }
 
-            std::vector<std::shared_ptr<CutsceneTrigger>> Map::Parser::ParseCutsceneTriggers(const json& node) {
-                std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers;
+            std::vector<std::shared_ptr<MapStartPoint>> Map::Parser::ParseStartPoints(const json& node) {
+                std::vector<std::shared_ptr<MapStartPoint>> startPoints;
 
                 for (auto i = node.begin(); i != node.end(); ++i) {
-                    this->logger->info() << "Creating cutscene trigger.";
+                    this->logger->debug() << "Creating start point.";
+                    std::shared_ptr<MapStartPoint> startPoint = std::make_shared<MapStartPoint>();
 
                     std::map<std::string, std::string> properties;
 
@@ -407,20 +443,17 @@ namespace Game {
                         properties[name] = value;
                     }
 
-                    std::shared_ptr<CutsceneTrigger> cutsceneTrigger = std::make_shared<CutsceneTrigger>(properties["cutsceneId"]);
+                    startPoint->SetType((*i)["type"].get<std::string>());
+                    startPoint->x = (*i)["x"].get<int>() / this->tilewidth;
+                    startPoint->y = (*i)["y"].get<int>() / this->tileheight;
+                    startPoint->width = (*i)["width"].get<int>() / this->tilewidth;
+                    startPoint->height = (*i)["height"].get<int>() / this->tileheight;
+                    startPoint->SetProperties(properties);
 
-                    cutsceneTrigger->SetType((*i)["type"].get<std::string>());
-                    cutsceneTrigger->x = (*i)["x"].get<int>() / this->tilewidth;
-                    cutsceneTrigger->y = (*i)["y"].get<int>() / this->tileheight;
-                    cutsceneTrigger->width = (*i)["width"].get<int>() / this->tilewidth;
-                    cutsceneTrigger->height = (*i)["height"].get<int>() / this->tileheight;
-
-                    cutsceneTrigger->SetProperties(properties);
-
-                    cutsceneTriggers.push_back(cutsceneTrigger);
+                    startPoints.push_back(startPoint);
                 }
 
-                return cutsceneTriggers;
+                return startPoints;
             }
 
             // For now this just sort of dumps all tilesets into one list of tiles.

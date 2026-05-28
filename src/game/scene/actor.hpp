@@ -44,6 +44,7 @@ namespace Game {
                 int tileY;
             };
 
+            std::string id;
             std::string name;
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int animationFrame;

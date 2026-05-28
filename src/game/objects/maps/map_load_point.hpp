@@ -6,7 +6,7 @@
 namespace Game {
     namespace Objects {
         namespace Maps {
-            class MapLoadPoint : public Objects::Maps::MapObject {
+            class MapLoadPoint : public MapObject {
             public:
                 MapLoadPoint();
                 ~MapLoadPoint();

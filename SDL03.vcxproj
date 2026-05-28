@@ -63,6 +63,7 @@
     <ClCompile Include="lib\sqlite\sqlite3.c" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp" />
+    <ClCompile Include="src\game\objects\maps\spawn_point.cpp" />
     <ClCompile Include="src\game\scene\actor_appearance.cpp" />
     <ClCompile Include="src\game\scene\camera.cpp" />
     <ClCompile Include="src\game\engine.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="lib\sqlite\sqlite3.h" />
     <ClInclude Include="src\game.hpp" />
     <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp" />
+    <ClInclude Include="src\game\objects\maps\spawn_point.hpp" />
     <ClInclude Include="src\game\scene\actor_appearance.hpp" />
     <ClInclude Include="src\game\scene\camera.hpp" />
     <ClInclude Include="src\game\engine.hpp" />
@@ -354,6 +356,8 @@
     <None Include="scripts\items\consumables\health_potion.lua" />
     <None Include="scripts\items\consumables\lesser_health_potion.lua" />
     <None Include="scripts\keys.lua" />
+    <None Include="scripts\maps\town01.lua" />
+    <None Include="scripts\maps\world01.lua" />
     <None Include="scripts\sdl_keys.lua" />
     <None Include="scripts\states\battle.lua" />
     <None Include="scripts\states\intro.lua" />
