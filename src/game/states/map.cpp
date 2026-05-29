@@ -9,21 +9,37 @@ namespace Game {
             this->state = State::Gameplay;
             this->previousState = State::Gameplay;
             this->pop = false;
+            this->camera = std::make_shared<Scene::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
+            this->LoadLuaState("scripts/states/map.lua");
+
+            // TODO: Figure out a better place to put this. Really we should probably be calling LoadMap in
+            // WorldManager::NewGame.
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
-            this->LoadLuaState("scripts/states/map.lua");
-            this->camera = std::make_shared<Scene::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
+            this->luaState->script_file("scripts/maps/" + this->currentMap->name + ".lua");
+            sol::protected_function spawnNPCs = (*this->luaState.get())["spawn_npcs"];
 
+            if (spawnNPCs.valid()) {
+                try {
+                    spawnNPCs();
+                } catch (const sol::error& e) {
+                    this->logger->error() << "Error in Lua spawn_npcs function: " << e.what();
+                }
+            }
+
+            // TODO: This should all also probably be a function which is called by WorldManager::NewGame.
             this->player = std::make_shared<Scene::Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
+            this->player->id = "player";
             this->player->name = "Sean";
             this->actors.push_back(this->player);
             this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down);
             this->camera->Follow(this->player);
 
             // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
-            this->AddActor("casie", "Casie", "characters/casie", "hello_world", 8, 10, Scene::Actor::Direction::Down, "random_walk", "dialogue");
-            this->AddActor("kyle", "Kyle", "characters/kyle", "help", 20, 4, Scene::Actor::Direction::Left, "random_walk", "dialogue");
+            // this->AddActor("casie", "Casie", "characters/casie", "hello_world", 8, 10, Scene::Actor::Direction::Down, "random_walk", "dialogue");
+            // this->AddActor("kyle", "Kyle", "characters/kyle", "help", 20, 4, Scene::Actor::Direction::Left, "random_walk", "dialogue");
 
+            // TODO: Create some sort of wrapper around this state.
             this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             this->movementInputHeld = false;
             this->interactionRequested = false;
@@ -403,6 +419,15 @@ namespace Game {
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
+            //for (auto& actor : this->actors) {
+            //    if (actor->id != "player") {
+            //        this->RemoveActor(actor->id);
+            //    }
+            //}
+            // THIS ASSUMES player is THE FIRST ELEMENT
+            this->actors.erase(this->actors.begin() + 1, this->actors.end());
+
+
             Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
@@ -414,6 +439,17 @@ namespace Game {
             this->camera->Follow(this->player);
 
             (*this->luaState.get())["after_map_load"]();
+
+            this->luaState->script_file("scripts/maps/" + this->currentMap->name + ".lua");
+            sol::protected_function spawnNPCs = (*this->luaState.get())["spawn_npcs"];
+
+            if (spawnNPCs.valid()) {
+                sol::protected_function_result result = spawnNPCs();
+                if (!result.valid()) {
+                    sol::error e = result;
+                    this->logger->error() << "Error in Lua spawn_npcs function: " << e.what();
+                }
+            }
 
             return true;
         }
@@ -427,7 +463,7 @@ namespace Game {
                 return false;
             }
 
-            (*this->luaState.get())["after_map_load"]();
+            //(*this->luaState.get())["after_map_load"]();
 
             return false;
         }
@@ -517,8 +553,7 @@ namespace Game {
 
         std::shared_ptr<Scene::Actor> Map::GetActor(const std::string& actorId) {
             for (auto& actor : this->actors) {
-                // For now check against the actor's name, but eventually I'll want a separte ID field since names might not be unique.
-                if (actor->name == actorId) {
+                if (actor->id == actorId) {
                     return actor;
                 }
             }
@@ -544,6 +579,19 @@ namespace Game {
             this->PlaceActor(actor, x, y, direction);
 
             return actor;
+        }
+
+        std::shared_ptr<Scene::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+
+            std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = this->currentMap->GetSpawnPoint(spawnPointName);
+
+            if (!spawnPoint) {
+                this->logger->error() << "Failed to add actor \"" << id << "\". Spawn point \"" << spawnPointName << "\" not found.";
+
+                return nullptr;
+            }
+
+            return this->AddActor(id, name, spritesheetName, dialogueId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
         }
 
         void Map::RemoveActor(const std::string& actorId) {
@@ -574,6 +622,12 @@ namespace Game {
 
             this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
 
+            luaState->new_enum("Direction",
+                               "Up", Scene::Actor::Direction::Up,
+                               "Right", Scene::Actor::Direction::Right,
+                               "Down", Scene::Actor::Direction::Down,
+                               "Left", Scene::Actor::Direction::Left);
+
             // TODO: Handle errors?
             (*this->luaState.get())["initialize"]();
         }
@@ -587,6 +641,7 @@ namespace Game {
                                      "startCutscene", &Map::StartCutscene,
                                      "getActor", &Map::GetActor,
                                      "addActor", &Map::AddActor,
+                                     "addActorAtSpawnPoint", &Map::AddActorAtSpawnPoint,
                                      "removeActor", &Map::RemoveActor
                                      );
         }

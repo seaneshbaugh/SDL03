@@ -128,6 +128,22 @@ namespace Game {
                 return result;
             }
 
+            std::shared_ptr<SpawnPoint> Map::GetSpawnPoint(const std::string& name) {
+                for (auto layer = this->layers.begin(); layer != this->layers.end(); ++layer) {
+                    if ((*layer)->name == "spawn_points") {
+                        for (auto object = (*layer)->objects.begin(); object != (*layer)->objects.end(); ++object) {
+                            std::shared_ptr<SpawnPoint> spawnPoint = std::dynamic_pointer_cast<SpawnPoint>(*object);
+
+                            if (spawnPoint && spawnPoint->name == name) {
+                                return spawnPoint;
+                            }
+                        }
+                    }
+                }
+
+                return nullptr;
+            }
+
             std::pair<unsigned int, unsigned int> Map::GetDefaultStartPoint() {
                 for (auto layer = this->layers.begin(); layer != this->layers.end(); ++layer) {
                     if ((*layer)->name == "start_points") {

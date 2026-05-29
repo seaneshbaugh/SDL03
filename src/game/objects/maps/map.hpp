@@ -55,6 +55,7 @@ namespace Game {
                 int GetHeight() const;
                 bool GetWalkability(const int x, const int y);
                 std::vector <std::shared_ptr<MapObject>> GetObjects(const int x, const int y);
+                std::shared_ptr<SpawnPoint> GetSpawnPoint(const std::string& name);
                 std::pair<unsigned int, unsigned int> GetDefaultStartPoint();
                 void Render(const float cameraX, const float cameraY);
 

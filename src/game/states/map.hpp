@@ -36,6 +36,7 @@ namespace Game {
             void StartCutscene(const std::string& cutsceneId);
             std::shared_ptr<Scene::Actor> GetActor(const std::string& actorId);
             std::shared_ptr<Scene::Actor> AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+            std::shared_ptr<Scene::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
             void RemoveActor(const std::string& actorId);
 
         private:
