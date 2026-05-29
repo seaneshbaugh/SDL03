@@ -35,10 +35,6 @@ namespace Game {
             this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down);
             this->camera->Follow(this->player);
 
-            // TODO: Load NPCs from NPC spawn points. For now just hardcoding them in because it's easier for testing.
-            // this->AddActor("casie", "Casie", "characters/casie", "hello_world", 8, 10, Scene::Actor::Direction::Down, "random_walk", "dialogue");
-            // this->AddActor("kyle", "Kyle", "characters/kyle", "help", 20, 4, Scene::Actor::Direction::Left, "random_walk", "dialogue");
-
             // TODO: Create some sort of wrapper around this state.
             this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             this->movementInputHeld = false;
@@ -425,8 +421,9 @@ namespace Game {
             //    }
             //}
             // THIS ASSUMES player is THE FIRST ELEMENT
-            this->actors.erase(this->actors.begin() + 1, this->actors.end());
-
+            if (this->state == State::Gameplay) {
+                this->actors.erase(this->actors.begin() + 1, this->actors.end());
+            }
 
             Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
 
@@ -445,6 +442,7 @@ namespace Game {
 
             if (spawnNPCs.valid()) {
                 sol::protected_function_result result = spawnNPCs();
+
                 if (!result.valid()) {
                     sol::error e = result;
                     this->logger->error() << "Error in Lua spawn_npcs function: " << e.what();

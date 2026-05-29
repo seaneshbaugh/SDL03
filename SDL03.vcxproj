@@ -106,6 +106,8 @@
     <ClCompile Include="src\game\scene\cutscenes\actions\add_actor.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\base.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\dialogue.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\parallel.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\sequence.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\wait.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\cutscene.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\move_actor.cpp" />
@@ -222,6 +224,8 @@
     <ClInclude Include="src\game\scene\cutscenes\actions\base.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\dialogue.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\move_actor.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\parallel.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\sequence.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\wait.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\cutscene.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\cutscene_session.hpp" />
