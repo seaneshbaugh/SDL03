@@ -52,7 +52,33 @@ namespace Game {
                 for (json::iterator actionNode = actionsNode.begin(); actionNode != actionsNode.end(); ++actionNode) {
                     std::string actionType = actionNode.value()["type"].get<std::string>();
 
-                    if (actionType == "dialogue") {
+                    if (actionType == "add_actor") {
+                        std::string id = actionNode.value()["id"].get<std::string>();
+                        std::string name = actionNode.value()["name"].get<std::string>();
+                        std::string spritesheetName = actionNode.value()["spritesheetName"].get<std::string>();
+                        std::string dialogueId = actionNode.value()["dialogueId"].get<std::string>();
+                        Scene::Actor::Direction direction = static_cast<Scene::Actor::Direction>(actionNode.value()["direction"].get<int>());
+                        std::string movementScriptName = actionNode.value()["movementScriptName"].get<std::string>();
+                        std::string interactionScriptName = actionNode.value()["interactionScriptName"].get<std::string>();
+
+                        int x = 0;
+                        int y = 0;
+
+                        if (actionNode.value()["spawnPointId"].is_string()) {
+                            std::string spawnPointId = actionNode.value()["spawnPointId"].get<std::string>();
+                            std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = cutscene->map->GetCurrentMap()->GetSpawnPoint(spawnPointId);
+
+                            x = spawnPoint->x;
+                            y = spawnPoint->y;
+                        } else {
+                            x = actionNode.value()["x"].get<int>();
+                            y = actionNode.value()["y"].get<int>();
+                        }
+
+                        std::shared_ptr<Actions::AddActor> addActorAction = std::make_shared<Actions::AddActor>(cutscene->map, id, name, spritesheetName, dialogueId, x, y, direction, movementScriptName, interactionScriptName);
+
+                        cutscene->actions.push_back(addActorAction);
+                    } else if (actionType == "dialogue") {
                         std::string dialogueId = actionNode.value()["dialogueId"].get<std::string>();
 
                         std::shared_ptr<Actions::Dialogue> dialogueAction = std::make_shared<Actions::Dialogue>(cutscene->map, dialogueId);
@@ -60,14 +86,6 @@ namespace Game {
                         cutscene->actions.push_back(dialogueAction);
                     } else if (actionType == "move_actor") {
                         std::string actorId = actionNode.value()["actorId"].get<std::string>();
-
-                        std::shared_ptr<Scene::Actor> actor = cutscene->map->GetActor(actorId);
-
-                        if (!actor) {
-                            this->logger->warning() << "Actor with ID \"" << actorId << "\" not found for move_actor action.";
-
-                            continue;
-                        }
 
                         std::vector<std::string> rawPath = actionNode.value()["path"].get<std::vector<std::string>>();
 
@@ -87,7 +105,7 @@ namespace Game {
                             }
                         }
 
-                        std::shared_ptr<Actions::MoveActor> moveActorAction = std::make_shared<Actions::MoveActor>(actor, path);
+                        std::shared_ptr<Actions::MoveActor> moveActorAction = std::make_shared<Actions::MoveActor>(cutscene->map, actorId, path);
 
                         cutscene->actions.push_back(moveActorAction);
                     } else if (actionType == "wait") {

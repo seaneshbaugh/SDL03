@@ -1,6 +1,17 @@
 {
   "actions": [
     {
+      "type": "add_actor",
+      "id": "guard",
+      "name": "Guard",
+      "spritesheetName": "characters/kyle",
+      "dialogueId": "ginger",
+      "spawnPointId": "guard",
+      "direction": 2,
+      "movementScriptName": "stationary",
+      "interactionScriptName": "dialogue"
+    },
+    {
       "type": "move_actor",
       "actorId": "guard",
       "path": [ "left", "left", "up" ]

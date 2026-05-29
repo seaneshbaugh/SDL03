@@ -103,6 +103,7 @@
     <ClCompile Include="src\game\assets\song.cpp" />
     <ClCompile Include="src\game\assets\sound.cpp" />
     <ClCompile Include="src\game\assets\texture.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\add_actor.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\base.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\dialogue.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\wait.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="src\game\graphics\spritesheet.hpp" />
     <ClInclude Include="src\game\input_key.hpp" />
     <ClInclude Include="src\game\input_mapper.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\add_actor.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\base.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\dialogue.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\move_actor.hpp" />

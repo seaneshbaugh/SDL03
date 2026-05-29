@@ -4,9 +4,11 @@
 #include "../../../../lib/nlohmann/json.hpp"
 
 #include "../../services/locator.hpp"
+#include "actions/add_actor.hpp"
 #include "actions/dialogue.hpp"
 #include "actions/move_actor.hpp"
 #include "actions/wait.hpp"
+#include "../../objects/maps/spawn_point.hpp"
 #include "../../../helpers/file_system.hpp"
 
 namespace Game {

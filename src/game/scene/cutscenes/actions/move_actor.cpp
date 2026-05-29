@@ -1,13 +1,20 @@
 #include "move_actor.hpp"
+#include "../../../states/map.hpp"
 
 namespace Game {
     namespace Scene {
         namespace Cutscenes {
             namespace Actions {
-                MoveActor::MoveActor(std::shared_ptr<Actor> actor, const std::vector<Actor::Direction>& path) : actor(actor), path(path), started(false) {
+                MoveActor::MoveActor(States::Map* map, const std::string& actorId, const std::vector<Actor::Direction>& path) : map(map), actorId(actorId), path(path), started(false) {
                 }
 
                 void MoveActor::Start() {
+                    this->actor = this->map->GetActor(actorId);
+
+                    if (!this->actor) {
+                        return;
+                    }
+
                     actor->ClearPendingMovement();
 
                     for (auto direction : this->path) {

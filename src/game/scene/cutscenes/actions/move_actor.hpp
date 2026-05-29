@@ -5,18 +5,24 @@
 #include "../../actor.hpp"
 
 namespace Game {
+    namespace States {
+        class Map;
+    }
+
     namespace Scene {
         namespace Cutscenes {
             namespace Actions {
                 class MoveActor : public Base {
                 public:
-                    MoveActor(std::shared_ptr<Actor> actor, const std::vector<Actor::Direction>& path);
+                    MoveActor(States::Map* map, const std::string& actorId, const std::vector<Actor::Direction>& path);
                     virtual ~MoveActor() = default;
                     void Start() override;
                     void Update(float deltaTime) override;
                     bool IsCompleted() const override;
 
                 private:
+                    States::Map* map;
+                    std::string actorId;
                     std::shared_ptr<Actor> actor;
                     std::vector<Actor::Direction> path;
                     bool started;

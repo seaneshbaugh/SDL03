@@ -408,6 +408,9 @@
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\actions\add_actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -849,6 +852,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\actions\add_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

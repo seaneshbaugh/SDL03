@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="10">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="11">
+ <editorsettings>
+  <export target="town01.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" name="Tiles" tilewidth="32" tileheight="32" tilecount="5" columns="0">
   <tile id="0">
    <properties>
@@ -30050,7 +30053,7 @@
   </data>
  </layer>
  <objectgroup id="5" name="cutscene_triggers">
-  <object id="7" name="town01" x="96" y="128" width="64" height="32" visible="0">
+  <object id="7" name="town01" x="96" y="128" width="64" height="32">
    <properties>
     <property name="cutsceneId" value="town01"/>
    </properties>
@@ -30059,6 +30062,7 @@
  <objectgroup id="6" name="spawn_points">
   <object id="8" name="kyle" x="448" y="320" width="32" height="32"/>
   <object id="9" name="casie" x="288" y="480" width="32" height="32"/>
+  <object id="10" name="guard" x="192" y="192" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="4" name="load_points">
   <object id="1" type="map" x="96" y="0" width="32" height="32">

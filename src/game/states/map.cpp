@@ -529,20 +529,6 @@ namespace Game {
 
             this->player->ClearPendingMovement();
 
-            // HARDCODING THE SPAWN FOR NOW.
-            // THIS IS DANGEROUS. WE ONLY HAVE ONE CUTSCENE FOR TESTING.
-            // IT NEEDS A "guard" NPC TO WORK. WE'll ADD A SPAWN ACTOR
-            // ACTION LATER.
-            std::shared_ptr<Scene::Actor> guard = std::make_shared<Scene::Actor>(std::make_shared<Graphics::Spritesheet>("characters/kyle"));
-            guard->name = "guard";
-            guard->dialogueId = "ginger";
-            guard->SetMovementSpeed(2.0f);
-            guard->SetMapState(this);
-            guard->LoadLuaScript("scripts/actors/movement/stationary.lua");
-            guard->LoadLuaScript("scripts/actors/interaction/dialogue.lua");
-            this->actors.push_back(guard);
-            this->PlaceActor(guard, 6, 6, Scene::Actor::Direction::Left);
-
             std::shared_ptr<Scene::Cutscenes::Cutscene> cutscene = std::make_shared<Scene::Cutscenes::Cutscene>(this, cutsceneId);
 
             this->cutsceneSession.Start(cutscene);
@@ -557,6 +543,8 @@ namespace Game {
                     return actor;
                 }
             }
+
+            this->logger->error() << "Failed to get actor with ID \"" << actorId << "\". Actor not found.";
 
             return nullptr;
         }
