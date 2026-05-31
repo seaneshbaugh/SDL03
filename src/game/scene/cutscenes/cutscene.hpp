@@ -8,6 +8,7 @@
 #include "actions/dialogue.hpp"
 #include "actions/move_actor.hpp"
 #include "actions/parallel.hpp"
+#include "actions/pathfind_actor.hpp"
 #include "actions/remove_actor.hpp"
 #include "actions/sequence.hpp"
 #include "actions/wait.hpp"

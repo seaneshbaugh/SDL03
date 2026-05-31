@@ -15,6 +15,8 @@ namespace Game {
     namespace States {
         class Map : public Base {
         public:
+            friend class Scene::Cutscenes::Actions::PathfindActor;
+
             enum class State {
                 Gameplay,
                 Dialogue,
@@ -39,6 +41,10 @@ namespace Game {
             std::shared_ptr<Scene::Actor> AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
             std::shared_ptr<Scene::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
             void RemoveActor(const std::string& actorId);
+
+        protected:
+            bool IsTileBlocked(const int x, const int y, const Scene::Actor* ignore = nullptr) const;
+            std::vector<Scene::Actor::Direction> Pathfind(Scene::Actor* actor, const int targetX, const int targetY);
 
         private:
             static const std::string logChannel;
@@ -73,9 +79,7 @@ namespace Game {
             void LoadLuaState(const std::string& scriptFilePath);
             void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
             void QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance);
-            std::vector<Scene::Actor::Direction> Pathfind(Scene::Actor* actor, const int targetX, const int targetY);
             bool CanMove(Scene::Actor* actor, const Scene::Actor::Direction direction);
-            bool IsTileBlocked(const int x, const int y, const Scene::Actor* ignore = nullptr) const;
             bool TryInteract();
             std::optional<std::shared_ptr<Scene::Actor>> GetActorAtTile(const int x, const int y) const;
 

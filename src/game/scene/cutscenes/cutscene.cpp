@@ -109,6 +109,21 @@ namespace Game {
                     return std::make_shared<Actions::Parallel>(actions);
                 };
 
+                this->actionFactories["pathfind_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+                    std::string actorId = node["actorId"].get<std::string>();
+
+                    if (node["targetId"].is_string()) {
+                        std::string targetId = node["targetId"].get<std::string>();
+
+                        return std::make_shared<Actions::PathfindActor>(cutscene->map, actorId, targetId);
+                    } else {
+                        int x = node["x"].get<int>();
+                        int y = node["y"].get<int>();
+
+                        return std::make_shared<Actions::PathfindActor>(cutscene->map, actorId, x, y);
+                    }
+                };
+
                 this->actionFactories["remove_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
                     std::string actorId = node["actorId"].get<std::string>();
 

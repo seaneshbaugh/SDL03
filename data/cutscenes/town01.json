@@ -12,9 +12,9 @@
       "interactionScriptName": "dialogue"
     },
     {
-      "type": "move_actor",
+      "type": "pathfind_actor",
       "actorId": "guard",
-      "path": [ "left", "left", "up" ]
+      "targetId": "player"
     },
     {
       "type": "wait",
