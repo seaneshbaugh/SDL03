@@ -18,12 +18,16 @@
     },
     {
       "type": "wait",
-      "duration": 5.0
+      "duration": 2.0
     },
     {
       "type": "dialogue",
       "actor": "guard",
       "dialogueId": "ginger"
+    },
+    {
+      "type": "remove_actor",
+      "actorId": "guard"
     }
   ]
 }

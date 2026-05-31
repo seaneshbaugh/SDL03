@@ -417,6 +417,9 @@
     <ClCompile Include="src\game\scene\cutscenes\actions\sequence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\cutscenes\actions\remove_actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -867,6 +870,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scene\cutscenes\actions\sequence.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\cutscenes\actions\remove_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
