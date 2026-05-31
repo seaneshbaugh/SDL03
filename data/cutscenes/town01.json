@@ -17,6 +17,11 @@
       "targetId": "player"
     },
     {
+      "type": "face_actor",
+      "actorId": "guard",
+      "targetId": "player"
+    },
+    {
       "type": "wait",
       "duration": 2.0
     },
@@ -24,6 +29,12 @@
       "type": "dialogue",
       "actor": "guard",
       "dialogueId": "ginger"
+    },
+    {
+      "type": "pathfind_actor",
+      "actorId": "guard",
+      "x": 3,
+      "y": 0
     },
     {
       "type": "remove_actor",

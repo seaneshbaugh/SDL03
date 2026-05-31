@@ -6,6 +6,7 @@
 #include "../../services/locator.hpp"
 #include "actions/add_actor.hpp"
 #include "actions/dialogue.hpp"
+#include "actions/face_actor.hpp"
 #include "actions/move_actor.hpp"
 #include "actions/parallel.hpp"
 #include "actions/pathfind_actor.hpp"

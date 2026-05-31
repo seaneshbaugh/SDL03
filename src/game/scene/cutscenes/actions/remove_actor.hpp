@@ -20,6 +20,7 @@ namespace Game {
                     bool IsCompleted() const override;
  
                 private:
+                    bool completed;
                     States::Map* map;
                     std::string actorId;
                 };

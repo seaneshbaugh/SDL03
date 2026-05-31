@@ -5,7 +5,7 @@ namespace Game {
     namespace Scene {
         namespace Cutscenes {
             namespace Actions {
-                RemoveActor::RemoveActor(States::Map* map, const std::string& actorId) : map(map), actorId(actorId) {
+                RemoveActor::RemoveActor(States::Map* map, const std::string& actorId) : map(map), actorId(actorId), completed(false) {
                 }
 
                 RemoveActor::~RemoveActor() {
@@ -13,13 +13,15 @@ namespace Game {
 
                 void RemoveActor::Start() {
                     this->map->RemoveActor(this->actorId);
+
+                    this->completed = true;
                 }
 
                 void RemoveActor::Update(float deltaTime) {
                 }
 
                 bool RemoveActor::IsCompleted() const {
-                    return true;
+                    return this->completed;
                 }
             }
         }

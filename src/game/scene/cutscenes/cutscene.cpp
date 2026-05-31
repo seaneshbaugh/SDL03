@@ -52,7 +52,7 @@ namespace Game {
                     int x = 0;
                     int y = 0;
 
-                    if (node["spawnPointId"].is_string()) {
+                    if (node.find("spawnPointId") != node.end() && node["spawnPointId"].is_string()) {
                         std::string spawnPointId = node["spawnPointId"].get<std::string>();
                         std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = cutscene->map->GetCurrentMap()->GetSpawnPoint(spawnPointId);
 
@@ -70,6 +70,20 @@ namespace Game {
                     std::string dialogueId = node["dialogueId"].get<std::string>();
 
                     return std::make_shared<Actions::Dialogue>(cutscene->map, dialogueId);
+                };
+
+                this->actionFactories["face_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+                    std::string actorId = node["actorId"].get<std::string>();
+
+                    if (node.find("targetId") != node.end() && node["targetId"].is_string()) {
+                        std::string targetId = node["targetId"].get<std::string>();
+
+                        return std::make_shared<Actions::FaceActor>(cutscene->map, actorId, targetId);
+                    } else {
+                        Scene::Actor::Direction direction = static_cast<Scene::Actor::Direction>(node["direction"].get<int>());
+
+                        return std::make_shared<Actions::FaceActor>(cutscene->map, actorId, direction);
+                    }
                 };
 
                 this->actionFactories["move_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
@@ -112,7 +126,7 @@ namespace Game {
                 this->actionFactories["pathfind_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
                     std::string actorId = node["actorId"].get<std::string>();
 
-                    if (node["targetId"].is_string()) {
+                    if (node.find("targetId") != node.end() && node["targetId"].is_string()) {
                         std::string targetId = node["targetId"].get<std::string>();
 
                         return std::make_shared<Actions::PathfindActor>(cutscene->map, actorId, targetId);

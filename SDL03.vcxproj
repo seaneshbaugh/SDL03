@@ -106,6 +106,7 @@
     <ClCompile Include="src\game\scene\cutscenes\actions\add_actor.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\base.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\dialogue.cpp" />
+    <ClCompile Include="src\game\scene\cutscenes\actions\face_actor.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\parallel.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\pathfind_actor.cpp" />
     <ClCompile Include="src\game\scene\cutscenes\actions\remove_actor.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="src\game\scene\cutscenes\actions\add_actor.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\base.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\dialogue.hpp" />
+    <ClInclude Include="src\game\scene\cutscenes\actions\face_actor.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\move_actor.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\parallel.hpp" />
     <ClInclude Include="src\game\scene\cutscenes\actions\pathfind_actor.hpp" />
