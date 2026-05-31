@@ -18,7 +18,7 @@ namespace Game {
                 }
 
                 bool Dialogue::IsCompleted() const {
-                    return true;
+                    return this->map->DialogueSessionCompleted();
                 }
             }
         }

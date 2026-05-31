@@ -640,6 +640,10 @@ namespace Game {
             this->state = State::Dialogue;
         }
 
+        bool Map::DialogueSessionCompleted() const {
+            return this->dialogueSession.completed;
+        }
+
         void Map::StartCutscene(const std::string& cutsceneId) {
             this->logger->debug() << "Starting cutscene with ID \"" << cutsceneId << "\".";
 
