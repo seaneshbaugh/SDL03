@@ -44,6 +44,7 @@ namespace Game {
             this->player->id = "player";
             this->player->name = "Sean";
             this->actors.push_back(this->player);
+            this->actorLookup[this->player->id] = this->player;
             this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down);
             this->camera->Follow(this->player);
 
@@ -539,6 +540,10 @@ namespace Game {
                                        return !actor->IsPersistent();
                                    }),
                                    this->actors.end());
+
+                std::erase_if(this->actorLookup, [](const auto& pair) {
+                    return !pair.second->IsPersistent();
+                });
             }
 
             Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
@@ -656,13 +661,13 @@ namespace Game {
         }
 
         std::shared_ptr<Scene::Actor> Map::GetActor(const std::string& actorId) {
-            for (auto& actor : this->actors) {
-                if (actor->id == actorId) {
-                    return actor;
-                }
+            auto it = this->actorLookup.find(actorId);
+
+            if (it != this->actorLookup.end()) {
+                return it->second;
             }
 
-            this->logger->error() << "Failed to get actor with ID \"" << actorId << "\". Actor not found.";
+            this->logger->warning() << "Failed to get actor with ID \"" << actorId << "\".";
 
             return nullptr;
         }
@@ -681,6 +686,8 @@ namespace Game {
             actor->LoadLuaScript("scripts/actors/interaction/" + interactionScriptName + ".lua");
 
             this->actors.push_back(actor);
+
+            this->actorLookup[actor->id] = actor;
 
             this->PlaceActor(actor, x, y, direction);
 
@@ -705,6 +712,7 @@ namespace Game {
 
             if (actor) {
                 this->actors.erase(std::remove(this->actors.begin(), this->actors.end(), actor), this->actors.end());
+                this->actorLookup.erase(actorId);
             }
         }
 

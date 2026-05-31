@@ -48,6 +48,7 @@ namespace Game {
             std::shared_ptr<Scene::Camera> camera;
             std::shared_ptr<Scene::Actor> player;
             std::vector<std::shared_ptr<Scene::Actor>> actors;
+            std::unordered_map<std::string, std::shared_ptr<Scene::Actor>> actorLookup;
             Scene::Actor::Direction movementDirection;
             Scene::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;
