@@ -71,6 +71,7 @@ namespace Game {
             void LoadLuaState(const std::string& scriptFilePath);
             void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
             void QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance);
+            std::vector<Scene::Actor::Direction> Pathfind(Scene::Actor* actor, const int targetX, const int targetY);
             bool CanMove(Scene::Actor* actor, const Scene::Actor::Direction direction);
             bool IsTileBlocked(const int x, const int y, const Scene::Actor* ignore = nullptr) const;
             bool TryInteract();

@@ -20,9 +20,6 @@ namespace Game {
                 }
             }
 
-            // This only handles blocking actions. At some point very soon I'm going to need
-            // to figure out how to make actions asynchronous so I can have something like
-            // two NPCs moving around at the same time while dialogue is happening.
             void CutsceneSession::Update(const float deltaTime) {
                 if (!this->currentAction) {
                     if (this->actions.empty()) {
