@@ -7,6 +7,7 @@ namespace Game {
 
         Actor::Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet) {
             this->logger = Services::Locator::LoggerService()->GetLogger(Actor::logChannel);
+            this->persistent = false;
             this->currentMap = nullptr;
             this->currentTileX = 0;
             this->currentTileY = 0;
@@ -19,6 +20,14 @@ namespace Game {
         }
 
         Actor::~Actor() {
+        }
+
+        bool Actor::IsPersistent() const {
+            return this->persistent;
+        }
+
+        void Actor::SetPersistent(const bool persistent) {
+            this->persistent = persistent;
         }
 
         int Actor::GetCurrentTileX() const {

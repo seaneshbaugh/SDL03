@@ -56,6 +56,8 @@ namespace Game {
 
             Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet);
             ~Actor();
+            bool IsPersistent() const;
+            void SetPersistent(const bool persistent);
             void SetPosition(const int x, const int y);
             int GetCurrentTileX() const;
             int GetCurrentTileY() const;
@@ -88,6 +90,7 @@ namespace Game {
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
+            bool persistent;
             int currentTileX;
             int currentTileY;
             float currentWorldX;

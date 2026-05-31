@@ -40,6 +40,7 @@ namespace Game {
 
             // TODO: This should all also probably be a function which is called by WorldManager::NewGame.
             this->player = std::make_shared<Scene::Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
+            this->player->SetPersistent(true);
             this->player->id = "player";
             this->player->name = "Sean";
             this->actors.push_back(this->player);
@@ -533,14 +534,11 @@ namespace Game {
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
-            //for (auto& actor : this->actors) {
-            //    if (actor->id != "player") {
-            //        this->RemoveActor(actor->id);
-            //    }
-            //}
-            // THIS ASSUMES player is THE FIRST ELEMENT
             if (this->state == State::Gameplay) {
-                this->actors.erase(this->actors.begin() + 1, this->actors.end());
+                this->actors.erase(std::remove_if(this->actors.begin(), this->actors.end(), [](const std::shared_ptr<Scene::Actor>& actor) {
+                                       return !actor->IsPersistent();
+                                   }),
+                                   this->actors.end());
             }
 
             Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
