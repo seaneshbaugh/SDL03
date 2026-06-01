@@ -15,14 +15,14 @@ namespace Game {
                 }
 
                 void PathfindActor::Start() {
-                    this->actor = this->map->actorManager.GetActor(this->actorId);
+                    this->actor = this->map->actorManager->GetActor(this->actorId);
 
                     if (!this->actor) {
                         return;
                     }
 
                     if (!this->targetId.empty()) {
-                        this->target = this->map->actorManager.GetActor(this->targetId);
+                        this->target = this->map->actorManager->GetActor(this->targetId);
 
                         if (!this->target) {
                             return;

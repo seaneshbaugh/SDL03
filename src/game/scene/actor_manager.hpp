@@ -4,6 +4,10 @@
 #include "actor.hpp"
 
 namespace Game {
+    namespace States {
+        class Map;
+    }
+
     namespace Scene {
         class ActorManager {
         public:
@@ -11,15 +15,18 @@ namespace Game {
             std::vector<std::shared_ptr<Actor>> actors;
             std::unordered_map<std::string, std::shared_ptr<Actor>> actorLookup;
 
-            ActorManager();
+            ActorManager(States::Map* mapState);
             ~ActorManager();
-            std::shared_ptr<Scene::Actor> GetActor(const std::string& actorId);
-            void RemoveActor(const std::string& actorId);
+            std::shared_ptr<Scene::Actor> GetActor(const std::string& id);
+            std::shared_ptr<Scene::Actor> AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+            void RemoveActor(const std::string& id);
+            void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
 
         private:
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
+            States::Map* mapState;
         };
     }
 }

@@ -12,7 +12,7 @@ namespace Game {
                 }
 
                 void RemoveActor::Start() {
-                    this->map->actorManager.RemoveActor(this->actorId);
+                    this->map->actorManager->RemoveActor(this->actorId);
 
                     this->completed = true;
                 }

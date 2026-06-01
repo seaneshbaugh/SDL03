@@ -20,6 +20,7 @@ namespace Game {
             this->state = State::Gameplay;
             this->previousState = State::Gameplay;
             this->pop = false;
+            this->actorManager = std::make_shared<Scene::ActorManager>(this);
             this->camera = std::make_shared<Scene::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
             this->LoadLuaState("scripts/states/map.lua");
 
@@ -39,14 +40,11 @@ namespace Game {
             }
 
             // TODO: This should all also probably be a function which is called by WorldManager::NewGame.
-            this->actorManager.player = std::make_shared<Scene::Actor>(Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet());
-            this->actorManager.player->SetPersistent(true);
-            this->actorManager.player->id = "player";
-            this->actorManager.player->name = "Sean";
-            this->actorManager.actors.push_back(this->actorManager.player);
-            this->actorManager.actorLookup[this->actorManager.player->id] = this->actorManager.player;
-            this->PlaceActor(this->actorManager.player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down);
-            this->camera->Follow(this->actorManager.player);
+            std::shared_ptr<Scene::Actor> player = this->actorManager->AddActor("player", "Sean", Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down, "", "");
+            player->SetPersistent(true);
+            player->SetMovementSpeed(4.0f);
+            this->actorManager->player = player;
+            this->camera->Follow(this->actorManager->player);
 
             // TODO: Create some sort of wrapper around this state.
             this->movementInputHeldDirection = Scene::Actor::Direction::Down;
@@ -88,12 +86,12 @@ namespace Game {
         Transition Map::UpdateGameplay(const float deltaTime) {
             this->UpdateMovementInput();
 
-            for (auto actor = this->actorManager.actors.begin(); actor != this->actorManager.actors.end(); actor++) {
+            for (auto actor = this->actorManager->actors.begin(); actor != this->actorManager->actors.end(); actor++) {
                 (*actor)->Update(deltaTime);
             }
 
             // TODO: Run this loop for each Actor.
-            while (auto step = this->actorManager.player->ConsumeCompletedStep()) {
+            while (auto step = this->actorManager->player->ConsumeCompletedStep()) {
                 // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
                 // every step and there's no reason to update it unless there's a chance we might save the game.
                 Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
@@ -103,13 +101,13 @@ namespace Game {
                 this->Step(step->tileX, step->tileY);
             }
 
-            if (!this->actorManager.player->IsMoving() && this->movementInputHeld) {
-                this->actorManager.player->ClearPendingMovement();
+            if (!this->actorManager->player->IsMoving() && this->movementInputHeld) {
+                this->actorManager->player->ClearPendingMovement();
 
-                this->QueueMovement(this->actorManager.player.get(), this->movementInputHeldDirection, 1);
+                this->QueueMovement(this->actorManager->player.get(), this->movementInputHeldDirection, 1);
             }
 
-            for (auto& actor : this->actorManager.actors) {
+            for (auto& actor : this->actorManager->actors) {
                 if (!actor->IsMoving()) {
                     auto nextMove = actor->PeekMovement();
 
@@ -184,11 +182,11 @@ namespace Game {
         Transition Map::UpdateCutscene(const float deltaTime) {
             this->cutsceneSession.Update(deltaTime);
 
-            for (auto actor = this->actorManager.actors.begin(); actor != this->actorManager.actors.end(); actor++) {
+            for (auto actor = this->actorManager->actors.begin(); actor != this->actorManager->actors.end(); actor++) {
                 (*actor)->Update(deltaTime);
             }
 
-            for (auto& actor : this->actorManager.actors) {
+            for (auto& actor : this->actorManager->actors) {
                 if (!actor->IsMoving()) {
                     auto nextMove = actor->PeekMovement();
 
@@ -270,9 +268,9 @@ namespace Game {
 
             std::vector<Scene::Actor*> renderActors;
 
-            renderActors.reserve(this->actorManager.actors.size());
+            renderActors.reserve(this->actorManager->actors.size());
 
-            for (auto& actor : this->actorManager.actors) {
+            for (auto& actor : this->actorManager->actors) {
                 renderActors.push_back(actor.get());
             }
 
@@ -291,15 +289,6 @@ namespace Game {
             if (this->state == State::Dialogue) {
                 this->dialogueSession.Render(this->camera);
             }
-        }
-
-        void Map::PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction) {
-            actor->currentMap = this->currentMap;
-            actor->SetPosition(x, y);
-            actor->SetAnimation(Scene::Actor::Animation::Stand);
-            actor->SetDirection(direction);
-            actor->animationFrame = 0;
-            actor->timeSinceLastAnimationFrame = 0.0f;
         }
 
         void Map::QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance) {
@@ -436,7 +425,7 @@ namespace Game {
         }
 
         bool Map::IsTileBlocked(const int x, const int y, const Scene::Actor* ignore) const {
-            for (auto& actor : this->actorManager.actors) {
+            for (auto& actor : this->actorManager->actors) {
                 if (actor.get() == ignore) {
                     continue;
                 }
@@ -450,10 +439,10 @@ namespace Game {
         }
 
         bool Map::TryInteract() {
-            int targetX = this->actorManager.player->GetOccupiedTileX();
-            int targetY = this->actorManager.player->GetOccupiedTileY();
+            int targetX = this->actorManager->player->GetOccupiedTileX();
+            int targetY = this->actorManager->player->GetOccupiedTileY();
 
-            switch (this->actorManager.player->GetDirection()) {
+            switch (this->actorManager->player->GetDirection()) {
             case Scene::Actor::Direction::Up:
                 targetY--;
 
@@ -479,11 +468,11 @@ namespace Game {
             auto actor = this->GetActorAtTile(targetX, targetY);
 
             if (actor.has_value()) {
-                if (actor.value().get() == this->actorManager.player.get()) {
+                if (actor.value().get() == this->actorManager->player.get()) {
                     return false;
                 }
 
-                actor.value()->Interact(this->actorManager.player);
+                actor.value()->Interact(this->actorManager->player);
 
                 return true;
             }
@@ -501,7 +490,7 @@ namespace Game {
         }
 
         std::optional<std::shared_ptr<Scene::Actor>> Map::GetActorAtTile(const int x, const int y) const {
-            for (auto& actor : this->actorManager.actors) {
+            for (auto& actor : this->actorManager->actors) {
                 if (actor->OccupiesTile(x, y)) {
                     return actor;
                 }
@@ -512,12 +501,12 @@ namespace Game {
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
             if (this->state == State::Gameplay) {
-                this->actorManager.actors.erase(std::remove_if(this->actorManager.actors.begin(), this->actorManager.actors.end(), [](const std::shared_ptr<Scene::Actor>& actor) {
+                this->actorManager->actors.erase(std::remove_if(this->actorManager->actors.begin(), this->actorManager->actors.end(), [](const std::shared_ptr<Scene::Actor>& actor) {
                                        return !actor->IsPersistent();
                                    }),
-                                   this->actorManager.actors.end());
+                                   this->actorManager->actors.end());
 
-                std::erase_if(this->actorManager.actorLookup, [](const auto& pair) {
+                std::erase_if(this->actorManager->actorLookup, [](const auto& pair) {
                     return !pair.second->IsPersistent();
                 });
             }
@@ -528,9 +517,9 @@ namespace Game {
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
-            this->PlaceActor(this->actorManager.player, startX, startY, Scene::Actor::Direction::Down);
+            this->actorManager->PlaceActor(this->actorManager->player, startX, startY, Scene::Actor::Direction::Down);
 
-            this->camera->Follow(this->actorManager.player);
+            this->camera->Follow(this->actorManager->player);
 
             (*this->luaState.get())["after_map_load"]();
 
@@ -626,7 +615,7 @@ namespace Game {
         void Map::StartCutscene(const std::string& cutsceneId) {
             this->logger->debug() << "Starting cutscene with ID \"" << cutsceneId << "\".";
 
-            this->actorManager.player->ClearPendingMovement();
+            this->actorManager->player->ClearPendingMovement();
 
             std::shared_ptr<Scene::Cutscenes::Cutscene> cutscene = std::make_shared<Scene::Cutscenes::Cutscene>(this, cutsceneId);
 
@@ -634,28 +623,6 @@ namespace Game {
 
             this->previousState = this->state;
             this->state = State::Cutscene;
-        }
-
-        std::shared_ptr<Scene::Actor> Map::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
-            std::shared_ptr<Graphics::Spritesheet> spritesheet = std::make_shared<Graphics::Spritesheet>(spritesheetName);
-
-            std::shared_ptr<Scene::Actor> actor = std::make_shared<Scene::Actor>(spritesheet);
-
-            actor->id = id;
-            actor->name = name;
-            actor->dialogueId = dialogueId;
-            actor->SetMovementSpeed(2.0f);
-            actor->SetMapState(this);
-            actor->LoadLuaScript("scripts/actors/movement/" + movementScriptName + ".lua");
-            actor->LoadLuaScript("scripts/actors/interaction/" + interactionScriptName + ".lua");
-
-            this->actorManager.actors.push_back(actor);
-
-            this->actorManager.actorLookup[actor->id] = actor;
-
-            this->PlaceActor(actor, x, y, direction);
-
-            return actor;
         }
 
         std::shared_ptr<Scene::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
@@ -668,7 +635,7 @@ namespace Game {
                 return nullptr;
             }
 
-            return this->AddActor(id, name, spritesheetName, dialogueId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
+            return this->actorManager->AddActor(id, name, spritesheetName, dialogueId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
         }
 
         void Map::LoadLuaState(const std::string& scriptFilePath) {
@@ -708,7 +675,6 @@ namespace Game {
                                      sol::no_constructor,
                                      "startDialogue", &Map::StartDialogue,
                                      "startCutscene", &Map::StartCutscene,
-                                     "addActor", &Map::AddActor,
                                      "addActorAtSpawnPoint", &Map::AddActorAtSpawnPoint
                                      );
         }

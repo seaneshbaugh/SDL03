@@ -1,35 +1,77 @@
 #include "actor_manager.hpp"
+#include "../states/map.hpp"
 
 namespace Game {
     namespace Scene {
         const std::string ActorManager::logChannel = "scene";
 
-        ActorManager::ActorManager() {
+        ActorManager::ActorManager(States::Map* mapState) : mapState(mapState) {
             this->logger = Services::Locator::LoggerService()->GetLogger(ActorManager::logChannel);
         }
 
         ActorManager::~ActorManager() {
         }
 
-        std::shared_ptr<Scene::Actor> ActorManager::GetActor(const std::string& actorId) {
-            auto it = this->actorLookup.find(actorId);
+        std::shared_ptr<Scene::Actor> ActorManager::GetActor(const std::string& id) {
+            auto it = this->actorLookup.find(id);
 
             if (it != this->actorLookup.end()) {
                 return it->second;
             }
 
-            this->logger->warning() << "Failed to get actor with ID \"" << actorId << "\".";
+            this->logger->warning() << "Failed to get actor with ID \"" << id << "\".";
 
             return nullptr;
         }
 
-        void ActorManager::RemoveActor(const std::string& actorId) {
-            auto actor = this->GetActor(actorId);
+        std::shared_ptr<Scene::Actor> ActorManager::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+            std::shared_ptr<Graphics::Spritesheet> spritesheet = std::make_shared<Graphics::Spritesheet>(spritesheetName);
+
+            std::shared_ptr<Scene::Actor> actor = std::make_shared<Scene::Actor>(spritesheet);
+
+            actor->id = id;
+            actor->name = name;
+            actor->dialogueId = dialogueId;
+            actor->SetMovementSpeed(2.0f);
+            actor->SetMapState(this->mapState);
+
+            if (!movementScriptName.empty()) {
+                actor->LoadLuaScript("scripts/actors/movement/" + movementScriptName + ".lua");
+            }
+
+            if (!interactionScriptName.empty()) {
+                actor->LoadLuaScript("scripts/actors/interaction/" + interactionScriptName + ".lua");
+            }
+
+            if (this->actorLookup.contains(id)) {
+                this->RemoveActor(id);
+            }
+
+            this->actors.push_back(actor);
+
+            this->actorLookup[actor->id] = actor;
+
+            this->PlaceActor(actor, x, y, direction);
+
+            return actor;
+        }
+
+        void ActorManager::RemoveActor(const std::string& id) {
+            auto actor = this->GetActor(id);
 
             if (actor) {
                 this->actors.erase(std::remove(this->actors.begin(), this->actors.end(), actor), this->actors.end());
-                this->actorLookup.erase(actorId);
+                this->actorLookup.erase(id);
             }
+        }
+
+        void ActorManager::PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction) {
+            actor->currentMap = this->mapState->currentMap;
+            actor->SetPosition(x, y);
+            actor->SetAnimation(Scene::Actor::Animation::Stand);
+            actor->SetDirection(direction);
+            actor->animationFrame = 0;
+            actor->timeSinceLastAnimationFrame = 0.0f;
         }
     }
 }
