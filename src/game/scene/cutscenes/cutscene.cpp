@@ -66,6 +66,14 @@ namespace Game {
                     return std::make_shared<Actions::AddActor>(cutscene->map, id, name, spritesheetName, dialogueId, x, y, direction, movementScriptName, interactionScriptName);
                 };
 
+                this->actionFactories["animate_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+                    std::string actorId = node["actorId"].get<std::string>();
+                    std::string animationName = node["animation"].get<std::string>();
+                    float duration = node["duration"].get<float>();
+
+                    return std::make_shared<Actions::AnimateActor>(cutscene->map, actorId, animationName, duration);
+                };
+
                 this->actionFactories["dialogue"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
                     std::string dialogueId = node["dialogueId"].get<std::string>();
 

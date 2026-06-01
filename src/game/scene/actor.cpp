@@ -12,6 +12,7 @@ namespace Game {
             this->currentTileX = 0;
             this->currentTileY = 0;
             this->animation = Animation::Stand;
+            this->isPlayingAnimation = false;
             this->direction = Direction::Down;
             this->isMoving = false;
             this->movementSpeed = 4.0f;
@@ -82,6 +83,10 @@ namespace Game {
 
         void Actor::SetAnimation(const Animation animation) {
             this->animation = animation;
+        }
+
+        int Actor::GetAnimationFrameCount() const {
+            return this->appearance->spritesheet->animations.find(this->GetSpriteName())->second.frames.size();
         }
 
         Actor::Direction Actor::GetDirection() const {
@@ -160,16 +165,18 @@ namespace Game {
                 // still be a good idea to not hard code that value here. Maybe add a function to the Character class
                 // that returns the number of frames in the walk animation and then use the reciprocal.
                 if (this->timeSinceLastAnimationFrame >= 0.125f) {
-                    this->animationFrame = (this->animationFrame + 1) % 8;
+                    this->animationFrame = (this->animationFrame + 1) % this->GetAnimationFrameCount();
                     this->timeSinceLastAnimationFrame = 0.0f;
                 }
             } else {
-                // I don't like how I'm resetting this on every frame where the player is standing still. But if I set
-                // the animation when the player is finished moving in the block above then it drops the last frame
-                // of the walk animation and looks really weird.
-                this->SetAnimation(Animation::Stand);
-                this->animationFrame = 0;
-                this->timeSinceLastAnimationFrame = 0.0f;
+                if (!this->isPlayingAnimation) {
+                    // I don't like how I'm resetting this on every frame where the player is standing still. But if I set
+                    // the animation when the player is finished moving in the block above then it drops the last frame
+                    // of the walk animation and looks really weird.
+                    this->SetAnimation(Animation::Stand);
+                    this->animationFrame = 0;
+                    this->timeSinceLastAnimationFrame = 0.0f;
+                }
             }
 
             sol::protected_function update = (*this->luaState.get())["update"];
@@ -304,33 +311,7 @@ namespace Game {
         }
 
         std::string Actor::GetSpriteName() const {
-            return this->AnimationToString(this->animation) + "." + this->DirectionToString(this->direction);
-        }
-
-        std::string Actor::AnimationToString(const Animation animation) const {
-            switch (animation) {
-            case Animation::Stand:
-                return "stand";
-            case Animation::Walk:
-                return "walk";
-            }
-
-            return "stand";
-        }
-
-        std::string Actor::DirectionToString(const Direction direction) const {
-            switch (this->direction) {
-            case Direction::Up:
-                return "up";
-            case Direction::Right:
-                return "right";
-            case Direction::Down:
-                return "down";
-            case Direction::Left:
-                return "left";
-            }
-
-            return "down";
+            return AnimationToString(this->animation) + "." + DirectionToString(this->direction);
         }
 
         bool Actor::LoadLuaScript(const std::string& scriptFilePath) {
@@ -350,6 +331,64 @@ namespace Game {
             }
 
             return true;
+        }
+
+        std::string Actor::AnimationToString(const Animation animation) {
+            switch (animation) {
+            case Animation::Die:
+                return "die";
+            case Animation::Stand:
+                return "stand";
+            case Animation::Walk:
+                return "walk";
+            }
+
+            return "stand";
+        }
+
+        std::string Actor::DirectionToString(const Direction direction) {
+            switch (direction) {
+            case Direction::Up:
+                return "up";
+            case Direction::Right:
+                return "right";
+            case Direction::Down:
+                return "down";
+            case Direction::Left:
+                return "left";
+            }
+
+            return "down";
+        }
+
+        Actor::Animation Actor::StringToAnimation(const std::string& animation) {
+            if (animation == "die") {
+
+
+                return Animation::Die;
+            } else if (animation == "idle") {
+                return Animation::Idle;
+            } else if (animation == "stand") {
+                return Animation::Stand;
+            } else if (animation == "walk") {
+                return Animation::Walk;
+            }
+
+            return Animation::Stand;
+        }
+
+        Actor::Direction Actor::StringToDirection(const std::string& direction) {
+            if (direction == "up") {
+                return Direction::Up;
+            } else if (direction == "right") {
+                return Direction::Right;
+            } else if (direction == "down") {
+                return Direction::Down;
+            } else if (direction == "left") {
+                return Direction::Left;
+            }
+
+            return Direction::Down;
         }
 
         void Actor::LoadLuaState() {

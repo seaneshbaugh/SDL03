@@ -48,30 +48,6 @@ namespace Game {
             this->PlaceActor(this->player, Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scene::Actor::Direction::Down);
             this->camera->Follow(this->player);
 
-            // THIS IS JUST A TEST OF THE PATHFINDING TO SEE IF IT WORKS.
-            std::vector<Scene::Actor::Direction> path = this->Pathfind(this->player.get(), 16, 17);
-
-            for (auto direction : path) {
-                std::string directionString;
-
-                switch (direction) {
-                case Scene::Actor::Direction::Up:
-                    directionString = "up";
-                    break;
-                case Scene::Actor::Direction::Right :
-                    directionString = "right";
-                    break;
-                case Scene::Actor::Direction::Down:
-                    directionString = "down";
-                    break;
-                case Scene::Actor::Direction::Left:
-                    directionString = "left";
-                    break;
-                }
-
-                this->logger->debug() << "Pathfinding direction: " << directionString;
-            }
-
             // TODO: Create some sort of wrapper around this state.
             this->movementInputHeldDirection = Scene::Actor::Direction::Down;
             this->movementInputHeld = false;

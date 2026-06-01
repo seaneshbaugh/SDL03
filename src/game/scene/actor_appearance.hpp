@@ -10,11 +10,10 @@ namespace Game {
 
         class ActorAppearance {
         public:
+            std::shared_ptr<Graphics::Spritesheet> spritesheet;
+
             ActorAppearance(std::shared_ptr<Graphics::Spritesheet> spritesheet);
             void Render(const std::string& animationName, const unsigned int frameIndex, const float worldX, const float worldY, std::shared_ptr<Camera> camera);
-
-        private:
-            std::shared_ptr<Graphics::Spritesheet> spritesheet;
         };
     }
 }

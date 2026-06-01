@@ -29,9 +29,10 @@ namespace Game {
             };
 
             enum class Animation {
+                Die,
+                Idle,
                 Stand,
-                Walk,
-                Idle
+                Walk
             };
 
             struct AnimationState {
@@ -44,11 +45,17 @@ namespace Game {
                 int tileY;
             };
 
+            static std::string AnimationToString(const Animation animation);
+            static std::string DirectionToString(const Direction direction);
+            static Animation StringToAnimation(const std::string& animation);
+            static Direction StringToDirection(const std::string& direction);
+
             std::string id;
             std::string name;
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int animationFrame;
             float timeSinceLastAnimationFrame;
+            bool isPlayingAnimation;
             std::shared_ptr<ActorAppearance> appearance;
             // TODO: Make this private?
             std::shared_ptr<sol::state> luaState;
@@ -67,9 +74,11 @@ namespace Game {
             float GetCurrentWorldY() const;
             Animation GetAnimation() const;
             void SetAnimation(const Animation animation);
+            int GetAnimationFrameCount() const;
             Direction GetDirection() const;
             void SetDirection(const Direction direction);
             void SetMovementSpeed(const float movementSpeed);
+            std::string GetSpriteName() const;
             bool IsMoving() const;
             void Update(const float deltaTime);
             void QueueMovement(const Direction direction);
@@ -106,10 +115,6 @@ namespace Game {
             std::queue<Direction> movementQueue;
             std::queue<CompletedStep> completedSteps;
             sol::environment luaEnvironment;
-
-            std::string GetSpriteName() const;
-            std::string AnimationToString(const Animation animation) const;
-            std::string DirectionToString(const Direction direction) const;
             void LoadLuaState();
 
         public:

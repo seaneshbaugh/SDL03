@@ -31,6 +31,20 @@
       "dialogueId": "ginger"
     },
     {
+      "type": "wait",
+      "duration": 0.5
+    },
+    {
+      "type": "animate_actor",
+      "actorId": "guard",
+      "animation": "die",
+      "duration": 1.5
+    },
+    {
+      "type": "wait",
+      "duration": 0.5
+    },
+    {
       "type": "pathfind_actor",
       "actorId": "guard",
       "x": 3,
