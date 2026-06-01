@@ -429,6 +429,9 @@
     <ClCompile Include="src\game\scene\cutscenes\actions\animate_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scene\actor_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -891,6 +894,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scene\cutscenes\actions\animate_actor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scene\actor_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

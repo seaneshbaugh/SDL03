@@ -65,6 +65,7 @@
     <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp" />
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp" />
     <ClCompile Include="src\game\scene\actor_appearance.cpp" />
+    <ClCompile Include="src\game\scene\actor_manager.cpp" />
     <ClCompile Include="src\game\scene\camera.cpp" />
     <ClCompile Include="src\game\engine.cpp" />
     <ClCompile Include="src\game\events\base.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp" />
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp" />
     <ClInclude Include="src\game\scene\actor_appearance.hpp" />
+    <ClInclude Include="src\game\scene\actor_manager.hpp" />
     <ClInclude Include="src\game\scene\camera.hpp" />
     <ClInclude Include="src\game\engine.hpp" />
     <ClInclude Include="src\game\events\base.hpp" />

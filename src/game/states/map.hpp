@@ -7,7 +7,7 @@
 #include "../objects/maps/map.hpp"
 #include "../objects/world.hpp"
 #include "../scene/camera.hpp"
-#include "../scene/actor.hpp"
+#include "../scene/actor_manager.hpp"
 #include "../scene/dialogue/dialogue_session.hpp"
 #include "../scene/cutscenes/cutscene_session.hpp"
 
@@ -52,9 +52,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             std::shared_ptr<Scene::Camera> camera;
-            std::shared_ptr<Scene::Actor> player;
-            std::vector<std::shared_ptr<Scene::Actor>> actors;
-            std::unordered_map<std::string, std::shared_ptr<Scene::Actor>> actorLookup;
+            Scene::ActorManager actorManager;
             Scene::Actor::Direction movementDirection;
             Scene::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;

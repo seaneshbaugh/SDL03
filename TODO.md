@@ -1,11 +1,8 @@
 # TODO
 
 - Remove Map prefix from classes in the Objects::Map namespace. It's redundant.
-- Clean up States::Map::Update function, break out different substate updates into their own functions.
 - Make it so going to dialogue substate doesn't necessarily freeze all other NPCs. We might want to be able to have NPCs moving while dialogue is happening.
 - Organize declarations and definitions for States::Map according to functionality. Need to do this with all classes but this one is especially bad right now.
-- Add NPC spawn points to map data.
-- Add spawn scripts that actually run the NPC spawns and tie dialogue to them.
 - Tie to dialogue could be as simple as having different interaction scripts for each NPC. Something that looks like:
   ```
     function interact(self, initiator)
