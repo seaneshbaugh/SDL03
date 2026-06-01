@@ -339,7 +339,7 @@ namespace Game {
                         continue;
                     }
 
-                    if (this->IsTileBlocked(potentialNeighbor.first, potentialNeighbor.second, actor)) {
+                    if (this->actorManager->IsTileBlocked(potentialNeighbor.first, potentialNeighbor.second, actor)) {
                         continue;
                     }
 
@@ -417,25 +417,11 @@ namespace Game {
                 return false;
             }
 
-            if (this->IsTileBlocked(targetX, targetY, actor)) {
+            if (this->actorManager->IsTileBlocked(targetX, targetY, actor)) {
                 return false;
             }
 
             return true;
-        }
-
-        bool Map::IsTileBlocked(const int x, const int y, const Scene::Actor* ignore) const {
-            for (auto& actor : this->actorManager->actors) {
-                if (actor.get() == ignore) {
-                    continue;
-                }
-
-                if (actor->OccupiesTile(x, y)) {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         bool Map::TryInteract() {

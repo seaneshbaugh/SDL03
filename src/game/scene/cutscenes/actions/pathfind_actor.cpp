@@ -56,7 +56,7 @@ namespace Game {
                         // in which case we should just try to pathfind to the target's tile and let the pathfinding fail
                         // and not move the actor.
                         for (auto& possibleTarget : possibleTargets) {
-                            if (!this->map->IsTileBlocked(possibleTarget.first, possibleTarget.second, this->actor.get())) {
+                            if (!this->map->actorManager->IsTileBlocked(possibleTarget.first, possibleTarget.second, this->actor.get())) {
                                 this->targetX = possibleTarget.first;
                                 this->targetY = possibleTarget.second;
 

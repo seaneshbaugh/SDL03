@@ -65,13 +65,27 @@ namespace Game {
             }
         }
 
-        void ActorManager::PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction) {
+        void ActorManager::PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction) const {
             actor->currentMap = this->mapState->currentMap;
             actor->SetPosition(x, y);
             actor->SetAnimation(Scene::Actor::Animation::Stand);
             actor->SetDirection(direction);
             actor->animationFrame = 0;
             actor->timeSinceLastAnimationFrame = 0.0f;
+        }
+
+        bool ActorManager::IsTileBlocked(const int x, const int y, const Scene::Actor* ignore) const {
+            for (auto& actor : this->actors) {
+                if (actor.get() == ignore) {
+                    continue;
+                }
+
+                if (actor->OccupiesTile(x, y)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

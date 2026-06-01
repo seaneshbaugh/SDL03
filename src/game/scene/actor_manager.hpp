@@ -11,6 +11,7 @@ namespace Game {
     namespace Scene {
         class ActorManager {
         public:
+
             std::shared_ptr<Actor> player;
             std::vector<std::shared_ptr<Actor>> actors;
             std::unordered_map<std::string, std::shared_ptr<Actor>> actorLookup;
@@ -20,7 +21,8 @@ namespace Game {
             std::shared_ptr<Scene::Actor> GetActor(const std::string& id);
             std::shared_ptr<Scene::Actor> AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
             void RemoveActor(const std::string& id);
-            void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
+            void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction) const;
+            bool IsTileBlocked(const int x, const int y, const Scene::Actor* ignore) const;
 
         private:
             static const std::string logChannel;
