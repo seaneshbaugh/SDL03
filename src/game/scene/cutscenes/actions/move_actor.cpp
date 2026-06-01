@@ -9,7 +9,7 @@ namespace Game {
                 }
 
                 void MoveActor::Start() {
-                    this->actor = this->map->GetActor(actorId);
+                    this->actor = this->map->actorManager.GetActor(actorId);
 
                     if (!this->actor) {
                         return;

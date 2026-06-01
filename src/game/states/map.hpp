@@ -23,6 +23,8 @@ namespace Game {
                 Cutscene
             };
 
+            Scene::ActorManager actorManager;
+
             Map();
             ~Map();
             void HandleEvent(const SDL_Event& event);
@@ -37,10 +39,8 @@ namespace Game {
             void StartDialogue(const std::string& dialogueId);
             bool DialogueSessionCompleted() const;
             void StartCutscene(const std::string& cutsceneId);
-            std::shared_ptr<Scene::Actor> GetActor(const std::string& actorId);
             std::shared_ptr<Scene::Actor> AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
             std::shared_ptr<Scene::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
-            void RemoveActor(const std::string& actorId);
 
         protected:
             bool IsTileBlocked(const int x, const int y, const Scene::Actor* ignore = nullptr) const;
@@ -52,7 +52,6 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             std::shared_ptr<Scene::Camera> camera;
-            Scene::ActorManager actorManager;
             Scene::Actor::Direction movementDirection;
             Scene::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;

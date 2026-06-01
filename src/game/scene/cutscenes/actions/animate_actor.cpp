@@ -12,7 +12,7 @@ namespace Game {
                 }
 
                 void AnimateActor::Start() {
-                    this->actor = this->map->GetActor(this->actorId);
+                    this->actor = this->map->actorManager.GetActor(this->actorId);
 
                     if (!this->actor) {
                         return;

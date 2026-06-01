@@ -636,18 +636,6 @@ namespace Game {
             this->state = State::Cutscene;
         }
 
-        std::shared_ptr<Scene::Actor> Map::GetActor(const std::string& actorId) {
-            auto it = this->actorManager.actorLookup.find(actorId);
-
-            if (it != this->actorManager.actorLookup.end()) {
-                return it->second;
-            }
-
-            this->logger->warning() << "Failed to get actor with ID \"" << actorId << "\".";
-
-            return nullptr;
-        }
-
         std::shared_ptr<Scene::Actor> Map::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
             std::shared_ptr<Graphics::Spritesheet> spritesheet = std::make_shared<Graphics::Spritesheet>(spritesheetName);
 
@@ -681,15 +669,6 @@ namespace Game {
             }
 
             return this->AddActor(id, name, spritesheetName, dialogueId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
-        }
-
-        void Map::RemoveActor(const std::string& actorId) {
-            auto actor = this->GetActor(actorId);
-
-            if (actor) {
-                this->actorManager.actors.erase(std::remove(this->actorManager.actors.begin(), this->actorManager.actors.end(), actor), this->actorManager.actors.end());
-                this->actorManager.actorLookup.erase(actorId);
-            }
         }
 
         void Map::LoadLuaState(const std::string& scriptFilePath) {
@@ -729,10 +708,8 @@ namespace Game {
                                      sol::no_constructor,
                                      "startDialogue", &Map::StartDialogue,
                                      "startCutscene", &Map::StartCutscene,
-                                     "getActor", &Map::GetActor,
                                      "addActor", &Map::AddActor,
-                                     "addActorAtSpawnPoint", &Map::AddActorAtSpawnPoint,
-                                     "removeActor", &Map::RemoveActor
+                                     "addActorAtSpawnPoint", &Map::AddActorAtSpawnPoint
                                      );
         }
     }

@@ -13,8 +13,13 @@ namespace Game {
 
             ActorManager();
             ~ActorManager();
+            std::shared_ptr<Scene::Actor> GetActor(const std::string& actorId);
+            void RemoveActor(const std::string& actorId);
 
         private:
+            static const std::string logChannel;
+
+            std::shared_ptr<Log::Logger> logger;
         };
     }
 }
