@@ -38,6 +38,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> GetCurrentMap();
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y);
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
+            bool CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction);
             void Step(unsigned int x, unsigned int y);
             void StartDialogue(const std::string& dialogueId);
             bool DialogueSessionCompleted() const;
@@ -73,9 +74,7 @@ namespace Game {
             Transition UpdateDialogue(const float deltaTime);
             Transition UpdateCutscene(const float deltaTime);
             void LoadLuaState(const std::string& scriptFilePath);
-            void PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction);
             void QueueMovement(Scenes::Actor* actor, const Scenes::Actor::Direction direction, const int distance);
-            bool CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction);
             bool TryInteract();
             std::optional<std::shared_ptr<Scenes::Actor>> GetActorAtTile(const int x, const int y) const;
 

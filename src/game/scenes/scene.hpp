@@ -15,6 +15,9 @@ namespace Game {
 
             Scene(States::Map* mapState);
             ~Scene();
+            void Update(const float deltaTime);
+            void ProcessCompletedSteps();
+            void ProcessPendingMovement();
             void Render() const;
 
         private:

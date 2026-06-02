@@ -86,18 +86,9 @@ namespace Game {
         Transition Map::UpdateGameplay(const float deltaTime) {
             this->UpdateMovementInput();
 
-            this->scene->actorManager->UpdateActors(deltaTime);
+            this->scene->Update(deltaTime);
 
-            // TODO: Run this loop for each Actor.
-            while (auto step = this->scene->actorManager->player->ConsumeCompletedStep()) {
-                // Maybe only do this when transitioning to the PauseMenu state. It probably doesn't need to happen
-                // every step and there's no reason to update it unless there's a chance we might save the game.
-                Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);
-
-                this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
-
-                this->Step(step->tileX, step->tileY);
-            }
+            this->scene->ProcessCompletedSteps();
 
             if (!this->scene->actorManager->player->IsMoving() && this->movementInputHeld) {
                 this->scene->actorManager->player->ClearPendingMovement();
@@ -105,20 +96,7 @@ namespace Game {
                 this->QueueMovement(this->scene->actorManager->player.get(), this->movementInputHeldDirection, 1);
             }
 
-            for (auto& actor : this->scene->actorManager->actors) {
-                if (!actor->IsMoving()) {
-                    auto nextMove = actor->PeekMovement();
-
-                    if (nextMove.has_value()) {
-                        actor->SetDirection(nextMove.value());
-
-                        if (this->CanMove(actor.get(), nextMove.value())) {
-                            actor->PopMovement();
-                            actor->StartMovement(nextMove.value());
-                        }
-                    }
-                }
-            }
+            this->scene->ProcessPendingMovement();
 
             if (this->interactionRequested) {
                 this->interactionRequested = false;
@@ -180,22 +158,9 @@ namespace Game {
         Transition Map::UpdateCutscene(const float deltaTime) {
             this->cutsceneSession.Update(deltaTime);
 
-            this->scene->actorManager->UpdateActors(deltaTime);
+            this->scene->Update(deltaTime);
 
-            for (auto& actor : this->scene->actorManager->actors) {
-                if (!actor->IsMoving()) {
-                    auto nextMove = actor->PeekMovement();
-
-                    if (nextMove.has_value()) {
-                        actor->SetDirection(nextMove.value());
-
-                        if (this->CanMove(actor.get(), nextMove.value())) {
-                            actor->PopMovement();
-                            actor->StartMovement(nextMove.value());
-                        }
-                    }
-                }
-            }
+            this->scene->ProcessPendingMovement();
 
             if (this->cutsceneSession.IsCompleted()) {
                 this->state = State::Gameplay;
@@ -541,18 +506,19 @@ namespace Game {
         }
 
         void Map::Step(unsigned int x, unsigned int y) {
-            Services::Locator::WorldService()->UpdatePlayerPosition(x, y);
-
             auto objects = this->currentMap->GetObjects(x, y);
 
             for (auto object = objects.begin(); object != objects.end(); object++) {
                 Objects::Maps::MapLoadPoint* mapLoadPoint = dynamic_cast<Objects::Maps::MapLoadPoint*>(object->get());
 
                 if (mapLoadPoint) {
+                    // TODO: Make the MapLoadPoint parser handle this.
                     const int startX = mapLoadPoint->GetProperty("x") != "" ? std::stoi(mapLoadPoint->GetProperty("x")) : 0;
                     const int startY = mapLoadPoint->GetProperty("y") != "" ? std::stoi(mapLoadPoint->GetProperty("y")) : 0;
 
                     this->LoadMap(mapLoadPoint->GetProperty("map"), startX, startY);
+
+                    break;
                 }
 
                 Objects::Maps::CutsceneTrigger* cutsceneTrigger = dynamic_cast<Objects::Maps::CutsceneTrigger*>(object->get());
@@ -561,6 +527,8 @@ namespace Game {
                     this->logger->debug() << "Player stepped on a cutscene trigger with cutscene ID \"" << cutsceneTrigger->GetCutsceneId() << "\".";
 
                     this->StartCutscene(cutsceneTrigger->GetCutsceneId());
+
+                    break;
                 }
             }
         }
