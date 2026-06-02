@@ -5,6 +5,62 @@ namespace Game {
     namespace Scenes {
         const std::string Actor::logChannel = "scene.actor";
 
+        std::string Actor::AnimationToString(const Animation animation) {
+            switch (animation) {
+            case Animation::Die:
+                return "die";
+            case Animation::Stand:
+                return "stand";
+            case Animation::Walk:
+                return "walk";
+            }
+
+            return "stand";
+        }
+
+        std::string Actor::DirectionToString(const Direction direction) {
+            switch (direction) {
+            case Direction::Up:
+                return "up";
+            case Direction::Right:
+                return "right";
+            case Direction::Down:
+                return "down";
+            case Direction::Left:
+                return "left";
+            }
+
+            return "down";
+        }
+
+        Actor::Animation Actor::StringToAnimation(const std::string& animation) {
+            if (animation == "die") {
+                return Animation::Die;
+            } else if (animation == "idle") {
+                return Animation::Idle;
+            } else if (animation == "stand") {
+                return Animation::Stand;
+            } else if (animation == "walk") {
+                return Animation::Walk;
+            }
+
+            return Animation::Stand;
+        }
+
+        Actor::Direction Actor::StringToDirection(const std::string& direction) {
+            if (direction == "up") {
+                return Direction::Up;
+            } else if (direction == "right") {
+                return Direction::Right;
+            } else if (direction == "down") {
+                return Direction::Down;
+            } else if (direction == "left") {
+                return Direction::Left;
+            }
+
+            return Direction::Down;
+        }
+
         Actor::Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet) {
             this->logger = Services::Locator::LoggerService()->GetLogger(Actor::logChannel);
             this->persistent = false;
@@ -63,6 +119,14 @@ namespace Game {
             return this->currentWorldY;
         }
 
+        bool Actor::OccupiesTile(const int x, const int y) const {
+            if (this->isMoving) {
+                return this->movementTargetTileX == x && this->movementTargetTileY == y;
+            }
+
+            return this->currentTileX == x && this->currentTileY == y;
+        }
+
         void Actor::SetPosition(const int x, const int y) {
             this->currentTileX = x;
             this->currentTileY = y;
@@ -97,12 +161,123 @@ namespace Game {
             this->direction = direction;
         }
 
-        void Actor::SetMovementSpeed(const float movementSpeed) {
-            this->movementSpeed = movementSpeed;
+        std::string Actor::GetSpriteName() const {
+            return AnimationToString(this->animation) + "." + DirectionToString(this->direction);
+        }
+
+        bool Actor::HasPendingMovement() const {
+            return !this->movementQueue.empty();
+        }
+
+        std::optional<Actor::Direction> Actor::PeekMovement() const {
+            if (this->movementQueue.empty()) {
+                return std::nullopt;
+            }
+
+            return this->movementQueue.front();
+        }
+
+        void Actor::QueueMovement(const Direction direction) {
+            this->movementQueue.push(direction);
+        }
+
+        std::optional<Actor::Direction> Actor::PopMovement() {
+            if (this->movementQueue.empty()) {
+                return std::nullopt;
+            }
+
+            Direction direction = this->movementQueue.front();
+
+            this->movementQueue.pop();
+
+            return direction;
+        }
+
+        void Actor::ClearPendingMovement() {
+            while (!this->movementQueue.empty()) {
+                this->movementQueue.pop();
+            }
         }
 
         bool Actor::IsMoving() const {
             return this->isMoving;
+        }
+
+        void Actor::SetMovementSpeed(const float movementSpeed) {
+            this->movementSpeed = movementSpeed;
+        }
+
+        void Actor::StartMovement(const Direction direction) {
+            if (this->isMoving) {
+                return;
+            }
+
+            this->movementStartTileX = this->currentTileX;
+            this->movementStartTileY = this->currentTileY;
+
+            this->movementTargetTileX = this->movementStartTileX;
+            this->movementTargetTileY = this->movementStartTileY;
+
+            switch (direction) {
+            case Direction::Up:
+                if (this->movementTargetTileY > 0) {
+                    this->movementTargetTileY--;
+                }
+
+                break;
+            case Direction::Right:
+                if (this->movementTargetTileX < this->currentMap->width - 1) {
+                    movementTargetTileX++;
+                }
+
+                break;
+            case Direction::Down:
+                if (this->movementTargetTileY < this->currentMap->height - 1) {
+                    this->movementTargetTileY++;
+                }
+
+                break;
+            case Direction::Left:
+                if (this->movementTargetTileX > 0) {
+                    this->movementTargetTileX--;
+                }
+
+                break;
+            }
+
+            this->isMoving = true;
+
+            this->SetAnimation(Animation::Walk);
+
+            this->SetDirection(direction);
+        }
+
+        bool Actor::HasCompletedSteps() const {
+            return !this->completedSteps.empty();
+        }
+
+        std::optional<Actor::CompletedStep> Actor::ConsumeCompletedStep() {
+            if (this->completedSteps.empty()) {
+                return std::nullopt;
+            }
+
+            CompletedStep step = this->completedSteps.front();
+
+            this->completedSteps.pop();
+
+            return step;
+        }
+
+        void Actor::Interact(std::shared_ptr<Actor> interactor) {
+            sol::protected_function onInteract = (*this->luaState.get())["on_interact"];
+
+            if (onInteract.valid()) {
+                try {
+                    onInteract(*interactor);
+                } catch (const sol::error& e) {
+                    this->logger->error() << "Error in Lua on_interact function: " << e.what();
+                }
+            }
         }
 
         void Actor::Update(const float deltaTime) {
@@ -182,136 +357,27 @@ namespace Game {
             sol::protected_function update = (*this->luaState.get())["update"];
 
             if (update.valid()) {
-                try {
-                    update(deltaTime);
-                } catch (const sol::error& e) {
+                sol::protected_function_result result = update(deltaTime);
+
+                if (!result.valid()) {
+                    sol::error e = result;
                     this->logger->error() << "Error in Lua update function: " << e.what();
                 }
             }
         }
 
-        void Actor::QueueMovement(const Direction direction) {
-            this->movementQueue.push(direction);
-        }
-
-        bool Actor::HasPendingMovement() const {
-            return !this->movementQueue.empty();
-        }
-
-        std::optional<Actor::Direction> Actor::PeekMovement() const {
-           if (this->movementQueue.empty()) {
-                return std::nullopt;
-           }
-
-           return this->movementQueue.front();
-        }
-
-        std::optional<Actor::Direction> Actor::PopMovement() {
-            if (this->movementQueue.empty()) {
-                return std::nullopt;
-            }
-
-            Direction direction = this->movementQueue.front();
-
-            this->movementQueue.pop();
-
-            return direction;
-        }
-
-        void Actor::ClearPendingMovement() {
-            while (!this->movementQueue.empty()) {
-                this->movementQueue.pop();
-            }
-        }
-
-        void Actor::StartMovement(const Direction direction) {
-            if (this->isMoving) {
-                return;
-            }
-
-            this->movementStartTileX = this->currentTileX;
-            this->movementStartTileY = this->currentTileY;
-
-            this->movementTargetTileX = this->movementStartTileX;
-            this->movementTargetTileY = this->movementStartTileY;
-
-            switch (direction) {
-            case Direction::Up:
-                if (this->movementTargetTileY > 0) {
-                    this->movementTargetTileY--;
-                }
-
-                break;
-            case Direction::Right:
-                if (this->movementTargetTileX < this->currentMap->width - 1) {
-                    movementTargetTileX++;
-                }
-
-                break;
-            case Direction::Down:
-                if (this->movementTargetTileY < this->currentMap->height - 1) {
-                    this->movementTargetTileY++;
-                }
-
-                break;
-            case Direction::Left:
-                if (this->movementTargetTileX > 0) {
-                    this->movementTargetTileX--;
-                }
-
-                break;
-            }
-
-            this->isMoving = true;
-
-            this->SetAnimation(Animation::Walk);
-
-            // Always change movement direction just in case.
-            this->SetDirection(direction);
-        }
-
-        bool Actor::HasCompletedSteps() const {
-            return !this->completedSteps.empty();
-        }
-
-        std::optional<Actor::CompletedStep> Actor::ConsumeCompletedStep() {
-            if (this->completedSteps.empty()) {
-                return std::nullopt;
-            }
-
-            CompletedStep step = this->completedSteps.front();
-
-            this->completedSteps.pop();
-
-            return step;
-        }
-
-        bool Actor::OccupiesTile(const int x, const int y) const {
-            if (this->isMoving) {
-                return this->movementTargetTileX == x && this->movementTargetTileY == y;
-            }
-
-            return this->currentTileX == x && this->currentTileY == y;
-        }
-
-        void Actor::Interact(std::shared_ptr<Actor> interactor) {
-            sol::protected_function onInteract = (*this->luaState.get())["on_interact"];
-
-            if (onInteract.valid()) {
-                try {
-                    onInteract(*interactor);
-                } catch (const sol::error& e) {
-                    this->logger->error() << "Error in Lua on_interact function: " << e.what();
-                }
-            }
-        }
-
-        void Actor::Render(std::shared_ptr<Camera> camera) {
+        void Actor::Render(std::shared_ptr<Camera> camera) const {
             this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, camera);
         }
 
-        std::string Actor::GetSpriteName() const {
-            return AnimationToString(this->animation) + "." + DirectionToString(this->direction);
+        void Actor::LoadLuaState() {
+            this->luaState = std::make_shared<sol::state>();
+            this->luaState->open_libraries(sol::lib::base, sol::lib::package, sol::lib::table, sol::lib::math, sol::lib::os);
+            this->luaEnvironment = sol::environment(*this->luaState, sol::create, this->luaState->globals());
+            this->luaState->set("actor", this);
+
+            Actor::LuaInterface::Bind(this->luaState);
+            States::Map::LuaInterface::Bind(this->luaState);
         }
 
         bool Actor::LoadLuaScript(const std::string& scriptFilePath) {
@@ -323,7 +389,16 @@ namespace Game {
 
                 this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
 
-                (*this->luaState.get())["initialize"]();
+                sol::protected_function initialize = (*this->luaState.get())["initialize"];
+
+                if (initialize.valid()) {
+                    sol::protected_function_result result = initialize();
+
+                    if (!result.valid()) {
+                        sol::error e = result;
+                        this->logger->error() << "Error in Lua initialize function: " << e.what();
+                    }
+                }
             } catch (const sol::error& e) {
                 this->logger->error() << "Failed to load Lua script \"" << scriptFilePath << "\": " << e.what();
 
@@ -331,74 +406,6 @@ namespace Game {
             }
 
             return true;
-        }
-
-        std::string Actor::AnimationToString(const Animation animation) {
-            switch (animation) {
-            case Animation::Die:
-                return "die";
-            case Animation::Stand:
-                return "stand";
-            case Animation::Walk:
-                return "walk";
-            }
-
-            return "stand";
-        }
-
-        std::string Actor::DirectionToString(const Direction direction) {
-            switch (direction) {
-            case Direction::Up:
-                return "up";
-            case Direction::Right:
-                return "right";
-            case Direction::Down:
-                return "down";
-            case Direction::Left:
-                return "left";
-            }
-
-            return "down";
-        }
-
-        Actor::Animation Actor::StringToAnimation(const std::string& animation) {
-            if (animation == "die") {
-
-
-                return Animation::Die;
-            } else if (animation == "idle") {
-                return Animation::Idle;
-            } else if (animation == "stand") {
-                return Animation::Stand;
-            } else if (animation == "walk") {
-                return Animation::Walk;
-            }
-
-            return Animation::Stand;
-        }
-
-        Actor::Direction Actor::StringToDirection(const std::string& direction) {
-            if (direction == "up") {
-                return Direction::Up;
-            } else if (direction == "right") {
-                return Direction::Right;
-            } else if (direction == "down") {
-                return Direction::Down;
-            } else if (direction == "left") {
-                return Direction::Left;
-            }
-
-            return Direction::Down;
-        }
-
-        void Actor::LoadLuaState() {
-            this->luaState = std::make_shared<sol::state>();
-            this->luaState->open_libraries(sol::lib::base, sol::lib::package, sol::lib::table, sol::lib::math, sol::lib::os);
-            this->luaEnvironment = sol::environment(*this->luaState, sol::create, this->luaState->globals());
-            this->luaState->set("actor", this);
-
-            Actor::LuaInterface::Bind(this->luaState);
-            States::Map::LuaInterface::Bind(this->luaState);
         }
 
         void Actor::SetMapState(States::Map* mapState) {

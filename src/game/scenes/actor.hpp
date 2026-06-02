@@ -52,47 +52,58 @@ namespace Game {
 
             std::string id;
             std::string name;
+            std::string dialogueId;
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int animationFrame;
             float timeSinceLastAnimationFrame;
             bool isPlayingAnimation;
             std::shared_ptr<ActorAppearance> appearance;
-            // TODO: Make this private?
             std::shared_ptr<sol::state> luaState;
-            std::string dialogueId;
 
             Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet);
             ~Actor();
+
             bool IsPersistent() const;
             void SetPersistent(const bool persistent);
-            void SetPosition(const int x, const int y);
+
             int GetCurrentTileX() const;
             int GetCurrentTileY() const;
             int GetOccupiedTileX() const;
             int GetOccupiedTileY() const;
             float GetCurrentWorldX() const;
             float GetCurrentWorldY() const;
+            bool OccupiesTile(const int x, const int y) const;
+            void SetPosition(const int x, const int y);
+
             Animation GetAnimation() const;
             void SetAnimation(const Animation animation);
             int GetAnimationFrameCount() const;
+
             Direction GetDirection() const;
             void SetDirection(const Direction direction);
-            void SetMovementSpeed(const float movementSpeed);
+
             std::string GetSpriteName() const;
-            bool IsMoving() const;
-            void Update(const float deltaTime);
-            void QueueMovement(const Direction direction);
+
             bool HasPendingMovement() const;
             std::optional<Direction> PeekMovement() const;
+            void QueueMovement(const Direction direction);
             std::optional<Direction> PopMovement();
             void ClearPendingMovement();
+
+            bool IsMoving() const;
+            void SetMovementSpeed(const float movementSpeed);
             void StartMovement(const Direction direction);
+
             bool HasCompletedSteps() const;
             std::optional<CompletedStep> ConsumeCompletedStep();
-            bool OccupiesTile(const int x, const int y) const;
+
             void Interact(std::shared_ptr<Actor> interactor);
-            void Render(std::shared_ptr<Camera> camera);
+
+            void Update(const float deltaTime);
+            void Render(std::shared_ptr<Camera> camera) const;
+
             bool LoadLuaScript(const std::string& scriptFilePath);
+
             void SetMapState(States::Map* mapState);
 
         private:
@@ -115,6 +126,7 @@ namespace Game {
             std::queue<Direction> movementQueue;
             std::queue<CompletedStep> completedSteps;
             sol::environment luaEnvironment;
+
             void LoadLuaState();
 
         public:
