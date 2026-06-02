@@ -86,9 +86,7 @@ namespace Game {
         Transition Map::UpdateGameplay(const float deltaTime) {
             this->UpdateMovementInput();
 
-            for (auto actor = this->scene->actorManager->actors.begin(); actor != this->scene->actorManager->actors.end(); actor++) {
-                (*actor)->Update(deltaTime);
-            }
+            this->scene->actorManager->UpdateActors(deltaTime);
 
             // TODO: Run this loop for each Actor.
             while (auto step = this->scene->actorManager->player->ConsumeCompletedStep()) {
@@ -182,9 +180,7 @@ namespace Game {
         Transition Map::UpdateCutscene(const float deltaTime) {
             this->cutsceneSession.Update(deltaTime);
 
-            for (auto actor = this->scene->actorManager->actors.begin(); actor != this->scene->actorManager->actors.end(); actor++) {
-                (*actor)->Update(deltaTime);
-            }
+            this->scene->actorManager->UpdateActors(deltaTime);
 
             for (auto& actor : this->scene->actorManager->actors) {
                 if (!actor->IsMoving()) {

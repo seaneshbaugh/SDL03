@@ -74,6 +74,12 @@ namespace Game {
             actor->timeSinceLastAnimationFrame = 0.0f;
         }
 
+        void ActorManager::UpdateActors(const float deltaTime) {
+            for (auto& actor : this->actors) {
+                actor->Update(deltaTime);
+            }
+        }
+
         bool ActorManager::IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const {
             for (auto& actor : this->actors) {
                 if (actor.get() == ignore) {
