@@ -5,13 +5,15 @@ namespace Game {
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {
-                MoveActor::MoveActor(States::Map* map, const std::string& actorId, const std::vector<Actor::Direction>& path) : map(map), actorId(actorId), path(path), started(false) {
+                MoveActor::MoveActor(States::Map* map, const std::string& actorId, const std::vector<Actor::Direction>& path) : map(map), actorId(actorId), path(path), started(false), failed(false) {
                 }
 
                 void MoveActor::Start() {
                     this->actor = this->map->scene->actorManager->GetActor(this->actorId);
 
                     if (!this->actor) {
+                        this->failed = true;
+
                         return;
                     }
 
@@ -28,7 +30,7 @@ namespace Game {
                 }
 
                 bool MoveActor::IsCompleted() const {
-                    return this->started && !this->actor->IsMoving() && !this->actor->HasPendingMovement();
+                    return this->failed || (this->started && !this->actor->IsMoving() && !this->actor->HasPendingMovement());
                 }
             }
         }

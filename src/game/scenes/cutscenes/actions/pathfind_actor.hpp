@@ -24,6 +24,7 @@ namespace Game {
                 private:
                     States::Map* map;
                     bool started;
+                    bool failed;
                     std::string actorId;
                     std::shared_ptr<Scenes::Actor> actor;
                     int targetX;

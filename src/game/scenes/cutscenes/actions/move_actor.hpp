@@ -26,6 +26,7 @@ namespace Game {
                     std::shared_ptr<Actor> actor;
                     std::vector<Actor::Direction> path;
                     bool started;
+                    bool failed;
                 };
             }
         }

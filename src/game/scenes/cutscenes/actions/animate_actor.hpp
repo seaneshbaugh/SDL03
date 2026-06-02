@@ -28,6 +28,7 @@ namespace Game {
                     float duration;
                     float elapsedTime;
                     bool started;
+                    bool failed;
                     Actor::Animation previousAnimation;
                     bool previousAnimationRestored;
                 };

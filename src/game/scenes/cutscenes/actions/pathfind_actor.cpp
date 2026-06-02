@@ -5,10 +5,10 @@ namespace Game {
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {
-                PathfindActor::PathfindActor(States::Map* map, const std::string& actorId, const int targetX, const int targetY) : map(map), actorId(actorId), actor(nullptr), targetX(targetX), targetY(targetY), target(nullptr),started(false) {
+                PathfindActor::PathfindActor(States::Map* map, const std::string& actorId, const int targetX, const int targetY) : map(map), actorId(actorId), actor(nullptr), targetX(targetX), targetY(targetY), target(nullptr),started(false), failed(false) {
                 }
 
-                PathfindActor::PathfindActor(States::Map* map, const std::string& actorId, const std::string& targetId) : map(map), actorId(actorId), actor(nullptr), targetX(-1), targetY(-1), targetId(targetId), target(nullptr), started(false) {
+                PathfindActor::PathfindActor(States::Map* map, const std::string& actorId, const std::string& targetId) : map(map), actorId(actorId), actor(nullptr), targetX(-1), targetY(-1), targetId(targetId), target(nullptr), started(false), failed(false) {
                 }
 
                 PathfindActor::~PathfindActor() {
@@ -18,6 +18,8 @@ namespace Game {
                     this->actor = this->map->scene->actorManager->GetActor(this->actorId);
 
                     if (!this->actor) {
+                        this->failed = true;
+
                         return;
                     }
 
@@ -25,6 +27,8 @@ namespace Game {
                         this->target = this->map->scene->actorManager->GetActor(this->targetId);
 
                         if (!this->target) {
+                            this->failed = true;
+
                             return;
                         }
 
@@ -78,7 +82,7 @@ namespace Game {
                 }
 
                 bool PathfindActor::IsCompleted() const {
-                    return this->started && !this->actor->IsMoving() && !this->actor->HasPendingMovement();
+                    return this->failed || (this->started && !this->actor->IsMoving() && !this->actor->HasPendingMovement());
                 }
             }
         }

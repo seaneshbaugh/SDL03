@@ -5,7 +5,7 @@ namespace Game {
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {
-                AnimateActor::AnimateActor(States::Map* map, const std::string& actorId, const std::string& animationName, float duration) : map(map), actorId(actorId), animationName(animationName), duration(duration), elapsedTime(0.0f), started(false), previousAnimation(Actor::Animation::Stand), previousAnimationRestored(false) {
+                AnimateActor::AnimateActor(States::Map* map, const std::string& actorId, const std::string& animationName, float duration) : map(map), actorId(actorId), animationName(animationName), duration(duration), elapsedTime(0.0f), started(false), failed(false), previousAnimation(Actor::Animation::Stand), previousAnimationRestored(false) {
                 }
 
                 AnimateActor::~AnimateActor() {
@@ -15,6 +15,8 @@ namespace Game {
                     this->actor = this->map->scene->actorManager->GetActor(this->actorId);
 
                     if (!this->actor) {
+                        this->failed = true;
+
                         return;
                     }
 
@@ -50,7 +52,7 @@ namespace Game {
                 }
 
                 bool AnimateActor::IsCompleted() const {
-                    return this->started && this->elapsedTime >= this->duration;
+                    return this->failed || (this->started && this->elapsedTime >= this->duration);
                 }
             }
         }
