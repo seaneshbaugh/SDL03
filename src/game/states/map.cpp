@@ -361,6 +361,10 @@ namespace Game {
             std::vector<Scenes::Actor::Direction> path;
             Location current = std::make_pair(targetX, targetY);
 
+            if (cameFrom.find(current) == cameFrom.end()) {
+                return {};
+            }
+
             while (current != start) {
                 Location previous = cameFrom[current];
 
