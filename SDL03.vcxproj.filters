@@ -348,7 +348,7 @@
     <ClCompile Include="src\game\objects\characters\non_player_character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\camera.cpp">
+    <ClCompile Include="src\game\scenes\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\graphics\animation_frame.cpp">
@@ -360,10 +360,10 @@
     <ClCompile Include="src\game\objects\maps\map_start_point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\actor.cpp">
+    <ClCompile Include="src\game\scenes\actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\actor_appearance.cpp">
+    <ClCompile Include="src\game\scenes\actor_appearance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\graphics\spritesheet.cpp">
@@ -372,64 +372,67 @@
     <ClCompile Include="src\game\services\interfaces\item_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\dialogue\dialogue_session.cpp">
+    <ClCompile Include="src\game\scenes\dialogue\dialogue_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\dialogue\dialogue_node.cpp">
+    <ClCompile Include="src\game\scenes\dialogue\dialogue_node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\dialogue\dialogue_graph.cpp">
+    <ClCompile Include="src\game\scenes\dialogue\dialogue_graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\dialogue\dialogue_choice.cpp">
+    <ClCompile Include="src\game\scenes\dialogue\dialogue_choice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\base.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\cutscene_session.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\cutscene_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\move_actor.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\move_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\cutscene.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\cutscene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\wait.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\wait.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\dialogue.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\dialogue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\add_actor.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\add_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\parallel.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\parallel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\sequence.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\sequence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\remove_actor.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\remove_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\pathfind_actor.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\pathfind_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\face_actor.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\face_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\cutscenes\actions\animate_actor.cpp">
+    <ClCompile Include="src\game\scenes\cutscenes\actions\animate_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scene\actor_manager.cpp">
+    <ClCompile Include="src\game\scenes\actor_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scenes\scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -800,7 +803,7 @@
     <ClInclude Include="src\game\objects\characters\non_player_character.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\camera.hpp">
+    <ClInclude Include="src\game\scenes\camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\graphics\animation.hpp">
@@ -815,16 +818,16 @@
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\actor.hpp">
+    <ClInclude Include="src\game\scenes\actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\states\transition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\movement_command.hpp">
+    <ClInclude Include="src\game\scenes\movement_command.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\actor_appearance.hpp">
+    <ClInclude Include="src\game\scenes\actor_appearance.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\graphics\spritesheet.hpp">
@@ -833,13 +836,13 @@
     <ClInclude Include="src\game\services\interfaces\item_service.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\dialogue\dialogue_session.hpp">
+    <ClInclude Include="src\game\scenes\dialogue\dialogue_session.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\dialogue\dialogue_node.hpp">
+    <ClInclude Include="src\game\scenes\dialogue\dialogue_node.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\dialogue\dialogue_graph.hpp">
+    <ClInclude Include="src\game\scenes\dialogue\dialogue_graph.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\sol\forward.hpp">
@@ -848,55 +851,58 @@
     <ClInclude Include="lib\sol\config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\dialogue\dialogue_choice.hpp">
+    <ClInclude Include="src\game\scenes\dialogue\dialogue_choice.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\base.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\base.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\move_actor.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\move_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\cutscene_session.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\cutscene_session.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\cutscene.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\cutscene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\wait.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\wait.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\dialogue.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\dialogue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\add_actor.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\add_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\parallel.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\parallel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\sequence.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\sequence.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\remove_actor.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\remove_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\pathfind_actor.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\pathfind_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\face_actor.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\face_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\cutscenes\actions\animate_actor.hpp">
+    <ClInclude Include="src\game\scenes\cutscenes\actions\animate_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scene\actor_manager.hpp">
+    <ClInclude Include="src\game\scenes\actor_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scenes\scene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

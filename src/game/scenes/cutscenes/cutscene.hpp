@@ -1,0 +1,62 @@
+#ifndef SDL03_Game_Scene_Cutscenes_Cutscene
+#define SDL03_Game_Scene_Cutscenes_Cutscene
+
+#include "../../../../lib/nlohmann/json.hpp"
+
+#include "../../services/locator.hpp"
+#include "actions/add_actor.hpp"
+#include "actions/animate_actor.hpp"
+#include "actions/dialogue.hpp"
+#include "actions/face_actor.hpp"
+#include "actions/move_actor.hpp"
+#include "actions/parallel.hpp"
+#include "actions/pathfind_actor.hpp"
+#include "actions/remove_actor.hpp"
+#include "actions/sequence.hpp"
+#include "actions/wait.hpp"
+#include "../../objects/maps/spawn_point.hpp"
+#include "../../../helpers/file_system.hpp"
+
+namespace Game {
+    namespace States {
+        class Map;
+    }
+
+    namespace Scenes {
+        namespace Cutscenes {
+            class Cutscene {
+            public:
+                Cutscene(States::Map* map, const std::string& cutsceneId);
+                ~Cutscene();
+                bool Load(const std::string& cutsceneId);
+
+                std::vector<std::shared_ptr<Actions::Base>> actions;
+
+            private:
+                States::Map* map;
+                std::string cutsceneId;
+
+                bool ParseFile(const std::string& jsonString);
+
+                class Parser {
+                public:
+                    Parser();
+                    ~Parser();
+                    void Parse(const std::string& jsonString, Cutscene* cutscene);
+
+                private:
+                    using ActionFactory = std::function<std::shared_ptr<Actions::Base>(const json& node, Cutscene* cutscene)>;
+
+                    static const std::string logChannel;
+
+                    std::shared_ptr<Log::Logger> logger;
+                    std::unordered_map<std::string, ActionFactory> actionFactories;
+
+                    std::shared_ptr<Actions::Base> ParseAction(const json& node, Cutscene* cutscene);
+                };
+            };
+        }
+    }
+}
+
+#endif

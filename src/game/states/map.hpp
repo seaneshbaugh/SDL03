@@ -6,16 +6,17 @@
 #include "battle.hpp"
 #include "../objects/maps/map.hpp"
 #include "../objects/world.hpp"
-#include "../scene/camera.hpp"
-#include "../scene/actor_manager.hpp"
-#include "../scene/dialogue/dialogue_session.hpp"
-#include "../scene/cutscenes/cutscene_session.hpp"
+#include "../scenes/scene.hpp"
+#include "../scenes/camera.hpp"
+#include "../scenes/actor_manager.hpp"
+#include "../scenes/dialogue/dialogue_session.hpp"
+#include "../scenes/cutscenes/cutscene_session.hpp"
 
 namespace Game {
     namespace States {
         class Map : public Base {
         public:
-            friend class Scene::Cutscenes::Actions::PathfindActor;
+            friend class Scenes::Cutscenes::Actions::PathfindActor;
 
             enum class State {
                 Gameplay,
@@ -23,7 +24,7 @@ namespace Game {
                 Cutscene
             };
 
-            std::shared_ptr<Scene::ActorManager> actorManager;
+            std::shared_ptr<Scenes::Scene> scene;
             std::shared_ptr<Objects::Maps::Map> currentMap;
 
             Map();
@@ -40,25 +41,25 @@ namespace Game {
             void StartDialogue(const std::string& dialogueId);
             bool DialogueSessionCompleted() const;
             void StartCutscene(const std::string& cutsceneId);
-            std::shared_ptr<Scene::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scene::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+            std::shared_ptr<Scenes::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
 
         protected:
-            std::vector<Scene::Actor::Direction> Pathfind(Scene::Actor* actor, const int targetX, const int targetY);
+            std::vector<Scenes::Actor::Direction> Pathfind(Scenes::Actor* actor, const int targetX, const int targetY);
 
         private:
             static const std::string logChannel;
 
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            std::shared_ptr<Scene::Camera> camera;
-            Scene::Actor::Direction movementDirection;
-            Scene::Actor::Direction movementInputHeldDirection;
+            std::shared_ptr<Scenes::Camera> camera;
+            Scenes::Actor::Direction movementDirection;
+            Scenes::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;
             bool interactionRequested;
             bool dialogueNextPressed;
             bool dialogueChoiceInputPressed;
-            Scene::Actor::Direction dialogueChoiceInputDirection;
-            Scene::Dialogue::DialogueSession dialogueSession;
-            Scene::Cutscenes::CutsceneSession cutsceneSession;
+            Scenes::Actor::Direction dialogueChoiceInputDirection;
+            Scenes::Dialogue::DialogueSession dialogueSession;
+            Scenes::Cutscenes::CutsceneSession cutsceneSession;
             State state;
             State previousState;
 
@@ -72,11 +73,11 @@ namespace Game {
             Transition UpdateDialogue(const float deltaTime);
             Transition UpdateCutscene(const float deltaTime);
             void LoadLuaState(const std::string& scriptFilePath);
-            void PlaceActor(std::shared_ptr<Scene::Actor> actor, const int x, const int y, const Scene::Actor::Direction direction);
-            void QueueMovement(Scene::Actor* actor, const Scene::Actor::Direction direction, const int distance);
-            bool CanMove(Scene::Actor* actor, const Scene::Actor::Direction direction);
+            void PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction);
+            void QueueMovement(Scenes::Actor* actor, const Scenes::Actor::Direction direction, const int distance);
+            bool CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction);
             bool TryInteract();
-            std::optional<std::shared_ptr<Scene::Actor>> GetActorAtTile(const int x, const int y) const;
+            std::optional<std::shared_ptr<Scenes::Actor>> GetActorAtTile(const int x, const int y) const;
 
         public:
             class LuaInterface {
