@@ -25,6 +25,7 @@ namespace Game {
             };
 
             std::shared_ptr<Scenes::Scene> scene;
+            std::shared_ptr<Scenes::Camera> camera;
             std::shared_ptr<Objects::Maps::Map> currentMap;
 
             Map();
@@ -50,7 +51,6 @@ namespace Game {
             static const std::string logChannel;
 
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            std::shared_ptr<Scenes::Camera> camera;
             Scenes::Actor::Direction movementDirection;
             Scenes::Actor::Direction movementInputHeldDirection;
             bool movementInputHeld;

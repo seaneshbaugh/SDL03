@@ -262,25 +262,7 @@ namespace Game {
         void Map::Render() {
             this->currentMap->Render(this->camera->x, this->camera->y);
 
-            std::vector<Scenes::Actor*> renderActors;
-
-            renderActors.reserve(this->scene->actorManager->actors.size());
-
-            for (auto& actor : this->scene->actorManager->actors) {
-                renderActors.push_back(actor.get());
-            }
-
-            std::sort(renderActors.begin(), renderActors.end(), [](const Scenes::Actor* a, const Scenes::Actor* b) {
-                if (a->GetOccupiedTileY() == b->GetOccupiedTileY()) {
-                    return a->GetOccupiedTileX() < b->GetOccupiedTileX();
-                }
-
-                return a->GetOccupiedTileY() < b->GetOccupiedTileY();
-            });
-
-            for (auto actor = renderActors.begin(); actor != renderActors.end(); actor++) {
-                (*actor)->Render(this->camera);
-            }
+            this->scene->Render();
 
             if (this->state == State::Dialogue) {
                 this->dialogueSession.Render(this->camera);

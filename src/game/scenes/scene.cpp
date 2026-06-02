@@ -12,5 +12,9 @@ namespace Game {
 
         Scene::~Scene() {
         }
+
+        void Scene::Render() const {
+            this->actorManager->RenderActors();
+        }
     }
 }

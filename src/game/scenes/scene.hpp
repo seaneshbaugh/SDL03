@@ -15,6 +15,7 @@ namespace Game {
 
             Scene(States::Map* mapState);
             ~Scene();
+            void Render() const;
 
         private:
             static const std::string logChannel;

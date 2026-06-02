@@ -23,6 +23,7 @@ namespace Game {
             void RemoveActor(const std::string& id);
             void PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction) const;
             void UpdateActors(const float deltaTime);
+            void RenderActors();
             bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
 
         private:

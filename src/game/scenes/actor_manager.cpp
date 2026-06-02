@@ -80,6 +80,28 @@ namespace Game {
             }
         }
 
+        void ActorManager::RenderActors() {
+            std::vector<Scenes::Actor*> renderActors;
+
+            renderActors.reserve(this->actors.size());
+
+            for (auto& actor : this->actors) {
+                renderActors.push_back(actor.get());
+            }
+
+            std::sort(renderActors.begin(), renderActors.end(), [](const Scenes::Actor* a, const Scenes::Actor* b) {
+                if (a->GetOccupiedTileY() == b->GetOccupiedTileY()) {
+                    return a->GetOccupiedTileX() < b->GetOccupiedTileX();
+                }
+
+                return a->GetOccupiedTileY() < b->GetOccupiedTileY();
+            });
+
+            for (auto& actor : renderActors) {
+                actor->Render(this->mapState->camera);
+            }
+        }
+
         bool ActorManager::IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const {
             for (auto& actor : this->actors) {
                 if (actor.get() == ignore) {
