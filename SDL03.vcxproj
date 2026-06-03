@@ -73,7 +73,7 @@
     <ClCompile Include="src\game\events\subject.cpp" />
     <ClCompile Include="src\game\events\tick.cpp" />
     <ClCompile Include="src\game\graphics\spritesheet.cpp" />
-    <ClCompile Include="src\game\input_mapper.cpp" />
+    <ClCompile Include="src\game\input\input_mapper.cpp" />
     <ClCompile Include="src\game\objects\base.cpp" />
     <ClCompile Include="src\game\graphics\animation.cpp" />
     <ClCompile Include="src\game\graphics\animation_frame.cpp" />
@@ -229,8 +229,8 @@
     <ClInclude Include="src\game\events\subject.hpp" />
     <ClInclude Include="src\game\events\tick.hpp" />
     <ClInclude Include="src\game\graphics\spritesheet.hpp" />
-    <ClInclude Include="src\game\input_key.hpp" />
-    <ClInclude Include="src\game\input_mapper.hpp" />
+    <ClInclude Include="src\game\input\input_key.hpp" />
+    <ClInclude Include="src\game\input\input_mapper.hpp" />
     <ClInclude Include="src\game\scenes\controllers\actor_controller.hpp" />
     <ClInclude Include="src\game\scenes\controllers\cutscene_controller.hpp" />
     <ClInclude Include="src\game\scenes\controllers\player_controller.hpp" />

@@ -28,9 +28,9 @@ namespace Game {
         }
 
         void PauseMenu::HandleEvent(const SDL_Event& event) {
-            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+            Input::InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
 
-            if (key != InputKey::NO_KEY) {
+            if (key != Input::InputKey::NO_KEY) {
                 this->ProcessInput(key);
             }
         }
@@ -50,7 +50,7 @@ namespace Game {
             }
         }
 
-        std::string PauseMenu::ProcessInput(const InputKey key) {
+        std::string PauseMenu::ProcessInput(const Input::InputKey key) {
             std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
@@ -112,7 +112,7 @@ namespace Game {
             states.new_usertype<PauseMenu>("PauseMenu",
                                            sol::no_constructor,
                                            "pop", &PauseMenu::Pop,
-                                           "processInput", static_cast<std::string (PauseMenu::*)(const InputKey)>(&PauseMenu::ProcessInput),
+                                           "processInput", static_cast<std::string (PauseMenu::*)(const Input::InputKey)>(&PauseMenu::ProcessInput),
                                            "getParty", &PauseMenu::GetParty,
                                            "getPartyCharacters", &PauseMenu::GetPartyCharacters,
                                            "getClockTime", &PauseMenu::GetClockTime

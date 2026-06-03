@@ -59,9 +59,9 @@ namespace Game {
         }
 
         void Map::HandleEvent(const SDL_Event& event) {
-            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+            Input::InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
 
-            if (key != InputKey::NO_KEY) {
+            if (key != Input::InputKey::NO_KEY) {
                 if (event.type == SDL_EVENT_KEY_DOWN) {
                     this->ProcessButtonDown(key);
                 } else if (event.type == SDL_EVENT_KEY_UP) {
@@ -189,38 +189,38 @@ namespace Game {
             }
         }
 
-        std::string Map::ProcessInput(const InputKey key) {
+        std::string Map::ProcessInput(const Input::InputKey key) {
             //std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return "";
         }
 
-        void Map::ProcessButtonDown(const InputKey key) {
+        void Map::ProcessButtonDown(const Input::InputKey key) {
             if (this->state == State::Dialogue) {
                 switch (key) {
-                case InputKey::UP_KEY:
+                case Input::InputKey::UP_KEY:
                     this->dialogueChoiceInputPressed = true;
                     this->dialogueChoiceInputDirection = Scenes::Actor::Direction::Up;
 
                     break;
-                case InputKey::DOWN_KEY:
+                case Input::InputKey::DOWN_KEY:
                     this->dialogueChoiceInputPressed = true;
                     this->dialogueChoiceInputDirection = Scenes::Actor::Direction::Down;
 
                     break;
-                case InputKey::CONFIRM_KEY:
+                case Input::InputKey::CONFIRM_KEY:
                     this->dialogueNextPressed = true;
 
                     break;
                 }
             } else {
-                if (key == InputKey::CONFIRM_KEY) {
+                if (key == Input::InputKey::CONFIRM_KEY) {
                     this->interactionRequested = true;
                 }
             }
         }
 
-        void Map::ProcessButtonUp(const InputKey key) {
+        void Map::ProcessButtonUp(const Input::InputKey key) {
             // Saving this method since it might be useful for other things later.
         }
 

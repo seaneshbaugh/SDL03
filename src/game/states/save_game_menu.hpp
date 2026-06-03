@@ -18,7 +18,7 @@ namespace Game {
         private:
             static const std::string logChannel;
 
-            std::string ProcessInput(const InputKey key);
+            std::string ProcessInput(const Input::InputKey key);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

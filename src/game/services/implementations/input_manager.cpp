@@ -11,13 +11,13 @@ namespace Game {
                 }
 
                 this->logger = Locator::LoggerService()->GetLogger(InputManager::logChannel);
-                this->inputMapper = std::make_shared<InputMapper>(Locator::SettingsService()->InputSettings());
+                this->inputMapper = std::make_shared<Input::InputMapper>(Locator::SettingsService()->InputSettings());
             }
 
             InputManager::~InputManager() {
             }
 
-            InputKey InputManager::GetInputMapKey(const SDL_Event& event) {
+            Input::InputKey InputManager::GetInputMapKey(const SDL_Event& event) {
                 //if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN) {
                 //    this->logger->debug() << "Button: " << static_cast<int>(event.gbutton.button);
                 //}
@@ -26,10 +26,10 @@ namespace Game {
                     if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) {
                         return this->inputMapper->GetInputMapKey(event);
                     } else {
-                        return InputKey::NO_KEY;
+                        return Input::InputKey::NO_KEY;
                     }
                 } catch (const std::out_of_range& exception) {
-                    return InputKey::NO_KEY;
+                    return Input::InputKey::NO_KEY;
                 }
             }
         }

@@ -20,18 +20,18 @@ namespace Game {
             public:
                 SettingsManager(const std::string& applicationName);
                 ~SettingsManager();
-                std::map<int, InputKey> InputSettings();
+                std::map<int, Input::InputKey> InputSettings();
 
             private:
                 static const std::string logChannel;
-                static const std::map<InputKey, int> defaultInputSettings;
+                static const std::map<Input::InputKey, int> defaultInputSettings;
 
                 std::shared_ptr<Log::Logger> logger;
                 sqlite3* settingsDB;
                 std::string applicationName;
                 std::string settingsDirectoryPath;
                 std::string settingsFilePath;
-                std::map<InputKey, int> inputSettings;
+                std::map<Input::InputKey, int> inputSettings;
 
                 bool LoadSettings();
                 std::string GetSettingsDirectoryPath();

@@ -3,7 +3,7 @@
 
 #include "../locator.hpp"
 #include "../interfaces/input_service.hpp"
-#include "../../input_mapper.hpp"
+#include "../../input/input_mapper.hpp"
 
 namespace Game {
     namespace Services {
@@ -12,13 +12,13 @@ namespace Game {
             public:
                 InputManager();
                 ~InputManager();
-                InputKey GetInputMapKey(const SDL_Event& event);
+                Input::InputKey GetInputMapKey(const SDL_Event& event);
 
             private:
                 static const std::string logChannel;
 
                 std::shared_ptr<Log::Logger> logger;
-                std::shared_ptr<InputMapper> inputMapper;
+                std::shared_ptr<Input::InputMapper> inputMapper;
             };
         }
     }

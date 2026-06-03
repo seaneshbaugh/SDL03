@@ -12,14 +12,14 @@ namespace Game {
             // When loading the settings they'll be flipped around. The input mapper
             // needs them in the opposite order because we start with the SDL key (from
             // SDL itself) and we use that as the key for the map.
-            const std::map<InputKey, int> SettingsManager::defaultInputSettings {
-                {InputKey::UP_KEY, SDLK_UP},
-                {InputKey::DOWN_KEY, SDLK_DOWN},
-                {InputKey::LEFT_KEY, SDLK_LEFT},
-                {InputKey::RIGHT_KEY, SDLK_RIGHT},
-                {InputKey::CONFIRM_KEY, SDLK_Z},
-                {InputKey::CANCEL_KEY, SDLK_X},
-                {InputKey::MENU_KEY, SDLK_TAB}
+            const std::map<Input::InputKey, int> SettingsManager::defaultInputSettings {
+                {Input::InputKey::UP_KEY, SDLK_UP},
+                {Input::InputKey::DOWN_KEY, SDLK_DOWN},
+                {Input::InputKey::LEFT_KEY, SDLK_LEFT},
+                {Input::InputKey::RIGHT_KEY, SDLK_RIGHT},
+                {Input::InputKey::CONFIRM_KEY, SDLK_Z},
+                {Input::InputKey::CANCEL_KEY, SDLK_X},
+                {Input::InputKey::MENU_KEY, SDLK_TAB}
             };
 
             SettingsManager::SettingsManager(const std::string& applicationName) {
@@ -67,8 +67,8 @@ namespace Game {
             }
 
             // See DefaultInputSettings for why this is inverted.
-            std::map<int, InputKey> SettingsManager::InputSettings() {
-                std::map<int, InputKey> invertedInputSettings;
+            std::map<int, Input::InputKey> SettingsManager::InputSettings() {
+                std::map<int, Input::InputKey> invertedInputSettings;
 
                 for (auto it = this->inputSettings.begin(); it != this->inputSettings.end(); ++it) {
                     invertedInputSettings[it->second] = it->first;
@@ -118,13 +118,13 @@ namespace Game {
             }
 
             bool SettingsManager::LoadInputSettings() {
-                std::map<InputKey, int> inputSettings;
+                std::map<Input::InputKey, int> inputSettings;
 
                 auto loadInputSettingsCallback = [] (void* params, int argc, char** argv, char** columnName) {
-                    std::map<InputKey, int>* inputSettings = static_cast<std::map<InputKey, int>*>(params);
+                    std::map<Input::InputKey, int>* inputSettings = static_cast<std::map<Input::InputKey, int>*>(params);
 
                     if (argc == 2) {
-                        (*inputSettings)[InputKey(atoi(argv[0]))] = atoi(argv[1]);
+                        (*inputSettings)[Input::InputKey(atoi(argv[0]))] = atoi(argv[1]);
                     } else {
                         // We can't capture this for the auto lambda because sqlite3_exec has no definition which
                         // matches whatever sqlite3_exec
@@ -190,7 +190,7 @@ namespace Game {
             }
 
             bool SettingsManager::VerifyInputSettings() {
-                std::map<InputKey, int> defaultInputSettings = SettingsManager::defaultInputSettings;
+                std::map<Input::InputKey, int> defaultInputSettings = SettingsManager::defaultInputSettings;
 
                 this->inputSettings.insert(defaultInputSettings.begin(), defaultInputSettings.end());
 

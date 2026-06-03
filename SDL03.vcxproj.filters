@@ -156,7 +156,7 @@
     <ClCompile Include="src\game\engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\input_mapper.cpp">
+    <ClCompile Include="src\game\input\input_mapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\helpers\apple_file_system.cpp">
@@ -590,10 +590,10 @@
     <ClInclude Include="src\game\engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\input_key.hpp">
+    <ClInclude Include="src\game\input\input_key.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\input_mapper.hpp">
+    <ClInclude Include="src\game\input\input_mapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\states.hpp">

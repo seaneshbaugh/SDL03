@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "../../input_key.hpp"
+#include "../../input/input_key.hpp"
 
 namespace Game {
     namespace Services {
@@ -11,7 +11,7 @@ namespace Game {
             class SettingsService {
             public:
                 virtual ~SettingsService() {}
-                virtual std::map<int, InputKey> InputSettings() = 0;
+                virtual std::map<int, Input::InputKey> InputSettings() = 0;
             };
         }
     }

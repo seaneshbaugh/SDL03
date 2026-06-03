@@ -36,9 +36,9 @@ namespace Game {
         }
 
         void Battle::HandleEvent(const SDL_Event& event) {
-            InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+            Input::InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
 
-            if (key != InputKey::NO_KEY) {
+            if (key != Input::InputKey::NO_KEY) {
                 this->ProcessInput(key);
             }
         }
@@ -53,7 +53,7 @@ namespace Game {
             return Transition::None();
         }
 
-        std::string Battle::ProcessInput(const InputKey key) {
+        std::string Battle::ProcessInput(const Input::InputKey key) {
             std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
@@ -118,7 +118,7 @@ namespace Game {
             states.new_usertype<Battle>("Battle",
                                         sol::no_constructor,
                                         "pop", &Battle::Pop,
-                                        "processInput", static_cast<std::string (Battle::*)(const InputKey)>(&Battle::ProcessInput),
+                                        "processInput", static_cast<std::string (Battle::*)(const Input::InputKey)>(&Battle::ProcessInput),
                                         "getParty", &Battle::GetParty,
                                         "getMonsters", &Battle::GetMonsters
                                         );
