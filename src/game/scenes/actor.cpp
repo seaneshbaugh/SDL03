@@ -366,6 +366,9 @@ namespace Game {
             }
         }
 
+        void Actor::GenerateMovementIntent(const float deltaTime) {
+        }
+
         void Actor::Render(std::shared_ptr<Camera> camera) const {
             this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, camera);
         }

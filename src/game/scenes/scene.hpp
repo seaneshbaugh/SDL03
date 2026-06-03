@@ -2,6 +2,9 @@
 #define SDL03_Game_Scene_Scene
 
 #include "actor_manager.hpp"
+#include "controllers/cutscene_controller.hpp"
+#include "controllers/player_controller.hpp"
+#include "controllers/scripted_controller.hpp"
 
 namespace Game {
     namespace States {
@@ -15,16 +18,24 @@ namespace Game {
 
             Scene(States::Map* mapState);
             ~Scene();
+
             void Update(const float deltaTime);
             void ProcessCompletedSteps();
             void ProcessPendingMovement();
             void Render() const;
+
+            std::shared_ptr<Scenes::Actor> GetActor(const std::string& id);
+            template <typename TController> std::shared_ptr<Scenes::Actor> AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+            void RemoveActor(const std::string& id);
+            void PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction) const;
+            bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
 
         private:
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
             States::Map* mapState;
+            std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
         };
     }
 }

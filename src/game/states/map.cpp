@@ -40,7 +40,7 @@ namespace Game {
             }
 
             // TODO: This should all also probably be a function which is called by WorldManager::NewGame.
-            std::shared_ptr<Scenes::Actor> player = this->scene->actorManager->AddActor("player", "Sean", Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scenes::Actor::Direction::Down, "", "");
+            std::shared_ptr<Scenes::Actor> player = this->scene->AddActor<Scenes::Controllers::PlayerController>("player", "Sean", Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scenes::Actor::Direction::Down, "", "");
             player->SetPersistent(true);
             player->SetMovementSpeed(4.0f);
             this->scene->actorManager->player = player;
@@ -282,7 +282,7 @@ namespace Game {
                         continue;
                     }
 
-                    if (this->scene->actorManager->IsTileBlocked(potentialNeighbor.first, potentialNeighbor.second, actor)) {
+                    if (this->scene->IsTileBlocked(potentialNeighbor.first, potentialNeighbor.second, actor)) {
                         continue;
                     }
 
@@ -364,7 +364,7 @@ namespace Game {
                 return false;
             }
 
-            if (this->scene->actorManager->IsTileBlocked(targetX, targetY, actor)) {
+            if (this->scene->IsTileBlocked(targetX, targetY, actor)) {
                 return false;
             }
 
@@ -450,7 +450,7 @@ namespace Game {
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
-            this->scene->actorManager->PlaceActor(this->scene->actorManager->player, startX, startY, Scenes::Actor::Direction::Down);
+            this->scene->PlaceActor(this->scene->actorManager->player, startX, startY, Scenes::Actor::Direction::Down);
 
             this->camera->Follow(this->scene->actorManager->player);
 
@@ -571,7 +571,7 @@ namespace Game {
                 return nullptr;
             }
 
-            return this->scene->actorManager->AddActor(id, name, spritesheetName, dialogueId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
+            return this->scene->AddActor<Scenes::Controllers::ScriptedController>(id, name, spritesheetName, dialogueId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
         }
 
         void Map::LoadLuaState(const std::string& scriptFilePath) {

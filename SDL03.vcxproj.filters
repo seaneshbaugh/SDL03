@@ -435,6 +435,18 @@
     <ClCompile Include="src\game\scenes\scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scenes\controllers\actor_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scenes\controllers\player_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scenes\controllers\scripted_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scenes\controllers\cutscene_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -903,6 +915,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scenes\scene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scenes\controllers\actor_controller.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scenes\controllers\player_controller.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scenes\controllers\scripted_controller.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scenes\controllers\cutscene_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

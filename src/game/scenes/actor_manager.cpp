@@ -12,7 +12,7 @@ namespace Game {
         ActorManager::~ActorManager() {
         }
 
-        std::shared_ptr<Scenes::Actor> ActorManager::GetActor(const std::string& id) {
+        std::shared_ptr<Scenes::Actor> ActorManager::GetActor(const std::string& id) const {
             auto it = this->actorLookup.find(id);
 
             if (it != this->actorLookup.end()) {
@@ -100,20 +100,6 @@ namespace Game {
             for (auto& actor : renderActors) {
                 actor->Render(this->mapState->camera);
             }
-        }
-
-        bool ActorManager::IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const {
-            for (auto& actor : this->actors) {
-                if (actor.get() == ignore) {
-                    continue;
-                }
-
-                if (actor->OccupiesTile(x, y)) {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

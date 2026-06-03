@@ -15,7 +15,7 @@ namespace Game {
                 }
 
                 void FaceActor::Start() {
-                    this->actor = this->map->scene->actorManager->GetActor(this->actorId);
+                    this->actor = this->map->scene->GetActor(this->actorId);
 
                     if (!this->actor) {
                         this->completed = true;
@@ -24,7 +24,7 @@ namespace Game {
                     }
 
                     if (!this->targetId.empty()) {
-                        this->target = this->map->scene->actorManager->GetActor(this->targetId);
+                        this->target = this->map->scene->GetActor(this->targetId);
 
                         if (!this->target) {
                             this->completed = true;

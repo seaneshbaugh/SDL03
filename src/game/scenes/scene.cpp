@@ -17,10 +17,6 @@ namespace Game {
             this->actorManager->UpdateActors(deltaTime);
         }
 
-        void Scene::Render() const {
-            this->actorManager->RenderActors();
-        }
-
         void Scene::ProcessCompletedSteps() {
             for (auto& actor : this->actorManager->actors) {
                 while (auto step = this->actorManager->player->ConsumeCompletedStep()) {
@@ -51,6 +47,57 @@ namespace Game {
                     }
                 }
             }
+        }
+
+        void Scene::Render() const {
+            this->actorManager->RenderActors();
+        }
+
+        std::shared_ptr<Scenes::Actor> Scene::GetActor(const std::string& id) {
+            return this->actorManager->GetActor(id);
+        }
+
+        // TODO: Make this take an actor definition struct instead of a bunch of parameters.
+        template<typename TController> std::shared_ptr<Scenes::Actor> Scene::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+            std::shared_ptr<Scenes::Actor> actor = this->actorManager->AddActor(id, name, spritesheetName, dialogueId, x, y, direction, movementScriptName, interactionScriptName);
+
+            std::unique_ptr<TController> actorController = std::make_unique<TController>(actor.get());
+
+            if (this->actorControllers.contains(id)) {
+                this->actorControllers.erase(id);
+            }
+
+            this->actorControllers[id] = std::move(actorController);
+
+            return actor;
+        }
+
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::CutsceneController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::PlayerController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::ScriptedController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+
+        void Scene::RemoveActor(const std::string& id) {
+            this->actorManager->RemoveActor(id);
+
+            this->actorControllers.erase(id);
+        }
+
+        void Scene::PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction) const {
+            this->actorManager->PlaceActor(actor, x, y, direction);
+        }
+
+        bool Scene::IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const {
+            for (auto& actor : this->actorManager->actors) {
+                if (actor.get() == ignore) {
+                    continue;
+                }
+
+                if (actor->OccupiesTile(x, y)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

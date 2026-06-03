@@ -15,7 +15,7 @@ namespace Game {
                 }
 
                 void PathfindActor::Start() {
-                    this->actor = this->map->scene->actorManager->GetActor(this->actorId);
+                    this->actor = this->map->scene->GetActor(this->actorId);
 
                     if (!this->actor) {
                         this->failed = true;
@@ -24,7 +24,7 @@ namespace Game {
                     }
 
                     if (!this->targetId.empty()) {
-                        this->target = this->map->scene->actorManager->GetActor(this->targetId);
+                        this->target = this->map->scene->GetActor(this->targetId);
 
                         if (!this->target) {
                             this->failed = true;
@@ -60,7 +60,7 @@ namespace Game {
                         // in which case we should just try to pathfind to the target's tile and let the pathfinding fail
                         // and not move the actor.
                         for (auto& possibleTarget : possibleTargets) {
-                            if (!this->map->scene->actorManager->IsTileBlocked(possibleTarget.first, possibleTarget.second, this->actor.get())) {
+                            if (!this->map->scene->IsTileBlocked(possibleTarget.first, possibleTarget.second, this->actor.get())) {
                                 this->targetX = possibleTarget.first;
                                 this->targetY = possibleTarget.second;
 
