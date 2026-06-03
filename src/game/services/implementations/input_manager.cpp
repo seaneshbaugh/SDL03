@@ -17,19 +17,19 @@ namespace Game {
             InputManager::~InputManager() {
             }
 
-            Input::InputKey InputManager::GetInputMapKey(const SDL_Event& event) {
+            Input::Button InputManager::GetInputButton(const SDL_Event& event) {
                 //if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN) {
                 //    this->logger->debug() << "Button: " << static_cast<int>(event.gbutton.button);
                 //}
 
                 try {
                     if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) {
-                        return this->inputMapper->GetInputMapKey(event);
+                        return this->inputMapper->GetInputButton(event);
                     } else {
-                        return Input::InputKey::NO_KEY;
+                        return Input::Button::None;
                     }
                 } catch (const std::out_of_range& exception) {
-                    return Input::InputKey::NO_KEY;
+                    return Input::Button::None;
                 }
             }
         }

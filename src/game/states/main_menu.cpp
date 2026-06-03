@@ -15,9 +15,9 @@ namespace Game {
         }
 
         void MainMenu::HandleEvent(const SDL_Event& event) {
-            Input::InputKey key = Services::Locator::InputService()->GetInputMapKey(event);
+            Input::Button key = Services::Locator::InputService()->GetInputButton(event);
 
-            if (key != Input::InputKey::NO_KEY) {
+            if (key != Input::Button::None) {
                 this->ProcessInput(key);
             }
         }
@@ -41,7 +41,7 @@ namespace Game {
             }
         }
 
-        std::string MainMenu::ProcessInput(const Input::InputKey key) {
+        std::string MainMenu::ProcessInput(const Input::Button key) {
             std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
 
             return result;
@@ -76,7 +76,7 @@ namespace Game {
             states.new_usertype<MainMenu>("MainMenu",
                                           sol::no_constructor,
                                           "pop", &MainMenu::Pop,
-                                          "process_input", static_cast<std::string (MainMenu::*)(const Input::InputKey)>(&MainMenu::ProcessInput),
+                                          "process_input", static_cast<std::string (MainMenu::*)(const Input::Button)>(&MainMenu::ProcessInput),
                                           "render", &MainMenu::Render
                                           );
         }

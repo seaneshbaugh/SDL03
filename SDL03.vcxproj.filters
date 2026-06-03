@@ -590,7 +590,7 @@
     <ClInclude Include="src\game\engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\input\input_key.hpp">
+    <ClInclude Include="src\game\input\button.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\input\input_mapper.hpp">

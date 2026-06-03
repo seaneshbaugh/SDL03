@@ -8,22 +8,22 @@ namespace Game {
             this->logger = Services::Locator::LoggerService()->GetLogger(InputMapper::logChannel);
         }
 
-        InputMapper::InputMapper(const std::map<int, InputKey>& keys) : InputMapper() {
-            this->MapKeys(keys);
+        InputMapper::InputMapper(const std::map<int, Button>& buttons) : InputMapper() {
+            this->MapButtons(buttons);
         }
 
         InputMapper::~InputMapper() {
         }
 
-        std::map<int, InputKey>::size_type InputMapper::MapKeys(const std::map<int, InputKey>& keys) {
-            for (auto it = keys.begin(); it != keys.end(); ++it) {
+        std::map<int, Button>::size_type InputMapper::MapButtons(const std::map<int, Button>& buttons) {
+            for (auto it = buttons.begin(); it != buttons.end(); ++it) {
                 this->SetInputMapKey(it->first, it->second);
             }
 
-            return keys.size();
+            return buttons.size();
         }
 
-        InputKey InputMapper::SetInputMapKey(const int& rawKeyValue, const InputKey& inputValue) {
+        Button InputMapper::SetInputMapKey(const int& rawKeyValue, const Button& inputValue) {
             for (auto it = this->inputMap.begin(); it != this->inputMap.end();) {
                 if (it->second == inputValue) {
                     this->inputMap.erase(it++);
@@ -37,27 +37,30 @@ namespace Game {
             return inputValue;
         }
 
-        InputKey InputMapper::GetInputMapKey(const SDL_Event& event) {
+        Button InputMapper::GetInputButton(const SDL_Event& event) {
             try {
                 if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) {
                     return this->inputMap.at(event.key.key);
                 } else {
-                    return InputKey::NO_KEY;
+                    return Button::None;
                 }
             } catch (const std::out_of_range& exception) {
-                return InputKey::NO_KEY;
+                return Button::None;
             }
         }
 
         // TODO: Figure out a better place for this.
         void InputMapper::SetDefaultInputMap() {
-            this->inputMap[SDLK_UP] = InputKey::UP_KEY;
-            this->inputMap[SDLK_DOWN] = InputKey::DOWN_KEY;
-            this->inputMap[SDLK_LEFT] = InputKey::LEFT_KEY;
-            this->inputMap[SDLK_RIGHT] = InputKey::RIGHT_KEY;
-            this->inputMap[SDLK_Z] = InputKey::CONFIRM_KEY;
-            this->inputMap[SDLK_X] = InputKey::CANCEL_KEY;
-            this->inputMap[SDLK_TAB] = InputKey::MENU_KEY;
+            this->inputMap[SDLK_UP] = Button::Up;
+            this->inputMap[SDLK_DOWN] = Button::Down;
+            this->inputMap[SDLK_LEFT] = Button::Left;
+            this->inputMap[SDLK_RIGHT] = Button::Right;
+            this->inputMap[SDLK_Z] = Button::Confirm;
+            this->inputMap[SDLK_X] = Button::Cancel;
+            this->inputMap[SDLK_A] = Button::Skip;
+            this->inputMap[SDLK_S] = Button::Switch;
+            this->inputMap[SDLK_TAB] = Button::Menu;
+            this->inputMap[SDLK_DELETE] = Button::Scroll;
         }
     }
 }

@@ -67,9 +67,9 @@ namespace Game {
             void UpdateMovementInput();
             // TODO: Go through the rest of the game and change references to "keys" to "buttons".
             // Button is a more accurate term for what these are. They're not necessarily keys on a keyboard. They could be buttons on a gamepad or something else entirely.
-            void ProcessButtonDown(const Input::InputKey key);
-            void ProcessButtonUp(const Input::InputKey key);
-            std::string ProcessInput(const Input::InputKey key);
+            void ProcessButtonDown(const Input::Button key);
+            void ProcessButtonUp(const Input::Button key);
+            std::string ProcessInput(const Input::Button key);
             Transition UpdateGameplay(const float deltaTime);
             Transition UpdateDialogue(const float deltaTime);
             Transition UpdateCutscene(const float deltaTime);

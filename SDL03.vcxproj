@@ -229,7 +229,7 @@
     <ClInclude Include="src\game\events\subject.hpp" />
     <ClInclude Include="src\game\events\tick.hpp" />
     <ClInclude Include="src\game\graphics\spritesheet.hpp" />
-    <ClInclude Include="src\game\input\input_key.hpp" />
+    <ClInclude Include="src\game\input\button.hpp" />
     <ClInclude Include="src\game\input\input_mapper.hpp" />
     <ClInclude Include="src\game\scenes\controllers\actor_controller.hpp" />
     <ClInclude Include="src\game\scenes\controllers\cutscene_controller.hpp" />

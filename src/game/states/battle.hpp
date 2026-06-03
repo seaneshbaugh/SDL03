@@ -32,7 +32,7 @@ namespace Game {
             std::string backgroundName;
             std::shared_ptr<Assets::Texture> background;
 
-            std::string ProcessInput(const Input::InputKey key);
+            std::string ProcessInput(const Input::Button key);
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

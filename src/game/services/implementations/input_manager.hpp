@@ -12,7 +12,7 @@ namespace Game {
             public:
                 InputManager();
                 ~InputManager();
-                Input::InputKey GetInputMapKey(const SDL_Event& event);
+                Input::Button GetInputButton(const SDL_Event& event);
 
             private:
                 static const std::string logChannel;

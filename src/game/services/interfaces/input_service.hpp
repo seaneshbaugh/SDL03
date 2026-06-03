@@ -3,7 +3,7 @@
 
 #include <SDL3/SDL.h>
 
-#include "../../input/input_key.hpp"
+#include "../../input/button.hpp"
 
 namespace Game {
     namespace Services {
@@ -11,7 +11,7 @@ namespace Game {
             class InputService {
             public:
                 virtual ~InputService() {}
-                virtual Input::InputKey GetInputMapKey(const SDL_Event& event) = 0;
+                virtual Input::Button GetInputButton(const SDL_Event& event) = 0;
             };
         }
     }
