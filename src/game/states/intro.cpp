@@ -15,11 +15,6 @@ namespace Game {
         }
 
         void Intro::HandleEvent(const SDL_Event& event) {
-            //Input::Button key = Services::Locator::InputService()->GetInputButton(event);
-
-            //if (key != Input::Button::None) {
-            //    this->ProcessInput(key);
-            //}
         }
 
         Transition Intro::Update(const float deltaTime) {

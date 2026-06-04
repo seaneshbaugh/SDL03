@@ -15,11 +15,6 @@ namespace Game {
         }
 
         void MainMenu::HandleEvent(const SDL_Event& event) {
-            //Input::Button key = Services::Locator::InputService()->GetInputButton(event);
-
-            //if (key != Input::Button::None) {
-            //    this->ProcessInput(key);
-            //}
         }
 
         Transition MainMenu::Update(const float deltaTime) {

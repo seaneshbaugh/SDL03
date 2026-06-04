@@ -32,10 +32,11 @@ namespace Game {
             sol::protected_function spawnNPCs = (*this->luaState.get())["spawn_npcs"];
 
             if (spawnNPCs.valid()) {
-                try {
-                    spawnNPCs();
-                } catch (const sol::error& e) {
-                    this->logger->error() << "Error in Lua spawn_npcs function: " << e.what();
+                sol::protected_function_result result = spawnNPCs();
+
+                if (!result.valid()) {
+                    sol::error err = result;
+                    this->logger->error() << "Error in Lua spawn_npcs function: " << err.what();
                 }
             }
 
@@ -49,25 +50,13 @@ namespace Game {
             // TODO: Create some sort of wrapper around this state.
             this->movementInputHeldDirection = Scenes::Actor::Direction::Down;
             this->movementInputHeld = false;
-            this->interactionRequested = false;
-            this->dialogueNextPressed = false;
-            this->dialogueChoiceInputPressed = false;
-            this->dialogueChoiceInputDirection = Scenes::Actor::Direction::Down;
+            this->dialogueChoiceInputTimer = 0.0f;
         }
 
         Map::~Map() {
         }
 
         void Map::HandleEvent(const SDL_Event& event) {
-            Input::Button key = Services::Locator::InputService()->GetInputButton(event);
-
-            if (key != Input::Button::None) {
-                if (event.type == SDL_EVENT_KEY_DOWN) {
-                    this->ProcessButtonDown(key);
-                } else if (event.type == SDL_EVENT_KEY_UP) {
-                    this->ProcessButtonUp(key);
-                }
-            }
         }
 
         Transition Map::Update(const float deltaTime) {
@@ -98,9 +87,7 @@ namespace Game {
 
             this->scene->ProcessPendingMovement();
 
-            if (this->interactionRequested) {
-                this->interactionRequested = false;
-
+            if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
                 if (this->TryInteract()) {
                     this->logger->debug() << "Player interacted with something.";
                 } else {
@@ -130,19 +117,27 @@ namespace Game {
         }
 
         Transition Map::UpdateDialogue(const float deltaTime) {
-            if (this->dialogueChoiceInputPressed) {
-                this->dialogueChoiceInputPressed = false;
-
-                if (this->dialogueChoiceInputDirection == Scenes::Actor::Direction::Up) {
+            if (Services::Locator::InputService()->GetCurrentInputState().upHeld) {
+                if (this->dialogueChoiceInputTimer <= 0.0f) {
                     this->dialogueSession.PreviousChoice();
-                } else if (this->dialogueChoiceInputDirection == Scenes::Actor::Direction::Down) {
-                    this->dialogueSession.NextChoice();
+
+                    this->dialogueChoiceInputTimer = 0.25f;
+                } else {
+                    this->dialogueChoiceInputTimer -= deltaTime;
                 }
+            } else if (Services::Locator::InputService()->GetCurrentInputState().downHeld) {
+                if (this->dialogueChoiceInputTimer <= 0.0f) {
+                    this->dialogueSession.NextChoice();
+
+                    this->dialogueChoiceInputTimer = 0.25f;
+                } else {
+                    this->dialogueChoiceInputTimer -= deltaTime;
+                }
+            } else {
+                this->dialogueChoiceInputTimer = 0.0f;
             }
 
-            if (this->dialogueNextPressed) {
-                this->dialogueNextPressed = false;
-
+            if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
                 this->dialogueSession.Next();
             }
 
@@ -190,38 +185,7 @@ namespace Game {
         }
 
         std::string Map::ProcessInput(const Input::Button key) {
-            //std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
-
             return "";
-        }
-
-        void Map::ProcessButtonDown(const Input::Button key) {
-            if (this->state == State::Dialogue) {
-                switch (key) {
-                case Input::Button::Up:
-                    this->dialogueChoiceInputPressed = true;
-                    this->dialogueChoiceInputDirection = Scenes::Actor::Direction::Up;
-
-                    break;
-                case Input::Button::Down:
-                    this->dialogueChoiceInputPressed = true;
-                    this->dialogueChoiceInputDirection = Scenes::Actor::Direction::Down;
-
-                    break;
-                case Input::Button::Confirm:
-                    this->dialogueNextPressed = true;
-
-                    break;
-                }
-            } else {
-                if (key == Input::Button::Confirm) {
-                    this->interactionRequested = true;
-                }
-            }
-        }
-
-        void Map::ProcessButtonUp(const Input::Button key) {
-            // Saving this method since it might be useful for other things later.
         }
 
         void Map::Render() {
@@ -562,7 +526,6 @@ namespace Game {
         }
 
         std::shared_ptr<Scenes::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
-
             std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = this->currentMap->GetSpawnPoint(spawnPointName);
 
             if (!spawnPoint) {
@@ -600,8 +563,16 @@ namespace Game {
                                "Down", Scenes::Actor::Direction::Down,
                                "Left", Scenes::Actor::Direction::Left);
 
-            // TODO: Handle errors?
-            (*this->luaState.get())["initialize"]();
+            sol::protected_function initialize = (*this->luaState.get())["initialize"];
+
+            if (initialize.valid()) {
+                sol::protected_function_result result = initialize();
+
+                if (!result.valid()) {
+                    sol::error err = result;
+                    this->logger->error() << "Error in Lua initialize function: " << err.what();
+                }
+            }
         }
 
         void Map::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
