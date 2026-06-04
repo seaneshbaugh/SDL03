@@ -62,6 +62,7 @@
     <ClCompile Include="lib\sago\platform_folders.cpp" />
     <ClCompile Include="lib\sqlite\sqlite3.c" />
     <ClCompile Include="src\game.cpp" />
+    <ClCompile Include="src\game\input\input_state.cpp" />
     <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp" />
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp" />
     <ClCompile Include="src\game\scenes\actor_appearance.cpp" />

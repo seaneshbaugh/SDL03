@@ -107,10 +107,8 @@ namespace Game {
             states.new_usertype<Intro>("Intro",
                                        sol::no_constructor,
                                        "pop", &Intro::Pop,
-                                       "render", &Intro::Render,
                                        "get_texture", &Intro::GetTexture
                                        );
-
         }
     }
 }

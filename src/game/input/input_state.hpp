@@ -1,6 +1,10 @@
 #ifndef SDL03_Game_Input_InputState
 #define SDL03_Game_Input_InputState
 
+#include <memory>
+
+#include "../../../lib/sol/sol.hpp"
+
 namespace Game {
     namespace Input {
         struct InputState {
@@ -33,6 +37,11 @@ namespace Game {
 
             bool scrollPressed = false;
             bool scrollHeld = false;
+
+            class LuaInterface {
+            public:
+                static void Bind(std::shared_ptr<sol::state> luaState);
+            };
         };
     }
 }

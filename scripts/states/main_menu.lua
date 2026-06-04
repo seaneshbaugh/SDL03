@@ -5,10 +5,9 @@ images = {}
 hand = nil
 previous_menu_option = 0
 menu_option = 0
-time = 0
 next_state = "main_menu"
 
--- I probably need to make some sort of proper menu object.
+-- TODO: Make a proper menu object that can be reused.
 function initialize()
     font_name = "PixChicago"
     font_size = 10
@@ -20,8 +19,8 @@ function initialize()
     hand = objects.Image.new("cursor-right", 175, 150 + (50 * menu_option))
 end
 
-function process_input(key_code)
-    if key_code == UP_KEY then
+function process_input(input_state)
+    if input_state.up_pressed then
         if menu_option > 0 then
             menu_option = menu_option - 1
         else
@@ -29,7 +28,7 @@ function process_input(key_code)
         end
     end
 
-    if key_code == DOWN_KEY then
+    if input_state.down_pressed then
         if menu_option < 2 then
             menu_option = menu_option + 1
         else
@@ -37,7 +36,7 @@ function process_input(key_code)
         end
     end
 
-    if key_code == CONFIRM_KEY then
+    if input_state.confirm_pressed then
         if menu_option == 0 then
             next_state = "new_game"
         end
@@ -53,28 +52,15 @@ function process_input(key_code)
         end
     end
 
-    return ""
+    return next_state
 end
 
 function update(delta_time)
-    if next_state ~= "main_menu" then
-        return next_state
-    end
-
-    -- Right now the time counter does nothing.
-    time = time + 1
-
-    if time % 60 == 0 then
-        time = 0
-    end
-
     if previous_menu_option ~= menu_option then
         hand:setPosition(175, 150 + (50 * menu_option))
 
         previous_menu_option = menu_option
     end
-
-    return next_state
 end
 
 function render()
