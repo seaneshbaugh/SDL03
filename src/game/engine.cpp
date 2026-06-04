@@ -146,6 +146,7 @@ namespace Game {
         while (!this->states.empty()) {
             int startTicks = SDL_GetTicks();
             Services::Locator::TimeService()->BeginFrame();
+            Services::Locator::InputService()->BeginFrame();
 
             std::shared_ptr<States::Base> currentState = this->states.top();
 
@@ -167,6 +168,8 @@ namespace Game {
                     //        gamepad = SDL_OpenGamepad(id);
                     //    }
                     //}
+
+                    Services::Locator::InputService()->HandleEvent(event);
 
                     currentState->HandleEvent(event);
                 }

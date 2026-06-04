@@ -218,6 +218,7 @@
     <ClInclude Include="lib\sol\sol.hpp" />
     <ClInclude Include="lib\sqlite\sqlite3.h" />
     <ClInclude Include="src\game.hpp" />
+    <ClInclude Include="src\game\input\input_state.hpp" />
     <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp" />
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp" />
     <ClInclude Include="src\game\scenes\actor_appearance.hpp" />

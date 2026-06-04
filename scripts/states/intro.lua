@@ -2,7 +2,6 @@ time = 0
 texts = {}
 vx = {}
 vy = {}
-next_state = "intro"
 
 function initialize()
     font_name = "DroidSans"
@@ -31,24 +30,7 @@ function initialize()
     end
 end
 
-function process_input(key_code)
-    next_state = "main_menu"
-
-    return next_state
-end
-
 function update(delta_time)
-    if next_state ~= "intro" then
-        return next_state
-    end
-
-    -- Right now the time counter does nothing.
-    time = time + 1
-
-    if time % 60 == 0 then
-        time = 0
-    end
-
     -- Leaving this here in case I need to do some more debugging as I work on timing.
     -- Right now this only works because of the call to SDL_Delay in the engine loop.
     -- This causes delta_time to be ~0.16 which is large enough to increase the position
@@ -78,8 +60,6 @@ function update(delta_time)
             vy[i] = vy[i] * -1
         end
     end
-
-    return next_state
 end
 
 function render()

@@ -17,13 +17,13 @@ namespace Game {
 
         std::map<int, Button>::size_type InputMapper::MapButtons(const std::map<int, Button>& buttons) {
             for (auto it = buttons.begin(); it != buttons.end(); ++it) {
-                this->SetInputMapKey(it->first, it->second);
+                this->SetInputMapButton(it->first, it->second);
             }
 
             return buttons.size();
         }
 
-        Button InputMapper::SetInputMapKey(const int& rawKeyValue, const Button& inputValue) {
+        Button InputMapper::SetInputMapButton(const int& rawKeyValue, const Button& inputValue) {
             for (auto it = this->inputMap.begin(); it != this->inputMap.end();) {
                 if (it->second == inputValue) {
                     this->inputMap.erase(it++);

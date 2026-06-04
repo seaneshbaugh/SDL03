@@ -15,21 +15,32 @@ namespace Game {
         }
 
         void Intro::HandleEvent(const SDL_Event& event) {
-            Input::Button key = Services::Locator::InputService()->GetInputButton(event);
+            //Input::Button key = Services::Locator::InputService()->GetInputButton(event);
 
-            if (key != Input::Button::None) {
-                this->ProcessInput(key);
-            }
+            //if (key != Input::Button::None) {
+            //    this->ProcessInput(key);
+            //}
         }
 
         Transition Intro::Update(const float deltaTime) {
-            std::string nextState = (*this->luaState.get())["update"](deltaTime);
+            GameStateType nextState = this->ProcessInput();
+
+            sol::protected_function update = (*this->luaState.get())["update"];
+
+            if (update.valid()) {
+                sol::protected_function_result result = update(deltaTime);
+
+                if (!result.valid()) {
+                    sol::error err = result;
+                    this->logger->error() << "Error calling Lua update function: " << err.what();
+                }
+            }
 
             if (this->pop) {
                 return Transition::Pop();
             }
 
-            switch (StateNameToEnum(nextState)) {
+            switch (nextState) {
             case GameStateType::main_menu:
                 return Transition::Push(std::make_shared<MainMenu>());
             default:
@@ -38,13 +49,28 @@ namespace Game {
         }
 
         std::string Intro::ProcessInput(const Input::Button key) {
-            std::string result = (*this->luaState.get())["process_input"](static_cast<int>(key));
+            return "";
+        }
 
-            return result;
+        GameStateType Intro::ProcessInput() {
+            if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
+                return GameStateType::main_menu;
+            }
+
+            return GameStateType::intro;
         }
 
         void Intro::Render() {
-            (*this->luaState.get())["render"]();
+            sol::protected_function render = (*this->luaState.get())["render"];
+
+            if (render.valid()) {
+                sol::protected_function_result result = render();
+
+                if (!result.valid()) {
+                    sol::error err = result;
+                    this->logger->error() << "Error calling Lua render function: " << err.what();
+                }
+            }
         }
 
         void Intro::LoadLuaState(const std::string& scriptFilePath) {
@@ -63,8 +89,16 @@ namespace Game {
 
             this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
 
-            // TODO: Handle errors?
-            (*this->luaState.get())["initialize"]();
+            sol::protected_function initialize = (*this->luaState.get())["initialize"];
+
+            if (initialize.valid()) {
+                sol::protected_function_result result = initialize();
+
+                if (!result.valid()) {
+                    sol::error err = result;
+                    this->logger->error() << "Error calling Lua initialize function: " << err.what();
+                }
+            }
         }
 
         void Intro::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
@@ -73,7 +107,6 @@ namespace Game {
             states.new_usertype<Intro>("Intro",
                                        sol::no_constructor,
                                        "pop", &Intro::Pop,
-                                       "process_input", static_cast<std::string (Intro::*)(const Input::Button)>(&Intro::ProcessInput),
                                        "render", &Intro::Render,
                                        "get_texture", &Intro::GetTexture
                                        );

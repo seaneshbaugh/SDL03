@@ -929,6 +929,9 @@
     <ClInclude Include="src\game\scenes\controllers\cutscene_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\input\input_state.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

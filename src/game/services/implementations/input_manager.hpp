@@ -13,12 +13,17 @@ namespace Game {
                 InputManager();
                 ~InputManager();
                 Input::Button GetInputButton(const SDL_Event& event);
+                void HandleEvent(const SDL_Event& event);
+                void BeginFrame();
+                void EndFrame();
+                const Input::InputState& GetCurrentInputState() const;
 
             private:
                 static const std::string logChannel;
 
                 std::shared_ptr<Log::Logger> logger;
                 std::shared_ptr<Input::InputMapper> inputMapper;
+                Input::InputState inputState;
             };
         }
     }

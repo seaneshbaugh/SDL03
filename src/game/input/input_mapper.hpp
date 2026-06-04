@@ -16,8 +16,9 @@ namespace Game {
             InputMapper(const std::map<int, Button>& keys);
             ~InputMapper();
             std::map<int, Button>::size_type MapButtons(const std::map<int, Button>& keys);
-            Button SetInputMapKey(const int& rawKeyValue, const Button& inputValue);
+            Button SetInputMapButton(const int& rawKeyValue, const Button& inputValue);
             Button GetInputButton(const SDL_Event& event);
+            Button GetInputButton(const int& rawKeyValue);
         private:
             static const std::string logChannel;
 
