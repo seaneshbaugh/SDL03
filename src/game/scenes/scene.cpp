@@ -7,7 +7,8 @@ namespace Game {
 
         Scene::Scene(States::Map* mapState) : mapState(mapState) {
             this->logger = Services::Locator::LoggerService()->GetLogger(Scene::logChannel);
-            this->actorManager = std::make_shared<ActorManager>(this->mapState);
+            this->actorManager = std::make_shared<ActorManager>(this);
+            this->camera = std::make_shared<Scenes::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
             this->pathfinder = std::make_unique<Pathfinder>(this);
         }
 
@@ -22,6 +23,14 @@ namespace Game {
             this->ProcessCompletedSteps();
 
             this->ProcessPendingMovement();
+
+            // TODO: Doing this->mapState->currentMap is a bit of a smell.
+            // I think what this indicates is that the States::Map should pass its currentMap to the Scene
+            // on creation and then there should be a Scene::SetMap function to update the pointer to the
+            // map when a new map is loaded. This would go a long way towards removing the dependency on
+            // States::Map from the scene, which will be important later if I want to make Scene have two
+            // different subclasses, one for States::Map and one for States::Battle.
+            this->camera->Update(deltaTime, this->mapState->currentMap->width * this->mapState->currentMap->tilewidth, this->mapState->currentMap->height * this->mapState->currentMap->tileheight);
         }
 
         void Scene::EnqueueMovement(const float deltaTime) {

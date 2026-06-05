@@ -10,7 +10,6 @@ namespace Game {
             this->previousState = State::Gameplay;
             this->pop = false;
             this->scene = std::make_shared<Scenes::Scene>(this);
-            this->camera = std::make_shared<Scenes::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
             this->LoadLuaState("scripts/states/map.lua");
 
             // TODO: Figure out a better place to put this. Really we should probably be calling LoadMap in
@@ -34,7 +33,7 @@ namespace Game {
             player->SetPersistent(true);
             player->SetMovementSpeed(4.0f);
             this->scene->actorManager->player = player;
-            this->camera->Follow(this->scene->actorManager->player);
+            this->scene->camera->Follow(this->scene->actorManager->player);
 
             this->inputDebounceTimer = 0.0f;
         }
@@ -68,8 +67,6 @@ namespace Game {
                     this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
                 }
             }
-
-            this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
 
             if (this->pop) {
                 return Transition::Pop();
@@ -143,12 +140,12 @@ namespace Game {
         }
 
         void Map::Render() {
-            this->currentMap->Render(this->camera->x, this->camera->y);
+            this->currentMap->Render(this->scene->camera->x, this->scene->camera->y);
 
             this->scene->Render();
 
             if (this->state == State::Dialogue) {
-                this->dialogueSession.Render(this->camera);
+                this->dialogueSession.Render(this->scene->camera);
             }
         }
 
@@ -283,7 +280,7 @@ namespace Game {
 
             this->scene->PlaceActor(this->scene->actorManager->player, startX, startY, Scenes::Actor::Direction::Down);
 
-            this->camera->Follow(this->scene->actorManager->player);
+            this->scene->camera->Follow(this->scene->actorManager->player);
 
             (*this->luaState.get())["after_map_load"]();
 

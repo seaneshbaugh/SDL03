@@ -1,11 +1,12 @@
 #include "actor_manager.hpp"
+#include "scene.hpp"
 #include "../states/map.hpp"
 
 namespace Game {
     namespace Scenes {
         const std::string ActorManager::logChannel = "scene";
 
-        ActorManager::ActorManager(States::Map* mapState) : mapState(mapState) {
+        ActorManager::ActorManager(Scene* scene) : scene(scene) {
             this->logger = Services::Locator::LoggerService()->GetLogger(ActorManager::logChannel);
         }
 
@@ -33,7 +34,7 @@ namespace Game {
             actor->name = name;
             actor->dialogueId = dialogueId;
             actor->SetMovementSpeed(2.0f);
-            actor->SetMapState(this->mapState);
+            actor->SetMapState(this->scene->mapState);
 
             if (!movementScriptName.empty()) {
                 actor->LoadLuaScript("scripts/actors/movement/" + movementScriptName + ".lua");
@@ -66,7 +67,7 @@ namespace Game {
         }
 
         void ActorManager::PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction) const {
-            actor->currentMap = this->mapState->currentMap;
+            actor->currentMap = this->scene->mapState->currentMap;
             actor->SetPosition(x, y);
             actor->SetAnimation(Scenes::Actor::Animation::Stand);
             actor->SetDirection(direction);
@@ -98,7 +99,7 @@ namespace Game {
             });
 
             for (auto& actor : renderActors) {
-                actor->Render(this->mapState->camera);
+                actor->Render(this->scene->camera);
             }
         }
     }

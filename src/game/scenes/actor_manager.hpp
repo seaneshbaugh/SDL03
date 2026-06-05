@@ -9,6 +9,8 @@ namespace Game {
     }
 
     namespace Scenes {
+        class Scene;
+
         class ActorManager {
         public:
 
@@ -16,7 +18,7 @@ namespace Game {
             std::vector<std::shared_ptr<Actor>> actors;
             std::unordered_map<std::string, std::shared_ptr<Actor>> actorLookup;
 
-            ActorManager(States::Map* mapState);
+            ActorManager(Scene* scene);
             ~ActorManager();
             std::shared_ptr<Scenes::Actor> GetActor(const std::string& id) const;
             std::shared_ptr<Scenes::Actor> AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
@@ -29,7 +31,7 @@ namespace Game {
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
-            States::Map* mapState;
+            Scene* scene;
         };
     }
 }

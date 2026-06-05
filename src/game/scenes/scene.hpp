@@ -16,6 +16,8 @@ namespace Game {
         class Scene {
         public:
             std::shared_ptr<ActorManager> actorManager;
+            std::shared_ptr<Camera> camera;
+            States::Map* mapState;
 
             Scene(States::Map* mapState);
             ~Scene();
@@ -41,7 +43,6 @@ namespace Game {
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
-            States::Map* mapState;
             std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
             std::unique_ptr<Pathfinder> pathfinder;
         };
