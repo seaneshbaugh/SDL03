@@ -2,6 +2,7 @@
 #define SDL03_Game_Scene_Scene
 
 #include "actor_manager.hpp"
+#include "pathfinder.hpp"
 #include "controllers/cutscene_controller.hpp"
 #include "controllers/player_controller.hpp"
 #include "controllers/scripted_controller.hpp"
@@ -32,12 +33,17 @@ namespace Game {
             void SetActorController(const std::string& id, std::unique_ptr<Controllers::ActorController> controller);
             bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
 
+            void PathfindActor(const std::string& actorId, const int targetX, const int targetY);
+            void PathfindActor(Actor* actor, const int targetX, const int targetY);
+
+            Objects::Maps::Map* GetCurrentMap() const;
         private:
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
             States::Map* mapState;
             std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
+            std::unique_ptr<Pathfinder> pathfinder;
         };
     }
 }

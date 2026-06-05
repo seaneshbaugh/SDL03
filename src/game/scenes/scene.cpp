@@ -8,6 +8,7 @@ namespace Game {
         Scene::Scene(States::Map* mapState) : mapState(mapState) {
             this->logger = Services::Locator::LoggerService()->GetLogger(Scene::logChannel);
             this->actorManager = std::make_shared<ActorManager>(this->mapState);
+            this->pathfinder = std::make_unique<Pathfinder>(this);
         }
 
         Scene::~Scene() {
@@ -116,6 +117,28 @@ namespace Game {
             }
 
             return false;
+        }
+
+        void Scene::PathfindActor(const std::string& actorId, const int targetX, const int targetY) {
+            std::shared_ptr<Scenes::Actor> actor = this->GetActor(actorId);
+
+            if (!actor) {
+                return;
+            }
+
+            this->PathfindActor(actor.get(), targetX, targetY);
+        }
+
+        void Scene::PathfindActor(Actor* actor, const int targetX, const int targetY) {
+            std::vector<Actor::Direction> path = this->pathfinder->Pathfind(actor, targetX, targetY);
+
+            for (auto direction : path) {
+                actor->QueueMovement(direction);
+            }
+        }
+
+        Objects::Maps::Map* Scene::GetCurrentMap() const {
+            return this->mapState->currentMap.get();
         }
     }
 }

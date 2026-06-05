@@ -16,8 +16,6 @@ namespace Game {
     namespace States {
         class Map : public Base {
         public:
-            friend class Scenes::Cutscenes::Actions::PathfindActor;
-
             enum class State {
                 Gameplay,
                 Dialogue,
@@ -35,8 +33,8 @@ namespace Game {
             void Render();
             bool LoadMap(const std::string& mapName, const int startX, const int startY);
             bool UnloadMap();
-            std::shared_ptr<Objects::Maps::Map> GetCurrentMap();
-            std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y);
+            std::shared_ptr<Objects::Maps::Map> GetCurrentMap() const;
+            std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y) const;
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
             bool CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction);
             void Step(unsigned int x, unsigned int y);
@@ -44,9 +42,6 @@ namespace Game {
             bool DialogueSessionCompleted() const;
             void StartCutscene(const std::string& cutsceneId);
             std::shared_ptr<Scenes::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
-
-        protected:
-            std::vector<Scenes::Actor::Direction> Pathfind(Scenes::Actor* actor, const int targetX, const int targetY);
 
         private:
             static const std::string logChannel;

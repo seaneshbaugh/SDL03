@@ -69,11 +69,7 @@ namespace Game {
                         }
                     }
 
-                    this->path = this->map->Pathfind(this->actor.get(),this->targetX, this->targetY);
-
-                    for (auto direction : this->path) {
-                        this->actor->QueueMovement(direction);
-                    }
+                    this->map->scene->PathfindActor(this->actor.get(), this->targetX, this->targetY);
 
                     this->started = true;
                 }

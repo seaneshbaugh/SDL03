@@ -126,6 +126,7 @@
     <ClCompile Include="src\game\scenes\dialogue\dialogue_graph.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_node.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_session.cpp" />
+    <ClCompile Include="src\game\scenes\pathfinder.cpp" />
     <ClCompile Include="src\game\scenes\scene.cpp" />
     <ClCompile Include="src\game\services\implementations\audio_manager.cpp" />
     <ClCompile Include="src\game\services\implementations\clock.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="src\game\assets\song.hpp" />
     <ClInclude Include="src\game\assets\sound.hpp" />
     <ClInclude Include="src\game\assets\texture.hpp" />
+    <ClInclude Include="src\game\scenes\pathfinder.hpp" />
     <ClInclude Include="src\game\scenes\scene.hpp" />
     <ClInclude Include="src\game\services\implementations\audio_manager.hpp" />
     <ClInclude Include="src\game\services\implementations\clock.hpp" />

@@ -31,7 +31,6 @@ namespace Game {
                     int targetY;
                     std::string targetId;
                     std::shared_ptr<Scenes::Actor> target;
-                    std::vector<Scenes::Actor::Direction> path;
                 };
             }
         }

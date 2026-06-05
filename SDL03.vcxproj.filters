@@ -450,6 +450,9 @@
     <ClCompile Include="src\game\input\input_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scenes\pathfinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -933,6 +936,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\input\input_state.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scenes\pathfinder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
