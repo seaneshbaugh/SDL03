@@ -98,6 +98,12 @@ namespace Game {
             this->actorManager->PlaceActor(actor, x, y, direction);
         }
 
+        void Scene::SetActorController(const std::string& id, std::unique_ptr<Controllers::ActorController> controller) {
+            this->actorControllers.erase(id);
+
+            this->actorControllers[id] = std::move(controller);
+        }
+
         bool Scene::IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const {
             for (auto& actor : this->actorManager->actors) {
                 if (actor.get() == ignore) {

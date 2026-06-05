@@ -141,6 +141,8 @@ namespace Game {
             this->scene->Update(deltaTime);
 
             if (this->cutsceneSession.IsCompleted()) {
+                this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::PlayerController>(this->scene->actorManager->player.get()));
+
                 this->state = State::Gameplay;
             }
 
@@ -479,6 +481,8 @@ namespace Game {
             this->logger->debug() << "Starting cutscene with ID \"" << cutsceneId << "\".";
 
             this->scene->actorManager->player->ClearPendingMovement();
+
+            this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::CutsceneController>(this->scene->actorManager->player.get()));
 
             std::shared_ptr<Scenes::Cutscenes::Cutscene> cutscene = std::make_shared<Scenes::Cutscenes::Cutscene>(this, cutsceneId);
 
