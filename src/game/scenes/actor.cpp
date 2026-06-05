@@ -353,17 +353,6 @@ namespace Game {
                     this->timeSinceLastAnimationFrame = 0.0f;
                 }
             }
-
-            sol::protected_function update = (*this->luaState.get())["update"];
-
-            if (update.valid()) {
-                sol::protected_function_result result = update(deltaTime);
-
-                if (!result.valid()) {
-                    sol::error e = result;
-                    this->logger->error() << "Error in Lua update function: " << e.what();
-                }
-            }
         }
 
         void Actor::GenerateMovementIntent(const float deltaTime) {

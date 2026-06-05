@@ -20,6 +20,7 @@ namespace Game {
             ~Scene();
 
             void Update(const float deltaTime);
+            void EnqueueMovement(const float deltaTime);
             void ProcessCompletedSteps();
             void ProcessPendingMovement();
             void Render() const;

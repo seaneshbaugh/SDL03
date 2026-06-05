@@ -52,16 +52,12 @@ namespace Game {
             static const std::string logChannel;
 
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            Scenes::Actor::Direction movementDirection;
-            Scenes::Actor::Direction movementInputHeldDirection;
-            bool movementInputHeld;
-            float dialogueChoiceInputTimer;
+            float inputDebounceTimer;
             Scenes::Dialogue::DialogueSession dialogueSession;
             Scenes::Cutscenes::CutsceneSession cutsceneSession;
             State state;
             State previousState;
 
-            void UpdateMovementInput();
             std::string ProcessInput(const Input::Button key);
             Transition UpdateGameplay(const float deltaTime);
             Transition UpdateDialogue(const float deltaTime);

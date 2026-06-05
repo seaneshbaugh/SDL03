@@ -15,6 +15,18 @@ namespace Game {
 
         void Scene::Update(const float deltaTime) {
             this->actorManager->UpdateActors(deltaTime);
+
+            this->EnqueueMovement(deltaTime);
+
+            this->ProcessCompletedSteps();
+
+            this->ProcessPendingMovement();
+        }
+
+        void Scene::EnqueueMovement(const float deltaTime) {
+            for (auto& [id, controller] : this->actorControllers) {
+                controller->Update(deltaTime);
+            }
         }
 
         void Scene::ProcessCompletedSteps() {

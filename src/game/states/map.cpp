@@ -47,10 +47,7 @@ namespace Game {
             this->scene->actorManager->player = player;
             this->camera->Follow(this->scene->actorManager->player);
 
-            // TODO: Create some sort of wrapper around this state.
-            this->movementInputHeldDirection = Scenes::Actor::Direction::Down;
-            this->movementInputHeld = false;
-            this->dialogueChoiceInputTimer = 0.0f;
+            this->inputDebounceTimer = 0.0f;
         }
 
         Map::~Map() {
@@ -73,19 +70,7 @@ namespace Game {
         }
 
         Transition Map::UpdateGameplay(const float deltaTime) {
-            this->UpdateMovementInput();
-
             this->scene->Update(deltaTime);
-
-            this->scene->ProcessCompletedSteps();
-
-            if (!this->scene->actorManager->player->IsMoving() && this->movementInputHeld) {
-                this->scene->actorManager->player->ClearPendingMovement();
-
-                this->QueueMovement(this->scene->actorManager->player.get(), this->movementInputHeldDirection, 1);
-            }
-
-            this->scene->ProcessPendingMovement();
 
             if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
                 if (this->TryInteract()) {
@@ -118,23 +103,23 @@ namespace Game {
 
         Transition Map::UpdateDialogue(const float deltaTime) {
             if (Services::Locator::InputService()->GetCurrentInputState().upHeld) {
-                if (this->dialogueChoiceInputTimer <= 0.0f) {
+                if (this->inputDebounceTimer <= 0.0f) {
                     this->dialogueSession.PreviousChoice();
 
-                    this->dialogueChoiceInputTimer = 0.25f;
+                    this->inputDebounceTimer = 0.25f;
                 } else {
-                    this->dialogueChoiceInputTimer -= deltaTime;
+                    this->inputDebounceTimer -= deltaTime;
                 }
             } else if (Services::Locator::InputService()->GetCurrentInputState().downHeld) {
-                if (this->dialogueChoiceInputTimer <= 0.0f) {
+                if (this->inputDebounceTimer <= 0.0f) {
                     this->dialogueSession.NextChoice();
 
-                    this->dialogueChoiceInputTimer = 0.25f;
+                    this->inputDebounceTimer = 0.25f;
                 } else {
-                    this->dialogueChoiceInputTimer -= deltaTime;
+                    this->inputDebounceTimer -= deltaTime;
                 }
             } else {
-                this->dialogueChoiceInputTimer = 0.0f;
+                this->inputDebounceTimer = 0.0f;
             }
 
             if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
@@ -155,33 +140,11 @@ namespace Game {
 
             this->scene->Update(deltaTime);
 
-            this->scene->ProcessPendingMovement();
-
             if (this->cutsceneSession.IsCompleted()) {
                 this->state = State::Gameplay;
             }
 
             return Transition::None();
-        }
-
-        void Map::UpdateMovementInput() {
-            const bool* keyboardState = SDL_GetKeyboardState(nullptr);
-
-            if (keyboardState[SDL_SCANCODE_UP]) {
-                this->movementInputHeld = true;
-                this->movementInputHeldDirection = Scenes::Actor::Direction::Up;
-            } else if (keyboardState[SDL_SCANCODE_RIGHT]) {
-                this->movementInputHeld = true;
-                this->movementInputHeldDirection = Scenes::Actor::Direction::Right;
-            } else if (keyboardState[SDL_SCANCODE_DOWN]) {
-                this->movementInputHeld = true;
-                this->movementInputHeldDirection = Scenes::Actor::Direction::Down;
-            } else if (keyboardState[SDL_SCANCODE_LEFT]) {
-                this->movementInputHeld = true;
-                this->movementInputHeldDirection = Scenes::Actor::Direction::Left;
-            } else {
-                this->movementInputHeld = false;
-            }
         }
 
         std::string Map::ProcessInput(const Input::Button key) {
