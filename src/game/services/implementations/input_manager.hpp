@@ -12,7 +12,7 @@ namespace Game {
             public:
                 InputManager();
                 ~InputManager();
-                Input::Button GetInputButton(const SDL_Event& event);
+                Input::Button GetButton(const SDL_Event& event);
                 void HandleEvent(const SDL_Event& event);
                 void BeginFrame();
                 void EndFrame();
@@ -20,10 +20,12 @@ namespace Game {
 
             private:
                 static const std::string logChannel;
+                static const int gamepadAxisDeadZone;
 
                 std::shared_ptr<Log::Logger> logger;
                 std::shared_ptr<Input::InputMapper> inputMapper;
                 Input::InputState inputState;
+                SDL_Gamepad* gamepad;
             };
         }
     }

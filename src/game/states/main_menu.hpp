@@ -18,6 +18,7 @@ namespace Game {
 
         private:
             static const std::string logChannel;
+            float inputDebounceTimer;
 
             std::string ProcessInput(const Input::Button key);
             GameStateType ProcessInput();

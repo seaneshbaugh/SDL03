@@ -122,8 +122,6 @@ namespace Game {
         SDL_Event event;
         bool quit = false;
 
-        //SDL_Gamepad* gamepad = nullptr;
-
         // Each pass of the main game loop checks to see if there is a state object
         // left in the stack. If there isn't then the loop stops and the game quits. If
         // there is a state object in the stack then the loop polls for events, passing
@@ -158,17 +156,6 @@ namespace Game {
 
                     break;
                 } else {
-                    //// This is a very dirty way of handling this. I just want to see a gamepad
-                    //// working. Eventually this should be moved to the InputManager.
-                    //switch (event.type) {
-                    //case SDL_EVENT_GAMEPAD_ADDED:
-                    //    SDL_JoystickID id = event.gdevice.which;
-
-                    //    if (!gamepad) {
-                    //        gamepad = SDL_OpenGamepad(id);
-                    //    }
-                    //}
-
                     Services::Locator::InputService()->HandleEvent(event);
 
                     currentState->HandleEvent(event);

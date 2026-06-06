@@ -12,7 +12,7 @@ namespace Game {
             class InputService {
             public:
                 virtual ~InputService() {}
-                virtual Input::Button GetInputButton(const SDL_Event& event) = 0;
+                virtual Input::Button GetButton(const SDL_Event& event) = 0;
                 virtual void HandleEvent(const SDL_Event& event) = 0;
                 virtual void BeginFrame() = 0;
                 virtual void EndFrame() = 0;

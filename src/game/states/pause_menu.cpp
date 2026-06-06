@@ -28,7 +28,7 @@ namespace Game {
         }
 
         void PauseMenu::HandleEvent(const SDL_Event& event) {
-            Input::Button key = Services::Locator::InputService()->GetInputButton(event);
+            Input::Button key = Services::Locator::InputService()->GetButton(event);
 
             if (key != Input::Button::None) {
                 this->ProcessInput(key);

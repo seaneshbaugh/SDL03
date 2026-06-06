@@ -9,6 +9,7 @@ namespace Game {
             this->pop = false;
             this->LoadResources("resources/asset_lists/main_menu_textures.json", "resources/asset_lists/main_menu_sounds.json");
             this->LoadLuaState("scripts/states/main_menu.lua");
+            this->inputDebounceTimer = 0.0f;
         }
 
         MainMenu::~MainMenu() {
@@ -18,7 +19,22 @@ namespace Game {
         }
 
         Transition MainMenu::Update(const float deltaTime) {
-            GameStateType nextState = this->ProcessInput();
+            Input::InputState inputState = Services::Locator::InputService()->GetCurrentInputState();
+            GameStateType nextState = GameStateType::main_menu;;
+
+            if (inputState.upHeld || inputState.downHeld) {
+                if (this->inputDebounceTimer <= 0.0f) {
+                    nextState = this->ProcessInput();
+
+                    this->inputDebounceTimer = 0.25f;
+                } else {
+                    this->inputDebounceTimer -= deltaTime;
+                }
+            } else {
+                nextState = this->ProcessInput();
+
+                this->inputDebounceTimer = 0.0f;
+            }
 
             sol::protected_function update = (*this->luaState.get())["update"];
 

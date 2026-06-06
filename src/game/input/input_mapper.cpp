@@ -2,14 +2,39 @@
 
 namespace Game {
     namespace Input {
+        const std::map<int, Button> InputMapper::defaultKeyboardMap {
+            {SDLK_UP, Button::Up},
+            {SDLK_DOWN, Button::Down},
+            {SDLK_LEFT, Button::Left},
+            {SDLK_RIGHT, Button::Right},
+            {SDLK_Z, Button::Confirm},
+            {SDLK_X, Button::Cancel},
+            {SDLK_A, Button::Skip},
+            {SDLK_S, Button::Switch},
+            {SDLK_TAB, Button::Menu},
+            {SDLK_DELETE, Button::Scroll}};
+
+        const std::map<int, Button> InputMapper::defaultGamepadMap{
+            {SDL_GAMEPAD_BUTTON_DPAD_UP, Button::Up},
+            {SDL_GAMEPAD_BUTTON_DPAD_DOWN, Button::Down},
+            {SDL_GAMEPAD_BUTTON_DPAD_LEFT, Button::Left},
+            {SDL_GAMEPAD_BUTTON_DPAD_RIGHT, Button::Right},
+            {SDL_GAMEPAD_BUTTON_EAST, Button::Confirm},
+            {SDL_GAMEPAD_BUTTON_SOUTH, Button::Cancel},
+            {SDL_GAMEPAD_BUTTON_NORTH, Button::Skip},
+            {SDL_GAMEPAD_BUTTON_WEST, Button::Switch},
+            {SDL_GAMEPAD_BUTTON_START, Button::Menu},
+            {SDL_GAMEPAD_BUTTON_GUIDE, Button::Scroll}};
+
         const std::string InputMapper::logChannel = "input";
 
-        InputMapper::InputMapper() {
+        InputMapper::InputMapper() : keyboardMap(defaultKeyboardMap), gamepadMap(defaultGamepadMap) {
             this->logger = Services::Locator::LoggerService()->GetLogger(InputMapper::logChannel);
         }
 
-        InputMapper::InputMapper(const std::map<int, Button>& buttons) : InputMapper() {
-            this->MapButtons(buttons);
+        InputMapper::InputMapper(const std::map<int, Button>& keyboardMap) : keyboardMap(defaultKeyboardMap), gamepadMap(defaultGamepadMap) {
+            // this->MapButtons(keyboardMap);
+            this->logger = Services::Locator::LoggerService()->GetLogger(InputMapper::logChannel);
         }
 
         InputMapper::~InputMapper() {
@@ -24,24 +49,29 @@ namespace Game {
         }
 
         Button InputMapper::SetInputMapButton(const int& rawKeyValue, const Button& inputValue) {
-            for (auto it = this->inputMap.begin(); it != this->inputMap.end();) {
+            for (auto it = this->keyboardMap.begin(); it != this->keyboardMap.end();) {
                 if (it->second == inputValue) {
-                    this->inputMap.erase(it++);
+                    this->keyboardMap.erase(it++);
                 } else {
                     ++it;
                 }
             }
 
-            this->inputMap[rawKeyValue] = inputValue;
+            this->keyboardMap[rawKeyValue] = inputValue;
 
             return inputValue;
         }
 
-        Button InputMapper::GetInputButton(const SDL_Event& event) {
+        Button InputMapper::GetButton(const SDL_Event& event) {
             try {
-                if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_KEY_UP) {
-                    return this->inputMap.at(event.key.key);
-                } else {
+                switch (event.type) {
+                case SDL_EVENT_KEY_DOWN:
+                case SDL_EVENT_KEY_UP:
+                    return this->keyboardMap.at(event.key.key);
+                case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+                case SDL_EVENT_GAMEPAD_BUTTON_UP:
+                    return this->gamepadMap.at(event.gbutton.button);
+                default:
                     return Button::None;
                 }
             } catch (const std::out_of_range& exception) {
@@ -51,16 +81,16 @@ namespace Game {
 
         // TODO: Figure out a better place for this.
         void InputMapper::SetDefaultInputMap() {
-            this->inputMap[SDLK_UP] = Button::Up;
-            this->inputMap[SDLK_DOWN] = Button::Down;
-            this->inputMap[SDLK_LEFT] = Button::Left;
-            this->inputMap[SDLK_RIGHT] = Button::Right;
-            this->inputMap[SDLK_Z] = Button::Confirm;
-            this->inputMap[SDLK_X] = Button::Cancel;
-            this->inputMap[SDLK_A] = Button::Skip;
-            this->inputMap[SDLK_S] = Button::Switch;
-            this->inputMap[SDLK_TAB] = Button::Menu;
-            this->inputMap[SDLK_DELETE] = Button::Scroll;
+            this->keyboardMap[SDLK_UP] = Button::Up;
+            this->keyboardMap[SDLK_DOWN] = Button::Down;
+            this->keyboardMap[SDLK_LEFT] = Button::Left;
+            this->keyboardMap[SDLK_RIGHT] = Button::Right;
+            this->keyboardMap[SDLK_Z] = Button::Confirm;
+            this->keyboardMap[SDLK_X] = Button::Cancel;
+            this->keyboardMap[SDLK_A] = Button::Skip;
+            this->keyboardMap[SDLK_S] = Button::Switch;
+            this->keyboardMap[SDLK_TAB] = Button::Menu;
+            this->keyboardMap[SDLK_DELETE] = Button::Scroll;
         }
     }
 }

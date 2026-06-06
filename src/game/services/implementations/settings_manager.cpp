@@ -5,13 +5,6 @@ namespace Game {
         namespace Implementations {
             const std::string SettingsManager::logChannel = "settings";
 
-            // The input settings are inverted from what's actually used by the input
-            // mapper. The reason for this is that we want the primary key to be the game
-            // relevant key (otherwise you could end up with multiple SDL keys mapped to
-            // the same game key) and it's corresponding value to be the mapped SDL key.
-            // When loading the settings they'll be flipped around. The input mapper
-            // needs them in the opposite order because we start with the SDL key (from
-            // SDL itself) and we use that as the key for the map.
             const std::map<Input::Button, int> SettingsManager::defaultInputSettings {
                 {Input::Button::Up, SDLK_UP},
                 {Input::Button::Down, SDLK_DOWN},
@@ -66,8 +59,14 @@ namespace Game {
                 return true;
             }
 
-            // See DefaultInputSettings for why this is inverted.
             std::map<int, Input::Button> SettingsManager::InputSettings() {
+                // The input settings are inverted from what's actually used by the input
+                // mapper. The reason for this is that we want the primary key to be the game
+                // relevant key (otherwise you could end up with multiple SDL keys mapped to
+                // the same game key) and it's corresponding value to be the mapped SDL key.
+                // When loading the settings they'll be flipped around. The input mapper
+                // needs them in the opposite order because we start with the SDL key (from
+                // SDL itself) and we use that as the key for the map.
                 std::map<int, Input::Button> invertedInputSettings;
 
                 for (auto it = this->inputSettings.begin(); it != this->inputSettings.end(); ++it) {

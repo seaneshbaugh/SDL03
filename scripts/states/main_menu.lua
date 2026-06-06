@@ -20,7 +20,7 @@ function initialize()
 end
 
 function process_input(input_state)
-    if input_state.up_pressed then
+    if input_state.up_held then
         if menu_option > 0 then
             menu_option = menu_option - 1
         else
@@ -28,7 +28,7 @@ function process_input(input_state)
         end
     end
 
-    if input_state.down_pressed then
+    if input_state.down_held then
         if menu_option < 2 then
             menu_option = menu_option + 1
         else
