@@ -56,7 +56,6 @@ namespace Game {
             Transition UpdateDialogue(const float deltaTime);
             Transition UpdateCutscene(const float deltaTime);
             void LoadLuaState(const std::string& scriptFilePath);
-            void QueueMovement(Scenes::Actor* actor, const Scenes::Actor::Direction direction, const int distance);
             bool TryInteract();
             std::optional<std::shared_ptr<Scenes::Actor>> GetActorAtTile(const int x, const int y) const;
 

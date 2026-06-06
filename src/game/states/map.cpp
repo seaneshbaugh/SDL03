@@ -149,18 +149,6 @@ namespace Game {
             }
         }
 
-        void Map::QueueMovement(Scenes::Actor* actor, const Scenes::Actor::Direction direction, const int distance) {
-            // Eventually this do pathfinding to enqueue the steps. For now this just enqueues distance number
-            // of steps in the direction specificed. Eventually there will probably be an overloaded version
-            // of this function that takes a target tile and does pathfinding to get there and enqueues the
-            // necessary steps to get there.
-            for (int step = 0; step < distance; step++) {
-                this->logger->debug() << "Enqueuing step for " << actor->name << " in direction " << static_cast<int>(direction) << ".";
-
-                actor->QueueMovement(direction);
-            }
-        }
-
         bool Map::TryInteract() {
             int targetX = this->scene->actorManager->player->GetOccupiedTileX();
             int targetY = this->scene->actorManager->player->GetOccupiedTileY();
