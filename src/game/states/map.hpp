@@ -35,7 +35,6 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> GetCurrentMap() const;
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y) const;
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
-            bool CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction);
             void Step(unsigned int x, unsigned int y);
             void StartDialogue(const std::string& dialogueId);
             bool DialogueSessionCompleted() const;

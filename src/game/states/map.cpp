@@ -161,44 +161,6 @@ namespace Game {
             }
         }
 
-        bool Map::CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction) {
-            int targetX = actor->GetCurrentTileX();
-            int targetY = actor->GetCurrentTileY();
-
-            switch (direction) {
-            case Scenes::Actor::Direction::Up:
-                targetY--;
-
-                break;
-            case Scenes::Actor::Direction::Right:
-                targetX++;
-
-                break;
-            case Scenes::Actor::Direction::Down:
-                targetY++;
-
-                break;
-            case Scenes::Actor::Direction::Left:
-                targetX--;
-
-                break;
-            }
-
-            if (targetX < 0 || targetX >= this->currentMap->width || targetY < 0 || targetY >= this->currentMap->height) {
-                return false;
-            }
-
-            if (!this->currentMap->GetWalkability(targetX, targetY)) {
-                return false;
-            }
-
-            if (this->scene->IsTileBlocked(targetX, targetY, actor)) {
-                return false;
-            }
-
-            return true;
-        }
-
         bool Map::TryInteract() {
             int targetX = this->scene->actorManager->player->GetOccupiedTileX();
             int targetY = this->scene->actorManager->player->GetOccupiedTileY();

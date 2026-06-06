@@ -62,7 +62,7 @@ namespace Game {
                     if (nextMove.has_value()) {
                         actor->SetDirection(nextMove.value());
 
-                        if (this->mapState->CanMove(actor.get(), nextMove.value())) {
+                        if (this->CanMove(actor.get(), nextMove.value())) {
                             actor->PopMovement();
                             actor->StartMovement(nextMove.value());
                         }
@@ -114,20 +114,6 @@ namespace Game {
             this->actorControllers[id] = std::move(controller);
         }
 
-        bool Scene::IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const {
-            for (auto& actor : this->actorManager->actors) {
-                if (actor.get() == ignore) {
-                    continue;
-                }
-
-                if (actor->OccupiesTile(x, y)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         void Scene::PathfindActor(const std::string& actorId, const int targetX, const int targetY) {
             std::shared_ptr<Scenes::Actor> actor = this->GetActor(actorId);
 
@@ -144,6 +130,58 @@ namespace Game {
             for (auto direction : path) {
                 actor->QueueMovement(direction);
             }
+        }
+
+        bool Scene::CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction) const {
+            int targetX = actor->GetCurrentTileX();
+            int targetY = actor->GetCurrentTileY();
+
+            switch (direction) {
+            case Scenes::Actor::Direction::Up:
+                targetY--;
+
+                break;
+            case Scenes::Actor::Direction::Right:
+                targetX++;
+
+                break;
+            case Scenes::Actor::Direction::Down:
+                targetY++;
+
+                break;
+            case Scenes::Actor::Direction::Left:
+                targetX--;
+
+                break;
+            }
+
+            if (targetX < 0 || targetX >= this->mapState->currentMap->width || targetY < 0 || targetY >= this->mapState->currentMap->height) {
+                return false;
+            }
+
+            if (!this->mapState->currentMap->GetWalkability(targetX, targetY)) {
+                return false;
+            }
+
+            if (this->IsTileBlocked(targetX, targetY, actor)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool Scene::IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const {
+            for (auto& actor : this->actorManager->actors) {
+                if (actor.get() == ignore) {
+                    continue;
+                }
+
+                if (actor->OccupiesTile(x, y)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         Objects::Maps::Map* Scene::GetCurrentMap() const {

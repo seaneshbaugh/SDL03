@@ -33,10 +33,10 @@ namespace Game {
             void RemoveActor(const std::string& id);
             void PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction) const;
             void SetActorController(const std::string& id, std::unique_ptr<Controllers::ActorController> controller);
-            bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
 
             void PathfindActor(const std::string& actorId, const int targetX, const int targetY);
             void PathfindActor(Actor* actor, const int targetX, const int targetY);
+            bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
 
             Objects::Maps::Map* GetCurrentMap() const;
         private:
@@ -45,6 +45,8 @@ namespace Game {
             std::shared_ptr<Log::Logger> logger;
             std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
             std::unique_ptr<Pathfinder> pathfinder;
+
+            bool CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction) const;
         };
     }
 }
