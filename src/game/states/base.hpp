@@ -23,6 +23,7 @@
 #include "../parsers/asset_list_parser.hpp"
 #include "../objects/text.hpp"
 #include "transition.hpp"
+#include "commands.hpp"
 #include "../../helpers/file_system.hpp"
 
 namespace Game {
@@ -43,26 +44,6 @@ namespace Game {
         }
 
         GameStateType StateNameToEnum(const std::string& stateName);
-
-        struct LoadMapCommand {
-            std::string mapName;
-            int startX;
-            int startY;
-        };
-
-        struct StartDialogueCommand {
-            std::string dialogueId;
-        };
-
-        struct StartCutsceneCommand {
-            std::string cutsceneId;
-        };
-
-        using StateCommand = std::variant<
-            LoadMapCommand,
-            StartDialogueCommand,
-            StartCutsceneCommand
-        >;
 
         class Base : public std::enable_shared_from_this<Base> {
         public:

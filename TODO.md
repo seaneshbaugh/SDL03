@@ -14,7 +14,6 @@
   end
   ```
   Not sure If I'm a huge fan of that though because it means *every* NPC needs a custom interaction script rather than just sharing a handful that say "start whatever dialogue this NPC should start".
-- Add Actor::Wait function that makes the Actor wait and do nothing for a specified duration.
 - Add Actor::IsBusy function that checks if the Actor is currently moving or waiting. Maybe checks MoveCommand queue?
 - Add Actor::MoveTo function that takes a target position and adds the necessary MoveCommands to the queue to move the Actor there. This will involve pathfinding to determine the correct sequence of MoveCommands to get to the target position.
 - Add Actor::PlayAnimation function that takes an animation name and plays the corresponding animation on the Actor's sprite.
@@ -82,8 +81,6 @@
   }
   ```
   I don't want to encode logic into the dialogue graph itself, but I do want to be able to trigger events and have conditional branches based on game state. So maybe the dialogue graph just specifies what events to trigger and what conditions to check, and the actual logic for those events and conditions lives in the game code somewhere.
-- Add different input handler interfaces for different States::Map substates. For example, in the dialogue substate the input handler would be responsible for advancing the dialogue and making choices, while in the normal gameplay substate the input handler would be responsible for moving the player and interacting with NPCs. This way we can avoid having a giant input handler that has to check the current substate every time it receives input.
-- Add a way to differentiate Player Actors and NPC Actors. Not sure if I want to go with inheritance here.
 - Figure out what to do about the "asset lists". I never liked that design. If I keep them around they might just live in the assets directory the same way spritesheets do. They're all that's left in the resources directory and I'm just about done removing the concept of resources from this.
 - Find a better name for the Game::Objects namespace.
 - Implement MovmentCommand for Actor.
@@ -112,7 +109,6 @@
 - Figure out how and where to store game state flags that persist across sessions.
 - Initialize all member variables!
 - Use in-class initializers where possible.
-- Async scripting?
 - Sounds and music.
 - Add a way to play sound from a script. Probably will live in States::Map at first.
 - Actually implement saving and loading.

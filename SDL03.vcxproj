@@ -316,6 +316,7 @@
     <ClInclude Include="src\game\states.hpp" />
     <ClInclude Include="src\game\states\base.hpp" />
     <ClInclude Include="src\game\states\battle.hpp" />
+    <ClInclude Include="src\game\states\commands.hpp" />
     <ClInclude Include="src\game\states\intro.hpp" />
     <ClInclude Include="src\game\states\main_menu.hpp" />
     <ClInclude Include="src\game\states\map.hpp" />
