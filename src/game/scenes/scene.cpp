@@ -24,6 +24,8 @@ namespace Game {
 
             this->ProcessPendingMovement();
 
+            this->ProcessInteractions();
+
             // TODO: Doing this->mapState->currentMap is a bit of a smell.
             // I think what this indicates is that the States::Map should pass its currentMap to the Scene
             // on creation and then there should be a Scene::SetMap function to update the pointer to the
@@ -71,12 +73,75 @@ namespace Game {
             }
         }
 
+        void Scene::ProcessInteractions() const {
+            for (auto& actor : this->actorManager->actors) {
+                if (actor->PeekInteraction()) {
+                    actor->ConsumeInteraction();
+
+                    int targetX = actor->GetOccupiedTileX();
+                    int targetY = actor->GetOccupiedTileY();
+
+                    switch (actor->GetDirection()) {
+                    case Scenes::Actor::Direction::Up:
+                        targetY--;
+
+                        break;
+                    case Scenes::Actor::Direction::Right:
+                        targetX++;
+
+                        break;
+                    case Scenes::Actor::Direction::Down:
+                        targetY++;
+
+                        break;
+                    case Scenes::Actor::Direction::Left:
+                        targetX--;
+
+                        break;
+                    }
+
+                    if (targetX < 0 || targetX >= this->mapState->currentMap->width || targetY < 0 || targetY >= this->mapState->currentMap->height) {
+                        continue;
+                    }
+
+                    auto target = this->GetActorAtTile(targetX, targetY);
+
+                    if (target.has_value()) {
+                        if (target.value().get() == actor.get()) {
+                            continue;
+                        }
+
+                        actor->Interact(target.value());
+                    }
+
+                    // std::vector<std::shared_ptr<Objects::Maps::MapObject>> objects = this->mapState->currentMap->GetObjects(targetX, targetY);
+
+                    // for (auto object = objects.begin(); object != objects.end(); object++) {
+                    //     if ((*object)->GetType() == "interactable") {
+                    //         (*this->luaState.get())["on_interact"](*object);
+                    //         return true;
+                    //     }
+                    // }
+                }
+            }
+        }
+
         void Scene::Render() const {
             this->actorManager->RenderActors();
         }
 
         std::shared_ptr<Scenes::Actor> Scene::GetActor(const std::string& id) {
             return this->actorManager->GetActor(id);
+        }
+
+        std::optional<std::shared_ptr<Scenes::Actor>> Scene::GetActorAtTile(const int x, const int y) const {
+            for (auto& actor : this->actorManager->actors) {
+                if (actor->OccupiesTile(x, y)) {
+                    return actor;
+                }
+            }
+
+            return std::nullopt;
         }
 
         // TODO: Make this take an actor definition struct instead of a bunch of parameters.

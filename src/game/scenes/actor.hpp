@@ -97,7 +97,10 @@ namespace Game {
             bool HasCompletedSteps() const;
             std::optional<CompletedStep> ConsumeCompletedStep();
 
+            void QueueInteraction();
+            bool PeekInteraction() const;
             void Interact(std::shared_ptr<Actor> interactor);
+            void ConsumeInteraction();
 
             void Update(const float deltaTime);
             void GenerateMovementIntent(const float deltaTime);
@@ -126,6 +129,7 @@ namespace Game {
             Direction direction;
             std::queue<Direction> movementQueue;
             std::queue<CompletedStep> completedSteps;
+            bool interactionQueued;
             sol::environment luaEnvironment;
 
             void LoadLuaState();

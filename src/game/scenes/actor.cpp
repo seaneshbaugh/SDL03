@@ -73,6 +73,7 @@ namespace Game {
             this->isMoving = false;
             this->movementSpeed = 4.0f;
             this->appearance = std::make_shared<ActorAppearance>(spritesheet);
+            this->interactionQueued = false;
             this->LoadLuaState();
         }
 
@@ -268,6 +269,14 @@ namespace Game {
             return step;
         }
 
+        void Actor::QueueInteraction() {
+            this->interactionQueued = true;
+        }
+
+        bool Actor::PeekInteraction() const {
+            return this->interactionQueued;
+        }
+
         void Actor::Interact(std::shared_ptr<Actor> target) {
             sol::protected_function onInteract = (*target->luaState.get())["on_interact"];
 
@@ -279,6 +288,10 @@ namespace Game {
                     this->logger->error() << "Error in Lua on_interact function: " << err.what();
                 }
             }
+        }
+
+        void Actor::ConsumeInteraction() {
+            this->interactionQueued = false;
         }
 
         void Actor::Update(const float deltaTime) {

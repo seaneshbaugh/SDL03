@@ -57,8 +57,6 @@ namespace Game {
             Transition UpdateCutscene(const float deltaTime);
             void ProcessPendingCommands() override;
             void LoadLuaState(const std::string& scriptFilePath);
-            bool TryInteract();
-            std::optional<std::shared_ptr<Scenes::Actor>> GetActorAtTile(const int x, const int y) const;
 
         public:
             class LuaInterface {

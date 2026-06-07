@@ -31,6 +31,10 @@ namespace Game {
 
                     this->actor->QueueMovement(direction);
                 }
+
+                if (inputState.confirmPressed) {
+                    actor->QueueInteraction();
+                }
             }
         }
     }

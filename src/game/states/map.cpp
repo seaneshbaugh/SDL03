@@ -60,14 +60,6 @@ namespace Game {
         Transition Map::UpdateGameplay(const float deltaTime) {
             this->scene->Update(deltaTime);
 
-            if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
-                if (this->TryInteract()) {
-                    this->logger->debug() << "Player interacted with something.";
-                } else {
-                    this->logger->debug() << "Player tried to interact but there was nothing to interact with.";
-                }
-            }
-
             this->ProcessPendingCommands();
 
             if (this->pop) {
@@ -174,67 +166,6 @@ namespace Game {
             if (this->state == State::Dialogue) {
                 this->dialogueSession.Render(this->scene->camera);
             }
-        }
-
-        bool Map::TryInteract() {
-            int targetX = this->scene->actorManager->player->GetOccupiedTileX();
-            int targetY = this->scene->actorManager->player->GetOccupiedTileY();
-
-            switch (this->scene->actorManager->player->GetDirection()) {
-            case Scenes::Actor::Direction::Up:
-                targetY--;
-
-                break;
-            case Scenes::Actor::Direction::Right:
-                targetX++;
-
-                break;
-            case Scenes::Actor::Direction::Down:
-                targetY++;
-
-                break;
-            case Scenes::Actor::Direction::Left:
-                targetX--;
-
-                break;
-            }
-
-            if (targetX < 0 || targetX >= this->currentMap->width || targetY < 0 || targetY >= this->currentMap->height) {
-                return false;
-            }
-
-            auto actor = this->GetActorAtTile(targetX, targetY);
-
-            if (actor.has_value()) {
-                if (actor.value().get() == this->scene->actorManager->player.get()) {
-                    return false;
-                }
-
-                this->scene->actorManager->player->Interact(actor.value());
-
-                return true;
-            }
-
-            //std::vector<std::shared_ptr<Objects::Maps::MapObject>> objects = this->currentMap->GetObjects(targetX, targetY);
-
-            //for (auto object = objects.begin(); object != objects.end(); object++) {
-            //    if ((*object)->GetType() == "interactable") {
-            //        (*this->luaState.get())["on_interact"](*object);
-            //        return true;
-            //    }
-            //}
-
-            return false;
-        }
-
-        std::optional<std::shared_ptr<Scenes::Actor>> Map::GetActorAtTile(const int x, const int y) const {
-            for (auto& actor : this->scene->actorManager->actors) {
-                if (actor->OccupiesTile(x, y)) {
-                    return actor;
-                }
-            }
-
-            return std::nullopt;
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
