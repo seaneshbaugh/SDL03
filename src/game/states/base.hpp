@@ -2,6 +2,7 @@
 #define SDL03_Game_States_Base
 
 #include <map>
+#include <queue>
 #include <string>
 #include <vector>
 
@@ -43,6 +44,26 @@ namespace Game {
 
         GameStateType StateNameToEnum(const std::string& stateName);
 
+        struct LoadMapCommand {
+            std::string mapName;
+            int startX;
+            int startY;
+        };
+
+        struct StartDialogueCommand {
+            std::string dialogueId;
+        };
+
+        struct StartCutsceneCommand {
+            std::string cutsceneId;
+        };
+
+        using StateCommand = std::variant<
+            LoadMapCommand,
+            StartDialogueCommand,
+            StartCutsceneCommand
+        >;
+
         class Base : public std::enable_shared_from_this<Base> {
         public:
             virtual ~Base();
@@ -54,12 +75,13 @@ namespace Game {
         protected:
             std::shared_ptr<Log::Logger> logger;
             bool pop;
-
+            std::queue<StateCommand> pendingCommands;
             std::shared_ptr<sol::state> luaState;
             std::vector<std::string> textureNames;
             std::vector<std::shared_ptr<Objects::Text>> texts;
 
             virtual std::string ProcessInput(const Input::Button key) = 0;
+            virtual void ProcessPendingCommands() = 0;
             virtual void LoadResources(const std::string& textureListPath, const std::string& soundListPath);
             virtual void LoadResources(const std::string& textureListPath, const std::string& soundListPath, const std::string& songListPath);
             virtual void LoadTextures(const std::string& resourceListPath);

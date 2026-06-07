@@ -33,6 +33,7 @@ namespace Game {
             std::shared_ptr<Assets::Texture> background;
 
             std::string ProcessInput(const Input::Button key);
+            void ProcessPendingCommands() override;
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

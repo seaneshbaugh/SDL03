@@ -196,10 +196,6 @@ namespace Game {
 
             Services::Locator::TimeService()->IncrementFrameCount();
         }
-
-        //if (gamepad) {
-        //    SDL_CloseGamepad(gamepad);
-        //}
     }
 
     // TODO: Strongly consider making this a method on the VideoService. The current state's

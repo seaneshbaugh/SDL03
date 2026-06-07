@@ -21,6 +21,7 @@ namespace Game {
             float inputDebounceTimer;
 
             std::string ProcessInput(const Input::Button key);
+            void ProcessPendingCommands() override;
             GameStateType ProcessInput();
             void LoadLuaState(const std::string& scriptFilePath);
 

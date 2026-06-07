@@ -55,6 +55,9 @@ namespace Game {
             return GameStateType::intro;
         }
 
+        void Intro::ProcessPendingCommands() {
+        }
+
         void Intro::Render() {
             sol::protected_function render = (*this->luaState.get())["render"];
 

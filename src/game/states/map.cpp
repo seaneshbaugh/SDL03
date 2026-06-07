@@ -68,6 +68,8 @@ namespace Game {
                 }
             }
 
+            this->ProcessPendingCommands();
+
             if (this->pop) {
                 return Transition::Pop();
             }
@@ -118,6 +120,8 @@ namespace Game {
                 this->state = this->previousState;
             }
 
+            this->ProcessPendingCommands();
+
             return Transition::None();
         }
 
@@ -131,12 +135,35 @@ namespace Game {
 
                 this->state = State::Gameplay;
             }
+            
+            this->ProcessPendingCommands();
 
             return Transition::None();
         }
 
         std::string Map::ProcessInput(const Input::Button key) {
             return "";
+        }
+
+        void Map::ProcessPendingCommands() {
+            while (!this->pendingCommands.empty()) {
+                auto command = std::move(this->pendingCommands.front());
+
+                this->pendingCommands.pop();
+
+                std::visit([this](auto&& cmd) {
+                    using T = std::decay_t<decltype(cmd)>;
+
+                    if constexpr (std::is_same_v<T, LoadMapCommand>) {
+                        this->LoadMap(cmd.mapName, cmd.startX, cmd.startY);
+                    } else if constexpr (std::is_same_v<T, StartDialogueCommand>) {
+                        this->StartDialogue(cmd.dialogueId);
+                    } else if constexpr (std::is_same_v<T, StartCutsceneCommand>) {
+                        this->StartCutscene(cmd.cutsceneId);
+                    }
+                },
+                command);
+            }
         }
 
         void Map::Render() {
@@ -212,14 +239,25 @@ namespace Game {
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
             if (this->state == State::Gameplay) {
-                this->scene->actorManager->actors.erase(std::remove_if(this->scene->actorManager->actors.begin(), this->scene->actorManager->actors.end(), [](const std::shared_ptr<Scenes::Actor>& actor) {
-                                       return !actor->IsPersistent();
-                                   }),
-                                   this->scene->actorManager->actors.end());
+                //this->scene->actorManager->actors.erase(std::remove_if(this->scene->actorManager->actors.begin(), this->scene->actorManager->actors.end(), [](const std::shared_ptr<Scenes::Actor>& actor) {
+                //                       return !actor->IsPersistent();
+                //                   }),
+                //                   this->scene->actorManager->actors.end());
 
-                std::erase_if(this->scene->actorManager->actorLookup, [](const auto& pair) {
-                    return !pair.second->IsPersistent();
-                });
+                //std::erase_if(this->scene->actorManager->actorLookup, [](const auto& pair) {
+                //    return !pair.second->IsPersistent();
+                //});
+                std::vector<std::string> toRemove;
+
+                for (auto& actor : scene->actorManager->actors) {
+                    if (!actor->IsPersistent()) {
+                        toRemove.push_back(actor->id);
+                    }
+                }
+
+                for (auto& id : toRemove) {
+                    scene->RemoveActor(id);
+                }
             }
 
             Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
@@ -294,7 +332,7 @@ namespace Game {
                     const int startX = mapLoadPoint->GetProperty("x") != "" ? std::stoi(mapLoadPoint->GetProperty("x")) : 0;
                     const int startY = mapLoadPoint->GetProperty("y") != "" ? std::stoi(mapLoadPoint->GetProperty("y")) : 0;
 
-                    this->LoadMap(mapLoadPoint->GetProperty("map"), startX, startY);
+                    this->pendingCommands.push(LoadMapCommand{mapLoadPoint->GetProperty("map"), startX, startY});
 
                     break;
                 }
@@ -304,7 +342,7 @@ namespace Game {
                 if (cutsceneTrigger) {
                     this->logger->debug() << "Player stepped on a cutscene trigger with cutscene ID \"" << cutsceneTrigger->GetCutsceneId() << "\".";
 
-                    this->StartCutscene(cutsceneTrigger->GetCutsceneId());
+                    this->pendingCommands.push(StartCutsceneCommand{cutsceneTrigger->GetCutsceneId()});
 
                     break;
                 }

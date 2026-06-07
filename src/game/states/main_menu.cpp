@@ -88,6 +88,9 @@ namespace Game {
             return GameStateType::main_menu;
         }
 
+        void MainMenu::ProcessPendingCommands() {
+        }
+
         void MainMenu::Render() {
             sol::protected_function render = (*this->luaState.get())["render"];
 

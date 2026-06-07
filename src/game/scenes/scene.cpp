@@ -41,7 +41,7 @@ namespace Game {
 
         void Scene::ProcessCompletedSteps() {
             for (auto& actor : this->actorManager->actors) {
-                while (auto step = this->actorManager->player->ConsumeCompletedStep()) {
+                while (auto step = actor->ConsumeCompletedStep()) {
                     // TODO: Remove this check to see if the actor is the player. Eventually it shouldn't needed.
                     if (actor == this->actorManager->player) {
                         Services::Locator::WorldService()->UpdatePlayerPosition(step->tileX, step->tileY);

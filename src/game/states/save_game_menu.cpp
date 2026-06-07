@@ -40,6 +40,9 @@ namespace Game {
             return result;
         }
 
+        void SaveGameMenu::ProcessPendingCommands() {
+        }
+
         void SaveGameMenu::Render() {
             (*this->luaState.get())["render"]();
         }

@@ -41,6 +41,9 @@ namespace Game {
             return result;
         }
 
+        void SettingsMenu::ProcessPendingCommands() {
+        }
+
         void SettingsMenu::Render() {
             (*this->luaState.get())["render"]();
         }
