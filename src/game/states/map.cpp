@@ -432,11 +432,20 @@ namespace Game {
         void Map::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
             sol::table states = (*luaState.get())["states"].get_or_create<sol::table>(sol::new_table());
 
+            states.new_usertype<StartDialogueCommand>("StartDialogueCommand",
+                                                      sol::constructors<StartDialogueCommand(const std::string&)>(),
+                                                      "dialogue_id", &StartDialogueCommand::dialogueId
+                                                     );
+
+            states.new_usertype<StartCutsceneCommand>("StartCutsceneCommand",
+                                                      sol::constructors<StartCutsceneCommand(const std::string&)>(),
+                                                      "cutscene_id", &StartCutsceneCommand::cutsceneId
+                                                     );
+
             states.new_usertype<Map>("Map",
                                      sol::no_constructor,
-                                     "startDialogue", &Map::StartDialogue,
-                                     "startCutscene", &Map::StartCutscene,
-                                     "addActorAtSpawnPoint", &Map::AddActorAtSpawnPoint
+                                     "queue_command", &Map::QueueCommand,
+                                     "add_actor_at_spawn_point", &Map::AddActorAtSpawnPoint
                                      );
         }
     }

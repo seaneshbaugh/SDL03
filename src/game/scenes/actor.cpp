@@ -272,10 +272,11 @@ namespace Game {
             sol::protected_function onInteract = (*this->luaState.get())["on_interact"];
 
             if (onInteract.valid()) {
-                try {
-                    onInteract(*interactor);
-                } catch (const sol::error& e) {
-                    this->logger->error() << "Error in Lua on_interact function: " << e.what();
+                sol::protected_function_result result = onInteract(*interactor);
+
+                if (!result.valid()) {
+                    sol::error err = result;
+                    this->logger->error() << "Error in Lua on_interact function: " << err.what();
                 }
             }
         }

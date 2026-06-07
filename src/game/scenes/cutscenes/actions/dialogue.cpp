@@ -9,7 +9,7 @@ namespace Game {
                 }
 
                 void Dialogue::Start() {
-                    this->map->StartDialogue(this->dialogueId);
+                    this->map->QueueCommand(States::StartDialogueCommand{this->dialogueId});
 
                     this->started = true;
                 }

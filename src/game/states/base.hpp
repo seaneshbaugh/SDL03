@@ -51,6 +51,7 @@ namespace Game {
             virtual void HandleEvent(const SDL_Event& event) = 0;
             virtual Transition Update(const float deltaTime) = 0;
             virtual void Render() = 0;
+            void QueueCommand(const StateCommand& command);
             virtual void Pop();
 
         protected:
