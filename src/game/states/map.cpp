@@ -210,7 +210,7 @@ namespace Game {
                     return false;
                 }
 
-                actor.value()->Interact(this->scene->actorManager->player);
+                this->scene->actorManager->player->Interact(actor.value());
 
                 return true;
             }

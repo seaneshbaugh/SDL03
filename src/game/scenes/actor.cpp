@@ -268,11 +268,11 @@ namespace Game {
             return step;
         }
 
-        void Actor::Interact(std::shared_ptr<Actor> interactor) {
-            sol::protected_function onInteract = (*this->luaState.get())["on_interact"];
+        void Actor::Interact(std::shared_ptr<Actor> target) {
+            sol::protected_function onInteract = (*target->luaState.get())["on_interact"];
 
             if (onInteract.valid()) {
-                sol::protected_function_result result = onInteract(*interactor);
+                sol::protected_function_result result = onInteract(this);
 
                 if (!result.valid()) {
                     sol::error err = result;
