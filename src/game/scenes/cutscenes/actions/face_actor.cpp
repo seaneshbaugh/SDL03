@@ -5,17 +5,17 @@ namespace Game {
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {
-                FaceActor::FaceActor(States::Map* map, const std::string& actorId, const Actor::Direction direction) : map(map), actorId(actorId), direction(direction), targetId(""), actor(nullptr), target(nullptr), completed(false) {
+                FaceActor::FaceActor(Scenes::Scene* scene, const std::string& actorId, const Actor::Direction direction) : scene(scene), actorId(actorId), direction(direction), targetId(""), actor(nullptr), target(nullptr), completed(false) {
                 }
 
-                FaceActor::FaceActor(States::Map* map, const std::string& actorId, const std::string& targetId) : map(map), actorId(actorId), targetId(targetId), direction(Actor::Direction::Down), actor(nullptr), target(nullptr), completed(false) {
+                FaceActor::FaceActor(Scenes::Scene* scene, const std::string& actorId, const std::string& targetId) : scene(scene), actorId(actorId), targetId(targetId), direction(Actor::Direction::Down), actor(nullptr), target(nullptr), completed(false) {
                 }
 
                 FaceActor::~FaceActor() {
                 }
 
                 void FaceActor::Start() {
-                    this->actor = this->map->scene->GetActor(this->actorId);
+                    this->actor = this->scene->GetActor(this->actorId);
 
                     if (!this->actor) {
                         this->completed = true;
@@ -24,7 +24,7 @@ namespace Game {
                     }
 
                     if (!this->targetId.empty()) {
-                        this->target = this->map->scene->GetActor(this->targetId);
+                        this->target = this->scene->GetActor(this->targetId);
 
                         if (!this->target) {
                             this->completed = true;

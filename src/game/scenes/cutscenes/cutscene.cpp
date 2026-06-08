@@ -86,11 +86,11 @@ namespace Game {
                     if (node.find("targetId") != node.end() && node["targetId"].is_string()) {
                         std::string targetId = node["targetId"].get<std::string>();
 
-                        return std::make_shared<Actions::FaceActor>(cutscene->map, actorId, targetId);
+                        return std::make_shared<Actions::FaceActor>(cutscene->scene, actorId, targetId);
                     } else {
                         Scenes::Actor::Direction direction = static_cast<Scenes::Actor::Direction>(node["direction"].get<int>());
 
-                        return std::make_shared<Actions::FaceActor>(cutscene->map, actorId, direction);
+                        return std::make_shared<Actions::FaceActor>(cutscene->scene, actorId, direction);
                     }
                 };
 
