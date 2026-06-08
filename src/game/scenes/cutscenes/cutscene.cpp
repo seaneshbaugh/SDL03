@@ -114,7 +114,7 @@ namespace Game {
                         }
                     }
 
-                    return std::make_shared<Actions::MoveActor>(cutscene->map, actorId, path);
+                    return std::make_shared<Actions::MoveActor>(cutscene->scene, actorId, path);
                 };
 
                 this->actionFactories["parallel"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
