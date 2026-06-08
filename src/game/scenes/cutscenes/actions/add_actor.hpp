@@ -2,7 +2,8 @@
 #define SDL03_Game_Scene_Cutscenes_Actions_AddActor
 
 #include "base.hpp"
-#include "../../../scenes/actor.hpp"
+#include "../../scene.hpp"
+#include "../../actor.hpp"
 
 namespace Game {
     namespace States {
@@ -14,14 +15,14 @@ namespace Game {
             namespace Actions {
                 class AddActor : public Base {
                 public:
-                    AddActor(States::Map* map, const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+                    AddActor(Scenes::Scene* scene, const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
                     ~AddActor();
                     void Start() override;
                     void Update(float deltaTime) override;
                     bool IsCompleted() const override;
 
                 private:
-                    States::Map* map;
+                    Scenes::Scene* scene;
                     std::string id;
                     std::string name;
                     std::string spritesheetName;

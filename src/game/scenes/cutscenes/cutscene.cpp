@@ -54,7 +54,7 @@ namespace Game {
 
                     if (node.find("spawnPointId") != node.end() && node["spawnPointId"].is_string()) {
                         std::string spawnPointId = node["spawnPointId"].get<std::string>();
-                        std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = cutscene->map->GetCurrentMap()->GetSpawnPoint(spawnPointId);
+                        std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = cutscene->scene->GetCurrentMap()->GetSpawnPoint(spawnPointId);
 
                         x = spawnPoint->x;
                         y = spawnPoint->y;
@@ -63,7 +63,7 @@ namespace Game {
                         y = node["y"].get<int>();
                     }
 
-                    return std::make_shared<Actions::AddActor>(cutscene->map, id, name, spritesheetName, dialogueId, x, y, direction, movementScriptName, interactionScriptName);
+                    return std::make_shared<Actions::AddActor>(cutscene->scene, id, name, spritesheetName, dialogueId, x, y, direction, movementScriptName, interactionScriptName);
                 };
 
                 this->actionFactories["animate_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
