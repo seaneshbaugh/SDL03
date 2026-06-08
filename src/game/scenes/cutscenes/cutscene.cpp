@@ -71,7 +71,7 @@ namespace Game {
                     std::string animationName = node["animation"].get<std::string>();
                     float duration = node["duration"].get<float>();
 
-                    return std::make_shared<Actions::AnimateActor>(cutscene->map, actorId, animationName, duration);
+                    return std::make_shared<Actions::AnimateActor>(cutscene->scene, actorId, animationName, duration);
                 };
 
                 this->actionFactories["dialogue"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {

@@ -5,14 +5,14 @@ namespace Game {
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {
-                AnimateActor::AnimateActor(States::Map* map, const std::string& actorId, const std::string& animationName, float duration) : map(map), actorId(actorId), animationName(animationName), duration(duration), elapsedTime(0.0f), started(false), failed(false), previousAnimation(Actor::Animation::Stand), previousAnimationRestored(false) {
+                AnimateActor::AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, float duration) : scene(scene), actorId(actorId), animationName(animationName), duration(duration), elapsedTime(0.0f), started(false), failed(false), previousAnimation(Actor::Animation::Stand), previousAnimationRestored(false) {
                 }
 
                 AnimateActor::~AnimateActor() {
                 }
 
                 void AnimateActor::Start() {
-                    this->actor = this->map->scene->GetActor(this->actorId);
+                    this->actor = this->scene->GetActor(this->actorId);
 
                     if (!this->actor) {
                         this->failed = true;
