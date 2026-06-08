@@ -137,12 +137,12 @@ namespace Game {
                     if (node.find("targetId") != node.end() && node["targetId"].is_string()) {
                         std::string targetId = node["targetId"].get<std::string>();
 
-                        return std::make_shared<Actions::PathfindActor>(cutscene->map, actorId, targetId);
+                        return std::make_shared<Actions::PathfindActor>(cutscene->scene, actorId, targetId);
                     } else {
                         int x = node["x"].get<int>();
                         int y = node["y"].get<int>();
 
-                        return std::make_shared<Actions::PathfindActor>(cutscene->map, actorId, x, y);
+                        return std::make_shared<Actions::PathfindActor>(cutscene->scene, actorId, x, y);
                     }
                 };
 

@@ -22,8 +22,8 @@ namespace Game {
  
                 private:
                     Scenes::Scene* scene;
-                    std::string actorId;
                     bool completed;
+                    std::string actorId;
                 };
             }
         }

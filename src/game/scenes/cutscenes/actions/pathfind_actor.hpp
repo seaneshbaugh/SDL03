@@ -2,6 +2,7 @@
 #define SDL03_Game_Scene_Cutscenes_Actions_PathfindActor
 
 #include "base.hpp"
+#include "../../scene.hpp"
 #include "../../actor.hpp"
 
 namespace Game {
@@ -14,15 +15,15 @@ namespace Game {
             namespace Actions {
                 class PathfindActor : public Base {
                 public:
-                    PathfindActor(States::Map* map, const std::string& actorId, const int targetX, const int targetY);
-                    PathfindActor(States::Map* map, const std::string& actorId, const std::string& targetId);
+                    PathfindActor(Scenes::Scene* scene, const std::string& actorId, const int targetX, const int targetY);
+                    PathfindActor(Scenes::Scene* scene, const std::string& actorId, const std::string& targetId);
                     ~PathfindActor();
                     void Start() override;
                     void Update(float deltaTime) override;
                     bool IsCompleted() const override;
 
                 private:
-                    States::Map* map;
+                    Scenes::Scene* scene;
                     bool started;
                     bool failed;
                     std::string actorId;
