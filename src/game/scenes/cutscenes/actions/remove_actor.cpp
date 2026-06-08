@@ -5,14 +5,14 @@ namespace Game {
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {
-                RemoveActor::RemoveActor(States::Map* map, const std::string& actorId) : map(map), actorId(actorId), completed(false) {
+                RemoveActor::RemoveActor(Scenes::Scene* scene, const std::string& actorId) : scene(scene), actorId(actorId), completed(false) {
                 }
 
                 RemoveActor::~RemoveActor() {
                 }
 
                 void RemoveActor::Start() {
-                    this->map->scene->RemoveActor(this->actorId);
+                    this->scene->RemoveActor(this->actorId);
 
                     this->completed = true;
                 }

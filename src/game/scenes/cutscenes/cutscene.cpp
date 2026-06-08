@@ -4,7 +4,7 @@
 namespace Game {
     namespace Scenes {
         namespace Cutscenes {
-            Cutscene::Cutscene(States::Map* map, const std::string& cutsceneId) : map(map), cutsceneId(cutsceneId) {
+            Cutscene::Cutscene(States::Map* map, Scenes::Scene* scene, const std::string& cutsceneId) : map(map), scene(scene), cutsceneId(cutsceneId) {
                 this->Load(cutsceneId);
             }
 
@@ -149,7 +149,7 @@ namespace Game {
                 this->actionFactories["remove_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
                     std::string actorId = node["actorId"].get<std::string>();
 
-                    return std::make_shared<Actions::RemoveActor>(cutscene->map, actorId);
+                    return std::make_shared<Actions::RemoveActor>(cutscene->scene, actorId);
                 };
 
                 this->actionFactories["sequence"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {

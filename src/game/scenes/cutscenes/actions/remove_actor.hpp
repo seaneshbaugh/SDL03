@@ -1,6 +1,7 @@
 #ifndef SDL03_Game_Scene_Cutscenes_Actions_RemoveActor
 #define SDL03_Game_Scene_Cutscenes_Actions_RemoveActor
 
+#include "../../scene.hpp"
 #include "base.hpp"
 
 namespace Game {
@@ -13,16 +14,16 @@ namespace Game {
             namespace Actions {
                 class RemoveActor : public Base {
                 public:
-                    RemoveActor(States::Map* map, const std::string& actorId);
+                    RemoveActor(Scenes::Scene* scene, const std::string& actorId);
                     ~RemoveActor();
                     void Start() override;
                     void Update(float deltaTime) override;
                     bool IsCompleted() const override;
  
                 private:
-                    bool completed;
-                    States::Map* map;
+                    Scenes::Scene* scene;
                     std::string actorId;
+                    bool completed;
                 };
             }
         }
