@@ -9,13 +9,15 @@ namespace Game {
             this->state = State::Gameplay;
             this->previousState = State::Gameplay;
             this->pop = false;
-            this->scene = std::make_shared<Scenes::Scene>(this);
-            this->LoadLuaState("scripts/states/map.lua");
 
             // TODO: Figure out a better place to put this. Really we should probably be calling LoadMap in
             // WorldManager::NewGame.
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
+
+            this->scene = std::make_shared<Scenes::Scene>(this, this->currentMap.get());
+            this->LoadLuaState("scripts/states/map.lua");
+
             this->luaState->script_file("scripts/maps/" + this->currentMap->name + ".lua");
             sol::protected_function spawnNPCs = (*this->luaState.get())["spawn_npcs"];
 
@@ -194,6 +196,8 @@ namespace Game {
             Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
+
+            this->scene->SetCurrentMap(this->currentMap.get());
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
@@ -222,6 +226,8 @@ namespace Game {
             Services::Locator::WorldService()->GetWorld()->UnloadMap();
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
+
+            this->scene->SetCurrentMap(this->currentMap.get());
 
             if (this->currentMap) {
                 return false;

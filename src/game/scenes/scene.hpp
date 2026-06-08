@@ -19,7 +19,7 @@ namespace Game {
             std::shared_ptr<Camera> camera;
             States::Map* mapState;
 
-            Scene(States::Map* mapState);
+            Scene(States::Map* mapState, Objects::Maps::Map* currentMap);
             ~Scene();
 
             void Update(const float deltaTime);
@@ -41,10 +41,12 @@ namespace Game {
             bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
 
             Objects::Maps::Map* GetCurrentMap() const;
+            void SetCurrentMap(Objects::Maps::Map* map);
         private:
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
+            Objects::Maps::Map* currentMap;
             std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
             std::unique_ptr<Pathfinder> pathfinder;
 

@@ -103,7 +103,6 @@ namespace Game {
             void ConsumeInteraction();
 
             void Update(const float deltaTime);
-            void GenerateMovementIntent(const float deltaTime);
             void Render(std::shared_ptr<Camera> camera) const;
 
             bool LoadLuaScript(const std::string& scriptFilePath);

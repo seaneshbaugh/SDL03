@@ -5,7 +5,7 @@ namespace Game {
     namespace Scenes {
         const std::string Scene::logChannel = "scene";
 
-        Scene::Scene(States::Map* mapState) : mapState(mapState) {
+        Scene::Scene(States::Map* mapState, Objects::Maps::Map* currentMap) : mapState(mapState), currentMap(currentMap) {
             this->logger = Services::Locator::LoggerService()->GetLogger(Scene::logChannel);
             this->actorManager = std::make_shared<ActorManager>(this);
             this->camera = std::make_shared<Scenes::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
@@ -26,13 +26,7 @@ namespace Game {
 
             this->ProcessInteractions();
 
-            // TODO: Doing this->mapState->currentMap is a bit of a smell.
-            // I think what this indicates is that the States::Map should pass its currentMap to the Scene
-            // on creation and then there should be a Scene::SetMap function to update the pointer to the
-            // map when a new map is loaded. This would go a long way towards removing the dependency on
-            // States::Map from the scene, which will be important later if I want to make Scene have two
-            // different subclasses, one for States::Map and one for States::Battle.
-            this->camera->Update(deltaTime, this->mapState->currentMap->width * this->mapState->currentMap->tilewidth, this->mapState->currentMap->height * this->mapState->currentMap->tileheight);
+            this->camera->Update(deltaTime, this->currentMap->width * this->currentMap->tilewidth, this->currentMap->height * this->currentMap->tileheight);
         }
 
         void Scene::EnqueueMovement(const float deltaTime) {
@@ -100,7 +94,7 @@ namespace Game {
                         break;
                     }
 
-                    if (targetX < 0 || targetX >= this->mapState->currentMap->width || targetY < 0 || targetY >= this->mapState->currentMap->height) {
+                    if (targetX < 0 || targetX >= this->currentMap->width || targetY < 0 || targetY >= this->currentMap->height) {
                         continue;
                     }
 
@@ -114,7 +108,7 @@ namespace Game {
                         actor->Interact(target.value());
                     }
 
-                    // std::vector<std::shared_ptr<Objects::Maps::MapObject>> objects = this->mapState->currentMap->GetObjects(targetX, targetY);
+                    // std::vector<std::shared_ptr<Objects::Maps::MapObject>> objects = this->currentMap->GetObjects(targetX, targetY);
 
                     // for (auto object = objects.begin(); object != objects.end(); object++) {
                     //     if ((*object)->GetType() == "interactable") {
@@ -220,11 +214,11 @@ namespace Game {
                 break;
             }
 
-            if (targetX < 0 || targetX >= this->mapState->currentMap->width || targetY < 0 || targetY >= this->mapState->currentMap->height) {
+            if (targetX < 0 || targetX >= this->currentMap->width || targetY < 0 || targetY >= this->currentMap->height) {
                 return false;
             }
 
-            if (!this->mapState->currentMap->GetWalkability(targetX, targetY)) {
+            if (!this->currentMap->GetWalkability(targetX, targetY)) {
                 return false;
             }
 
@@ -250,7 +244,11 @@ namespace Game {
         }
 
         Objects::Maps::Map* Scene::GetCurrentMap() const {
-            return this->mapState->currentMap.get();
+            return this->currentMap;
+        }
+
+        void Scene::SetCurrentMap(Objects::Maps::Map* map) {
+            this->currentMap = map;
         }
     }
 }
