@@ -15,6 +15,14 @@ namespace Game {
         Scene::~Scene() {
         }
 
+        Objects::Maps::Map* Scene::GetCurrentMap() const {
+            return this->currentMap;
+        }
+
+        void Scene::SetCurrentMap(Objects::Maps::Map* map) {
+            this->currentMap = map;
+        }
+
         void Scene::Update(const float deltaTime) {
             this->actorManager->UpdateActors(deltaTime);
 
@@ -44,7 +52,7 @@ namespace Game {
 
                         this->logger->debug() << "Player completed a step. New position: (" << step->tileX << ", " << step->tileY << ")";
 
-                        this->mapState->Step(step->tileX, step->tileY);
+                        this->OnActorStepped(actor.get(), step->tileX, step->tileY);
                     }
                 }
             }
@@ -243,12 +251,32 @@ namespace Game {
             return false;
         }
 
-        Objects::Maps::Map* Scene::GetCurrentMap() const {
-            return this->currentMap;
-        }
+        void Scene::OnActorStepped(Scenes::Actor* actor, unsigned int x, unsigned int y) {
+            auto objects = this->currentMap->GetObjects(x, y);
 
-        void Scene::SetCurrentMap(Objects::Maps::Map* map) {
-            this->currentMap = map;
+            for (auto object = objects.begin(); object != objects.end(); object++) {
+                Objects::Maps::MapLoadPoint* mapLoadPoint = dynamic_cast<Objects::Maps::MapLoadPoint*>(object->get());
+
+                if (mapLoadPoint) {
+                    // TODO: Make the MapLoadPoint parser handle this.
+                    const int startX = mapLoadPoint->GetProperty("x") != "" ? std::stoi(mapLoadPoint->GetProperty("x")) : 0;
+                    const int startY = mapLoadPoint->GetProperty("y") != "" ? std::stoi(mapLoadPoint->GetProperty("y")) : 0;
+
+                    this->mapState->pendingCommands.push(States::LoadMapCommand{mapLoadPoint->GetProperty("map"), startX, startY});
+
+                    break;
+                }
+
+                Objects::Maps::CutsceneTrigger* cutsceneTrigger = dynamic_cast<Objects::Maps::CutsceneTrigger*>(object->get());
+
+                if (cutsceneTrigger) {
+                    this->logger->debug() << "Player stepped on a cutscene trigger with cutscene ID \"" << cutsceneTrigger->GetCutsceneId() << "\".";
+
+                    this->mapState->pendingCommands.push(States::StartCutsceneCommand{cutsceneTrigger->GetCutsceneId()});
+
+                    break;
+                }
+            }
         }
     }
 }

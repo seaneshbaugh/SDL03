@@ -22,11 +22,10 @@ namespace Game {
             Scene(States::Map* mapState, Objects::Maps::Map* currentMap);
             ~Scene();
 
+            Objects::Maps::Map* GetCurrentMap() const;
+            void SetCurrentMap(Objects::Maps::Map* map);
+
             void Update(const float deltaTime);
-            void EnqueueMovement(const float deltaTime);
-            void ProcessCompletedSteps();
-            void ProcessPendingMovement();
-            void ProcessInteractions() const;
             void Render() const;
 
             std::shared_ptr<Scenes::Actor> GetActor(const std::string& id);
@@ -39,9 +38,6 @@ namespace Game {
             void PathfindActor(const std::string& actorId, const int targetX, const int targetY);
             void PathfindActor(Actor* actor, const int targetX, const int targetY);
             bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
-
-            Objects::Maps::Map* GetCurrentMap() const;
-            void SetCurrentMap(Objects::Maps::Map* map);
         private:
             static const std::string logChannel;
 
@@ -50,7 +46,14 @@ namespace Game {
             std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
             std::unique_ptr<Pathfinder> pathfinder;
 
+            void EnqueueMovement(const float deltaTime);
+            void ProcessCompletedSteps();
+            void ProcessPendingMovement();
+            void ProcessInteractions() const;
+
             bool CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction) const;
+
+            void OnActorStepped(Scenes::Actor* actor, unsigned int x, unsigned int y);
         };
     }
 }

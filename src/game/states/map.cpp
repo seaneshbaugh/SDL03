@@ -258,34 +258,6 @@ namespace Game {
             this->currentMapEncounterArea = dynamic_cast<Objects::Maps::MapEncounterArea*>(mapEncounterArea);
         }
 
-        void Map::Step(unsigned int x, unsigned int y) {
-            auto objects = this->currentMap->GetObjects(x, y);
-
-            for (auto object = objects.begin(); object != objects.end(); object++) {
-                Objects::Maps::MapLoadPoint* mapLoadPoint = dynamic_cast<Objects::Maps::MapLoadPoint*>(object->get());
-
-                if (mapLoadPoint) {
-                    // TODO: Make the MapLoadPoint parser handle this.
-                    const int startX = mapLoadPoint->GetProperty("x") != "" ? std::stoi(mapLoadPoint->GetProperty("x")) : 0;
-                    const int startY = mapLoadPoint->GetProperty("y") != "" ? std::stoi(mapLoadPoint->GetProperty("y")) : 0;
-
-                    this->pendingCommands.push(LoadMapCommand{mapLoadPoint->GetProperty("map"), startX, startY});
-
-                    break;
-                }
-
-                Objects::Maps::CutsceneTrigger* cutsceneTrigger = dynamic_cast<Objects::Maps::CutsceneTrigger*>(object->get());
-
-                if (cutsceneTrigger) {
-                    this->logger->debug() << "Player stepped on a cutscene trigger with cutscene ID \"" << cutsceneTrigger->GetCutsceneId() << "\".";
-
-                    this->pendingCommands.push(StartCutsceneCommand{cutsceneTrigger->GetCutsceneId()});
-
-                    break;
-                }
-            }
-        }
-
         void Map::StartDialogue(const std::string& dialogueId) {
             this->logger->debug() << "Starting dialogue with ID \"" << dialogueId << "\".";
 

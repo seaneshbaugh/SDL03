@@ -47,6 +47,8 @@ namespace Game {
 
         class Base : public std::enable_shared_from_this<Base> {
         public:
+            std::queue<StateCommand> pendingCommands;
+
             virtual ~Base();
             virtual void HandleEvent(const SDL_Event& event) = 0;
             virtual Transition Update(const float deltaTime) = 0;
@@ -57,7 +59,6 @@ namespace Game {
         protected:
             std::shared_ptr<Log::Logger> logger;
             bool pop;
-            std::queue<StateCommand> pendingCommands;
             std::shared_ptr<sol::state> luaState;
             std::vector<std::string> textureNames;
             std::vector<std::shared_ptr<Objects::Text>> texts;
