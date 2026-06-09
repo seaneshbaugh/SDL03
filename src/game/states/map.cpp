@@ -243,10 +243,6 @@ namespace Game {
             this->state = State::Dialogue;
         }
 
-        bool Map::DialogueSessionCompleted() const {
-            return this->dialogueSession.IsCompleted();
-        }
-
         void Map::StartCutscene(const std::string& cutsceneId) {
             this->logger->debug() << "Starting cutscene with ID \"" << cutsceneId << "\".";
 
@@ -254,7 +250,7 @@ namespace Game {
 
             this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::CutsceneController>(this->scene->actorManager->player.get()));
 
-            std::shared_ptr<Scenes::Cutscenes::Cutscene> cutscene = std::make_shared<Scenes::Cutscenes::Cutscene>(this, this->scene.get(), cutsceneId);
+            std::shared_ptr<Scenes::Cutscenes::Cutscene> cutscene = std::make_shared<Scenes::Cutscenes::Cutscene>(this->scene.get(), this, cutsceneId);
 
             this->cutsceneSession.Start(cutscene);
 

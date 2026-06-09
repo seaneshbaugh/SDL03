@@ -1,15 +1,15 @@
 #include "dialogue.hpp"
-#include "../../../states/map.hpp"
+#include "../../../interfaces/dialogue_manager.hpp"
 
 namespace Game {
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {
-                Dialogue::Dialogue(States::Map* map, const std::string& dialogueId) : map(map), dialogueId(dialogueId), started(false) {
+                Dialogue::Dialogue(Interfaces::DialogueManager* dialogueManager, const std::string& dialogueId) : dialogueManager(dialogueManager), dialogueId(dialogueId), started(false) {
                 }
 
                 void Dialogue::Start() {
-                    this->map->QueueCommand(States::StartDialogueCommand{this->dialogueId});
+                    this->dialogueManager->StartDialogue(this->dialogueId);
 
                     this->started = true;
                 }
@@ -18,7 +18,7 @@ namespace Game {
                 }
 
                 bool Dialogue::IsCompleted() const {
-                    return this->map->DialogueSessionCompleted();
+                    return this->dialogueManager->IsDialogueCompleted();
                 }
             }
         }

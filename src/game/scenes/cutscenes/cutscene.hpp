@@ -5,6 +5,7 @@
 
 #include "../../services/locator.hpp"
 #include "../scene.hpp"
+#include "../../interfaces/dialogue_manager.hpp"
 #include "actions/add_actor.hpp"
 #include "actions/animate_actor.hpp"
 #include "actions/dialogue.hpp"
@@ -27,15 +28,15 @@ namespace Game {
         namespace Cutscenes {
             class Cutscene {
             public:
-                Cutscene(States::Map* map, Scenes::Scene* scene, const std::string& cutsceneId);
+                Cutscene(Scenes::Scene* scene, Interfaces::DialogueManager* dialogueManager, const std::string& cutsceneId);
                 ~Cutscene();
                 bool Load(const std::string& cutsceneId);
 
                 std::vector<std::shared_ptr<Actions::Base>> actions;
 
             private:
-                States::Map* map;
                 Scenes::Scene* scene;
+                Interfaces::DialogueManager* dialogueManager;
                 std::string cutsceneId;
 
                 bool ParseFile(const std::string& jsonString);

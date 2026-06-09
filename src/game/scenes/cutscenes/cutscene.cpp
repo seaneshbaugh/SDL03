@@ -4,7 +4,7 @@
 namespace Game {
     namespace Scenes {
         namespace Cutscenes {
-            Cutscene::Cutscene(States::Map* map, Scenes::Scene* scene, const std::string& cutsceneId) : map(map), scene(scene), cutsceneId(cutsceneId) {
+            Cutscene::Cutscene(Scenes::Scene* scene, Interfaces::DialogueManager* dialogueManager, const std::string& cutsceneId) : scene(scene), dialogueManager(dialogueManager), cutsceneId(cutsceneId) {
                 this->Load(cutsceneId);
             }
 
@@ -77,7 +77,7 @@ namespace Game {
                 this->actionFactories["dialogue"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
                     std::string dialogueId = node["dialogueId"].get<std::string>();
 
-                    return std::make_shared<Actions::Dialogue>(cutscene->map, dialogueId);
+                    return std::make_shared<Actions::Dialogue>(cutscene->dialogueManager, dialogueId);
                 };
 
                 this->actionFactories["face_actor"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {

@@ -6,8 +6,8 @@
 #include "base.hpp"
 
 namespace Game {
-    namespace States {
-        class Map;
+    namespace Interfaces {
+        class DialogueManager;
     }
 
     namespace Scenes {
@@ -15,14 +15,14 @@ namespace Game {
             namespace Actions {
                 class Dialogue : public Base {
                 public:
-                    Dialogue(States::Map* map, const std::string& dialogueId);
+                    Dialogue(Interfaces::DialogueManager* dialogueManager, const std::string& dialogueId);
                     virtual ~Dialogue() = default;
                     void Start() override;
                     void Update(float deltaTime) override;
                     bool IsCompleted() const override;
 
                 private:
-                    States::Map* map;
+                    Interfaces::DialogueManager* dialogueManager;
                     std::string dialogueId;
                     bool started;
                 };

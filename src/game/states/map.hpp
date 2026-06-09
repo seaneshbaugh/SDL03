@@ -5,6 +5,7 @@
 #include "pause_menu.hpp"
 #include "battle.hpp"
 #include "../interfaces/command_queue.hpp"
+#include "../interfaces/dialogue_manager.hpp"
 #include "../objects/maps/map.hpp"
 #include "../objects/world.hpp"
 #include "../scenes/scene.hpp"
@@ -15,7 +16,7 @@
 
 namespace Game {
     namespace States {
-        class Map : public Base, public Interfaces::CommandQueue {
+        class Map : public Base, public Interfaces::CommandQueue, public Interfaces::DialogueManager {
         public:
             enum class State {
                 Gameplay,
@@ -36,8 +37,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> GetCurrentMap() const;
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y) const;
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
-            void StartDialogue(const std::string& dialogueId);
-            bool DialogueSessionCompleted() const;
+            void StartDialogue(const std::string& dialogueId) override;
             void StartCutscene(const std::string& cutsceneId);
             std::shared_ptr<Scenes::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
 
@@ -45,7 +45,6 @@ namespace Game {
             static const std::string logChannel;
 
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            Scenes::Dialogue::DialogueSession dialogueSession;
             Scenes::Cutscenes::CutsceneSession cutsceneSession;
             State state;
             State previousState;
