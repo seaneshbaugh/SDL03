@@ -381,7 +381,6 @@ namespace Game {
 
             Actor::LuaInterface::Bind(this->luaState);
             Interfaces::CommandQueue::LuaInterface::Bind(this->luaState);
-            //States::Map::LuaInterface::Bind(this->luaState);
         }
 
         bool Actor::LoadLuaScript(const std::string& scriptFilePath) {

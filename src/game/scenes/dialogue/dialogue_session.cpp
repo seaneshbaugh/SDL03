@@ -3,7 +3,7 @@
 namespace Game {
     namespace Scenes {
         namespace Dialogue {
-            DialogueSession::DialogueSession() : selectedChoice(0), completed(false), characterTimer(0.0f), nextIndicatorTimer(0.0f) {
+            DialogueSession::DialogueSession() : selectedChoice(0), completed(false), characterTimer(0.0f), nextIndicatorTimer(0.0f), inputDebounceTimer(0.0f) {
                 this->backgroundTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_box", "assets/images/ui/battle/menu/background.png");
                 this->nextIndicatorTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_next_indicator", "assets/images/ui/dialogue/more.png");
                 this->choiceIndicatorTexture = Services::Locator::TextureService()->AddTexture("ui/dialogue_choice_indicator", "assets/images/ui/cursor-right.png");
@@ -19,11 +19,74 @@ namespace Game {
                 this->completed = false;
                 this->characterTimer = 0.0f;
                 this->nextIndicatorTimer = 0.0f;
+                this->inputDebounceTimer = 0.0f;
                 this->lines = Helpers::String::Split(this->currentNode->text, "\n");
                 this->visibleText.clear();
 
                 for (std::vector<std::string>::size_type i = 0; i < this->lines.size(); ++i) {
                     this->visibleText.push_back("");
+                }
+            }
+
+            void DialogueSession::HandleInput(const float deltaTime) {
+                if (Services::Locator::InputService()->GetCurrentInputState().upHeld) {
+                    if (this->inputDebounceTimer <= 0.0f) {
+                        this->PreviousChoice();
+
+                        this->inputDebounceTimer = 0.25f;
+                    } else {
+                        this->inputDebounceTimer -= deltaTime;
+                    }
+                } else if (Services::Locator::InputService()->GetCurrentInputState().downHeld) {
+                    if (this->inputDebounceTimer <= 0.0f) {
+                        this->NextChoice();
+
+                        this->inputDebounceTimer = 0.25f;
+                    } else {
+                        this->inputDebounceTimer -= deltaTime;
+                    }
+                } else {
+                    this->inputDebounceTimer = 0.0f;
+                }
+
+                if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
+                    this->Next();
+                }
+            }
+
+            void DialogueSession::PreviousChoice() {
+                if (this->currentNode->type != DialogueNode::Type::Choice) {
+                    return;
+                }
+
+                for (std::vector<std::string>::size_type i = 0; i < this->lines.size(); ++i) {
+                    if (this->visibleText[i].size() != this->lines[i].size()) {
+                        return;
+                    }
+                }
+
+                if (this->selectedChoice > 0) {
+                    this->selectedChoice--;
+                } else {
+                    this->selectedChoice = this->currentNode->choices.size() - 1;
+                }
+            }
+
+            void DialogueSession::NextChoice() {
+                if (this->currentNode->type != DialogueNode::Type::Choice) {
+                    return;
+                }
+
+                for (std::vector<std::string>::size_type i = 0; i < this->lines.size(); ++i) {
+                    if (this->visibleText[i].size() != this->lines[i].size()) {
+                        return;
+                    }
+                }
+
+                if (this->selectedChoice < this->currentNode->choices.size() - 1) {
+                    this->selectedChoice++;
+                } else {
+                    this->selectedChoice = 0;
                 }
             }
 
@@ -66,46 +129,12 @@ namespace Game {
                 }
             }
 
-            void DialogueSession::PreviousChoice() {
-                if (this->currentNode->type != DialogueNode::Type::Choice) {
-                    return;
-                }
-
-                for (std::vector<std::string>::size_type i = 0; i < this->lines.size(); ++i) {
-                    if (this->visibleText[i].size() != this->lines[i].size()) {
-                        return;
-                    }
-                }
-
-                if (this->selectedChoice > 0) {
-                    this->selectedChoice--;
-                } else {
-                    this->selectedChoice = this->currentNode->choices.size() - 1;
-                }
-            }
-
-            void DialogueSession::NextChoice() {
-                if (this->currentNode->type != DialogueNode::Type::Choice) {
-                    return;
-                }
-
-                for (std::vector<std::string>::size_type i = 0; i < this->lines.size(); ++i) {
-                    if (this->visibleText[i].size() != this->lines[i].size()) {
-                        return;
-                    }
-                }
-
-                if (this->selectedChoice < this->currentNode->choices.size() - 1) {
-                    this->selectedChoice++;
-                } else {
-                    this->selectedChoice = 0;
-                }
-            }
-
             void DialogueSession::Update(const float deltaTime) {
                 if (this->completed) {
                     return;
                 }
+
+                this->HandleInput(deltaTime);
 
                 this->characterTimer += deltaTime;
 
@@ -177,13 +206,17 @@ namespace Game {
 
                             if (i == this->selectedChoice && this->choiceIndicatorTexture) {
                                 SDL_FRect srcrect = {0.0f, 0.0f, static_cast<float>(this->choiceIndicatorTexture->GetSDLTexture().get()->w), static_cast<float>(this->choiceIndicatorTexture->GetSDLTexture().get()->h)};
-                                SDL_FRect dstrect = {textDstRect.x - 8.0f - srcrect.w, textDstRect.y + (srcrect.h / 2.0f) - 4.0f /* + (textDstRect.h - srcrect.h) / 2.0f */, srcrect.w, srcrect.h};
+                                SDL_FRect dstrect = {textDstRect.x - 8.0f - srcrect.w, textDstRect.y + (srcrect.h / 2.0f) - 4.0f, srcrect.w, srcrect.h};
 
                                 Services::Locator::VideoService()->RenderTexture(this->choiceIndicatorTexture, &srcrect, &dstrect);
                             }
                         }
                     }
                 }
+            }
+
+            bool DialogueSession::IsCompleted() const {
+                return this->completed;
             }
 
             void DialogueSession::SetCurrentNode(std::shared_ptr<DialogueNode> node) {

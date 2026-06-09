@@ -1,6 +1,5 @@
 #include "actor_manager.hpp"
 #include "scene.hpp"
-#include "../states/map.hpp"
 
 namespace Game {
     namespace Scenes {

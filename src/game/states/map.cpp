@@ -36,8 +36,6 @@ namespace Game {
             player->SetMovementSpeed(4.0f);
             this->scene->actorManager->player = player;
             this->scene->camera->Follow(this->scene->actorManager->player);
-
-            this->inputDebounceTimer = 0.0f;
         }
 
         Map::~Map() {
@@ -84,33 +82,9 @@ namespace Game {
         }
 
         Transition Map::UpdateDialogue(const float deltaTime) {
-            if (Services::Locator::InputService()->GetCurrentInputState().upHeld) {
-                if (this->inputDebounceTimer <= 0.0f) {
-                    this->dialogueSession.PreviousChoice();
-
-                    this->inputDebounceTimer = 0.25f;
-                } else {
-                    this->inputDebounceTimer -= deltaTime;
-                }
-            } else if (Services::Locator::InputService()->GetCurrentInputState().downHeld) {
-                if (this->inputDebounceTimer <= 0.0f) {
-                    this->dialogueSession.NextChoice();
-
-                    this->inputDebounceTimer = 0.25f;
-                } else {
-                    this->inputDebounceTimer -= deltaTime;
-                }
-            } else {
-                this->inputDebounceTimer = 0.0f;
-            }
-
-            if (Services::Locator::InputService()->GetCurrentInputState().confirmPressed) {
-                this->dialogueSession.Next();
-            }
-
             this->dialogueSession.Update(deltaTime);
 
-            if (this->dialogueSession.completed) {
+            if (this->dialogueSession.IsCompleted()) {
                 this->state = this->previousState;
             }
 
@@ -270,7 +244,7 @@ namespace Game {
         }
 
         bool Map::DialogueSessionCompleted() const {
-            return this->dialogueSession.completed;
+            return this->dialogueSession.IsCompleted();
         }
 
         void Map::StartCutscene(const std::string& cutsceneId) {

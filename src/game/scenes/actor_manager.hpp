@@ -4,10 +4,6 @@
 #include "actor.hpp"
 
 namespace Game {
-    namespace States {
-        class Map;
-    }
-
     namespace Scenes {
         class Scene;
 

@@ -1,8 +1,6 @@
 #ifndef SDL03_Game_Scene_Dialogue_Session
 #define SDL03_Game_Scene_Dialogue_Session
 
-#include <string>
-
 #include "../../services/locator.hpp"
 #include "../../assets/texture.hpp"
 #include "../../assets/font.hpp"
@@ -16,36 +14,33 @@ namespace Game {
         namespace Dialogue {
             class DialogueSession {
             public:
-                enum class State {
-                    Typing,
-                    WaitingForContinue,
-                    Choosing,
-                    Completed
-                };
-
                 DialogueSession();
                 ~DialogueSession();
 
                 void Start(std::shared_ptr<DialogueGraph> graph);
-                void Next();
-                void PreviousChoice();
-                void NextChoice();
                 void Update(const float deltaTime);
                 void Render(std::shared_ptr<Camera> camera);
+                bool IsCompleted() const;
 
-                int selectedChoice;
-                bool completed;
-                float characterTimer;
+            private:
                 std::shared_ptr<DialogueGraph> currentGraph;
                 std::shared_ptr<DialogueNode> currentNode;
                 std::shared_ptr<Assets::Texture> backgroundTexture;
                 std::shared_ptr<Assets::Texture> nextIndicatorTexture;
                 std::shared_ptr<Assets::Texture> choiceIndicatorTexture;
-
-            private:
                 std::vector<std::string> lines;
                 std::vector<std::string> visibleText;
+                int selectedChoice;
+                float characterTimer;
                 float nextIndicatorTimer;
+                float inputDebounceTimer;
+                bool completed;
+
+                void HandleInput(const float deltaTime);
+                void PreviousChoice();
+                void NextChoice();
+
+                void Next();
 
                 void SetCurrentNode(std::shared_ptr<DialogueNode> node);
             };

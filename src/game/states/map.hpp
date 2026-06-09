@@ -45,7 +45,6 @@ namespace Game {
             static const std::string logChannel;
 
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            float inputDebounceTimer;
             Scenes::Dialogue::DialogueSession dialogueSession;
             Scenes::Cutscenes::CutsceneSession cutsceneSession;
             State state;
