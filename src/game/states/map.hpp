@@ -4,6 +4,7 @@
 #include "base.hpp"
 #include "pause_menu.hpp"
 #include "battle.hpp"
+#include "../interfaces/command_queue.hpp"
 #include "../objects/maps/map.hpp"
 #include "../objects/world.hpp"
 #include "../scenes/scene.hpp"
@@ -14,7 +15,7 @@
 
 namespace Game {
     namespace States {
-        class Map : public Base {
+        class Map : public Base, public Interfaces::CommandQueue {
         public:
             enum class State {
                 Gameplay,
@@ -35,7 +36,6 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> GetCurrentMap() const;
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y) const;
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
-            void Step(unsigned int x, unsigned int y);
             void StartDialogue(const std::string& dialogueId);
             bool DialogueSessionCompleted() const;
             void StartCutscene(const std::string& cutsceneId);

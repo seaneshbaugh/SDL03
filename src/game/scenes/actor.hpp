@@ -7,14 +7,15 @@
 #include "../../../lib/lua/src/lua.hpp"
 #include "../../../lib/sol/sol.hpp"
 
+#include "../interfaces/command_queue.hpp"
 #include "../services/locator.hpp"
 #include "../objects/maps/map.hpp"
 #include "actor_appearance.hpp"
 
 namespace Game {
-    namespace States {
-        class Map;
-    }
+    //namespace States {
+    //    class Map;
+    //}
 
     namespace Scenes {
         class Camera;
@@ -107,7 +108,7 @@ namespace Game {
 
             bool LoadLuaScript(const std::string& scriptFilePath);
 
-            void SetMapState(States::Map* mapState);
+            void SetCommandQueue(Interfaces::CommandQueue* commandQueue);
 
         private:
             static const std::string logChannel;

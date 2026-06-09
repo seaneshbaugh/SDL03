@@ -59,8 +59,8 @@ namespace Game {
             return result;
         }
 
-        void Battle::ProcessPendingCommands() {
-        }
+        //void Battle::ProcessPendingCommands() {
+        //}
 
         void Battle::Render() {
             (*this->luaState.get())["render"]();

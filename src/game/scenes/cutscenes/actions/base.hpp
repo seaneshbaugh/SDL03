@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Scene_Cutscenes_Actions_Base
-#define SDL03_Game_Scene_Cutscenes_Actions_Base
+#ifndef SDL03_Game_Scenes_Cutscenes_Actions_Base
+#define SDL03_Game_Scenes_Cutscenes_Actions_Base
 
 #include <string>
 

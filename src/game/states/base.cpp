@@ -20,10 +20,6 @@ namespace Game {
         Base::~Base() {
         }
 
-        void Base::QueueCommand(const StateCommand& command) {
-            this->pendingCommands.push(command);
-        }
-
         void Base::LoadResources(const std::string& textureListPath, const std::string& soundListPath) {
             this->LoadTextures(textureListPath);
             this->LoadSounds(soundListPath);

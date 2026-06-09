@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Scene_Cutscenes_Actions_Sequence
-#define SDL03_Game_Scene_Cutscenes_Actions_Sequence
+#ifndef SDL03_Game_Scenes_Cutscenes_Actions_Sequence
+#define SDL03_Game_Scenes_Cutscenes_Actions_Sequence
 
 #include <memory>
 #include <vector>

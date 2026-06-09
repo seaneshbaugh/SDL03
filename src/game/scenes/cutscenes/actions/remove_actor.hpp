@@ -1,14 +1,10 @@
-#ifndef SDL03_Game_Scene_Cutscenes_Actions_RemoveActor
+#ifndef SDL03_Game_Scenes_Cutscenes_Actions_RemoveActor
 #define SDL03_Game_Scene_Cutscenes_Actions_RemoveActor
 
 #include "../../scene.hpp"
 #include "base.hpp"
 
 namespace Game {
-    namespace States {
-        class Map;
-    }
-
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {

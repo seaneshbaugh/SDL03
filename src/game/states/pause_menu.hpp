@@ -26,7 +26,7 @@ namespace Game {
             static const std::string logChannel;
 
             std::string ProcessInput(const Input::Button key);
-            void ProcessPendingCommands() override;
+            //void ProcessPendingCommands() override;
             void LoadLuaState(const std::string& scriptFilePath);
 
         public:

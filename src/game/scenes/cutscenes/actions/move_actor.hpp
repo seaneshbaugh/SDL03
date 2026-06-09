@@ -1,15 +1,11 @@
-#ifndef SDL03_Game_Scene_Cutscenes_Actions_MoveActor
-#define SDL03_Game_Scene_Cutscenes_Actions_MoveActor
+#ifndef SDL03_Game_Scenes_Cutscenes_Actions_MoveActor
+#define SDL03_Game_Scenes_Cutscenes_Actions_MoveActor
 
 #include "base.hpp"
 #include "../../scene.hpp"
 #include "../../actor.hpp"
 
 namespace Game {
-    namespace States {
-        class Map;
-    }
-
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {

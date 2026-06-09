@@ -56,8 +56,8 @@ namespace Game {
             return result;
         }
 
-        void PauseMenu::ProcessPendingCommands() {
-        }
+        //void PauseMenu::ProcessPendingCommands() {
+        //}
 
         void PauseMenu::Render() {
             (*this->luaState.get())["render"]();

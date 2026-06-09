@@ -1,15 +1,11 @@
-#ifndef SDL03_Game_Scene_Cutscenes_Actions_PathfindActor
-#define SDL03_Game_Scene_Cutscenes_Actions_PathfindActor
+#ifndef SDL03_Game_Scenes_Cutscenes_Actions_PathfindActor
+#define SDL03_Game_Scenes_Cutscenes_Actions_PathfindActor
 
 #include "base.hpp"
 #include "../../scene.hpp"
 #include "../../actor.hpp"
 
 namespace Game {
-    namespace States {
-        class Map;
-    }
-
     namespace Scenes {
         namespace Cutscenes {
             namespace Actions {

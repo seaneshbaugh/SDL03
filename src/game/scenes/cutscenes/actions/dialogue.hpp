@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Scene_Cutscenes_Actions_Dialogue
-#define SDL03_Game_Scene_Cutscenes_Actions_Dialogue
+#ifndef SDL03_Game_Scenes_Cutscenes_Actions_Dialogue
+#define SDL03_Game_Scenes_Cutscenes_Actions_Dialogue
 
 #include <memory>
 
@@ -15,7 +15,6 @@ namespace Game {
             namespace Actions {
                 class Dialogue : public Base {
                 public:
-                    // TODO: Figure out exaclty how this class is going to work.
                     Dialogue(States::Map* map, const std::string& dialogueId);
                     virtual ~Dialogue() = default;
                     void Start() override;

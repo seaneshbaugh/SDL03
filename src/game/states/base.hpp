@@ -47,13 +47,13 @@ namespace Game {
 
         class Base : public std::enable_shared_from_this<Base> {
         public:
-            std::queue<StateCommand> pendingCommands;
+            //std::queue<StateCommand> pendingCommands;
 
             virtual ~Base();
             virtual void HandleEvent(const SDL_Event& event) = 0;
             virtual Transition Update(const float deltaTime) = 0;
             virtual void Render() = 0;
-            void QueueCommand(const StateCommand& command);
+            //void QueueCommand(const StateCommand& command);
             virtual void Pop();
 
         protected:
@@ -64,7 +64,7 @@ namespace Game {
             std::vector<std::shared_ptr<Objects::Text>> texts;
 
             virtual std::string ProcessInput(const Input::Button key) = 0;
-            virtual void ProcessPendingCommands() = 0;
+            //virtual void ProcessPendingCommands() = 0;
             virtual void LoadResources(const std::string& textureListPath, const std::string& soundListPath);
             virtual void LoadResources(const std::string& textureListPath, const std::string& soundListPath, const std::string& songListPath);
             virtual void LoadTextures(const std::string& resourceListPath);

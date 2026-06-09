@@ -3,5 +3,5 @@ function initialize()
 end
 
 function on_interact(interactor)
-  mapState:queue_command(states.StartDialogueCommand.new(actor.dialogueId))
+  command_queue:queue_command(StartDialogueCommand.new(actor.dialogueId))
 end

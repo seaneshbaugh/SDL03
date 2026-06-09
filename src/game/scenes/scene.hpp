@@ -8,22 +8,22 @@
 #include "controllers/scripted_controller.hpp"
 
 namespace Game {
-    namespace States {
-        class Map;
-    }
+    //namespace States {
+    //    class Map;
+    //}
 
     namespace Scenes {
         class Scene {
         public:
             std::shared_ptr<ActorManager> actorManager;
             std::shared_ptr<Camera> camera;
-            States::Map* mapState;
+            Interfaces::CommandQueue* commandQueue;
 
-            Scene(States::Map* mapState, Objects::Maps::Map* currentMap);
+            Scene(std::shared_ptr<Objects::Maps::Map> currentMap, Interfaces::CommandQueue* commandQueue);
             ~Scene();
 
-            Objects::Maps::Map* GetCurrentMap() const;
-            void SetCurrentMap(Objects::Maps::Map* map);
+            std::shared_ptr<Objects::Maps::Map> GetCurrentMap() const;
+            void SetCurrentMap(std::shared_ptr<Objects::Maps::Map> map);
 
             void Update(const float deltaTime);
             void Render() const;
@@ -42,7 +42,7 @@ namespace Game {
             static const std::string logChannel;
 
             std::shared_ptr<Log::Logger> logger;
-            Objects::Maps::Map* currentMap;
+            std::shared_ptr<Objects::Maps::Map> currentMap;
             std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
             std::unique_ptr<Pathfinder> pathfinder;
 

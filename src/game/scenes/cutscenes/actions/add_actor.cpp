@@ -1,5 +1,4 @@
 #include "add_actor.hpp"
-#include "../../../states/map.hpp"
 
 namespace Game {
     namespace Scenes {

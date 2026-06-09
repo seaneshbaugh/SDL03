@@ -380,7 +380,8 @@ namespace Game {
             this->luaState->set("actor", this);
 
             Actor::LuaInterface::Bind(this->luaState);
-            States::Map::LuaInterface::Bind(this->luaState);
+            Interfaces::CommandQueue::LuaInterface::Bind(this->luaState);
+            //States::Map::LuaInterface::Bind(this->luaState);
         }
 
         bool Actor::LoadLuaScript(const std::string& scriptFilePath) {
@@ -411,8 +412,8 @@ namespace Game {
             return true;
         }
 
-        void Actor::SetMapState(States::Map* mapState) {
-            this->luaState->set("mapState", mapState);
+        void Actor::SetCommandQueue(Interfaces::CommandQueue* commandQueue) {
+            this->luaState->set("command_queue", commandQueue);
         }
 
         void Actor::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {

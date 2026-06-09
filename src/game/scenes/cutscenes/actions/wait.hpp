@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Scene_Cutscenes_Actions_Wait
-#define SDL03_Game_Scene_Cutscenes_Actions_Wait
+#ifndef SDL03_Game_Scenes_Cutscenes_Actions_Wait
+#define SDL03_Game_Scenes_Cutscenes_Actions_Wait
 
 #include "base.hpp"
 

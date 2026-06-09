@@ -15,7 +15,7 @@ namespace Game {
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
             this->currentMapEncounterArea = nullptr;
 
-            this->scene = std::make_shared<Scenes::Scene>(this, this->currentMap.get());
+            this->scene = std::make_shared<Scenes::Scene>(this->currentMap, this);
             this->LoadLuaState("scripts/states/map.lua");
 
             this->luaState->script_file("scripts/maps/" + this->currentMap->name + ".lua");
@@ -197,7 +197,7 @@ namespace Game {
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
 
-            this->scene->SetCurrentMap(this->currentMap.get());
+            this->scene->SetCurrentMap(this->currentMap);
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
@@ -227,7 +227,7 @@ namespace Game {
 
             this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
 
-            this->scene->SetCurrentMap(this->currentMap.get());
+            this->scene->SetCurrentMap(this->currentMap);
 
             if (this->currentMap) {
                 return false;

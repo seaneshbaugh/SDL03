@@ -5,7 +5,7 @@ namespace Game {
     namespace Scenes {
         const std::string Scene::logChannel = "scene";
 
-        Scene::Scene(States::Map* mapState, Objects::Maps::Map* currentMap) : mapState(mapState), currentMap(currentMap) {
+        Scene::Scene(std::shared_ptr<Objects::Maps::Map> currentMap, Interfaces::CommandQueue* commandQueue) : currentMap(currentMap), commandQueue(commandQueue) {
             this->logger = Services::Locator::LoggerService()->GetLogger(Scene::logChannel);
             this->actorManager = std::make_shared<ActorManager>(this);
             this->camera = std::make_shared<Scenes::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
@@ -15,11 +15,11 @@ namespace Game {
         Scene::~Scene() {
         }
 
-        Objects::Maps::Map* Scene::GetCurrentMap() const {
+        std::shared_ptr<Objects::Maps::Map> Scene::GetCurrentMap() const {
             return this->currentMap;
         }
 
-        void Scene::SetCurrentMap(Objects::Maps::Map* map) {
+        void Scene::SetCurrentMap(std::shared_ptr<Objects::Maps::Map> map) {
             this->currentMap = map;
         }
 
@@ -262,7 +262,7 @@ namespace Game {
                     const int startX = mapLoadPoint->GetProperty("x") != "" ? std::stoi(mapLoadPoint->GetProperty("x")) : 0;
                     const int startY = mapLoadPoint->GetProperty("y") != "" ? std::stoi(mapLoadPoint->GetProperty("y")) : 0;
 
-                    this->mapState->pendingCommands.push(States::LoadMapCommand{mapLoadPoint->GetProperty("map"), startX, startY});
+                    this->commandQueue->QueueCommand(States::LoadMapCommand{mapLoadPoint->GetProperty("map"), startX, startY});
 
                     break;
                 }
@@ -272,7 +272,7 @@ namespace Game {
                 if (cutsceneTrigger) {
                     this->logger->debug() << "Player stepped on a cutscene trigger with cutscene ID \"" << cutsceneTrigger->GetCutsceneId() << "\".";
 
-                    this->mapState->pendingCommands.push(States::StartCutsceneCommand{cutsceneTrigger->GetCutsceneId()});
+                    this->commandQueue->QueueCommand(States::StartCutsceneCommand{cutsceneTrigger->GetCutsceneId()});
 
                     break;
                 }
