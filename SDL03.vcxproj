@@ -98,6 +98,8 @@
     <ClCompile Include="src\game\objects\maps\map_start_point.cpp" />
     <ClCompile Include="src\game\objects\maps\map_tile.cpp" />
     <ClCompile Include="src\game\objects\text.cpp" />
+    <ClCompile Include="src\game\scenes\cutscenes\actions\set_flag.cpp" />
+    <ClCompile Include="src\game\world\flags.cpp" />
     <ClCompile Include="src\game\world\state.cpp" />
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp" />
     <ClCompile Include="src\game\scenes\actor.cpp" />
@@ -252,6 +254,7 @@
     <ClInclude Include="src\game\scenes\cutscenes\actions\pathfind_actor.hpp" />
     <ClInclude Include="src\game\scenes\cutscenes\actions\remove_actor.hpp" />
     <ClInclude Include="src\game\scenes\cutscenes\actions\sequence.hpp" />
+    <ClInclude Include="src\game\scenes\cutscenes\actions\set_flag.hpp" />
     <ClInclude Include="src\game\scenes\cutscenes\actions\wait.hpp" />
     <ClInclude Include="src\game\scenes\cutscenes\cutscene.hpp" />
     <ClInclude Include="src\game\scenes\cutscenes\cutscene_session.hpp" />
@@ -282,6 +285,7 @@
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp" />
     <ClInclude Include="src\game\objects\maps\map_tile.hpp" />
     <ClInclude Include="src\game\objects\text.hpp" />
+    <ClInclude Include="src\game\world\flags.hpp" />
     <ClInclude Include="src\game\world\state.hpp" />
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp" />
     <ClInclude Include="src\game\scenes\actor.hpp" />

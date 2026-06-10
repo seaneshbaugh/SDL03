@@ -137,6 +137,8 @@ namespace Game {
                 worldAsJSON["playerParty"].push_back(characterAsJSON);
             }
 
+            worldAsJSON["flags"] = this->flags.AsJSON();
+
             return worldAsJSON;
         }
     }

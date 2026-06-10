@@ -166,6 +166,13 @@ namespace Game {
                     return std::make_shared<Actions::Sequence>(actions);
                 };
 
+                this->actionFactories["set_flag"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+                    std::string key = node["key"].get<std::string>();
+                    bool value = node["value"].get<bool>();
+
+                    return std::make_shared<Actions::SetFlag>(key, value);
+                };
+
                 this->actionFactories["wait"] = [this](const json& node, Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
                     float duration = node["duration"].get<float>();
 

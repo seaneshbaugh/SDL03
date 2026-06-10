@@ -347,6 +347,11 @@
                  "opacity":1,
                  "properties":[
                         {
+                         "name":"condition",
+                         "type":"string",
+                         "value":"!cutscenes.town01.complete"
+                        }, 
+                        {
                          "name":"cutsceneId",
                          "type":"string",
                          "value":"town01"

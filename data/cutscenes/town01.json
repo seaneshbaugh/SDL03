@@ -53,6 +53,11 @@
     {
       "type": "remove_actor",
       "actorId": "guard"
+    },
+    {
+      "type": "set_flag",
+      "key": "cutscenes.town01.complete",
+      "value": true
     }
   ]
 }

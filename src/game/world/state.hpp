@@ -3,6 +3,7 @@
 
 #include "../../../lib/nlohmann/json.hpp"
 
+#include "flags.hpp"
 #include "../objects/characters/party.hpp"
 #include "../objects/characters/player_character.hpp"
 #include "../objects/characters/monster.hpp"
@@ -25,6 +26,7 @@ namespace Game {
             void UnloadMap();
             json AsJSON();
 
+            Flags flags;
             std::shared_ptr<Objects::Characters::Party> playerParty;
             std::shared_ptr<Objects::Characters::Party> enemyParty;
             std::shared_ptr<Objects::Maps::Map> currentMap;

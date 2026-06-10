@@ -255,6 +255,10 @@ namespace Game {
             auto objects = this->currentMap->GetObjects(x, y);
 
             for (auto object = objects.begin(); object != objects.end(); object++) {
+                if (!(*object)->IsConditionSatisfied()) {
+                    continue;
+                }
+
                 Objects::Maps::MapLoadPoint* mapLoadPoint = dynamic_cast<Objects::Maps::MapLoadPoint*>(object->get());
 
                 if (mapLoadPoint) {

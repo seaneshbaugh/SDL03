@@ -7,6 +7,7 @@
 #include <SDL3/SDL.h>
 
 #include "../base.hpp"
+#include "../../services/locator.hpp"
 
 namespace Game {
     namespace Objects {
@@ -27,6 +28,7 @@ namespace Game {
                 std::string const GetProperty(const std::string& name) const;
                 std::string SetProperty(const std::string& name, const std::string& value);
                 std::map<std::string, std::string> SetProperties(const std::map<std::string, std::string>& properties);
+                bool IsConditionSatisfied();
 
             private:
                 std::string type;

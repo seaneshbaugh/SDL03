@@ -1,4 +1,5 @@
 #include "map_object.hpp"
+#include "../../world/state.hpp"
 
 namespace Game {
     namespace Objects {
@@ -40,6 +41,30 @@ namespace Game {
                 }
 
                 return this->properties;
+            }
+
+            bool MapObject::IsConditionSatisfied() {
+                auto it = this->properties.find("condition");
+
+                if (it != this->properties.end()) {
+                    std::string key = it->second;
+                    bool negate = false;
+
+                    if (key.starts_with("!")) {
+                        key.erase(0, 1);
+                        negate = true;
+                    }
+
+                    bool value = Services::Locator::WorldService()->GetState()->flags.Get(key, false);
+
+                    if (negate) {
+                        return !value;
+                    } else {
+                        return value;
+                    }
+                }
+
+                return true;
             }
 
             void MapObject::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {

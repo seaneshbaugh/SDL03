@@ -15,6 +15,7 @@
 #include "actions/pathfind_actor.hpp"
 #include "actions/remove_actor.hpp"
 #include "actions/sequence.hpp"
+#include "actions/set_flag.hpp"
 #include "actions/wait.hpp"
 #include "../../objects/maps/spawn_point.hpp"
 #include "../../../helpers/file_system.hpp"
