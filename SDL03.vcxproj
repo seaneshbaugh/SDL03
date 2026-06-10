@@ -98,7 +98,7 @@
     <ClCompile Include="src\game\objects\maps\map_start_point.cpp" />
     <ClCompile Include="src\game\objects\maps\map_tile.cpp" />
     <ClCompile Include="src\game\objects\text.cpp" />
-    <ClCompile Include="src\game\objects\world.cpp" />
+    <ClCompile Include="src\game\world\state.cpp" />
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp" />
     <ClCompile Include="src\game\scenes\actor.cpp" />
     <ClCompile Include="src\game\assets\base.cpp" />
@@ -282,7 +282,7 @@
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp" />
     <ClInclude Include="src\game\objects\maps\map_tile.hpp" />
     <ClInclude Include="src\game\objects\text.hpp" />
-    <ClInclude Include="src\game\objects\world.hpp" />
+    <ClInclude Include="src\game\world\state.hpp" />
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp" />
     <ClInclude Include="src\game\scenes\actor.hpp" />
     <ClInclude Include="src\game\assets\base.hpp" />

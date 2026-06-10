@@ -6,7 +6,7 @@
 #include "../../../game.hpp"
 #include "../locator.hpp"
 #include "../interfaces/save_service.hpp"
-#include "../../objects/world.hpp"
+#include "../../world/state.hpp"
 #include "../../../helpers/file_system.hpp"
 
 namespace Game {

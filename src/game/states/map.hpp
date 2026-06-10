@@ -7,7 +7,7 @@
 #include "../interfaces/command_queue.hpp"
 #include "../interfaces/dialogue_manager.hpp"
 #include "../objects/maps/map.hpp"
-#include "../objects/world.hpp"
+#include "../world/state.hpp"
 #include "../scenes/scene.hpp"
 #include "../scenes/camera.hpp"
 #include "../scenes/actor_manager.hpp"

@@ -1,8 +1,8 @@
-#include "world.hpp"
+#include "state.hpp"
 
 namespace Game {
-    namespace Objects {
-        World::World() {
+    namespace World {
+        State::State() {
             this->playerParty = nullptr;
             this->enemyParty = nullptr;
             this->currentMap = nullptr;
@@ -10,7 +10,7 @@ namespace Game {
             this->playerCurrentY = 0;
         }
 
-        World::~World() {
+        State::~State() {
             this->UnloadPlayerParty();
             this->UnloadEnemyParty();
             this->UnloadMap();
@@ -22,7 +22,7 @@ namespace Game {
         // method in the WorldManager anyway.
         // Ideally the World class is just a dumb container and does very little actual work. The WorldManager should be the thing
         // setting up the world and should be the interface through which the rest of the game interacts with the world.
-        void World::SetStartingPlayerParty() {
+        void State::SetStartingPlayerParty() {
             this->UnloadPlayerParty();
 
             this->playerParty = std::make_shared<Objects::Characters::Party>();
@@ -50,16 +50,16 @@ namespace Game {
             this->playerParty->GetInventory()->AddItem(potion);
         }
 
-        void World::UnloadPlayerParty() {
+        void State::UnloadPlayerParty() {
             this->playerParty.reset();
         }
 
-        void World::SetEnemyParty(const Objects::Maps::MapEncounterArea& encounterArea) {
+        void State::SetEnemyParty(const Objects::Maps::MapEncounterArea& encounterArea) {
             this->UnloadEnemyParty();
 
             this->enemyParty = std::make_shared<Objects::Characters::Party>();
 
-            // TODO: Consider making rd and mt be members of World.
+            // TODO: Consider making rd and mt be members of State.
             // Or maybe better yet, create a separate EntropyService/EntropyManager that handles all random number generation for the game. This will make it easier to manage randomness
             // and to make it so seeds can be manually set for determinisitic behavior when needed (for example for testing purposes or for certain gameplay features).
             std::random_device rd;
@@ -95,11 +95,11 @@ namespace Game {
             }
         }
 
-        void World::UnloadEnemyParty() {
+        void State::UnloadEnemyParty() {
             this->enemyParty.reset();
         }
 
-        void World::LoadMap(const std::string& mapName) {
+        void State::LoadMap(const std::string& mapName) {
             this->UnloadMap();
 
             std::string mapFilePath = "data/maps/" + mapName + ".json";
@@ -107,7 +107,7 @@ namespace Game {
             this->currentMap = std::make_shared<Objects::Maps::Map>(mapFilePath);
         }
 
-        void World::UnloadMap() {
+        void State::UnloadMap() {
             this->currentMap.reset();
         }
 
@@ -116,7 +116,7 @@ namespace Game {
         // For now I'm using JSON for serializing stuff since I want to be able to easily
         // inspect save files. Eventually this may change to a more compact binary format
         // or JSON that's gzipped or something.
-        json World::AsJSON() {
+        json State::AsJSON() {
             json worldAsJSON;
 
             worldAsJSON["currentMap"] = this->currentMap->filename;

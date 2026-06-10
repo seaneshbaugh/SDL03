@@ -16,7 +16,7 @@ namespace Game {
 
             this->background = Services::Locator::TextureService()->AddTexture(this->backgroundName, encounterArea->GetProperty("background"));
 
-            Services::Locator::WorldService()->GetWorld()->SetEnemyParty(*encounterArea);
+            Services::Locator::WorldService()->GetState()->SetEnemyParty(*encounterArea);
 
             this->LoadLuaState("scripts/states/battle.lua");
         }
@@ -69,8 +69,8 @@ namespace Game {
         std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> Battle::GetParty() {
             std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> result;
 
-            std::transform(Services::Locator::WorldService()->GetWorld()->playerParty->characters.begin(),
-                           Services::Locator::WorldService()->GetWorld()->playerParty->characters.end(),
+            std::transform(Services::Locator::WorldService()->GetState()->playerParty->characters.begin(),
+                           Services::Locator::WorldService()->GetState()->playerParty->characters.end(),
                            std::back_inserter(result),
                            [](std::shared_ptr<Objects::Characters::Base> playerCharacter) {
                                return std::static_pointer_cast<Objects::Characters::PlayerCharacter>(playerCharacter);
@@ -82,8 +82,8 @@ namespace Game {
         std::vector<std::shared_ptr<Objects::Characters::Monster>> Battle::GetMonsters() {
             std::vector<std::shared_ptr<Objects::Characters::Monster>> result;
 
-            std::transform(Services::Locator::WorldService()->GetWorld()->enemyParty->characters.begin(),
-                           Services::Locator::WorldService()->GetWorld()->enemyParty->characters.end(),
+            std::transform(Services::Locator::WorldService()->GetState()->enemyParty->characters.begin(),
+                           Services::Locator::WorldService()->GetState()->enemyParty->characters.end(),
                            std::back_inserter(result),
                            [](std::shared_ptr<Objects::Characters::Base> monster) {
                                return std::static_pointer_cast<Objects::Characters::Monster>(monster);

@@ -54,7 +54,7 @@
     <ClCompile Include="src\game\objects\text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\objects\world.cpp">
+    <ClCompile Include="src\game\world\state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp">
@@ -500,7 +500,7 @@
     <ClInclude Include="src\game\objects\text.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\objects\world.hpp">
+    <ClInclude Include="src\game\world\state.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp">

@@ -4,7 +4,7 @@
 #include "../locator.hpp"
 #include "../interfaces/world_service.hpp"
 #include "../../states/map.hpp"
-#include "../../objects/world.hpp"
+#include "../../world/state.hpp"
 
 namespace Game {
     namespace States {
@@ -16,10 +16,10 @@ namespace Game {
             class WorldManager : public Interfaces::WorldService {
             public:
                 WorldManager();
-                WorldManager(std::shared_ptr<Objects::World> world);
+                WorldManager(std::shared_ptr<World::State> state);
                 ~WorldManager();
-                std::shared_ptr<Objects::World> GetWorld();
-                void SetWorld(std::shared_ptr<Objects::World> newWorld);
+                std::shared_ptr<World::State> GetState();
+                void SetState(std::shared_ptr<World::State> newState);
                 std::shared_ptr<States::Map> NewGame();
                 void UpdatePlayerPosition(unsigned int x, unsigned int y);
 
@@ -27,7 +27,7 @@ namespace Game {
                 static const std::string logChannel;
 
                 std::shared_ptr<Log::Logger> logger;
-                std::shared_ptr<Objects::World> world;
+                std::shared_ptr<World::State> state;
             };
         }
     }

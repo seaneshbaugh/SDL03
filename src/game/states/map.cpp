@@ -12,7 +12,7 @@ namespace Game {
 
             // TODO: Figure out a better place to put this. Really we should probably be calling LoadMap in
             // WorldManager::NewGame.
-            this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
+            this->currentMap = Services::Locator::WorldService()->GetState()->currentMap;
             this->currentMapEncounterArea = nullptr;
 
             this->scene = std::make_shared<Scenes::Scene>(this->currentMap, this);
@@ -31,7 +31,7 @@ namespace Game {
             }
 
             // TODO: This should all also probably be a function which is called by WorldManager::NewGame.
-            std::shared_ptr<Scenes::Actor> player = this->scene->AddActor<Scenes::Controllers::PlayerController>("player", "Sean", Services::Locator::WorldService()->GetWorld()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetWorld()->playerCurrentX, Services::Locator::WorldService()->GetWorld()->playerCurrentY, Scenes::Actor::Direction::Down, "", "");
+            std::shared_ptr<Scenes::Actor> player = this->scene->AddActor<Scenes::Controllers::PlayerController>("player", "Sean", Services::Locator::WorldService()->GetState()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetState()->playerCurrentX, Services::Locator::WorldService()->GetState()->playerCurrentY, Scenes::Actor::Direction::Down, "", "");
             player->SetPersistent(true);
             player->SetMovementSpeed(4.0f);
             this->scene->actorManager->player = player;
@@ -167,9 +167,9 @@ namespace Game {
                 }
             }
 
-            Services::Locator::WorldService()->GetWorld()->LoadMap(mapName);
+            Services::Locator::WorldService()->GetState()->LoadMap(mapName);
 
-            this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
+            this->currentMap = Services::Locator::WorldService()->GetState()->currentMap;
 
             this->scene->SetCurrentMap(this->currentMap);
             
@@ -197,9 +197,9 @@ namespace Game {
         }
 
         bool Map::UnloadMap() {
-            Services::Locator::WorldService()->GetWorld()->UnloadMap();
+            Services::Locator::WorldService()->GetState()->UnloadMap();
 
-            this->currentMap = Services::Locator::WorldService()->GetWorld()->currentMap;
+            this->currentMap = Services::Locator::WorldService()->GetState()->currentMap;
 
             this->scene->SetCurrentMap(this->currentMap);
 

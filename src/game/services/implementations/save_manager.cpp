@@ -29,7 +29,7 @@ namespace Game {
                 json saveData;
 
                 saveData["frameCount"] = Services::Locator::TimeService()->GetFrameCount();
-                saveData["world"] = Services::Locator::WorldService()->GetWorld()->AsJSON();
+                saveData["world"] = Services::Locator::WorldService()->GetState()->AsJSON();
 
                 saveFile << saveData.dump();
 

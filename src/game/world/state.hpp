@@ -1,21 +1,21 @@
-#ifndef SDL03_Game_Objects_World
-#define SDL03_Game_Objects_World
+#ifndef SDL03_Game_World_State
+#define SDL03_Game_World_State
 
 #include "../../../lib/nlohmann/json.hpp"
 
-#include "characters/party.hpp"
-#include "characters/player_character.hpp"
-#include "characters/monster.hpp"
-#include "maps/map.hpp"
+#include "../objects/characters/party.hpp"
+#include "../objects/characters/player_character.hpp"
+#include "../objects/characters/monster.hpp"
+#include "../objects/maps/map.hpp"
 
 using json = nlohmann::json;
 
 namespace Game {
-    namespace Objects {
-        class World : public Base {
+    namespace World {
+        class State {
         public:
-            World();
-            ~World();
+            State();
+            ~State();
             void SetStartingPlayerParty();
             void UnloadPlayerParty();
             // TODO: Make this take a mob list whenever I get around to making that a class.
@@ -30,6 +30,9 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int playerCurrentX;
             unsigned int playerCurrentY;
+
+        private:
+            std::shared_ptr<Log::Logger> logger;
         };
     }
 }

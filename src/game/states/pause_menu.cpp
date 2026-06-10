@@ -64,14 +64,14 @@ namespace Game {
         }
 
         Objects::Characters::Party PauseMenu::GetParty() {
-            return *Services::Locator::WorldService()->GetWorld()->playerParty;
+            return *Services::Locator::WorldService()->GetState()->playerParty;
         }
 
         std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> PauseMenu::GetPartyCharacters() {
             std::vector<std::shared_ptr<Objects::Characters::PlayerCharacter>> result;
 
-            std::transform(Services::Locator::WorldService()->GetWorld()->playerParty->characters.begin(),
-                           Services::Locator::WorldService()->GetWorld()->playerParty->characters.end(),
+            std::transform(Services::Locator::WorldService()->GetState()->playerParty->characters.begin(),
+                           Services::Locator::WorldService()->GetState()->playerParty->characters.end(),
                            std::back_inserter(result),
                            [](std::shared_ptr<Objects::Characters::Base> playerCharacter) {
                                return std::static_pointer_cast<Objects::Characters::PlayerCharacter>(playerCharacter);

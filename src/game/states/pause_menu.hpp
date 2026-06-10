@@ -7,7 +7,7 @@
 #include "../objects/characters/player_character.hpp"
 #include "../objects/items/consumable.hpp"
 #include "../objects/items/equippable.hpp"
-#include "../objects/world.hpp"
+#include "../world/state.hpp"
 
 namespace Game {
     namespace States {

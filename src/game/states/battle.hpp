@@ -8,7 +8,7 @@
 #include "../objects/characters/player_character.hpp"
 #include "../objects/characters/monster.hpp"
 #include "../objects/maps/map_encounter_area.hpp"
-#include "../objects/world.hpp"
+#include "../world/state.hpp"
 
 namespace Game {
     namespace States {
