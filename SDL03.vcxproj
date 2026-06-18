@@ -99,6 +99,7 @@
     <ClCompile Include="src\game\objects\maps\map_tile.cpp" />
     <ClCompile Include="src\game\objects\text.cpp" />
     <ClCompile Include="src\game\scenes\cutscenes\actions\set_flag.cpp" />
+    <ClCompile Include="src\game\world\condition_evaluator.cpp" />
     <ClCompile Include="src\game\world\flags.cpp" />
     <ClCompile Include="src\game\world\state.cpp" />
     <ClCompile Include="src\game\parsers\asset_list_parser.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp" />
     <ClInclude Include="src\game\objects\maps\map_tile.hpp" />
     <ClInclude Include="src\game\objects\text.hpp" />
+    <ClInclude Include="src\game\world\condition_evaluator.hpp" />
     <ClInclude Include="src\game\world\flags.hpp" />
     <ClInclude Include="src\game\world\state.hpp" />
     <ClInclude Include="src\game\parsers\asset_list_parser.hpp" />

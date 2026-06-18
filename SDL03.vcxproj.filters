@@ -465,6 +465,9 @@
     <ClCompile Include="src\game\scenes\cutscenes\actions\set_flag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\world\condition_evaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -966,6 +969,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scenes\cutscenes\actions\set_flag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\world\condition_evaluator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
