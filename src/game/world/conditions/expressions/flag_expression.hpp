@@ -12,7 +12,8 @@ namespace Game {
                 class FlagExpression : public Expression {
                 public:
                     FlagExpression(const std::string& key);
-                    virtual bool Evaluate();
+
+                    virtual bool Evaluate(const Contexts::Context& context);
                 private:
                     std::string key;
                 };

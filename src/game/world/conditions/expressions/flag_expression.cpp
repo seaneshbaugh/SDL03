@@ -9,8 +9,8 @@ namespace Game {
                  FlagExpression::FlagExpression(const std::string& key) : key(key) {
                  }
 
-                 bool FlagExpression::Evaluate() {
-                     return Services::Locator::WorldService()->GetState()->flags.Get(this->key, false);
+                 bool FlagExpression::Evaluate(const Contexts::Context& context) {
+                     return context.GetFlag(this->key);
                  }
 
             }

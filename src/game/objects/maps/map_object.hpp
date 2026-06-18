@@ -9,6 +9,7 @@
 #include "../base.hpp"
 #include "../../services/locator.hpp"
 #include "../../world/conditions/condition.hpp"
+#include "../../world/conditions/contexts/world_flag_context.hpp"
 
 namespace Game {
     namespace Objects {

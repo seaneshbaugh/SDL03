@@ -100,6 +100,8 @@
     <ClCompile Include="src\game\objects\text.cpp" />
     <ClCompile Include="src\game\scenes\cutscenes\actions\set_flag.cpp" />
     <ClCompile Include="src\game\world\conditions\condition.cpp" />
+    <ClCompile Include="src\game\world\conditions\contexts\context.cpp" />
+    <ClCompile Include="src\game\world\conditions\contexts\world_flag_context.cpp" />
     <ClCompile Include="src\game\world\conditions\expressions\expression.cpp" />
     <ClCompile Include="src\game\world\conditions\expressions\flag_expression.cpp" />
     <ClCompile Include="src\game\world\conditions\expressions\logical_expression.cpp" />
@@ -293,6 +295,8 @@
     <ClInclude Include="src\game\objects\maps\map_tile.hpp" />
     <ClInclude Include="src\game\objects\text.hpp" />
     <ClInclude Include="src\game\world\conditions\condition.hpp" />
+    <ClInclude Include="src\game\world\conditions\contexts\context.hpp" />
+    <ClInclude Include="src\game\world\conditions\contexts\world_flag_context.hpp" />
     <ClInclude Include="src\game\world\conditions\expressions\expression.hpp" />
     <ClInclude Include="src\game\world\conditions\expressions\flag_expression.hpp" />
     <ClInclude Include="src\game\world\conditions\expressions\logical_expression.hpp" />

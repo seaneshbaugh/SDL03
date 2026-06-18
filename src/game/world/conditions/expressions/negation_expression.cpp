@@ -13,12 +13,12 @@ namespace Game {
                     }
                 }
 
-                bool NegationExpression::Evaluate() {
+                bool NegationExpression::Evaluate(const Contexts::Context& context) {
                     if (this->operand == nullptr) {
                         return false;
                     }
 
-                    return !this->operand->Evaluate();
+                    return !this->operand->Evaluate(context);
                 }
             }
         }

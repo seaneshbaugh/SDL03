@@ -12,7 +12,7 @@ namespace Game {
                     NegationExpression(Expression* operand);
                     virtual ~NegationExpression();
 
-                    virtual bool Evaluate();
+                    virtual bool Evaluate(const Contexts::Context& context);
 
                 private:
                     Expression* operand;

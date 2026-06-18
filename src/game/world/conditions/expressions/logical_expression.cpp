@@ -17,15 +17,15 @@ namespace Game {
                     }
                 }
 
-                bool LogicalExpression::Evaluate() {
+                bool LogicalExpression::Evaluate(const Contexts::Context& context) {
                     if (this->left == nullptr || this->right == nullptr) {
                         return false;
                     }
 
                     if (this->operation == "&&") {
-                        return this->left->Evaluate() && this->right->Evaluate();
+                        return this->left->Evaluate(context) && this->right->Evaluate(context);
                     } else if (this->operation == "||") {
-                        return this->left->Evaluate() || this->right->Evaluate();
+                        return this->left->Evaluate(context) || this->right->Evaluate(context);
                     } else {
                         return false;
                     }
