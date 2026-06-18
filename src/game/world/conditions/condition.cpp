@@ -3,23 +3,24 @@
 namespace Game {
     namespace World {
         namespace Conditions {
-            Condition::Condition() {
+            Condition::Condition(const std::string& condition) : condition(condition) {
+                this->parser = new Parser(condition);
+                this->expression = this->parser->Expression();
             }
 
             Condition::~Condition() {
+                if (this->parser) {
+                    delete this->parser;
+                }
+
+                if (this->expression) {
+                    delete this->expression;
+                }
             }
 
-            bool Condition::Evaluate(const std::string& condition) {
-                Parser parser(condition);
-
-                Expressions::Expression* exp = parser.Expression();
-
-                if (exp) {
-                    bool result = exp->Evaluate();
-
-                    delete exp;
-
-                    return result;
+            bool Condition::Evaluate() {
+                if (this->expression) {
+                    return this->expression->Evaluate();
                 } else {
                     return false;
                 }

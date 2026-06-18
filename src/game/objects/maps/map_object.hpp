@@ -19,6 +19,7 @@ namespace Game {
                 int y;
                 int width;
                 int height;
+                std::unique_ptr<World::Conditions::Condition> condition;
 
                 MapObject();
                 virtual ~MapObject();
@@ -29,7 +30,7 @@ namespace Game {
                 std::string const GetProperty(const std::string& name) const;
                 std::string SetProperty(const std::string& name, const std::string& value);
                 std::map<std::string, std::string> SetProperties(const std::map<std::string, std::string>& properties);
-                bool IsConditionSatisfied();
+                bool IsConditionSatisfied() const;
 
             private:
                 std::string type;

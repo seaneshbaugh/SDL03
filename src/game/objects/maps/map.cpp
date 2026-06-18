@@ -337,6 +337,10 @@ namespace Game {
                     cutsceneTrigger->width = (*i)["width"].get<int>() / this->tilewidth;
                     cutsceneTrigger->height = (*i)["height"].get<int>() / this->tileheight;
 
+                    if (properties.find("condition") != properties.end()) {
+                        cutsceneTrigger->condition = std::make_unique<World::Conditions::Condition>(properties["condition"]);
+                    }
+
                     cutsceneTrigger->SetProperties(properties);
 
                     cutsceneTriggers.push_back(cutsceneTrigger);
@@ -370,6 +374,10 @@ namespace Game {
                     encounterArea->width = (*i)["width"].get<int>() / this->tilewidth;
                     encounterArea->height = (*i)["height"].get<int>() / this->tileheight;
 
+                    if (properties.find("condition") != properties.end()) {
+                        encounterArea->condition = std::make_unique<World::Conditions::Condition>(properties["condition"]);
+                    }
+
                     encounterArea->SetProperties(properties);
 
                     encounterAreas.push_back(encounterArea);
@@ -400,6 +408,10 @@ namespace Game {
                     loadPoint->y = (*i)["y"].get<int>() / this->tileheight;
                     loadPoint->width = (*i)["width"].get<int>() / this->tilewidth;
                     loadPoint->height = (*i)["height"].get<int>() / this->tileheight;
+
+                    if (properties.find("condition") != properties.end()) {
+                        loadPoint->condition = std::make_unique<World::Conditions::Condition>(properties["condition"]);
+                    }
 
                     loadPoint->SetProperties(properties);
 
@@ -434,6 +446,10 @@ namespace Game {
                     spawnPoint->y = (*i)["y"].get<int>() / this->tileheight;
                     spawnPoint->width = (*i)["width"].get<int>() / this->tilewidth;
                     spawnPoint->height = (*i)["height"].get<int>() / this->tileheight;
+
+                    if (properties.find("condition") != properties.end()) {
+                        spawnPoint->condition = std::make_unique<World::Conditions::Condition>(properties["condition"]);
+                    }
 
                     spawnPoint->SetProperties(properties);
 

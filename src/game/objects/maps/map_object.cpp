@@ -4,7 +4,7 @@
 namespace Game {
     namespace Objects {
         namespace Maps {
-            MapObject::MapObject() {
+            MapObject::MapObject() : condition(nullptr) {
             }
 
             MapObject::~MapObject() {
@@ -43,11 +43,9 @@ namespace Game {
                 return this->properties;
             }
 
-            bool MapObject::IsConditionSatisfied() {
-                auto it = this->properties.find("condition");
-
-                if (it != this->properties.end()) {
-                    return World::Conditions::Condition::Evaluate(it->second);
+            bool MapObject::IsConditionSatisfied() const {
+                if (this->condition) {
+                    return this->condition->Evaluate();
                 }
 
                 return true;

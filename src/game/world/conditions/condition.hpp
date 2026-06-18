@@ -10,9 +10,15 @@ namespace Game {
         namespace Conditions {
             class Condition {
             public:
-                Condition();
+                Condition(const std::string& condition);
                 ~Condition();
-                static bool Evaluate(const std::string& condition);
+
+                bool Evaluate();
+
+            private:
+                std::string condition;
+                Parser* parser;
+                Expressions::Expression* expression;
             };
         }
     }

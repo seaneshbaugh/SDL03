@@ -1,5 +1,4 @@
 #include "map.hpp"
-#include "../world/conditions/condition.hpp"
 
 namespace Game {
     namespace States {
@@ -30,24 +29,6 @@ namespace Game {
                     this->logger->error() << "Error in Lua spawn_npcs function: " << err.what();
                 }
             }
-
-            Services::Locator::WorldService()->GetState()->flags.Set("town.visited", true);
-             
-            Services::Locator::WorldService()->GetState()->flags.Set("town.burned", true);
-
-            Services::Locator::WorldService()->GetState()->flags.Set("town.blessed", true);
-
-            bool result = World::Conditions::Condition::Evaluate("(town.visited && !town.burned) || town.blessed");
-
-            this->logger->debug() << "(town.visited && !town.burned) || town.blessed = " << result;
-
-            result = World::Conditions::Condition::Evaluate("town.visited && !town.burned");
-
-            this->logger->debug() << "town.visited && !town.burned = " << result;
-
-            result = World::Conditions::Condition::Evaluate("(!!town.burned || town.blessed)");
-
-            this->logger->debug() << "(!!town.burned || town.blessed) = " << result;
 
             // TODO: This should all also probably be a function which is called by WorldManager::NewGame.
             std::shared_ptr<Scenes::Actor> player = this->scene->AddActor<Scenes::Controllers::PlayerController>("player", "Sean", Services::Locator::WorldService()->GetState()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetState()->playerCurrentX, Services::Locator::WorldService()->GetState()->playerCurrentY, Scenes::Actor::Direction::Down, "", "");
