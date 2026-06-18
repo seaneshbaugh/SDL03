@@ -1,5 +1,5 @@
 #include "map_object.hpp"
-#include "../../world/state.hpp"
+//#include "../../world/state.hpp"
 
 namespace Game {
     namespace Objects {
@@ -47,7 +47,7 @@ namespace Game {
                 auto it = this->properties.find("condition");
 
                 if (it != this->properties.end()) {
-                    return World::ConditionEvaluator::Evaluate(it->second);
+                    return World::Conditions::Condition::Evaluate(it->second);
                 }
 
                 return true;

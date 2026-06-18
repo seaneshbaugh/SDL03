@@ -1,5 +1,5 @@
 #include "map.hpp"
-#include "../world/condition_evaluator.hpp"
+#include "../world/conditions/condition.hpp"
 
 namespace Game {
     namespace States {
@@ -37,15 +37,15 @@ namespace Game {
 
             Services::Locator::WorldService()->GetState()->flags.Set("town.blessed", true);
 
-            bool result = World::ConditionEvaluator::Evaluate("(town.visited && !town.burned) || town.blessed");
+            bool result = World::Conditions::Condition::Evaluate("(town.visited && !town.burned) || town.blessed");
 
             this->logger->debug() << "(town.visited && !town.burned) || town.blessed = " << result;
 
-            result = World::ConditionEvaluator::Evaluate("town.visited && !town.burned");
+            result = World::Conditions::Condition::Evaluate("town.visited && !town.burned");
 
             this->logger->debug() << "town.visited && !town.burned = " << result;
 
-            result = World::ConditionEvaluator::Evaluate("(!!town.burned || town.blessed)");
+            result = World::Conditions::Condition::Evaluate("(!!town.burned || town.blessed)");
 
             this->logger->debug() << "(!!town.burned || town.blessed) = " << result;
 
