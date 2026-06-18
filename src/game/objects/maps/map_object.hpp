@@ -8,6 +8,7 @@
 
 #include "../base.hpp"
 #include "../../services/locator.hpp"
+#include "../../world/condition_evaluator.hpp"
 
 namespace Game {
     namespace Objects {

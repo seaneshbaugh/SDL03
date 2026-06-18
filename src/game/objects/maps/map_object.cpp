@@ -47,21 +47,7 @@ namespace Game {
                 auto it = this->properties.find("condition");
 
                 if (it != this->properties.end()) {
-                    std::string key = it->second;
-                    bool negate = false;
-
-                    if (key.starts_with("!")) {
-                        key.erase(0, 1);
-                        negate = true;
-                    }
-
-                    bool value = Services::Locator::WorldService()->GetState()->flags.Get(key, false);
-
-                    if (negate) {
-                        return !value;
-                    } else {
-                        return value;
-                    }
+                    return World::ConditionEvaluator::Evaluate(it->second);
                 }
 
                 return true;
