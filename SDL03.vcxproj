@@ -99,6 +99,8 @@
     <ClCompile Include="src\game\objects\maps\map_tile.cpp" />
     <ClCompile Include="src\game\objects\text.cpp" />
     <ClCompile Include="src\game\scenes\cutscenes\actions\set_flag.cpp" />
+    <ClCompile Include="src\game\scenes\dialogue\dialogue_profile.cpp" />
+    <ClCompile Include="src\game\scenes\dialogue\dialogue_selector.cpp" />
     <ClCompile Include="src\game\world\conditions\condition.cpp" />
     <ClCompile Include="src\game\world\conditions\contexts\context.cpp" />
     <ClCompile Include="src\game\world\conditions\contexts\world_flag_context.cpp" />
@@ -270,6 +272,8 @@
     <ClInclude Include="src\game\scenes\dialogue\dialogue_choice.hpp" />
     <ClInclude Include="src\game\scenes\dialogue\dialogue_graph.hpp" />
     <ClInclude Include="src\game\scenes\dialogue\dialogue_node.hpp" />
+    <ClInclude Include="src\game\scenes\dialogue\dialogue_profile.hpp" />
+    <ClInclude Include="src\game\scenes\dialogue\dialogue_selector.hpp" />
     <ClInclude Include="src\game\scenes\dialogue\dialogue_session.hpp" />
     <ClInclude Include="src\game\scenes\movement_command.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
@@ -364,9 +368,12 @@
     <None Include=".oclint" />
     <None Include="data\cutscenes\town01.json" />
     <None Include="data\dialogue\graphs\ginger.json" />
+    <None Include="data\dialogue\graphs\goblins.json" />
     <None Include="data\dialogue\graphs\hello_world.json" />
     <None Include="data\dialogue\graphs\help.json" />
-    <None Include="data\dialogue\nodes\hello_world.json" />
+    <None Include="data\dialogue\profiles\casie.json" />
+    <None Include="data\dialogue\profiles\guard.json" />
+    <None Include="data\dialogue\profiles\kyle.json" />
     <None Include="README.md" />
     <None Include="resources\asset_lists\battle_sounds.json" />
     <None Include="resources\asset_lists\battle_textures.json" />

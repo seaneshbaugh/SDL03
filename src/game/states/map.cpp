@@ -258,7 +258,7 @@ namespace Game {
             this->state = State::Cutscene;
         }
 
-        std::shared_ptr<Scenes::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+        std::shared_ptr<Scenes::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
             std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = this->currentMap->GetSpawnPoint(spawnPointName);
 
             if (!spawnPoint) {
@@ -267,7 +267,7 @@ namespace Game {
                 return nullptr;
             }
 
-            return this->scene->AddActor<Scenes::Controllers::ScriptedController>(id, name, spritesheetName, dialogueId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
+            return this->scene->AddActor<Scenes::Controllers::ScriptedController>(id, name, spritesheetName, dialogueProfileId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
         }
 
         void Map::LoadLuaState(const std::string& scriptFilePath) {

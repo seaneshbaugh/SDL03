@@ -1,0 +1,15 @@
+{
+  "start": "goblins",
+  "nodes": {
+    "goblins": {
+      "type": "text",
+      "text": "Goblins are mischievous creatures.",
+      "next": "help"
+    },
+    "help": {
+      "type": "text",
+      "text": "Can you help us get rid of the goblins?",
+      "next": null
+    }
+  }
+}

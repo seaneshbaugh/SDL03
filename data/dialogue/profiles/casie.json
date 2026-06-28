@@ -1,0 +1,11 @@
+{
+  "dialogues": [
+    {
+      "condition": "cutscenes.town01.complete",
+      "dialogueId": "goblins"
+    },
+    {
+      "dialogueId": "hello_world"
+    }
+  ]
+}

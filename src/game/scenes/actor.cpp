@@ -269,6 +269,14 @@ namespace Game {
             return step;
         }
 
+        std::string Actor::GetDialogueId() const {
+            if (!this->dialogueSelector) {
+                throw std::runtime_error("Attempted to get dialogue ID for actor without a dialogue selector.");
+            }
+
+            return this->dialogueSelector->SelectDialogue(World::Conditions::Contexts::WorldFlagContext());
+        }
+
         void Actor::QueueInteraction() {
             this->interactionQueued = true;
         }
@@ -421,7 +429,7 @@ namespace Game {
             scene.new_usertype<Actor>("Actor",
                                      sol::no_constructor,
                                      "name", &Actor::name,
-                                     "dialogueId", &Actor::dialogueId,
+                                     "get_dialogue_id", &Actor::GetDialogueId,
                                      "getCurrentTileX", &Actor::GetCurrentTileX,
                                      "getCurrentTileY", &Actor::GetCurrentTileY,
                                      "getOccupiedTileX", &Actor::GetOccupiedTileX,

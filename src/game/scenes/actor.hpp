@@ -11,12 +11,9 @@
 #include "../services/locator.hpp"
 #include "../objects/maps/map.hpp"
 #include "actor_appearance.hpp"
+#include "dialogue/dialogue_selector.hpp"
 
 namespace Game {
-    //namespace States {
-    //    class Map;
-    //}
-
     namespace Scenes {
         class Camera;
 
@@ -53,7 +50,7 @@ namespace Game {
 
             std::string id;
             std::string name;
-            std::string dialogueId;
+            std::unique_ptr<Dialogue::DialogueSelector> dialogueSelector;
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int animationFrame;
             float timeSinceLastAnimationFrame;
@@ -97,6 +94,8 @@ namespace Game {
 
             bool HasCompletedSteps() const;
             std::optional<CompletedStep> ConsumeCompletedStep();
+
+            std::string GetDialogueId() const;
 
             void QueueInteraction();
             bool PeekInteraction() const;
