@@ -95,7 +95,7 @@ namespace Game {
             bool HasCompletedSteps() const;
             std::optional<CompletedStep> ConsumeCompletedStep();
 
-            std::string GetDialogueId() const;
+            std::string SelectDialogueId() const;
 
             void QueueInteraction();
             bool PeekInteraction() const;
