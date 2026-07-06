@@ -2,7 +2,7 @@
 #define SDL03_Game_Scenes_Dialogue_Selector
 
 #include "dialogue_profile.hpp"
-#include "../../world/conditions/contexts/context.hpp"
+#include "../../world/conditions/evaluation_contexts/evaluation_context.hpp"
 
 namespace Game {
     namespace Scenes {
@@ -12,7 +12,7 @@ namespace Game {
                 DialogueSelector(const std::string& dialogueProfileId);
                 ~DialogueSelector();
 
-                std::string SelectDialogue(const World::Conditions::Contexts::Context& context);
+                std::string SelectDialogue(const World::Conditions::EvaluationContexts::EvaluationContext& context);
 
             private:
                 DialogueProfile dialogueProfile;

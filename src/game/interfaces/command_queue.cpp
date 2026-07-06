@@ -1,4 +1,5 @@
 #include "command_queue.hpp"
+#include "../scenes/actor.hpp"
 
 namespace Game {
     namespace Interfaces {
@@ -8,8 +9,8 @@ namespace Game {
 
         void CommandQueue::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
             luaState->new_usertype<States::StartDialogueCommand>("StartDialogueCommand",
-                                                                 sol::constructors<States::StartDialogueCommand(const std::string&)>(),
-                                                                 "dialogue_id", &States::StartDialogueCommand::dialogueId);
+                                                                 sol::constructors<States::StartDialogueCommand(Scenes::Actor*)>(),
+                                                                 "actor", &States::StartDialogueCommand::actor);
 
             luaState->new_usertype<States::StartCutsceneCommand>("StartCutsceneCommand",
                                                                  sol::constructors<States::StartCutsceneCommand(const std::string&)>(),

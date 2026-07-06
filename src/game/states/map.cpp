@@ -125,7 +125,7 @@ namespace Game {
                     if constexpr (std::is_same_v<T, LoadMapCommand>) {
                         this->LoadMap(cmd.mapName, cmd.startX, cmd.startY);
                     } else if constexpr (std::is_same_v<T, StartDialogueCommand>) {
-                        this->StartDialogue(cmd.dialogueId);
+                        this->StartDialogue(cmd.actor->SelectDialogueId(this->scene->GetWorldEvaluationContext()));
                     } else if constexpr (std::is_same_v<T, StartCutsceneCommand>) {
                         this->StartCutscene(cmd.cutsceneId);
                     }
@@ -146,14 +146,6 @@ namespace Game {
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
             if (this->state == State::Gameplay) {
-                //this->scene->actorManager->actors.erase(std::remove_if(this->scene->actorManager->actors.begin(), this->scene->actorManager->actors.end(), [](const std::shared_ptr<Scenes::Actor>& actor) {
-                //                       return !actor->IsPersistent();
-                //                   }),
-                //                   this->scene->actorManager->actors.end());
-
-                //std::erase_if(this->scene->actorManager->actorLookup, [](const auto& pair) {
-                //    return !pair.second->IsPersistent();
-                //});
                 std::vector<std::string> toRemove;
 
                 for (auto& actor : scene->actorManager->actors) {
@@ -312,8 +304,8 @@ namespace Game {
             sol::table states = (*luaState.get())["states"].get_or_create<sol::table>(sol::new_table());
 
             states.new_usertype<StartDialogueCommand>("StartDialogueCommand",
-                                                      sol::constructors<StartDialogueCommand(const std::string&)>(),
-                                                      "dialogue_id", &StartDialogueCommand::dialogueId
+                                                      sol::constructors<StartDialogueCommand(Scenes::Actor*)>(),
+                                                      "actor", &StartDialogueCommand::actor
                                                      );
 
             states.new_usertype<StartCutsceneCommand>("StartCutsceneCommand",

@@ -14,7 +14,7 @@ namespace Game {
                     LogicalExpression(const std::string& operation, Expression* left, Expression* right);
                     virtual ~LogicalExpression();
 
-                    virtual bool Evaluate(const Contexts::Context& context);
+                    virtual bool Evaluate(const EvaluationContexts::EvaluationContext& context) override;
 
                 private:
                     std::string operation;

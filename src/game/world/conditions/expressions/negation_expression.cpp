@@ -13,7 +13,7 @@ namespace Game {
                     }
                 }
 
-                bool NegationExpression::Evaluate(const Contexts::Context& context) {
+                bool NegationExpression::Evaluate(const EvaluationContexts::EvaluationContext& context) {
                     if (this->operand == nullptr) {
                         return false;
                     }

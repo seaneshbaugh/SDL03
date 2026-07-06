@@ -17,7 +17,7 @@ namespace Game {
                     }
                 }
 
-                bool LogicalExpression::Evaluate(const Contexts::Context& context) {
+                bool LogicalExpression::Evaluate(const EvaluationContexts::EvaluationContext& context) {
                     if (this->left == nullptr || this->right == nullptr) {
                         return false;
                     }

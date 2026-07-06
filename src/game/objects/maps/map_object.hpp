@@ -9,7 +9,7 @@
 #include "../base.hpp"
 #include "../../services/locator.hpp"
 #include "../../world/conditions/condition.hpp"
-#include "../../world/conditions/contexts/world_flag_context.hpp"
+#include "../../world/conditions/evaluation_contexts/evaluation_context.hpp"
 
 namespace Game {
     namespace Objects {
@@ -31,7 +31,7 @@ namespace Game {
                 std::string const GetProperty(const std::string& name) const;
                 std::string SetProperty(const std::string& name, const std::string& value);
                 std::map<std::string, std::string> SetProperties(const std::map<std::string, std::string>& properties);
-                bool IsConditionSatisfied() const;
+                bool IsConditionSatisfied(const World::Conditions::EvaluationContexts::EvaluationContext& context) const;
 
             private:
                 std::string type;

@@ -9,7 +9,7 @@ namespace Game {
             DialogueSelector::~DialogueSelector() {
             }
 
-            std::string DialogueSelector::SelectDialogue(const World::Conditions::Contexts::Context& context) {
+            std::string DialogueSelector::SelectDialogue(const World::Conditions::EvaluationContexts::EvaluationContext& context) {
                 for (const auto& entry : this->dialogueProfile.entries) {
                     if (!entry.condition) {
                         return entry.dialogueId;
@@ -20,7 +20,7 @@ namespace Game {
                     }
                 }
 
-                // Make this return an optional?
+                // TODO: Make this return an optional?
                 return "";
             }
         }

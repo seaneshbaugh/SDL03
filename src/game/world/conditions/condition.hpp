@@ -4,7 +4,7 @@
 #include <string>
 
 #include "parser.hpp"
-#include "contexts/context.hpp"
+#include "evaluation_contexts/evaluation_context.hpp"
 
 namespace Game {
     namespace World {
@@ -14,7 +14,7 @@ namespace Game {
                 Condition(const std::string& condition);
                 ~Condition();
 
-                bool Evaluate(const Contexts::Context& context);
+                bool Evaluate(const EvaluationContexts::EvaluationContext& context);
 
             private:
                 std::string condition;

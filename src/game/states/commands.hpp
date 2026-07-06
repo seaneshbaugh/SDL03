@@ -1,10 +1,15 @@
 #ifndef SDL03_Game_States_Commands
 #define SDL03_Game_States_Commands
 
+#include <memory>
 #include <string>
 #include <variant>
 
 namespace Game {
+    namespace Scenes {
+        class Actor;
+    }
+
     namespace States {
         struct LoadMapCommand {
             std::string mapName;
@@ -13,7 +18,7 @@ namespace Game {
         };
 
         struct StartDialogueCommand {
-            std::string dialogueId;
+            Scenes::Actor* actor;
         };
 
         struct StartCutsceneCommand {

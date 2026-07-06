@@ -486,10 +486,10 @@
     <ClCompile Include="src\game\world\conditions\tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\world\conditions\contexts\context.cpp">
+    <ClCompile Include="src\game\world\conditions\evaluation_contexts\evaluation_context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\world\conditions\contexts\world_flag_context.cpp">
+    <ClCompile Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scenes\dialogue\dialogue_profile.cpp">
@@ -1022,10 +1022,10 @@
     <ClInclude Include="src\game\world\conditions\tokenizer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\world\conditions\contexts\context.hpp">
+    <ClInclude Include="src\game\world\conditions\evaluation_contexts\evaluation_context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\world\conditions\contexts\world_flag_context.hpp">
+    <ClInclude Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scenes\dialogue\dialogue_profile.hpp">

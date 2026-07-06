@@ -18,7 +18,7 @@ namespace Game {
                 }
             }
 
-            bool Condition::Evaluate(const Contexts::Context& context) {
+            bool Condition::Evaluate(const EvaluationContexts::EvaluationContext& context) {
                 if (this->expression) {
                     return this->expression->Evaluate(context);
                 } else {

@@ -102,8 +102,8 @@
     <ClCompile Include="src\game\scenes\dialogue\dialogue_profile.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_selector.cpp" />
     <ClCompile Include="src\game\world\conditions\condition.cpp" />
-    <ClCompile Include="src\game\world\conditions\contexts\context.cpp" />
-    <ClCompile Include="src\game\world\conditions\contexts\world_flag_context.cpp" />
+    <ClCompile Include="src\game\world\conditions\evaluation_contexts\evaluation_context.cpp" />
+    <ClCompile Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.cpp" />
     <ClCompile Include="src\game\world\conditions\expressions\expression.cpp" />
     <ClCompile Include="src\game\world\conditions\expressions\flag_expression.cpp" />
     <ClCompile Include="src\game\world\conditions\expressions\logical_expression.cpp" />
@@ -299,8 +299,8 @@
     <ClInclude Include="src\game\objects\maps\map_tile.hpp" />
     <ClInclude Include="src\game\objects\text.hpp" />
     <ClInclude Include="src\game\world\conditions\condition.hpp" />
-    <ClInclude Include="src\game\world\conditions\contexts\context.hpp" />
-    <ClInclude Include="src\game\world\conditions\contexts\world_flag_context.hpp" />
+    <ClInclude Include="src\game\world\conditions\evaluation_contexts\evaluation_context.hpp" />
+    <ClInclude Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.hpp" />
     <ClInclude Include="src\game\world\conditions\expressions\expression.hpp" />
     <ClInclude Include="src\game\world\conditions\expressions\flag_expression.hpp" />
     <ClInclude Include="src\game\world\conditions\expressions\logical_expression.hpp" />

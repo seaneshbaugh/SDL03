@@ -13,7 +13,7 @@ namespace Game {
                 public:
                     FlagExpression(const std::string& key);
 
-                    virtual bool Evaluate(const Contexts::Context& context);
+                    virtual bool Evaluate(const EvaluationContexts::EvaluationContext& context) override;
                 private:
                     std::string key;
                 };

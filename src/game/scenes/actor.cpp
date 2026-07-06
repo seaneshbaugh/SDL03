@@ -269,12 +269,12 @@ namespace Game {
             return step;
         }
 
-        std::string Actor::SelectDialogueId() const {
+        std::string Actor::SelectDialogueId(const World::Conditions::EvaluationContexts::EvaluationContext& context) const {
             if (!this->dialogueSelector) {
                 throw std::runtime_error("Attempted to get dialogue ID for actor without a dialogue selector.");
             }
 
-            return this->dialogueSelector->SelectDialogue(World::Conditions::Contexts::WorldFlagContext());
+            return this->dialogueSelector->SelectDialogue(context);
         }
 
         void Actor::QueueInteraction() {

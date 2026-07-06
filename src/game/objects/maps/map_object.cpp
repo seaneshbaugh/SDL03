@@ -43,9 +43,9 @@ namespace Game {
                 return this->properties;
             }
 
-            bool MapObject::IsConditionSatisfied() const {
+            bool MapObject::IsConditionSatisfied(const World::Conditions::EvaluationContexts::EvaluationContext& context) const {
                 if (this->condition) {
-                    return this->condition->Evaluate(World::Conditions::Contexts::WorldFlagContext());
+                    return this->condition->Evaluate(context);
                 }
 
                 return true;

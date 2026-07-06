@@ -6,12 +6,9 @@
 #include "controllers/cutscene_controller.hpp"
 #include "controllers/player_controller.hpp"
 #include "controllers/scripted_controller.hpp"
+#include "../world/conditions/evaluation_contexts/world_evaluation_context.hpp"
 
 namespace Game {
-    //namespace States {
-    //    class Map;
-    //}
-
     namespace Scenes {
         class Scene {
         public:
@@ -38,6 +35,9 @@ namespace Game {
             void PathfindActor(const std::string& actorId, const int targetX, const int targetY);
             void PathfindActor(Actor* actor, const int targetX, const int targetY);
             bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
+
+            World::Conditions::EvaluationContexts::WorldEvaluationContext& GetWorldEvaluationContext() const;
+
         private:
             static const std::string logChannel;
 
@@ -45,6 +45,7 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> currentMap;
             std::unordered_map<std::string, std::unique_ptr<Controllers::ActorController>> actorControllers;
             std::unique_ptr<Pathfinder> pathfinder;
+            std::unique_ptr<World::Conditions::EvaluationContexts::WorldEvaluationContext> worldEvaluationContext;
 
             void EnqueueMovement(const float deltaTime);
             void ProcessCompletedSteps();

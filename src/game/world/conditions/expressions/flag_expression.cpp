@@ -9,7 +9,7 @@ namespace Game {
                  FlagExpression::FlagExpression(const std::string& key) : key(key) {
                  }
 
-                 bool FlagExpression::Evaluate(const Contexts::Context& context) {
+                 bool FlagExpression::Evaluate(const EvaluationContexts::EvaluationContext& context) {
                      return context.GetFlag(this->key);
                  }
 

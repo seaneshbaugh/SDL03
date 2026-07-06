@@ -10,6 +10,7 @@ namespace Game {
             this->actorManager = std::make_shared<ActorManager>(this);
             this->camera = std::make_shared<Scenes::Camera>(0.0f, 0.0f, static_cast<float>(Services::Locator::VideoService()->GetScreenWidth()), static_cast<float>(Services::Locator::VideoService()->GetScreenHeight()));
             this->pathfinder = std::make_unique<Pathfinder>(this);
+            this->worldEvaluationContext = std::make_unique<World::Conditions::EvaluationContexts::WorldEvaluationContext>();
         }
 
         Scene::~Scene() {
@@ -255,7 +256,7 @@ namespace Game {
             auto objects = this->currentMap->GetObjects(x, y);
 
             for (auto object = objects.begin(); object != objects.end(); object++) {
-                if (!(*object)->IsConditionSatisfied()) {
+                if (!(*object)->IsConditionSatisfied(*(this->worldEvaluationContext.get()))) {
                     continue;
                 }
 
@@ -281,6 +282,10 @@ namespace Game {
                     break;
                 }
             }
+        }
+
+        World::Conditions::EvaluationContexts::WorldEvaluationContext& Scene::GetWorldEvaluationContext() const {
+            return *(this->worldEvaluationContext.get());
         }
     }
 }

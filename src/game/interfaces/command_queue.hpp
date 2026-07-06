@@ -12,6 +12,7 @@
 // states. But if anything other than a state needs this interface then I'll for
 // sure want to refactor this.
 #include "../states/commands.hpp"
+//#include "../scenes/actor.hpp"
 
 namespace Game {
     namespace Interfaces {
