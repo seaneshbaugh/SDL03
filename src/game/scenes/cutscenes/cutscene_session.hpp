@@ -4,6 +4,7 @@
 #include <string>
 
 #include "cutscene.hpp"
+#include "../../actions/action_runner.hpp"
 
 namespace Game {
     namespace Scenes {
@@ -18,9 +19,7 @@ namespace Game {
 
             private:
                 std::shared_ptr<Cutscene> currentCutscene;
-                std::queue<std::shared_ptr<Actions::Base>> actions;
-                std::shared_ptr<Actions::Base> currentAction;
-                bool completed;
+                Actions::ActionRunner actionRunner;
             };
         }
     }

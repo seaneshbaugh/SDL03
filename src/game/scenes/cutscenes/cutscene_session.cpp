@@ -3,7 +3,7 @@
 namespace Game {
     namespace Scenes {
         namespace Cutscenes {
-            CutsceneSession::CutsceneSession() : currentCutscene(nullptr), completed(false) {
+            CutsceneSession::CutsceneSession() : currentCutscene(nullptr) {
             }
 
             CutsceneSession::~CutsceneSession() {
@@ -11,38 +11,16 @@ namespace Game {
 
             void CutsceneSession::Start(std::shared_ptr<Cutscene> cutscene) {
                 this->currentCutscene = cutscene;
-                this->actions = std::queue<std::shared_ptr<Actions::Base>>();
-                this->currentAction = nullptr;
-                this->completed = false;
 
-                for (auto& action : cutscene->actions) {
-                    this->actions.push(action);
-                }
+                this->actionRunner.Start(cutscene->actions);
             }
 
             void CutsceneSession::Update(const float deltaTime) {
-                if (!this->currentAction) {
-                    if (this->actions.empty()) {
-                        this->completed = true;
-
-                        return;
-                    } else {
-                        this->currentAction = this->actions.front();
-                        this->actions.pop();
-
-                        this->currentAction->Start();
-                    }
-                }
-
-                currentAction->Update(deltaTime);
-
-                if (this->currentAction->IsCompleted()) {
-                    this->currentAction = nullptr;
-                }
+                this->actionRunner.Update(deltaTime);
             }
 
             bool CutsceneSession::IsCompleted() const {
-                return this->completed;
+                return this->actionRunner.IsCompleted();
             }
         }
     }

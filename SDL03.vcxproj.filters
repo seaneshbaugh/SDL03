@@ -501,6 +501,9 @@
     <ClCompile Include="src\game\actions\action_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\actions\action_runner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -1038,6 +1041,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\actions\action_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\actions\action_runner.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
