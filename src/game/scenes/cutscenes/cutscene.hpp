@@ -6,19 +6,11 @@
 #include "../../services/locator.hpp"
 #include "../scene.hpp"
 #include "../../interfaces/dialogue_manager.hpp"
-#include "actions/add_actor.hpp"
-#include "actions/animate_actor.hpp"
-#include "actions/dialogue.hpp"
-#include "actions/face_actor.hpp"
-#include "actions/move_actor.hpp"
-#include "actions/parallel.hpp"
-#include "actions/pathfind_actor.hpp"
-#include "actions/remove_actor.hpp"
-#include "actions/sequence.hpp"
-#include "actions/set_flag.hpp"
-#include "actions/wait.hpp"
+#include "../../actions/action_parser.hpp"
 #include "../../objects/maps/spawn_point.hpp"
 #include "../../../helpers/file_system.hpp"
+
+using json = nlohmann::json;
 
 namespace Game {
     namespace States {
@@ -33,11 +25,11 @@ namespace Game {
                 ~Cutscene();
                 bool Load(const std::string& cutsceneId);
 
+                Scenes::Scene* scene;
+                Interfaces::DialogueManager* dialogueManager;
                 std::vector<std::shared_ptr<Actions::Base>> actions;
 
             private:
-                Scenes::Scene* scene;
-                Interfaces::DialogueManager* dialogueManager;
                 std::string cutsceneId;
 
                 bool ParseFile(const std::string& jsonString);

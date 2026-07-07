@@ -384,13 +384,13 @@
     <ClCompile Include="src\game\scenes\dialogue\dialogue_choice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\base.cpp">
+    <ClCompile Include="src\game\actions\base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scenes\cutscenes\cutscene_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\move_actor.cpp">
+    <ClCompile Include="src\game\actions\move_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scenes\cutscenes\cutscene.cpp">
@@ -399,34 +399,34 @@
     <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\wait.cpp">
+    <ClCompile Include="src\game\actions\wait.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\dialogue.cpp">
+    <ClCompile Include="src\game\actions\dialogue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\add_actor.cpp">
+    <ClCompile Include="src\game\actions\add_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\parallel.cpp">
+    <ClCompile Include="src\game\actions\parallel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\sequence.cpp">
+    <ClCompile Include="src\game\actions\sequence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\remove_actor.cpp">
+    <ClCompile Include="src\game\actions\remove_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\pathfind_actor.cpp">
+    <ClCompile Include="src\game\actions\pathfind_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\face_actor.cpp">
+    <ClCompile Include="src\game\actions\face_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\animate_actor.cpp">
+    <ClCompile Include="src\game\actions\animate_actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scenes\actor_manager.cpp">
@@ -462,7 +462,7 @@
     <ClCompile Include="src\game\world\flags.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\cutscenes\actions\set_flag.cpp">
+    <ClCompile Include="src\game\actions\set_flag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\world\conditions\condition.cpp">
@@ -496,6 +496,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\scenes\dialogue\dialogue_selector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\actions\action_parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -917,10 +920,10 @@
     <ClInclude Include="src\game\scenes\dialogue\dialogue_choice.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\base.hpp">
+    <ClInclude Include="src\game\actions\base.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\move_actor.hpp">
+    <ClInclude Include="src\game\actions\move_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scenes\cutscenes\cutscene_session.hpp">
@@ -932,34 +935,34 @@
     <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\wait.hpp">
+    <ClInclude Include="src\game\actions\wait.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\dialogue.hpp">
+    <ClInclude Include="src\game\actions\dialogue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\add_actor.hpp">
+    <ClInclude Include="src\game\actions\add_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\parallel.hpp">
+    <ClInclude Include="src\game\actions\parallel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\sequence.hpp">
+    <ClInclude Include="src\game\actions\sequence.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\remove_actor.hpp">
+    <ClInclude Include="src\game\actions\remove_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\pathfind_actor.hpp">
+    <ClInclude Include="src\game\actions\pathfind_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\face_actor.hpp">
+    <ClInclude Include="src\game\actions\face_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\animate_actor.hpp">
+    <ClInclude Include="src\game\actions\animate_actor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scenes\actor_manager.hpp">
@@ -998,7 +1001,7 @@
     <ClInclude Include="src\game\world\flags.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\cutscenes\actions\set_flag.hpp">
+    <ClInclude Include="src\game\actions\set_flag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\world\conditions\condition.hpp">
@@ -1032,6 +1035,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\scenes\dialogue\dialogue_selector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\actions\action_parser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
