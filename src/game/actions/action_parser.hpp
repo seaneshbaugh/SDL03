@@ -19,10 +19,8 @@
 using json = nlohmann::json;
 
 namespace Game {
-    namespace Scenes {
-        namespace Cutscenes {
-            class Cutscene;
-        }
+    namespace Scripts {
+        class Script;
     }
 
     namespace Actions {
@@ -30,10 +28,10 @@ namespace Game {
         public:
             ActionParser();
             ~ActionParser();
-            std::shared_ptr<Actions::Base> ParseAction(const json& node, Scenes::Cutscenes::Cutscene* cutscene);
+            std::shared_ptr<Actions::Base> ParseAction(const json& node, Scripts::Script* script);
 
         private:
-            using ActionFactory = std::function<std::shared_ptr<Actions::Base>(const json& node, Scenes::Cutscenes::Cutscene* cutscene)>;
+            using ActionFactory = std::function<std::shared_ptr<Actions::Base>(const json& node, Scripts::Script* script)>;
 
             static const std::string logChannel;
 

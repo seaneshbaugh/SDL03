@@ -50,8 +50,8 @@ namespace Game {
                 return this->UpdateGameplay(deltaTime);
             case State::Dialogue:
                 return this->UpdateDialogue(deltaTime);
-            case State::Cutscene:
-                return this->UpdateCutscene(deltaTime);
+            case State::Script:
+                return this->UpdateScript(deltaTime);
             default:
                 return Transition::Pop();
             }
@@ -93,12 +93,12 @@ namespace Game {
             return Transition::None();
         }
 
-        Transition Map::UpdateCutscene(const float deltaTime) {
-            this->cutsceneSession.Update(deltaTime);
+        Transition Map::UpdateScript(const float deltaTime) {
+            this->scriptRunner.Update(deltaTime);
 
             this->scene->Update(deltaTime);
 
-            if (this->cutsceneSession.IsCompleted()) {
+            if (this->scriptRunner.IsCompleted()) {
                 this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::PlayerController>(this->scene->actorManager->player.get()));
 
                 this->state = State::Gameplay;
@@ -126,8 +126,8 @@ namespace Game {
                         this->LoadMap(cmd.mapName, cmd.startX, cmd.startY);
                     } else if constexpr (std::is_same_v<T, StartDialogueCommand>) {
                         this->StartDialogue(cmd.actor->SelectDialogueId(this->scene->GetWorldEvaluationContext()));
-                    } else if constexpr (std::is_same_v<T, StartCutsceneCommand>) {
-                        this->StartCutscene(cmd.cutsceneId);
+                    } else if constexpr (std::is_same_v<T, StartScriptCommand>) {
+                        this->StartScript(cmd.scriptId);
                     }
                 },
                 command);
@@ -235,19 +235,19 @@ namespace Game {
             this->state = State::Dialogue;
         }
 
-        void Map::StartCutscene(const std::string& cutsceneId) {
-            this->logger->debug() << "Starting cutscene with ID \"" << cutsceneId << "\".";
+        void Map::StartScript(const std::string& scriptId) {
+            this->logger->debug() << "Starting script with ID \"" << scriptId << "\".";
 
             this->scene->actorManager->player->ClearPendingMovement();
 
             this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::CutsceneController>(this->scene->actorManager->player.get()));
 
-            std::shared_ptr<Scenes::Cutscenes::Cutscene> cutscene = std::make_shared<Scenes::Cutscenes::Cutscene>(this->scene.get(), this, cutsceneId);
+            std::shared_ptr<Scripts::Script> script = std::make_shared<Scripts::Script>(this->scene.get(), this, scriptId);
 
-            this->cutsceneSession.Start(cutscene);
+            this->scriptRunner.Start(script);
 
             this->previousState = this->state;
-            this->state = State::Cutscene;
+            this->state = State::Script;
         }
 
         std::shared_ptr<Scenes::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
@@ -308,16 +308,16 @@ namespace Game {
                                                       "actor", &StartDialogueCommand::actor
                                                      );
 
-            states.new_usertype<StartCutsceneCommand>("StartCutsceneCommand",
-                                                      sol::constructors<StartCutsceneCommand(const std::string&)>(),
-                                                      "cutscene_id", &StartCutsceneCommand::cutsceneId
-                                                     );
+            states.new_usertype<StartScriptCommand>("StartScriptCommand",
+                                                    sol::constructors<StartScriptCommand(const std::string&)>(),
+                                                    "script_id", &StartScriptCommand::scriptId
+                                                   );
 
             states.new_usertype<Map>("Map",
                                      sol::no_constructor,
                                      "queue_command", &Map::QueueCommand,
                                      "add_actor_at_spawn_point", &Map::AddActorAtSpawnPoint
-                                     );
+                                    );
         }
     }
 }

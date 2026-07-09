@@ -21,14 +21,14 @@ namespace Game {
             Scenes::Actor* actor;
         };
 
-        struct StartCutsceneCommand {
-            std::string cutsceneId;
+        struct StartScriptCommand {
+            std::string scriptId;
         };
 
         using StateCommand = std::variant<
             LoadMapCommand,
             StartDialogueCommand,
-            StartCutsceneCommand
+            StartScriptCommand
         >;
     }
 }

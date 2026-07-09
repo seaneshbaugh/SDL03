@@ -338,7 +338,7 @@
         {
          "draworder":"topdown",
          "id":5,
-         "name":"cutscene_triggers",
+         "name":"script_triggers",
          "objects":[
                 {
                  "height":32,
@@ -352,7 +352,7 @@
                          "value":"!cutscenes.town01.complete"
                         }, 
                         {
-                         "name":"cutsceneId",
+                         "name":"scriptId",
                          "type":"string",
                          "value":"town01"
                         }],

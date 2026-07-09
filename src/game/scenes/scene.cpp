@@ -272,12 +272,12 @@ namespace Game {
                     break;
                 }
 
-                Objects::Maps::CutsceneTrigger* cutsceneTrigger = dynamic_cast<Objects::Maps::CutsceneTrigger*>(object->get());
+                Objects::Maps::ScriptTrigger* scriptTrigger = dynamic_cast<Objects::Maps::ScriptTrigger*>(object->get());
 
-                if (cutsceneTrigger) {
-                    this->logger->debug() << "Player stepped on a cutscene trigger with cutscene ID \"" << cutsceneTrigger->GetCutsceneId() << "\".";
+                if (scriptTrigger) {
+                    this->logger->debug() << "Player stepped on a script trigger with script ID \"" << scriptTrigger->GetScriptId() << "\".";
 
-                    this->commandQueue->QueueCommand(States::StartCutsceneCommand{cutsceneTrigger->GetCutsceneId()});
+                    this->commandQueue->QueueCommand(States::StartScriptCommand{scriptTrigger->GetScriptId()});
 
                     break;
                 }

@@ -17,7 +17,7 @@
 #include "map_object.hpp"
 #include "map_layer.hpp"
 #include "map_tile.hpp"
-#include "cutscene_trigger.hpp"
+#include "script_trigger.hpp"
 #include "map_encounter_area.hpp"
 #include "map_load_point.hpp"
 #include "map_start_point.hpp"
@@ -80,7 +80,7 @@ namespace Game {
                     std::shared_ptr<MapLayer> ParseLayer(const json& node);
                     void ParseLayerData(const json& node, std::shared_ptr<MapLayer> layer);
                     void ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer);
-                    std::vector<std::shared_ptr<CutsceneTrigger>> ParseCutsceneTriggers(const json& node);
+                    std::vector<std::shared_ptr<ScriptTrigger>> ParseScriptTriggers(const json& node);
                     std::vector<std::shared_ptr<MapEncounterArea>> ParseEncounterAreas(const json& node);
                     std::vector<std::shared_ptr<MapLoadPoint>> ParseLoadPoints(const json& node);
                     std::vector<std::shared_ptr<SpawnPoint>> ParseSpawnPoints(const json& node);

@@ -67,7 +67,7 @@
     <ClCompile Include="src\game\input\input_state.cpp" />
     <ClCompile Include="src\game\interfaces\command_queue.cpp" />
     <ClCompile Include="src\game\interfaces\dialogue_manager.cpp" />
-    <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp" />
+    <ClCompile Include="src\game\objects\maps\script_trigger.cpp" />
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp" />
     <ClCompile Include="src\game\scenes\actor_appearance.cpp" />
     <ClCompile Include="src\game\scenes\actor_manager.cpp" />
@@ -103,6 +103,13 @@
     <ClCompile Include="src\game\actions\set_flag.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_profile.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_selector.cpp" />
+    <ClCompile Include="src\game\scripts\script.cpp" />
+    <ClCompile Include="src\game\scripts\script_node.cpp" />
+    <ClCompile Include="src\game\scripts\script_runner.cpp" />
+    <ClCompile Include="src\game\scripts\steps\action_step.cpp" />
+    <ClCompile Include="src\game\scripts\steps\choice_step.cpp" />
+    <ClCompile Include="src\game\scripts\steps\dialogue_step.cpp" />
+    <ClCompile Include="src\game\scripts\steps\script_step.cpp" />
     <ClCompile Include="src\game\world\conditions\condition.cpp" />
     <ClCompile Include="src\game\world\conditions\evaluation_contexts\evaluation_context.cpp" />
     <ClCompile Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.cpp" />
@@ -242,7 +249,7 @@
     <ClInclude Include="src\game\input\input_state.hpp" />
     <ClInclude Include="src\game\interfaces\command_queue.hpp" />
     <ClInclude Include="src\game\interfaces\dialogue_manager.hpp" />
-    <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp" />
+    <ClInclude Include="src\game\objects\maps\script_trigger.hpp" />
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp" />
     <ClInclude Include="src\game\scenes\actor_appearance.hpp" />
     <ClInclude Include="src\game\scenes\actor_manager.hpp" />
@@ -302,6 +309,13 @@
     <ClInclude Include="src\game\objects\maps\map_start_point.hpp" />
     <ClInclude Include="src\game\objects\maps\map_tile.hpp" />
     <ClInclude Include="src\game\objects\text.hpp" />
+    <ClInclude Include="src\game\scripts\script.hpp" />
+    <ClInclude Include="src\game\scripts\script_node.hpp" />
+    <ClInclude Include="src\game\scripts\script_runner.hpp" />
+    <ClInclude Include="src\game\scripts\steps\action_step.hpp" />
+    <ClInclude Include="src\game\scripts\steps\choice_step.hpp" />
+    <ClInclude Include="src\game\scripts\steps\dialogue_step.hpp" />
+    <ClInclude Include="src\game\scripts\steps\script_step.hpp" />
     <ClInclude Include="src\game\world\conditions\condition.hpp" />
     <ClInclude Include="src\game\world\conditions\evaluation_contexts\evaluation_context.hpp" />
     <ClInclude Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.hpp" />

@@ -396,7 +396,7 @@
     <ClCompile Include="src\game\scenes\cutscenes\cutscene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\objects\maps\cutscene_trigger.cpp">
+    <ClCompile Include="src\game\objects\maps\script_trigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\actions\wait.cpp">
@@ -502,6 +502,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\actions\action_runner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\script.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\script_runner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\script_node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\steps\script_step.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\steps\dialogue_step.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\steps\action_step.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\steps\choice_step.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -935,7 +956,7 @@
     <ClInclude Include="src\game\scenes\cutscenes\cutscene.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\objects\maps\cutscene_trigger.hpp">
+    <ClInclude Include="src\game\objects\maps\script_trigger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\actions\wait.hpp">
@@ -1044,6 +1065,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\actions\action_runner.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\script.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\script_runner.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\script_node.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\steps\script_step.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\steps\dialogue_step.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\steps\action_step.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\steps\choice_step.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

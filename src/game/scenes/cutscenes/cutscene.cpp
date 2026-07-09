@@ -1,5 +1,5 @@
 #include "cutscene.hpp"
-#include "../../states/map.hpp"
+//#include "../../states/map.hpp"
 
 namespace Game {
     namespace Scenes {
@@ -45,19 +45,19 @@ namespace Game {
             }
 
             void Cutscene::Parser::Parse(const std::string& jsonString, Cutscene* cutscene) {
-                json cutsceneJson = json::parse(jsonString);
+                //json cutsceneJson = json::parse(jsonString);
 
-                json actionsNode = cutsceneJson["actions"];
+                //json actionsNode = cutsceneJson["actions"];
 
-                Actions::ActionParser actionParser;
+                //Actions::ActionParser actionParser;
 
-                for (json::iterator actionNode = actionsNode.begin(); actionNode != actionsNode.end(); ++actionNode) {
-                    std::shared_ptr<Actions::Base> action = actionParser.ParseAction(*actionNode, cutscene);
+                //for (json::iterator actionNode = actionsNode.begin(); actionNode != actionsNode.end(); ++actionNode) {
+                //    std::shared_ptr<Actions::Base> action = actionParser.ParseAction(*actionNode, cutscene);
 
-                    if (action) {
-                        cutscene->actions.push_back(action);
-                    }
-                }
+                //    if (action) {
+                //        cutscene->actions.push_back(action);
+                //    }
+                //}
             }
         }
     }

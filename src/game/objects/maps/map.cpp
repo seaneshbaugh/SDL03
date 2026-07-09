@@ -278,12 +278,12 @@ namespace Game {
             // (which should really layer type as some sort of enum) and a parsing function. This
             // works for now.
             void Map::Parser::ParseLayerObjects(const json& node, std::shared_ptr<MapLayer> layer) {
-                if (layer->name == "cutscene_triggers") {
-                    this->logger->debug() << "Parsing cutscene trigger layer objects.";
+                if (layer->name == "script_triggers") {
+                    this->logger->debug() << "Parsing script trigger layer objects.";
 
-                    std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers = this->ParseCutsceneTriggers(node);
+                    std::vector<std::shared_ptr<ScriptTrigger>> scriptTriggers = this->ParseScriptTriggers(node);
 
-                    layer->objects.insert(layer->objects.end(), cutsceneTriggers.begin(), cutsceneTriggers.end());
+                    layer->objects.insert(layer->objects.end(), scriptTriggers.begin(), scriptTriggers.end());
                 } else if (layer->name == "encounter_areas") {
                     this->logger->debug() << "Parsing encounter area layer objects.";
 
@@ -314,11 +314,11 @@ namespace Game {
                 }
             }
 
-            std::vector<std::shared_ptr<CutsceneTrigger>> Map::Parser::ParseCutsceneTriggers(const json& node) {
-                std::vector<std::shared_ptr<CutsceneTrigger>> cutsceneTriggers;
+            std::vector<std::shared_ptr<ScriptTrigger>> Map::Parser::ParseScriptTriggers(const json& node) {
+                std::vector<std::shared_ptr<ScriptTrigger>> scriptTriggers;
 
                 for (auto i = node.begin(); i != node.end(); ++i) {
-                    this->logger->info() << "Creating cutscene trigger.";
+                    this->logger->info() << "Creating script trigger.";
 
                     std::map<std::string, std::string> properties;
 
@@ -329,24 +329,24 @@ namespace Game {
                         properties[name] = value;
                     }
 
-                    std::shared_ptr<CutsceneTrigger> cutsceneTrigger = std::make_shared<CutsceneTrigger>(properties["cutsceneId"]);
+                    std::shared_ptr<ScriptTrigger> scriptTrigger = std::make_shared<ScriptTrigger>(properties["scriptId"]);
 
-                    cutsceneTrigger->SetType((*i)["type"].get<std::string>());
-                    cutsceneTrigger->x = (*i)["x"].get<int>() / this->tilewidth;
-                    cutsceneTrigger->y = (*i)["y"].get<int>() / this->tileheight;
-                    cutsceneTrigger->width = (*i)["width"].get<int>() / this->tilewidth;
-                    cutsceneTrigger->height = (*i)["height"].get<int>() / this->tileheight;
+                    scriptTrigger->SetType((*i)["type"].get<std::string>());
+                    scriptTrigger->x = (*i)["x"].get<int>() / this->tilewidth;
+                    scriptTrigger->y = (*i)["y"].get<int>() / this->tileheight;
+                    scriptTrigger->width = (*i)["width"].get<int>() / this->tilewidth;
+                    scriptTrigger->height = (*i)["height"].get<int>() / this->tileheight;
 
                     if (properties.find("condition") != properties.end()) {
-                        cutsceneTrigger->condition = std::make_unique<World::Conditions::Condition>(properties["condition"]);
+                        scriptTrigger->condition = std::make_unique<World::Conditions::Condition>(properties["condition"]);
                     }
 
-                    cutsceneTrigger->SetProperties(properties);
+                    scriptTrigger->SetProperties(properties);
 
-                    cutsceneTriggers.push_back(cutsceneTrigger);
+                    scriptTriggers.push_back(scriptTrigger);
                 }
 
-                return cutsceneTriggers;
+                return scriptTriggers;
             }
 
             std::vector<std::shared_ptr<MapEncounterArea>> Map::Parser::ParseEncounterAreas(const json& node) {

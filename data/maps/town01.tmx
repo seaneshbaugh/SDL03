@@ -30052,11 +30052,11 @@
    <tile/>
   </data>
  </layer>
- <objectgroup id="5" name="cutscene_triggers">
+ <objectgroup id="5" name="script_triggers">
   <object id="7" name="town01" x="96" y="128" width="64" height="32">
    <properties>
     <property name="condition" value="!cutscenes.town01.complete"/>
-    <property name="cutsceneId" value="town01"/>
+    <property name="scriptId" value="town01"/>
    </properties>
   </object>
  </objectgroup>

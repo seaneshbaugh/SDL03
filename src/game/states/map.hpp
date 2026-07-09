@@ -13,6 +13,7 @@
 #include "../scenes/actor_manager.hpp"
 #include "../scenes/dialogue/dialogue_session.hpp"
 #include "../scenes/cutscenes/cutscene_session.hpp"
+#include "../scripts/script_runner.hpp"
 
 namespace Game {
     namespace States {
@@ -21,7 +22,7 @@ namespace Game {
             enum class State {
                 Gameplay,
                 Dialogue,
-                Cutscene
+                Script
             };
 
             std::shared_ptr<Scenes::Scene> scene;
@@ -38,12 +39,13 @@ namespace Game {
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y) const;
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
             void StartDialogue(const std::string& dialogueId) override;
-            void StartCutscene(const std::string& cutsceneId);
+            void StartScript(const std::string& cutsceneId);
             std::shared_ptr<Scenes::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
 
         private:
             static const std::string logChannel;
 
+            Scripts::ScriptRunner scriptRunner;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             Scenes::Cutscenes::CutsceneSession cutsceneSession;
             State state;
@@ -52,7 +54,7 @@ namespace Game {
             std::string ProcessInput(const Input::Button key);
             Transition UpdateGameplay(const float deltaTime);
             Transition UpdateDialogue(const float deltaTime);
-            Transition UpdateCutscene(const float deltaTime);
+            Transition UpdateScript(const float deltaTime);
             void ProcessPendingCommands() override;
             void LoadLuaState(const std::string& scriptFilePath);
 

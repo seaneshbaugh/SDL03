@@ -12,9 +12,9 @@ namespace Game {
                                                                  sol::constructors<States::StartDialogueCommand(Scenes::Actor*)>(),
                                                                  "actor", &States::StartDialogueCommand::actor);
 
-            luaState->new_usertype<States::StartCutsceneCommand>("StartCutsceneCommand",
-                                                                 sol::constructors<States::StartCutsceneCommand(const std::string&)>(),
-                                                                 "cutscene_id", &States::StartCutsceneCommand::cutsceneId);
+            luaState->new_usertype<States::StartScriptCommand>("StartScriptCommand",
+                                                               sol::constructors<States::StartScriptCommand(const std::string&)>(),
+                                                               "script_id", &States::StartScriptCommand::scriptId);
 
             luaState->new_usertype<CommandQueue>("CommandQueue",
                                                  sol::no_constructor,

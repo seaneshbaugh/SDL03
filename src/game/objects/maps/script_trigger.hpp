@@ -6,13 +6,13 @@
 namespace Game {
     namespace Objects {
         namespace Maps {
-            class CutsceneTrigger : public MapObject {
+            class ScriptTrigger : public MapObject {
             public:
-                CutsceneTrigger(const std::string& cutsceneId);
-                ~CutsceneTrigger();
-                const std::string& GetCutsceneId() const;
+                ScriptTrigger(const std::string& scriptId);
+                ~ScriptTrigger();
+                const std::string& GetScriptId() const;
             private:
-                std::string cutsceneId;
+                std::string scriptId;
             };
         }
     }

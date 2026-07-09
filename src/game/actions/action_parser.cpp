@@ -1,5 +1,5 @@
 #include "action_parser.hpp"
-#include "../scenes/cutscenes/cutscene.hpp"
+#include "../scripts/script.hpp"
 
 namespace Game {
     namespace Actions {
@@ -8,7 +8,7 @@ namespace Game {
         ActionParser::ActionParser() {
             this->logger = Services::Locator::LoggerService()->GetLogger(ActionParser::logChannel);
 
-            this->actionFactories["add_actor"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["add_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string id = node["id"].get<std::string>();
                 std::string name = node["name"].get<std::string>();
                 std::string spritesheetName = node["spritesheetName"].get<std::string>();
@@ -22,7 +22,7 @@ namespace Game {
 
                 if (node.find("spawnPointId") != node.end() && node["spawnPointId"].is_string()) {
                     std::string spawnPointId = node["spawnPointId"].get<std::string>();
-                    std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = cutscene->scene->GetCurrentMap()->GetSpawnPoint(spawnPointId);
+                    std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = script->scene->GetCurrentMap()->GetSpawnPoint(spawnPointId);
 
                     x = spawnPoint->x;
                     y = spawnPoint->y;
@@ -31,38 +31,38 @@ namespace Game {
                     y = node["y"].get<int>();
                 }
 
-                return std::make_shared<Actions::AddActor>(cutscene->scene, id, name, spritesheetName, dialogueId, x, y, direction, movementScriptName, interactionScriptName);
+                return std::make_shared<Actions::AddActor>(script->scene, id, name, spritesheetName, dialogueId, x, y, direction, movementScriptName, interactionScriptName);
             };
 
-            this->actionFactories["animate_actor"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["animate_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string actorId = node["actorId"].get<std::string>();
                 std::string animationName = node["animation"].get<std::string>();
                 float duration = node["duration"].get<float>();
 
-                return std::make_shared<Actions::AnimateActor>(cutscene->scene, actorId, animationName, duration);
+                return std::make_shared<Actions::AnimateActor>(script->scene, actorId, animationName, duration);
             };
 
-            this->actionFactories["dialogue"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["dialogue"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string dialogueId = node["dialogueId"].get<std::string>();
 
-                return std::make_shared<Actions::Dialogue>(cutscene->dialogueManager, dialogueId);
+                return std::make_shared<Actions::Dialogue>(script->dialogueManager, dialogueId);
             };
 
-            this->actionFactories["face_actor"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["face_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string actorId = node["actorId"].get<std::string>();
 
                 if (node.find("targetId") != node.end() && node["targetId"].is_string()) {
                     std::string targetId = node["targetId"].get<std::string>();
 
-                    return std::make_shared<Actions::FaceActor>(cutscene->scene, actorId, targetId);
+                    return std::make_shared<Actions::FaceActor>(script->scene, actorId, targetId);
                 } else {
                     Scenes::Actor::Direction direction = static_cast<Scenes::Actor::Direction>(node["direction"].get<int>());
 
-                    return std::make_shared<Actions::FaceActor>(cutscene->scene, actorId, direction);
+                    return std::make_shared<Actions::FaceActor>(script->scene, actorId, direction);
                 }
             };
 
-            this->actionFactories["move_actor"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["move_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string actorId = node["actorId"].get<std::string>();
 
                 std::vector<std::string> rawPath = node["path"].get<std::vector<std::string>>();
@@ -82,14 +82,14 @@ namespace Game {
                     }
                 }
 
-                return std::make_shared<Actions::MoveActor>(cutscene->scene, actorId, path);
+                return std::make_shared<Actions::MoveActor>(script->scene, actorId, path);
             };
 
-            this->actionFactories["parallel"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["parallel"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::vector<std::shared_ptr<Actions::Base>> actions;
 
                 for (const json& child : node["actions"]) {
-                    std::shared_ptr<Actions::Base> action = this->ParseAction(child, cutscene);
+                    std::shared_ptr<Actions::Base> action = this->ParseAction(child, script);
 
                     if (action) {
                         actions.push_back(action);
@@ -99,32 +99,32 @@ namespace Game {
                 return std::make_shared<Actions::Parallel>(actions);
             };
 
-            this->actionFactories["pathfind_actor"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["pathfind_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string actorId = node["actorId"].get<std::string>();
 
                 if (node.find("targetId") != node.end() && node["targetId"].is_string()) {
                     std::string targetId = node["targetId"].get<std::string>();
 
-                    return std::make_shared<Actions::PathfindActor>(cutscene->scene, actorId, targetId);
+                    return std::make_shared<Actions::PathfindActor>(script->scene, actorId, targetId);
                 } else {
                     int x = node["x"].get<int>();
                     int y = node["y"].get<int>();
 
-                    return std::make_shared<Actions::PathfindActor>(cutscene->scene, actorId, x, y);
+                    return std::make_shared<Actions::PathfindActor>(script->scene, actorId, x, y);
                 }
             };
 
-            this->actionFactories["remove_actor"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["remove_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string actorId = node["actorId"].get<std::string>();
 
-                return std::make_shared<Actions::RemoveActor>(cutscene->scene, actorId);
+                return std::make_shared<Actions::RemoveActor>(script->scene, actorId);
             };
 
-            this->actionFactories["sequence"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["sequence"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::vector<std::shared_ptr<Actions::Base>> actions;
 
                 for (const json& child : node["actions"]) {
-                    std::shared_ptr<Actions::Base> action = this->ParseAction(child, cutscene);
+                    std::shared_ptr<Actions::Base> action = this->ParseAction(child, script);
 
                     if (action) {
                         actions.push_back(action);
@@ -134,14 +134,14 @@ namespace Game {
                 return std::make_shared<Actions::Sequence>(actions);
             };
 
-            this->actionFactories["set_flag"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["set_flag"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string key = node["key"].get<std::string>();
                 bool value = node["value"].get<bool>();
 
                 return std::make_shared<Actions::SetFlag>(key, value);
             };
 
-            this->actionFactories["wait"] = [this](const json& node, Scenes::Cutscenes::Cutscene* cutscene) -> std::shared_ptr<Actions::Base> {
+            this->actionFactories["wait"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 float duration = node["duration"].get<float>();
 
                 return std::make_shared<Actions::Wait>(duration);
@@ -151,15 +151,15 @@ namespace Game {
         ActionParser::~ActionParser() {
         }
 
-        std::shared_ptr<Actions::Base> ActionParser::ParseAction(const json& node, Scenes::Cutscenes::Cutscene* cutscene) {
+        std::shared_ptr<Actions::Base> ActionParser::ParseAction(const json& node, Scripts::Script* script) {
             std::string actionType = node["type"].get<std::string>();
 
             auto actionFactory = this->actionFactories.find(actionType);
 
             if (actionFactory != this->actionFactories.end()) {
-                return actionFactory->second(node, cutscene);
+                return actionFactory->second(node, script);
             } else {
-                this->logger->warning() << "Unknown cutscene action type \"" << actionType << "\".";
+                this->logger->warning() << "Unknown action type \"" << actionType << "\".";
 
                 return nullptr;
             }
