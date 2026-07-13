@@ -12,7 +12,6 @@
 #include "../scenes/camera.hpp"
 #include "../scenes/actor_manager.hpp"
 #include "../scenes/dialogue/dialogue_session.hpp"
-#include "../scenes/cutscenes/cutscene_session.hpp"
 #include "../scripts/script_runner.hpp"
 
 namespace Game {
@@ -47,7 +46,6 @@ namespace Game {
 
             Scripts::ScriptRunner scriptRunner;
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
-            Scenes::Cutscenes::CutsceneSession cutsceneSession;
             State state;
             State previousState;
 

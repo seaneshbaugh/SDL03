@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Objects_Maps_CutsceneTrigger
-#define SDL03_Game_Objects_Maps_CutsceneTrigger
+#ifndef SDL03_Game_Objects_Maps_ScriptTrigger
+#define SDL03_Game_Objects_Maps_ScriptTrigger
 
 #include "map_object.hpp"
 

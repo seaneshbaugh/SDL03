@@ -147,9 +147,7 @@
     <ClCompile Include="src\game\actions\remove_actor.cpp" />
     <ClCompile Include="src\game\actions\sequence.cpp" />
     <ClCompile Include="src\game\actions\wait.cpp" />
-    <ClCompile Include="src\game\scenes\cutscenes\cutscene.cpp" />
     <ClCompile Include="src\game\actions\move_actor.cpp" />
-    <ClCompile Include="src\game\scenes\cutscenes\cutscene_session.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_choice.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_graph.cpp" />
     <ClCompile Include="src\game\scenes\dialogue\dialogue_node.cpp" />
@@ -282,8 +280,6 @@
     <ClInclude Include="src\game\actions\sequence.hpp" />
     <ClInclude Include="src\game\actions\set_flag.hpp" />
     <ClInclude Include="src\game\actions\wait.hpp" />
-    <ClInclude Include="src\game\scenes\cutscenes\cutscene.hpp" />
-    <ClInclude Include="src\game\scenes\cutscenes\cutscene_session.hpp" />
     <ClInclude Include="src\game\scenes\dialogue\dialogue_choice.hpp" />
     <ClInclude Include="src\game\scenes\dialogue\dialogue_graph.hpp" />
     <ClInclude Include="src\game\scenes\dialogue\dialogue_node.hpp" />

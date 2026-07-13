@@ -18,7 +18,7 @@ namespace Game {
             enum class MapObjectLayerType {
                 LoadPoint,
                 EncounterArea,
-                CutsceneTrigger,
+                ScriptTrigger,
             };
 
             namespace {
