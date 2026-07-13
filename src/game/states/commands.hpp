@@ -17,10 +17,6 @@ namespace Game {
             int startY;
         };
 
-        struct StartDialogueCommand {
-            Scenes::Actor* actor;
-        };
-
         struct StartInteractionCommand {
             Scenes::Actor* actor;
         };
@@ -31,7 +27,6 @@ namespace Game {
 
         using StateCommand = std::variant<
             LoadMapCommand,
-            StartDialogueCommand,
             StartInteractionCommand,
             StartScriptCommand
         >;

@@ -269,14 +269,6 @@ namespace Game {
             return step;
         }
 
-        std::string Actor::SelectDialogueId(const World::Conditions::EvaluationContexts::EvaluationContext& context) const {
-            if (!this->dialogueSelector) {
-                throw std::runtime_error("Attempted to get dialogue ID for actor without a dialogue selector.");
-            }
-
-            return this->dialogueSelector->SelectDialogue(context);
-        }
-
         std::string Actor::SelectInteractionScriptId(const World::Conditions::EvaluationContexts::EvaluationContext& context) const {
             if (!this->scriptSelector) {
                 throw std::runtime_error("Attempted to get script ID for actor without a script selector.");
@@ -437,7 +429,6 @@ namespace Game {
             scene.new_usertype<Actor>("Actor",
                                      sol::no_constructor,
                                      "name", &Actor::name,
-                                     "select_dialogue_id", &Actor::SelectDialogueId,
                                      "getCurrentTileX", &Actor::GetCurrentTileX,
                                      "getCurrentTileY", &Actor::GetCurrentTileY,
                                      "getOccupiedTileX", &Actor::GetOccupiedTileX,

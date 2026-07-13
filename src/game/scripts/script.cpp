@@ -2,7 +2,7 @@
 
 namespace Game {
     namespace Scripts {
-        Script::Script(Scenes::Scene* scene, Interfaces::DialogueManager* dialogueManager, const std::string& scriptId) : scene(scene), dialogueManager(dialogueManager), scriptId(scriptId) {
+        Script::Script(Scenes::Scene* scene, const std::string& scriptId) : scene(scene), scriptId(scriptId) {
             this->Load(scriptId);
         }
 

@@ -4,7 +4,6 @@
 #include "../../../../lib/nlohmann/json.hpp"
 
 #include "../actions/action_parser.hpp"
-#include "../interfaces/dialogue_manager.hpp"
 #include "../scenes/scene.hpp"
 #include "../services/locator.hpp"
 #include "script_node.hpp"
@@ -16,11 +15,10 @@ namespace Game {
         class Script {
         public:
             Scenes::Scene* scene;
-            Interfaces::DialogueManager* dialogueManager;
             std::map<std::string, std::shared_ptr<ScriptNode>> nodes;
             std::shared_ptr<ScriptNode> root;
 
-            Script(Scenes::Scene* scene, Interfaces::DialogueManager* dialogueManager, const std::string& scriptId);
+            Script(Scenes::Scene* scene, const std::string& scriptId);
             ~Script();
             bool Load(const std::string& scriptId);
 

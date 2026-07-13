@@ -48,8 +48,6 @@ namespace Game {
             switch (this->state) {
             case State::Gameplay:
                 return this->UpdateGameplay(deltaTime);
-            case State::Dialogue:
-                return this->UpdateDialogue(deltaTime);
             case State::Script:
                 return this->UpdateScript(deltaTime);
             default:
@@ -79,18 +77,6 @@ namespace Game {
             default:
                 return Transition::None();
             }
-        }
-
-        Transition Map::UpdateDialogue(const float deltaTime) {
-            this->dialogueSession.Update(deltaTime);
-
-            if (this->dialogueSession.IsCompleted()) {
-                this->state = this->previousState;
-            }
-
-            this->ProcessPendingCommands();
-
-            return Transition::None();
         }
 
         Transition Map::UpdateScript(const float deltaTime) {
@@ -124,8 +110,6 @@ namespace Game {
 
                     if constexpr (std::is_same_v<T, LoadMapCommand>) {
                         this->LoadMap(cmd.mapName, cmd.startX, cmd.startY);
-                    } else if constexpr (std::is_same_v<T, StartDialogueCommand>) {
-                        this->StartDialogue(cmd.actor->SelectDialogueId(this->scene->GetWorldEvaluationContext()));
                     } else if constexpr (std::is_same_v<T, StartInteractionCommand>) {
                         this->StartScript(cmd.actor->SelectInteractionScriptId(this->scene->GetWorldEvaluationContext()));
                     } else if constexpr (std::is_same_v<T, StartScriptCommand>) {
@@ -144,10 +128,6 @@ namespace Game {
             if (this->state == State::Script) {
                 this->scriptRunner.Render();
             }
-
-            //if (this->state == State::Dialogue) {
-            //    this->dialogueSession.Render(this->scene->camera);
-            //}
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
@@ -230,17 +210,6 @@ namespace Game {
             this->currentMapEncounterArea = dynamic_cast<Objects::Maps::MapEncounterArea*>(mapEncounterArea);
         }
 
-        void Map::StartDialogue(const std::string& dialogueId) {
-            this->logger->debug() << "Starting dialogue with ID \"" << dialogueId << "\".";
-
-            std::shared_ptr<Scenes::Dialogue::DialogueGraph> graph = std::make_shared<Scenes::Dialogue::DialogueGraph>(dialogueId);
-
-            this->dialogueSession.Start(graph);
-
-            this->previousState = this->state;
-            this->state = State::Dialogue;
-        }
-
         void Map::StartScript(const std::string& scriptId) {
             this->logger->debug() << "Starting script with ID \"" << scriptId << "\".";
 
@@ -248,7 +217,7 @@ namespace Game {
 
             this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::CutsceneController>(this->scene->actorManager->player.get()));
 
-            std::shared_ptr<Scripts::Script> script = std::make_shared<Scripts::Script>(this->scene.get(), this, scriptId);
+            std::shared_ptr<Scripts::Script> script = std::make_shared<Scripts::Script>(this->scene.get(), scriptId);
 
             this->scriptRunner.Start(script);
 
@@ -309,14 +278,10 @@ namespace Game {
         void Map::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
             sol::table states = (*luaState.get())["states"].get_or_create<sol::table>(sol::new_table());
 
-            states.new_usertype<StartDialogueCommand>("StartDialogueCommand",
-                                                      sol::constructors<StartDialogueCommand(Scenes::Actor*)>(),
-                                                      "actor", &StartDialogueCommand::actor
-                                                     );
-
             states.new_usertype<StartInteractionCommand>("StartInteractionCommand",
                                                          sol::constructors<StartInteractionCommand(Scenes::Actor*)>(),
-                                                         "actor", &StartInteractionCommand::actor);
+                                                         "actor", &StartInteractionCommand::actor
+                                                        );
 
             states.new_usertype<StartScriptCommand>("StartScriptCommand",
                                                     sol::constructors<StartScriptCommand(const std::string&)>(),

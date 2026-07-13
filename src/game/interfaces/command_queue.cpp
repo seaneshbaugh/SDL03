@@ -8,10 +8,6 @@ namespace Game {
         }
 
         void CommandQueue::LuaInterface::Bind(std::shared_ptr<sol::state> luaState) {
-            luaState->new_usertype<States::StartDialogueCommand>("StartDialogueCommand",
-                                                                 sol::constructors<States::StartDialogueCommand(Scenes::Actor*)>(),
-                                                                 "actor", &States::StartDialogueCommand::actor);
-
             luaState->new_usertype<States::StartInteractionCommand>("StartInteractionCommand",
                                                                     sol::constructors<States::StartInteractionCommand(Scenes::Actor*)>(),
                                                                     "actor", &States::StartInteractionCommand::actor);

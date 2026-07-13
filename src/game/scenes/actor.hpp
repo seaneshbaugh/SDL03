@@ -11,7 +11,6 @@
 #include "../services/locator.hpp"
 #include "../objects/maps/map.hpp"
 #include "actor_appearance.hpp"
-#include "dialogue/dialogue_selector.hpp"
 #include "../scripts/script_selector.hpp"
 
 namespace Game {
@@ -51,7 +50,6 @@ namespace Game {
 
             std::string id;
             std::string name;
-            std::unique_ptr<Dialogue::DialogueSelector> dialogueSelector;
             std::unique_ptr<Scripts::ScriptSelector> scriptSelector;
             std::shared_ptr<Objects::Maps::Map> currentMap;
             unsigned int animationFrame;
@@ -97,7 +95,6 @@ namespace Game {
             bool HasCompletedSteps() const;
             std::optional<CompletedStep> ConsumeCompletedStep();
 
-            std::string SelectDialogueId(const World::Conditions::EvaluationContexts::EvaluationContext& context) const;
             std::string SelectInteractionScriptId(const World::Conditions::EvaluationContexts::EvaluationContext& context) const;
 
             void QueueInteraction();

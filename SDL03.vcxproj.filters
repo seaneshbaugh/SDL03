@@ -372,18 +372,6 @@
     <ClCompile Include="src\game\services\interfaces\item_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_session.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_graph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_choice.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\actions\base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -394,9 +382,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\actions\wait.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\actions\dialogue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp">
@@ -450,9 +435,6 @@
     <ClCompile Include="src\game\interfaces\command_queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\interfaces\dialogue_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\game\world\flags.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -484,12 +466,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_profile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_selector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\actions\action_parser.cpp">
@@ -932,22 +908,10 @@
     <ClInclude Include="src\game\services\interfaces\item_service.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_session.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_node.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_graph.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lib\sol\forward.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\sol\config.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_choice.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\actions\base.hpp">
@@ -960,9 +924,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\actions\wait.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\actions\dialogue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp">
@@ -1019,9 +980,6 @@
     <ClInclude Include="src\game\interfaces\command_queue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\interfaces\dialogue_manager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\game\world\flags.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1053,12 +1011,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_profile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_selector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\actions\action_parser.hpp">

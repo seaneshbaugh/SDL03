@@ -66,7 +66,6 @@
     <ClCompile Include="src\game\actions\action_runner.cpp" />
     <ClCompile Include="src\game\input\input_state.cpp" />
     <ClCompile Include="src\game\interfaces\command_queue.cpp" />
-    <ClCompile Include="src\game\interfaces\dialogue_manager.cpp" />
     <ClCompile Include="src\game\objects\maps\script_trigger.cpp" />
     <ClCompile Include="src\game\objects\maps\spawn_point.cpp" />
     <ClCompile Include="src\game\scenes\actor_appearance.cpp" />
@@ -101,8 +100,6 @@
     <ClCompile Include="src\game\objects\maps\map_tile.cpp" />
     <ClCompile Include="src\game\objects\text.cpp" />
     <ClCompile Include="src\game\actions\set_flag.cpp" />
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_profile.cpp" />
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_selector.cpp" />
     <ClCompile Include="src\game\scripts\dialogue\dialogue_page.cpp" />
     <ClCompile Include="src\game\scripts\dialogue\dialogue_session.cpp" />
     <ClCompile Include="src\game\scripts\script.cpp" />
@@ -140,7 +137,6 @@
     <ClCompile Include="src\game\actions\add_actor.cpp" />
     <ClCompile Include="src\game\actions\animate_actor.cpp" />
     <ClCompile Include="src\game\actions\base.cpp" />
-    <ClCompile Include="src\game\actions\dialogue.cpp" />
     <ClCompile Include="src\game\actions\face_actor.cpp" />
     <ClCompile Include="src\game\actions\parallel.cpp" />
     <ClCompile Include="src\game\actions\pathfind_actor.cpp" />
@@ -148,10 +144,6 @@
     <ClCompile Include="src\game\actions\sequence.cpp" />
     <ClCompile Include="src\game\actions\wait.cpp" />
     <ClCompile Include="src\game\actions\move_actor.cpp" />
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_choice.cpp" />
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_graph.cpp" />
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_node.cpp" />
-    <ClCompile Include="src\game\scenes\dialogue\dialogue_session.cpp" />
     <ClCompile Include="src\game\scenes\pathfinder.cpp" />
     <ClCompile Include="src\game\scenes\scene.cpp" />
     <ClCompile Include="src\game\services\implementations\audio_manager.cpp" />
@@ -250,7 +242,6 @@
     <ClInclude Include="src\game\actions\action_runner.hpp" />
     <ClInclude Include="src\game\input\input_state.hpp" />
     <ClInclude Include="src\game\interfaces\command_queue.hpp" />
-    <ClInclude Include="src\game\interfaces\dialogue_manager.hpp" />
     <ClInclude Include="src\game\objects\maps\script_trigger.hpp" />
     <ClInclude Include="src\game\objects\maps\spawn_point.hpp" />
     <ClInclude Include="src\game\scenes\actor_appearance.hpp" />
@@ -271,7 +262,6 @@
     <ClInclude Include="src\game\actions\add_actor.hpp" />
     <ClInclude Include="src\game\actions\animate_actor.hpp" />
     <ClInclude Include="src\game\actions\base.hpp" />
-    <ClInclude Include="src\game\actions\dialogue.hpp" />
     <ClInclude Include="src\game\actions\face_actor.hpp" />
     <ClInclude Include="src\game\actions\move_actor.hpp" />
     <ClInclude Include="src\game\actions\parallel.hpp" />
@@ -280,12 +270,6 @@
     <ClInclude Include="src\game\actions\sequence.hpp" />
     <ClInclude Include="src\game\actions\set_flag.hpp" />
     <ClInclude Include="src\game\actions\wait.hpp" />
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_choice.hpp" />
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_graph.hpp" />
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_node.hpp" />
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_profile.hpp" />
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_selector.hpp" />
-    <ClInclude Include="src\game\scenes\dialogue\dialogue_session.hpp" />
     <ClInclude Include="src\game\scenes\movement_command.hpp" />
     <ClInclude Include="src\game\objects\base.hpp" />
     <ClInclude Include="src\game\graphics\animation.hpp" />

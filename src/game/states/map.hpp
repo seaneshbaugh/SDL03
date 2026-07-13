@@ -5,22 +5,19 @@
 #include "pause_menu.hpp"
 #include "battle.hpp"
 #include "../interfaces/command_queue.hpp"
-#include "../interfaces/dialogue_manager.hpp"
 #include "../objects/maps/map.hpp"
 #include "../world/state.hpp"
 #include "../scenes/scene.hpp"
 #include "../scenes/camera.hpp"
 #include "../scenes/actor_manager.hpp"
-#include "../scenes/dialogue/dialogue_session.hpp"
 #include "../scripts/script_runner.hpp"
 
 namespace Game {
     namespace States {
-        class Map : public Base, public Interfaces::CommandQueue, public Interfaces::DialogueManager {
+        class Map : public Base, public Interfaces::CommandQueue {
         public:
             enum class State {
                 Gameplay,
-                Dialogue,
                 Script
             };
 
@@ -37,7 +34,6 @@ namespace Game {
             std::shared_ptr<Objects::Maps::Map> GetCurrentMap() const;
             std::shared_ptr<Objects::Maps::MapEncounterArea> GetCurrentMapEncounterArea(const int x, const int y) const;
             void SetCurrentMapEncounterArea(Objects::Maps::MapObject* mapEncounterArea);
-            void StartDialogue(const std::string& dialogueId) override;
             void StartScript(const std::string& cutsceneId);
             std::shared_ptr<Scenes::Actor> AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
 
@@ -51,7 +47,6 @@ namespace Game {
 
             std::string ProcessInput(const Input::Button key);
             Transition UpdateGameplay(const float deltaTime);
-            Transition UpdateDialogue(const float deltaTime);
             Transition UpdateScript(const float deltaTime);
             void ProcessPendingCommands() override;
             void LoadLuaState(const std::string& scriptFilePath);

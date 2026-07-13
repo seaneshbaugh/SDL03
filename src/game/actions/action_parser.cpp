@@ -42,12 +42,6 @@ namespace Game {
                 return std::make_shared<Actions::AnimateActor>(script->scene, actorId, animationName, duration);
             };
 
-            this->actionFactories["dialogue"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
-                std::string dialogueId = node["dialogueId"].get<std::string>();
-
-                return std::make_shared<Actions::Dialogue>(script->dialogueManager, dialogueId);
-            };
-
             this->actionFactories["face_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string actorId = node["actorId"].get<std::string>();
 
