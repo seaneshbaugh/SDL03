@@ -277,6 +277,14 @@ namespace Game {
             return this->dialogueSelector->SelectDialogue(context);
         }
 
+        std::string Actor::SelectInteractionScriptId(const World::Conditions::EvaluationContexts::EvaluationContext& context) const {
+            if (!this->scriptSelector) {
+                throw std::runtime_error("Attempted to get script ID for actor without a script selector.");
+            }
+
+            return this->scriptSelector->SelectScript(context);
+        }
+
         void Actor::QueueInteraction() {
             this->interactionQueued = true;
         }

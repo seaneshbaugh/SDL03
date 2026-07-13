@@ -30056,7 +30056,7 @@
   <object id="7" name="town01" x="96" y="128" width="64" height="32">
    <properties>
     <property name="condition" value="!cutscenes.town01.complete"/>
-    <property name="scriptId" value="town01"/>
+    <property name="scriptId" value="cutscenes/town01"/>
    </properties>
   </object>
  </objectgroup>

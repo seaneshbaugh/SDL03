@@ -17,8 +17,8 @@ namespace Game {
         public:
             Scenes::Scene* scene;
             Interfaces::DialogueManager* dialogueManager;
-            std::vector<std::shared_ptr<Actions::Base>> actions;
             std::map<std::string, std::shared_ptr<ScriptNode>> nodes;
+            std::shared_ptr<ScriptNode> root;
 
             Script(Scenes::Scene* scene, Interfaces::DialogueManager* dialogueManager, const std::string& scriptId);
             ~Script();

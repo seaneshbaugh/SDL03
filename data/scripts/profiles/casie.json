@@ -1,0 +1,11 @@
+{
+  "scripts": [
+    {
+      "condition": "cutscenes.town01.complete",
+      "scriptId": "dialogue/goblins"
+    },
+    {
+      "scriptId": "dialogue/hello_world"
+    }
+  ]
+}

@@ -3,5 +3,5 @@ function initialize()
 end
 
 function on_interact(interactor)
-  command_queue:queue_command(StartDialogueCommand.new(actor))
+  command_queue:queue_command(StartInteractionCommand.new(actor))
 end

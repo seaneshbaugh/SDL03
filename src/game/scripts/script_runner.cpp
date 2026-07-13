@@ -2,7 +2,7 @@
 
 namespace Game {
     namespace Scripts {
-        ScriptRunner::ScriptRunner() : currentScript(nullptr) {
+        ScriptRunner::ScriptRunner() : currentScript(nullptr), currentStep(nullptr), completed(false) {
         }
 
         ScriptRunner::~ScriptRunner() {
@@ -10,16 +10,66 @@ namespace Game {
 
         void ScriptRunner::Start(std::shared_ptr<Script> script) {
             this->currentScript = script;
+            this->SetCurrentNode(script->root);
+            this->completed = false;
 
-            this->actionRunner.Start(script->actions);
+            if (this->currentStep) {
+                this->currentStep->Start(this);
+            }
         }
 
         void ScriptRunner::Update(const float deltaTime) {
-            this->actionRunner.Update(deltaTime);
+            if (this->completed || !this->currentStep) {
+                return;
+            }
+
+            this->currentStep->Update(deltaTime);
+
+            if (this->currentStep->IsCompleted()) {
+                this->steps.pop();
+
+                if (this->steps.empty()) {
+                    if (this->currentNode->next) {
+                        this->SetCurrentNode(this->currentNode->next);
+
+                        if (this->currentStep) {
+                            this->currentStep->Start(this);
+                        }
+                    } else {
+                        this->completed = true;
+                    }
+                } else {
+                    this->currentStep = this->steps.front();
+
+                    this->currentStep->Start(this);
+                }
+            }
+        }
+
+        void ScriptRunner::Render() {
+            if (this->currentStep) {
+                this->currentStep->Render();
+            }
         }
 
         bool ScriptRunner::IsCompleted() const {
-            return this->actionRunner.IsCompleted();
+            return this->completed;
+        }
+
+        void ScriptRunner::SetCurrentNode(std::shared_ptr<ScriptNode> node) {
+            this->currentNode = node;
+
+            this->steps = std::queue<std::shared_ptr<Steps::ScriptStep>>();
+
+            for (auto& step : node->steps) {
+                this->steps.push(step);
+            }
+
+            if (!this->steps.empty()) {
+                this->currentStep = this->steps.front();
+            } else {
+                this->currentStep = nullptr;
+            }
         }
     }
 }

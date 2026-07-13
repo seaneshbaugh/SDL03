@@ -354,7 +354,7 @@
                         {
                          "name":"scriptId",
                          "type":"string",
-                         "value":"town01"
+                         "value":"cutscenes\/town01"
                         }],
                  "rotation":0,
                  "type":"",

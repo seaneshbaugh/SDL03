@@ -1,0 +1,99 @@
+{
+  "start": "approach",
+  "nodes": {
+    "approach": {
+      "steps": [
+        {
+          "type": "action",
+          "action": {
+            "type": "add_actor",
+            "id": "guard",
+            "name": "Guard",
+            "spritesheetName": "characters/kyle",
+            "dialogueId": "ginger",
+            "spawnPointId": "guard",
+            "direction": 2,
+            "movementScriptName": "stationary",
+            "interactionScriptName": "dialogue"
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "pathfind_actor",
+            "actorId": "guard",
+            "targetId": "player"
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "face_actor",
+            "actorId": "guard",
+            "targetId": "player"
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "wait",
+            "duration": 2.0
+          }
+        },
+        {
+          "type": "dialogue",
+          "actorId": "guard",
+          "text": "Ginger is the doggie! Ho! Ho! Ho!"
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "wait",
+            "duration": 0.5
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "animate_actor",
+            "actorId": "guard",
+            "animation": "die",
+            "duration": 1.5
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "wait",
+            "duration": 0.5
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "pathfind_actor",
+            "actorId": "guard",
+            "x": 3,
+            "y": 0
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "remove_actor",
+            "actorId": "guard"
+          }
+        },
+        {
+          "type": "action",
+          "action": {
+            "type": "set_flag",
+            "key": "cutscenes.town01.complete",
+            "value": true
+          }
+        }
+      ],
+      "next": null
+    }
+  }
+}

@@ -14,7 +14,7 @@ namespace Game {
 
             std::string jsonString;
 
-            if (!Helpers::FileSystem::ReadFile("data/cutscenes/" + scriptId + ".json", jsonString)) {
+            if (!Helpers::FileSystem::ReadFile("data/scripts/" + scriptId + ".json", jsonString)) {
                 return false;
             }
 
@@ -45,16 +45,39 @@ namespace Game {
         void Script::Parser::Parse(const std::string& jsonString, Script* script) {
             json scriptJson = json::parse(jsonString);
 
-            json actionsNode = scriptJson["actions"];
+            std::string startNodeKey = scriptJson["start"].get<std::string>();
 
-            Actions::ActionParser actionParser;
+            json nodesNode = scriptJson["nodes"];
 
-            for (json::iterator actionNode = actionsNode.begin(); actionNode != actionsNode.end(); ++actionNode) {
-                std::shared_ptr<Actions::Base> action = actionParser.ParseAction(*actionNode, script);
+            ScriptNode::Parser nodeParser;
 
-                if (action) {
-                    script->actions.push_back(action);
+            for (json::iterator nodeNode = nodesNode.begin(); nodeNode != nodesNode.end(); ++nodeNode) {
+                script->nodes[nodeNode.key()] = nodeParser.ParseNode(nodeNode.value(), script);
+            }
+
+            for (json::iterator nodeNode = nodesNode.begin(); nodeNode != nodesNode.end(); ++nodeNode) {
+                std::string nodeId = nodeNode.key();
+                json nodeData = nodeNode.value();
+
+                if (nodeData.find("next") != nodeData.end() && !nodeData["next"].is_null()) {
+                    std::string nextNodeKey = nodeData["next"].get<std::string>();
+
+                    if (script->nodes.find(nextNodeKey) == script->nodes.end()) {
+                        this->logger->error() << "Invalid next node key \"" << nextNodeKey << "\" for node with key \"" << nodeId << "\".";
+
+                        continue;
+                    }
+
+                    script->nodes[nodeId]->next = script->nodes[nextNodeKey];
                 }
+            }
+
+            if (script->nodes.find(startNodeKey) == script->nodes.end()) {
+                this->logger->error() << "Invalid start node key \"" << startNodeKey << "\".";
+
+                return;
+            } else {
+                script->root = script->nodes[startNodeKey];
             }
         }
     }

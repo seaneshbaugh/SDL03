@@ -525,6 +525,18 @@
     <ClCompile Include="src\game\scripts\steps\choice_step.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\scripts\dialogue\dialogue_session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\dialogue\dialogue_page.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\script_selector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\scripts\script_profile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game\objects\characters\base.hpp">
@@ -1088,6 +1100,18 @@
     <ClInclude Include="src\game\scripts\steps\choice_step.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\scripts\dialogue\dialogue_session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\dialogue\dialogue_page.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\script_selector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\scripts\script_profile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -1162,6 +1186,13 @@
     <None Include="data\dialogue\profiles\kyle.json" />
     <None Include="data\dialogue\profiles\guard.json" />
     <None Include="data\dialogue\graphs\goblins.json" />
+    <None Include="data\scripts\cutscenes\town01.json" />
+    <None Include="data\scripts\dialogue\help.json" />
+    <None Include="data\scripts\profiles\casie.json" />
+    <None Include="data\scripts\profiles\guard.json" />
+    <None Include="data\scripts\profiles\kyle.json" />
+    <None Include="data\scripts\dialogue\hello_world.json" />
+    <None Include="data\scripts\dialogue\goblins.json" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\images\ui\dialogue\more.png">

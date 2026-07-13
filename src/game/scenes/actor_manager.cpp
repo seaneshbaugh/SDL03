@@ -32,6 +32,7 @@ namespace Game {
             actor->id = id;
             actor->name = name;
             actor->dialogueSelector = std::make_unique<Dialogue::DialogueSelector>(dialogueProfileId);
+            actor->scriptSelector = std::make_unique<Scripts::ScriptSelector>(dialogueProfileId);
             actor->SetMovementSpeed(2.0f);
             actor->SetCommandQueue(this->scene->commandQueue);
 

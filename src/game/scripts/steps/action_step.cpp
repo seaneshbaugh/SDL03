@@ -3,20 +3,31 @@
 namespace Game {
     namespace Scripts {
         namespace Steps {
-            ActionStep::ActionStep() {
+            ActionStep::ActionStep() : scriptRunner(nullptr) {
             }
 
             ActionStep::~ActionStep() {
             }
 
-            void ActionStep::Start() {
+            void ActionStep::Start(Scripts::ScriptRunner* scriptRunner) {
+                this->scriptRunner = scriptRunner;
+
+                if (this->action) {
+                    this->action->Start();
+                }
             }
 
             void ActionStep::Update(const float deltaTime) {
+                if (this->action) {
+                    this->action->Update(deltaTime);
+                }
+            }
+
+            void ActionStep::Render() {
             }
 
             bool ActionStep::IsCompleted() const {
-                return true;
+                return this->action ? this->action->IsCompleted() : true;
             }
         }
     }

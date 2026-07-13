@@ -1,0 +1,20 @@
+{
+  "start": "goblins",
+  "nodes": {
+    "goblins": {
+      "steps": [
+        {
+          "type": "dialogue",
+          "actorId": "casie",
+          "text": "Goblins are mischievous creatures."
+        },
+        {
+          "type": "dialogue",
+          "actorId": "casie",
+          "text": "Can you help us get rid of the goblins?"
+        }
+      ],
+      "next": null
+    }
+  }
+}

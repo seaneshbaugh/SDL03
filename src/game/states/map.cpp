@@ -126,6 +126,8 @@ namespace Game {
                         this->LoadMap(cmd.mapName, cmd.startX, cmd.startY);
                     } else if constexpr (std::is_same_v<T, StartDialogueCommand>) {
                         this->StartDialogue(cmd.actor->SelectDialogueId(this->scene->GetWorldEvaluationContext()));
+                    } else if constexpr (std::is_same_v<T, StartInteractionCommand>) {
+                        this->StartScript(cmd.actor->SelectInteractionScriptId(this->scene->GetWorldEvaluationContext()));
                     } else if constexpr (std::is_same_v<T, StartScriptCommand>) {
                         this->StartScript(cmd.scriptId);
                     }
@@ -139,9 +141,13 @@ namespace Game {
 
             this->scene->Render();
 
-            if (this->state == State::Dialogue) {
-                this->dialogueSession.Render(this->scene->camera);
+            if (this->state == State::Script) {
+                this->scriptRunner.Render();
             }
+
+            //if (this->state == State::Dialogue) {
+            //    this->dialogueSession.Render(this->scene->camera);
+            //}
         }
 
         bool Map::LoadMap(const std::string& mapName, const int startX, const int startY) {
@@ -307,6 +313,10 @@ namespace Game {
                                                       sol::constructors<StartDialogueCommand(Scenes::Actor*)>(),
                                                       "actor", &StartDialogueCommand::actor
                                                      );
+
+            states.new_usertype<StartInteractionCommand>("StartInteractionCommand",
+                                                         sol::constructors<StartInteractionCommand(Scenes::Actor*)>(),
+                                                         "actor", &StartInteractionCommand::actor);
 
             states.new_usertype<StartScriptCommand>("StartScriptCommand",
                                                     sol::constructors<StartScriptCommand(const std::string&)>(),

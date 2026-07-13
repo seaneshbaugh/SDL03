@@ -1,0 +1,20 @@
+{
+  "start": "hello",
+  "nodes": {
+    "hello": {
+      "steps": [
+        {
+          "type": "dialogue",
+          "actorId": "casie",
+          "text": "Hello, world!"
+        },
+        {
+          "type": "dialogue",
+          "actorId": "casie",
+          "text": "Goodbye, world!"
+        }
+      ],
+      "next": null
+    }
+  }
+}

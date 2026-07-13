@@ -21,6 +21,10 @@ namespace Game {
             Scenes::Actor* actor;
         };
 
+        struct StartInteractionCommand {
+            Scenes::Actor* actor;
+        };
+
         struct StartScriptCommand {
             std::string scriptId;
         };
@@ -28,6 +32,7 @@ namespace Game {
         using StateCommand = std::variant<
             LoadMapCommand,
             StartDialogueCommand,
+            StartInteractionCommand,
             StartScriptCommand
         >;
     }
