@@ -30,7 +30,7 @@ namespace Game {
                 std::shared_ptr<Assets::Texture> choiceIndicatorTexture;
                 std::vector<std::string> lines;
                 std::vector<std::string> visibleText;
-                int selectedChoice;
+                std::vector<DialogueChoice>::size_type selectedChoice;
                 float characterTimer;
                 bool nextIndicatorVisible;
                 float nextIndicatorTimer;

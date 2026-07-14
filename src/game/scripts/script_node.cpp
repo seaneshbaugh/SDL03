@@ -78,7 +78,10 @@ namespace Game {
                         return nullptr;
                     }
 
-                    choiceStep->page->choices[choiceNode["next"].get<std::string>()] = choiceNode["text"].get<std::string>();
+                    std::string text = choiceNode["text"].get<std::string>();
+                    std::string nextNodeId = choiceNode["next"].get<std::string>();
+
+                    choiceStep->page->choices.push_back(Dialogue::DialogueChoice{text, nextNodeId});
                 }
 
                 return choiceStep;

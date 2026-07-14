@@ -179,13 +179,9 @@ namespace Game {
                 } else {
                     if (allTextVisible) {
                         for (std::vector<std::string>::size_type i = 0; i < this->page.choices.size(); ++i) {
-                            auto it = this->page.choices.begin();
-
-                            std::advance(it, i);
-
                             SDL_Color color = {255, 255, 255, 255};
                             SDL_FRect textDstRect = {64.0f, camera->viewportHeight - 180.0f + static_cast<float>(this->visibleText.size() + i) * 24.0f, 0.0f, 0.0f};
-                            Objects::Text text = Objects::Text(it->second, font, textDstRect.x, textDstRect.y, color);
+                            Objects::Text text = Objects::Text(this->page.choices[i].text, font, textDstRect.x, textDstRect.y, color);
 
                             text.Render();
 
@@ -205,15 +201,7 @@ namespace Game {
             }
 
             std::string DialogueSession::GetSelectedChoice() const {
-                if (this->selectedChoice >= 0 && this->selectedChoice < static_cast<int>(this->page.choices.size())) {
-                    auto it = this->page.choices.begin();
-
-                    std::advance(it, this->selectedChoice);
-
-                    return it->first;
-                }
-
-                return "";
+                return this->page.choices[this->selectedChoice].nextNodeId;
             }
         }
     }

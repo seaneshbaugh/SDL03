@@ -23,9 +23,6 @@ namespace Game {
                 void Update(const float deltaTime) override;
                 void Render() override;
                 bool IsCompleted() const override;
-
-            private:
-                std::map<std::string, std::shared_ptr<Scripts::ScriptNode>> branches;
             };
         }
     }

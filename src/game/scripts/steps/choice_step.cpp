@@ -13,19 +13,15 @@ namespace Game {
             void ChoiceStep::Start(Scripts::ScriptRunner* scriptRunner) {
                 this->scriptRunner = scriptRunner;
 
-                for (const auto& choice : this->page->choices) {
-                    this->branches[choice.first] = this->scriptRunner->currentScript->nodes[choice.first];
-                }
-
                 this->scriptRunner->dialogueSession.Start(*(this->page.get()), true);
             }
 
             void ChoiceStep::Update(const float deltaTime) {
                 this->scriptRunner->dialogueSession.Update(deltaTime);
 
-                std::string selectedChoice = this->scriptRunner->dialogueSession.GetSelectedChoice();
-
-                this->scriptRunner->JumpToNode(this->branches[selectedChoice]);
+                if (this->scriptRunner->dialogueSession.IsCompleted()) {
+                    this->scriptRunner->JumpToNode(this->scriptRunner->currentScript->nodes[this->scriptRunner->dialogueSession.GetSelectedChoice()]);
+                }
             }
 
             void ChoiceStep::Render() {
