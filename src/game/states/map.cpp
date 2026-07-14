@@ -9,6 +9,7 @@ namespace Game {
             this->state = State::Gameplay;
             this->previousState = State::Gameplay;
             this->pop = false;
+            this->currentInteractingActor = nullptr;
 
             // TODO: Figure out a better place to put this. Really we should probably be calling LoadMap in
             // WorldManager::NewGame.
@@ -87,6 +88,11 @@ namespace Game {
             if (this->scriptRunner.IsCompleted()) {
                 this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::PlayerController>(this->scene->actorManager->player.get()));
 
+                if (this->currentInteractingActor) {
+                    this->scene->SetActorController(this->currentInteractingActor->id, std::make_unique<Scenes::Controllers::ScriptedController>(this->currentInteractingActor));
+                    this->currentInteractingActor = nullptr;
+                }
+
                 this->state = State::Gameplay;
             }
             
@@ -111,6 +117,7 @@ namespace Game {
                     if constexpr (std::is_same_v<T, LoadMapCommand>) {
                         this->LoadMap(cmd.mapName, cmd.startX, cmd.startY);
                     } else if constexpr (std::is_same_v<T, StartInteractionCommand>) {
+                        this->currentInteractingActor = cmd.actor;
                         this->StartScript(cmd.actor->SelectInteractionScriptId(this->scene->GetWorldEvaluationContext()));
                     } else if constexpr (std::is_same_v<T, StartScriptCommand>) {
                         this->StartScript(cmd.scriptId);
@@ -216,6 +223,12 @@ namespace Game {
             this->scene->actorManager->player->ClearPendingMovement();
 
             this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::CutsceneController>(this->scene->actorManager->player.get()));
+
+            if (this->currentInteractingActor) {
+                this->scene->SetActorController(this->currentInteractingActor->id, std::make_unique<Scenes::Controllers::CutsceneController>(this->currentInteractingActor));
+
+                this->currentInteractingActor->SetDirection(this->scene->actorManager->player.get());
+            }
 
             std::shared_ptr<Scripts::Script> script = std::make_shared<Scripts::Script>(this->scene.get(), scriptId);
 

@@ -252,6 +252,12 @@ namespace Game {
             return false;
         }
 
+        void Scene::FaceActor(const std::string& actorId, const Scenes::Actor::Direction direction) {
+        }
+
+        void Scene::FaceActor(const std::string& actorId, const std::string& targetId) {
+        }
+
         void Scene::OnActorStepped(Scenes::Actor* actor, unsigned int x, unsigned int y) {
             auto objects = this->currentMap->GetObjects(x, y);
 

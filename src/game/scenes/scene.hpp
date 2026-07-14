@@ -36,6 +36,9 @@ namespace Game {
             void PathfindActor(Actor* actor, const int targetX, const int targetY);
             bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
 
+            void FaceActor(const std::string& actorId, const Scenes::Actor::Direction direction);
+            void FaceActor(const std::string& actorId, const std::string& targetId);
+
             World::Conditions::EvaluationContexts::WorldEvaluationContext& GetWorldEvaluationContext() const;
 
         private:

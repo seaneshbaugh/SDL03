@@ -162,6 +162,31 @@ namespace Game {
             this->direction = direction;
         }
 
+        void Actor::SetDirection(Actor* target) {
+            if (!target) {
+                return;
+            }
+
+            int deltaX = target->GetOccupiedTileX() - this->GetOccupiedTileX();
+            int deltaY = target->GetOccupiedTileY() - this->GetOccupiedTileY();
+
+            if (deltaX == 0 && deltaY == 0) {
+                return;
+            } else if (std::abs(deltaX) > std::abs(deltaY)) {
+                if (deltaX > 0) {
+                    this->direction = Direction::Right;
+                } else {
+                    this->direction = Direction::Left;
+                }
+            } else {
+                if (deltaY > 0) {
+                    this->direction = Direction::Down;
+                } else {
+                    this->direction = Direction::Up;
+                }
+            }
+        }
+
         std::string Actor::GetSpriteName() const {
             return AnimationToString(this->animation) + "." + DirectionToString(this->direction);
         }

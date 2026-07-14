@@ -29,26 +29,11 @@ namespace Game {
                     return;
                 }
 
-                int deltaX = this->target->GetOccupiedTileX() - this->actor->GetOccupiedTileX();
-                int deltaY = this->target->GetOccupiedTileY() - this->actor->GetOccupiedTileY();
+                this->actor->SetDirection(this->target.get());
 
-                if (deltaX == 0 && deltaY == 0) {
-                    this->completed = true;
+                this->completed = true;
 
-                    return;
-                } else if (std::abs(deltaX) > std::abs(deltaY)) {
-                    if (deltaX > 0) {
-                        this->direction = Scenes::Actor::Direction::Right;
-                    } else {
-                        this->direction = Scenes::Actor::Direction::Left;
-                    }
-                } else {
-                    if (deltaY > 0) {
-                        this->direction = Scenes::Actor::Direction::Down;
-                    } else {
-                        this->direction = Scenes::Actor::Direction::Up;
-                    }
-                }
+                return;
             }
 
             this->actor->SetDirection(this->direction);

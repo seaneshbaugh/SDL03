@@ -44,6 +44,7 @@ namespace Game {
             Objects::Maps::MapEncounterArea* currentMapEncounterArea;
             State state;
             State previousState;
+            Scenes::Actor* currentInteractingActor;
 
             std::string ProcessInput(const Input::Button key);
             Transition UpdateGameplay(const float deltaTime);

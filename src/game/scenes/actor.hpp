@@ -79,6 +79,7 @@ namespace Game {
 
             Direction GetDirection() const;
             void SetDirection(const Direction direction);
+            void SetDirection(Actor* target);
 
             std::string GetSpriteName() const;
 
