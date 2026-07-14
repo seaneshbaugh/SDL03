@@ -2,7 +2,7 @@
 
 namespace Game {
     namespace Scripts {
-        ScriptRunner::ScriptRunner() : currentScript(nullptr), currentStep(nullptr), completed(false) {
+        ScriptRunner::ScriptRunner() : currentScript(nullptr), currentNode(nullptr), pendingNode(nullptr), currentStep(nullptr), completed(false) {
         }
 
         ScriptRunner::~ScriptRunner() {
@@ -29,7 +29,15 @@ namespace Game {
                 this->steps.pop();
 
                 if (this->steps.empty()) {
-                    if (this->currentNode->next) {
+                    if (this->pendingNode) {
+                        this->SetCurrentNode(this->pendingNode);
+
+                        this->pendingNode.reset();
+
+                        if (this->currentStep) {
+                            this->currentStep->Start(this);
+                        }
+                    } else if (this->currentNode->next) {
                         this->SetCurrentNode(this->currentNode->next);
 
                         if (this->currentStep) {
@@ -54,6 +62,10 @@ namespace Game {
 
         bool ScriptRunner::IsCompleted() const {
             return this->completed;
+        }
+
+        void ScriptRunner::JumpToNode(std::shared_ptr<ScriptNode> node) {
+            this->pendingNode = node;
         }
 
         void ScriptRunner::SetCurrentNode(std::shared_ptr<ScriptNode> node) {

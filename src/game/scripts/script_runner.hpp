@@ -13,6 +13,7 @@ namespace Game {
             Actions::ActionRunner actionRunner;
             Dialogue::DialogueSession dialogueSession;
             std::shared_ptr<ScriptNode> currentNode;
+            std::shared_ptr<ScriptNode> pendingNode;
 
             ScriptRunner();
             ~ScriptRunner();
@@ -20,6 +21,8 @@ namespace Game {
             void Update(const float deltaTime);
             void Render();
             bool IsCompleted() const;
+
+            void JumpToNode(std::shared_ptr<ScriptNode> node);
 
         private:
             std::queue<std::shared_ptr<Steps::ScriptStep>> steps;

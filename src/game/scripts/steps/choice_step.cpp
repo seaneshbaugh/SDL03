@@ -25,7 +25,7 @@ namespace Game {
 
                 std::string selectedChoice = this->scriptRunner->dialogueSession.GetSelectedChoice();
 
-                this->scriptRunner->currentNode->next = this->branches[selectedChoice];
+                this->scriptRunner->JumpToNode(this->branches[selectedChoice]);
             }
 
             void ChoiceStep::Render() {
