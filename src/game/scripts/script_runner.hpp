@@ -22,6 +22,7 @@ namespace Game {
             void Render();
             bool IsCompleted() const;
 
+            void AdvanceToNextStep();
             void JumpToNode(std::shared_ptr<ScriptNode> node);
 
         private:

@@ -26,31 +26,7 @@ namespace Game {
             this->currentStep->Update(deltaTime);
 
             if (this->currentStep->IsCompleted()) {
-                this->steps.pop();
-
-                if (this->steps.empty()) {
-                    if (this->pendingNode) {
-                        this->SetCurrentNode(this->pendingNode);
-
-                        this->pendingNode.reset();
-
-                        if (this->currentStep) {
-                            this->currentStep->Start(this);
-                        }
-                    } else if (this->currentNode->next) {
-                        this->SetCurrentNode(this->currentNode->next);
-
-                        if (this->currentStep) {
-                            this->currentStep->Start(this);
-                        }
-                    } else {
-                        this->completed = true;
-                    }
-                } else {
-                    this->currentStep = this->steps.front();
-
-                    this->currentStep->Start(this);
-                }
+                this->AdvanceToNextStep();
             }
         }
 
@@ -62,6 +38,34 @@ namespace Game {
 
         bool ScriptRunner::IsCompleted() const {
             return this->completed;
+        }
+
+        void ScriptRunner::AdvanceToNextStep() {
+            this->steps.pop();
+
+            if (this->steps.empty()) {
+                if (this->pendingNode) {
+                    this->SetCurrentNode(this->pendingNode);
+
+                    this->pendingNode.reset();
+
+                    if (this->currentStep) {
+                        this->currentStep->Start(this);
+                    }
+                } else if (this->currentNode->next) {
+                    this->SetCurrentNode(this->currentNode->next);
+
+                    if (this->currentStep) {
+                        this->currentStep->Start(this);
+                    }
+                } else {
+                    this->completed = true;
+                }
+            } else {
+                this->currentStep = this->steps.front();
+
+                this->currentStep->Start(this);
+            }
         }
 
         void ScriptRunner::JumpToNode(std::shared_ptr<ScriptNode> node) {
