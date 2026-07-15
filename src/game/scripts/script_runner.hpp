@@ -23,7 +23,7 @@ namespace Game {
             bool IsCompleted() const;
 
             void AdvanceToNextStep();
-            void JumpToNode(std::shared_ptr<ScriptNode> node);
+            void JumpToNode(const std::string& nodeId);
 
         private:
             std::queue<std::shared_ptr<Steps::ScriptStep>> steps;

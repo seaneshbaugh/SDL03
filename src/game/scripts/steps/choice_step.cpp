@@ -20,7 +20,7 @@ namespace Game {
                 this->scriptRunner->dialogueSession.Update(deltaTime);
 
                 if (this->scriptRunner->dialogueSession.IsCompleted()) {
-                    this->scriptRunner->JumpToNode(this->scriptRunner->currentScript->nodes[this->scriptRunner->dialogueSession.GetSelectedChoice()]);
+                    this->scriptRunner->JumpToNode(this->scriptRunner->dialogueSession.GetSelectedChoice());
                 }
             }
 

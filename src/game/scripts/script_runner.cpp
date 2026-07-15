@@ -68,8 +68,8 @@ namespace Game {
             }
         }
 
-        void ScriptRunner::JumpToNode(std::shared_ptr<ScriptNode> node) {
-            this->pendingNode = node;
+        void ScriptRunner::JumpToNode(const std::string& nodeId) {
+            this->pendingNode = this->currentScript->nodes[nodeId];
         }
 
         void ScriptRunner::SetCurrentNode(std::shared_ptr<ScriptNode> node) {
