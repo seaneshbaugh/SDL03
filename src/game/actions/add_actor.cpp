@@ -9,7 +9,7 @@ namespace Game {
         }
 
         void AddActor::Start() {
-            this->scene->AddActor<Scenes::Controllers::CutsceneController>(this->id, this->name, this->spritesheetName, this->dialogueId, this->x, this->y, this->direction, this->movementScriptName, this->interactionScriptName);
+            this->scene->AddActor<Scenes::Controllers::NullController>(this->id, this->name, this->spritesheetName, this->dialogueId, this->x, this->y, this->direction, this->movementScriptName, this->interactionScriptName);
         }
 
         void AddActor::Update(float deltaTime) {

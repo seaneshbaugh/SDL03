@@ -162,9 +162,9 @@ namespace Game {
             return actor;
         }
 
-        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::CutsceneController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::NullController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
         template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::PlayerController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
-        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::ScriptedController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::AIController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
 
         void Scene::RemoveActor(const std::string& id) {
             this->actorManager->RemoveActor(id);
@@ -250,12 +250,6 @@ namespace Game {
             }
 
             return false;
-        }
-
-        void Scene::FaceActor(const std::string& actorId, const Scenes::Actor::Direction direction) {
-        }
-
-        void Scene::FaceActor(const std::string& actorId, const std::string& targetId) {
         }
 
         void Scene::OnActorStepped(Scenes::Actor* actor, unsigned int x, unsigned int y) {

@@ -1,15 +1,15 @@
-#include "scripted_controller.hpp"
+#include "ai_controller.hpp"
 
 namespace Game {
     namespace Scenes {
         namespace Controllers {
-            ScriptedController::ScriptedController(Actor* actor) : actor(actor) {
+            AIController::AIController(Actor* actor) : actor(actor) {
             }
 
-            ScriptedController::~ScriptedController() {
+            AIController::~AIController() {
             }
 
-            void ScriptedController::Update(float deltaTime) {
+            void AIController::Update(float deltaTime) {
                 sol::protected_function update = (*this->actor->luaState.get())["update"];
 
                 if (update.valid()) {

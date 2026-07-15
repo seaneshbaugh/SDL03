@@ -1,5 +1,5 @@
-#ifndef SDL03_Game_Scenes_Controllers_CutsceneController
-#define SDL03_Game_Scenes_Controllers_CutsceneController
+#ifndef SDL03_Game_Scenes_Controllers_AIController
+#define SDL03_Game_Scenes_Controllers_AIController
 
 #include "actor_controller.hpp"
 #include "../actor.hpp"
@@ -7,10 +7,10 @@
 namespace Game {
     namespace Scenes {
         namespace Controllers {
-            class CutsceneController : public ActorController {
+            class AIController : public ActorController {
             public:
-                CutsceneController(Actor* actor);
-                ~CutsceneController();
+                AIController(Actor* actor);
+                ~AIController();
                 void Update(float deltaTime) override;
             private:
                 Actor* actor;

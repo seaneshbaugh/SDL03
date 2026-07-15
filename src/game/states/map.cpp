@@ -89,7 +89,7 @@ namespace Game {
                 this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::PlayerController>(this->scene->actorManager->player.get()));
 
                 if (this->currentInteractingActor) {
-                    this->scene->SetActorController(this->currentInteractingActor->id, std::make_unique<Scenes::Controllers::ScriptedController>(this->currentInteractingActor));
+                    this->scene->SetActorController(this->currentInteractingActor->id, std::make_unique<Scenes::Controllers::AIController>(this->currentInteractingActor));
                     this->currentInteractingActor = nullptr;
                 }
 
@@ -222,10 +222,10 @@ namespace Game {
 
             this->scene->actorManager->player->ClearPendingMovement();
 
-            this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::CutsceneController>(this->scene->actorManager->player.get()));
+            this->scene->SetActorController("player", std::make_unique<Scenes::Controllers::NullController>(this->scene->actorManager->player.get()));
 
             if (this->currentInteractingActor) {
-                this->scene->SetActorController(this->currentInteractingActor->id, std::make_unique<Scenes::Controllers::CutsceneController>(this->currentInteractingActor));
+                this->scene->SetActorController(this->currentInteractingActor->id, std::make_unique<Scenes::Controllers::NullController>(this->currentInteractingActor));
 
                 this->currentInteractingActor->SetDirection(this->scene->actorManager->player.get());
             }
@@ -247,7 +247,7 @@ namespace Game {
                 return nullptr;
             }
 
-            return this->scene->AddActor<Scenes::Controllers::ScriptedController>(id, name, spritesheetName, dialogueProfileId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
+            return this->scene->AddActor<Scenes::Controllers::AIController>(id, name, spritesheetName, dialogueProfileId, spawnPoint->x, spawnPoint->y, direction, movementScriptName, interactionScriptName);
         }
 
         void Map::LoadLuaState(const std::string& scriptFilePath) {

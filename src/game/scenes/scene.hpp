@@ -1,12 +1,12 @@
 #ifndef SDL03_Game_Scene_Scene
 #define SDL03_Game_Scene_Scene
 
+#include "../world/conditions/evaluation_contexts/world_evaluation_context.hpp"
 #include "actor_manager.hpp"
 #include "pathfinder.hpp"
-#include "controllers/cutscene_controller.hpp"
+#include "controllers/ai_controller.hpp"
+#include "controllers/null_controller.hpp"
 #include "controllers/player_controller.hpp"
-#include "controllers/scripted_controller.hpp"
-#include "../world/conditions/evaluation_contexts/world_evaluation_context.hpp"
 
 namespace Game {
     namespace Scenes {
@@ -35,9 +35,6 @@ namespace Game {
             void PathfindActor(const std::string& actorId, const int targetX, const int targetY);
             void PathfindActor(Actor* actor, const int targetX, const int targetY);
             bool IsTileBlocked(const int x, const int y, const Scenes::Actor* ignore) const;
-
-            void FaceActor(const std::string& actorId, const Scenes::Actor::Direction direction);
-            void FaceActor(const std::string& actorId, const std::string& targetId);
 
             World::Conditions::EvaluationContexts::WorldEvaluationContext& GetWorldEvaluationContext() const;
 

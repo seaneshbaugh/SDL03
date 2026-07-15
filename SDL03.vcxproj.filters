@@ -420,10 +420,10 @@
     <ClCompile Include="src\game\scenes\controllers\player_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\controllers\scripted_controller.cpp">
+    <ClCompile Include="src\game\scenes\controllers\ai_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\controllers\cutscene_controller.cpp">
+    <ClCompile Include="src\game\scenes\controllers\null_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\input\input_state.cpp">
@@ -962,10 +962,10 @@
     <ClInclude Include="src\game\scenes\controllers\player_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\controllers\scripted_controller.hpp">
+    <ClInclude Include="src\game\scenes\controllers\ai_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\controllers\cutscene_controller.hpp">
+    <ClInclude Include="src\game\scenes\controllers\null_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\input\input_state.hpp">
