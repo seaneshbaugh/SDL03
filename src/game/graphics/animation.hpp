@@ -10,7 +10,7 @@ namespace Game {
     namespace Graphics {
         class Animation {
         public:
-            Animation(const unsigned int width, const unsigned int height, const std::vector<AnimationFrame> frames);
+            Animation(const unsigned int width, const unsigned int height, const std::vector<AnimationFrame>& frames);
 
             std::vector<AnimationFrame> frames;
             unsigned int width;

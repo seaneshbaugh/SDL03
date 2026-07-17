@@ -8,10 +8,11 @@
 #include "../../../lib/sol/sol.hpp"
 
 #include "../interfaces/command_queue.hpp"
-#include "../services/locator.hpp"
 #include "../objects/maps/map.hpp"
-#include "actor_appearance.hpp"
 #include "../scripts/script_selector.hpp"
+#include "../services/locator.hpp"
+#include "actor_appearance.hpp"
+#include "animation_player.hpp"
 
 namespace Game {
     namespace Scenes {
@@ -56,6 +57,7 @@ namespace Game {
             float timeSinceLastAnimationFrame;
             bool isPlayingAnimation;
             std::shared_ptr<ActorAppearance> appearance;
+            AnimationPlayer animationPlayer;
             std::shared_ptr<sol::state> luaState;
 
             Actor(std::shared_ptr<Graphics::Spritesheet> spritesheet);
