@@ -23,7 +23,7 @@ namespace Game {
         Pathfinder::~Pathfinder() {
         }
 
-        std::vector<Actor::Direction> Pathfinder::Pathfind(const Actor* actor, const int targetX, const int targetY) {
+        std::vector<Direction> Pathfinder::Pathfind(const Actor* actor, const int targetX, const int targetY) {
             std::priority_queue<FrontierElement, std::vector<FrontierElement>, std::greater<FrontierElement>> frontier;
             std::unordered_map<Location, Location> cameFrom;
             std::unordered_map<Location, double> costSoFar;
@@ -78,7 +78,7 @@ namespace Game {
                 }
             }
 
-            std::vector<Scenes::Actor::Direction> path;
+            std::vector<Direction> path;
             Location current = std::make_pair(targetX, targetY);
 
             if (cameFrom.find(current) == cameFrom.end()) {
@@ -90,15 +90,15 @@ namespace Game {
 
                 if (previous.first == current.first) {
                     if (previous.second < current.second) {
-                        path.push_back(Scenes::Actor::Direction::Down);
+                        path.push_back(Direction::Down);
                     } else {
-                        path.push_back(Scenes::Actor::Direction::Up);
+                        path.push_back(Direction::Up);
                     }
                 } else if (previous.second == current.second) {
                     if (previous.first < current.first) {
-                        path.push_back(Scenes::Actor::Direction::Right);
+                        path.push_back(Direction::Right);
                     } else {
-                        path.push_back(Scenes::Actor::Direction::Left);
+                        path.push_back(Direction::Left);
                     }
                 }
 

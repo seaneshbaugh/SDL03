@@ -17,16 +17,16 @@ namespace Game {
                 if (!this->actor->IsMoving() && movementInputHeld) {
                     this->actor->ClearPendingMovement();
 
-                    Actor::Direction direction;
+                    Direction direction;
 
                     if (inputState.upHeld) {
-                        direction = Actor::Direction::Up;
+                        direction = Direction::Up;
                     } else if (inputState.rightHeld) {
-                        direction = Actor::Direction::Right;
+                        direction = Direction::Right;
                     } else if (inputState.downHeld) {
-                        direction = Actor::Direction::Down;
+                        direction = Direction::Down;
                     } else if (inputState.leftHeld) {
-                        direction = Actor::Direction::Left;
+                        direction = Direction::Left;
                     }
 
                     this->actor->QueueMovement(direction);

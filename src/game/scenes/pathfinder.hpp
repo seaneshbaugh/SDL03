@@ -12,7 +12,7 @@ namespace Game {
         public:
             Pathfinder(Scene* scene);
             ~Pathfinder();
-            std::vector<Actor::Direction> Pathfind(const Actor* actor, const int targetX, const int targetY);
+            std::vector<Direction> Pathfind(const Actor* actor, const int targetX, const int targetY);
 
         private:
             static const std::string logChannel;

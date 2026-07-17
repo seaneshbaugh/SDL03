@@ -10,9 +10,9 @@ namespace Game {
     namespace Graphics {
         class AnimationClip {
         public:
-            std::map<Scenes::Actor::Direction, Animation> variants;
+            std::map<Direction, Animation> variants;
 
-            AnimationClip(const std::map<Scenes::Actor::Direction, Animation>& variants);
+            AnimationClip(const std::map<Direction, Animation>& variants);
         };
     }
 }

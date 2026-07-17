@@ -1,15 +1,16 @@
 #ifndef SDL03_Game_Actions_FaceActor
 #define SDL03_Game_Actions_FaceActor
 
-#include "base.hpp"
-#include "../scenes/scene.hpp"
+#include "../types.hpp"
 #include "../scenes/actor.hpp"
+#include "../scenes/scene.hpp"
+#include "base.hpp"
 
 namespace Game {
     namespace Actions {
         class FaceActor : public Base {
         public:
-            FaceActor(Scenes::Scene* scene, const std::string& actorId, const Scenes::Actor::Direction direction);
+            FaceActor(Scenes::Scene* scene, const std::string& actorId, const Direction direction);
             FaceActor(Scenes::Scene* scene, const std::string& actorId, const std::string& targetId);
             ~FaceActor();
             void Start() override;
@@ -21,7 +22,7 @@ namespace Game {
             std::string targetId;
             std::shared_ptr<Scenes::Actor> actor;
             std::shared_ptr<Scenes::Actor> target;
-            Scenes::Actor::Direction direction;
+            Direction direction;
             bool completed;
         };
     }

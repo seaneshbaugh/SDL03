@@ -39,15 +39,15 @@ namespace Game {
                     {this->targetX + 1, this->targetY}};
 
                 switch (this->target->GetDirection()) {
-                case Scenes::Actor::Direction::Down:
+                case Direction::Down:
                     std::rotate(possibleTargets.begin(), possibleTargets.begin() + 1, possibleTargets.end());
 
                     break;
-                case Scenes::Actor::Direction::Left:
+                case Direction::Left:
                     std::rotate(possibleTargets.begin(), possibleTargets.begin() + 2, possibleTargets.end());
 
                     break;
-                case Scenes::Actor::Direction::Right:
+                case Direction::Right:
                     std::rotate(possibleTargets.begin(), possibleTargets.begin() + 3, possibleTargets.end());
 
                     break;

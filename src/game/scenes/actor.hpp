@@ -1,12 +1,13 @@
 #ifndef SDL03_Game_Scene_Actor
 #define SDL03_Game_Scene_Actor
 
-#include <queue>
 #include <optional>
+#include <queue>
 
 #include "../../../lib/lua/src/lua.hpp"
 #include "../../../lib/sol/sol.hpp"
 
+#include "../types.hpp"
 #include "../interfaces/command_queue.hpp"
 #include "../objects/maps/map.hpp"
 #include "../scripts/script_selector.hpp"
@@ -20,13 +21,6 @@ namespace Game {
 
         class Actor {
         public:
-            enum class Direction {
-                Up,
-                Right,
-                Down,
-                Left
-            };
-
             enum class Animation {
                 Die,
                 Idle,

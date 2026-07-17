@@ -24,7 +24,7 @@ namespace Game {
             return nullptr;
         }
 
-        std::shared_ptr<Scenes::Actor> ActorManager::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+        std::shared_ptr<Scenes::Actor> ActorManager::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
             std::shared_ptr<Graphics::Spritesheet> spritesheet = std::make_shared<Graphics::Spritesheet>(spritesheetName);
 
             std::shared_ptr<Scenes::Actor> actor = std::make_shared<Scenes::Actor>(spritesheet);
@@ -65,7 +65,7 @@ namespace Game {
             }
         }
 
-        void ActorManager::PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction) const {
+        void ActorManager::PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Direction direction) const {
             actor->currentMap = this->scene->GetCurrentMap();
             actor->SetPosition(x, y);
             actor->SetAnimation(Scenes::Actor::Animation::Stand);

@@ -47,7 +47,7 @@ namespace Game {
             return Animation::Stand;
         }
 
-        Actor::Direction Actor::StringToDirection(const std::string& direction) {
+        Direction Actor::StringToDirection(const std::string& direction) {
             if (direction == "up") {
                 return Direction::Up;
             } else if (direction == "right") {
@@ -154,7 +154,7 @@ namespace Game {
             return this->appearance->spritesheet->animations.find(this->GetSpriteName())->second.frames.size();
         }
 
-        Actor::Direction Actor::GetDirection() const {
+        Direction Actor::GetDirection() const {
             return this->direction;
         }
 
@@ -195,7 +195,7 @@ namespace Game {
             return !this->movementQueue.empty();
         }
 
-        std::optional<Actor::Direction> Actor::PeekMovement() const {
+        std::optional<Direction> Actor::PeekMovement() const {
             if (this->movementQueue.empty()) {
                 return std::nullopt;
             }
@@ -207,7 +207,7 @@ namespace Game {
             this->movementQueue.push(direction);
         }
 
-        std::optional<Actor::Direction> Actor::PopMovement() {
+        std::optional<Direction> Actor::PopMovement() {
             if (this->movementQueue.empty()) {
                 return std::nullopt;
             }

@@ -3,6 +3,7 @@
 
 #include "../../../../lib/nlohmann/json.hpp"
 
+#include "../types.hpp"
 #include "../services/locator.hpp"
 #include "add_actor.hpp"
 #include "animate_actor.hpp"

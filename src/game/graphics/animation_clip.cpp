@@ -2,7 +2,7 @@
 
 namespace Game {
     namespace Graphics {
-        AnimationClip::AnimationClip(const std::map<Scenes::Actor::Direction, Animation>& variants) {
+        AnimationClip::AnimationClip(const std::map<Direction, Animation>& variants) {
             std::copy(variants.begin(), variants.end(), std::inserter(this->variants, this->variants.begin()));
         }
     }

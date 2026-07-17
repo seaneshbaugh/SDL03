@@ -2,7 +2,7 @@
 
 namespace Game {
     namespace Actions {
-        AddActor::AddActor(Scenes::Scene* scene, const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) : scene(scene), id(id), name(name), spritesheetName(spritesheetName), dialogueId(dialogueId), x(x), y(y), direction(direction), movementScriptName(movementScriptName), interactionScriptName(interactionScriptName) {
+        AddActor::AddActor(Scenes::Scene* scene, const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) : scene(scene), id(id), name(name), spritesheetName(spritesheetName), dialogueId(dialogueId), x(x), y(y), direction(direction), movementScriptName(movementScriptName), interactionScriptName(interactionScriptName) {
         }
 
         AddActor::~AddActor() {

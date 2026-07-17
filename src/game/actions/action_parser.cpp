@@ -13,7 +13,7 @@ namespace Game {
                 std::string name = node["name"].get<std::string>();
                 std::string spritesheetName = node["spritesheetName"].get<std::string>();
                 std::string dialogueId = node["dialogueId"].get<std::string>();
-                Scenes::Actor::Direction direction = static_cast<Scenes::Actor::Direction>(node["direction"].get<int>());
+                Direction direction = static_cast<Direction>(node["direction"].get<int>());
                 std::string movementScriptName = node["movementScriptName"].get<std::string>();
                 std::string interactionScriptName = node["interactionScriptName"].get<std::string>();
 
@@ -50,7 +50,7 @@ namespace Game {
 
                     return std::make_shared<Actions::FaceActor>(script->scene, actorId, targetId);
                 } else {
-                    Scenes::Actor::Direction direction = static_cast<Scenes::Actor::Direction>(node["direction"].get<int>());
+                    Direction direction = static_cast<Direction>(node["direction"].get<int>());
 
                     return std::make_shared<Actions::FaceActor>(script->scene, actorId, direction);
                 }
@@ -60,17 +60,17 @@ namespace Game {
                 std::string actorId = node["actorId"].get<std::string>();
 
                 std::vector<std::string> rawPath = node["path"].get<std::vector<std::string>>();
-                std::vector<Scenes::Actor::Direction> path;
+                std::vector<Direction> path;
 
                 for (const std::string& rawDirection : rawPath) {
                     if (rawDirection == "up") {
-                        path.push_back(Scenes::Actor::Direction::Up);
+                        path.push_back(Direction::Up);
                     } else if (rawDirection == "right") {
-                        path.push_back(Scenes::Actor::Direction::Right);
+                        path.push_back(Direction::Right);
                     } else if (rawDirection == "down") {
-                        path.push_back(Scenes::Actor::Direction::Down);
+                        path.push_back(Direction::Down);
                     } else if (rawDirection == "left") {
-                        path.push_back(Scenes::Actor::Direction::Left);
+                        path.push_back(Direction::Left);
                     } else {
                         this->logger->warning() << "Unknown direction \"" << rawDirection << "\" in move_actor action.";
                     }

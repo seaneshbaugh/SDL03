@@ -308,6 +308,7 @@
     <ClInclude Include="src\game\scripts\steps\choice_step.hpp" />
     <ClInclude Include="src\game\scripts\steps\dialogue_step.hpp" />
     <ClInclude Include="src\game\scripts\steps\script_step.hpp" />
+    <ClInclude Include="src\game\types.hpp" />
     <ClInclude Include="src\game\world\conditions\condition.hpp" />
     <ClInclude Include="src\game\world\conditions\evaluation_contexts\evaluation_context.hpp" />
     <ClInclude Include="src\game\world\conditions\evaluation_contexts\world_evaluation_context.hpp" />

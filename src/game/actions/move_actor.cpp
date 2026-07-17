@@ -2,7 +2,7 @@
 
 namespace Game {
     namespace Actions {
-        MoveActor::MoveActor(Scenes::Scene* scene, const std::string& actorId, const std::vector<Scenes::Actor::Direction>& path) : scene(scene), actorId(actorId), path(path), started(false), failed(false) {
+        MoveActor::MoveActor(Scenes::Scene* scene, const std::string& actorId, const std::vector<Direction>& path) : scene(scene), actorId(actorId), path(path), started(false), failed(false) {
         }
 
         void MoveActor::Start() {

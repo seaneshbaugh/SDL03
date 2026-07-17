@@ -6,7 +6,7 @@
 namespace Game {
     namespace Scenes {
         struct MovementCommand {
-            Actor::Direction direction;
+            Direction direction;
             int distance;
         };
     }

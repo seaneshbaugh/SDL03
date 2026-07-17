@@ -85,19 +85,19 @@ namespace Game {
                     int targetY = actor->GetOccupiedTileY();
 
                     switch (actor->GetDirection()) {
-                    case Scenes::Actor::Direction::Up:
+                    case Direction::Up:
                         targetY--;
 
                         break;
-                    case Scenes::Actor::Direction::Right:
+                    case Direction::Right:
                         targetX++;
 
                         break;
-                    case Scenes::Actor::Direction::Down:
+                    case Direction::Down:
                         targetY++;
 
                         break;
-                    case Scenes::Actor::Direction::Left:
+                    case Direction::Left:
                         targetX--;
 
                         break;
@@ -148,7 +148,7 @@ namespace Game {
         }
 
         // TODO: Make this take an actor definition struct instead of a bunch of parameters.
-        template<typename TController> std::shared_ptr<Scenes::Actor> Scene::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+        template<typename TController> std::shared_ptr<Scenes::Actor> Scene::AddActor(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
             std::shared_ptr<Scenes::Actor> actor = this->actorManager->AddActor(id, name, spritesheetName, dialogueProfileId, x, y, direction, movementScriptName, interactionScriptName);
 
             std::unique_ptr<TController> actorController = std::make_unique<TController>(actor.get());
@@ -162,9 +162,9 @@ namespace Game {
             return actor;
         }
 
-        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::NullController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
-        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::PlayerController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
-        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::AIController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::NullController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::PlayerController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+        template std::shared_ptr<Scenes::Actor> Scene::AddActor<Controllers::AIController>(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const int x, const int y, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
 
         void Scene::RemoveActor(const std::string& id) {
             this->actorManager->RemoveActor(id);
@@ -172,7 +172,7 @@ namespace Game {
             this->actorControllers.erase(id);
         }
 
-        void Scene::PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Scenes::Actor::Direction direction) const {
+        void Scene::PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Direction direction) const {
             this->actorManager->PlaceActor(actor, x, y, direction);
         }
 
@@ -193,31 +193,31 @@ namespace Game {
         }
 
         void Scene::PathfindActor(Actor* actor, const int targetX, const int targetY) {
-            std::vector<Actor::Direction> path = this->pathfinder->Pathfind(actor, targetX, targetY);
+            std::vector<Direction> path = this->pathfinder->Pathfind(actor, targetX, targetY);
 
             for (auto direction : path) {
                 actor->QueueMovement(direction);
             }
         }
 
-        bool Scene::CanMove(Scenes::Actor* actor, const Scenes::Actor::Direction direction) const {
+        bool Scene::CanMove(Scenes::Actor* actor, const Direction direction) const {
             int targetX = actor->GetCurrentTileX();
             int targetY = actor->GetCurrentTileY();
 
             switch (direction) {
-            case Scenes::Actor::Direction::Up:
+            case Direction::Up:
                 targetY--;
 
                 break;
-            case Scenes::Actor::Direction::Right:
+            case Direction::Right:
                 targetX++;
 
                 break;
-            case Scenes::Actor::Direction::Down:
+            case Direction::Down:
                 targetY++;
 
                 break;
-            case Scenes::Actor::Direction::Left:
+            case Direction::Left:
                 targetX--;
 
                 break;

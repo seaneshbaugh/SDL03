@@ -32,7 +32,7 @@ namespace Game {
             }
 
             // TODO: This should all also probably be a function which is called by WorldManager::NewGame.
-            std::shared_ptr<Scenes::Actor> player = this->scene->AddActor<Scenes::Controllers::PlayerController>("player", "Sean", Services::Locator::WorldService()->GetState()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetState()->playerCurrentX, Services::Locator::WorldService()->GetState()->playerCurrentY, Scenes::Actor::Direction::Down, "", "");
+            std::shared_ptr<Scenes::Actor> player = this->scene->AddActor<Scenes::Controllers::PlayerController>("player", "Sean", Services::Locator::WorldService()->GetState()->playerParty->GetLeader()->GetSpritesheet()->name, "", Services::Locator::WorldService()->GetState()->playerCurrentX, Services::Locator::WorldService()->GetState()->playerCurrentY, Direction::Down, "", "");
             player->SetPersistent(true);
             player->SetMovementSpeed(4.0f);
             this->scene->actorManager->player = player;
@@ -160,7 +160,7 @@ namespace Game {
             
             Services::Locator::WorldService()->UpdatePlayerPosition(startX, startY);
 
-            this->scene->PlaceActor(this->scene->actorManager->player, startX, startY, Scenes::Actor::Direction::Down);
+            this->scene->PlaceActor(this->scene->actorManager->player, startX, startY, Direction::Down);
 
             this->scene->camera->Follow(this->scene->actorManager->player);
 
@@ -238,7 +238,7 @@ namespace Game {
             this->state = State::Script;
         }
 
-        std::shared_ptr<Scenes::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const std::string& spawnPointName, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
+        std::shared_ptr<Scenes::Actor> Map::AddActorAtSpawnPoint(const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueProfileId, const std::string& spawnPointName, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName) {
             std::shared_ptr<Objects::Maps::SpawnPoint> spawnPoint = this->currentMap->GetSpawnPoint(spawnPointName);
 
             if (!spawnPoint) {
@@ -271,10 +271,10 @@ namespace Game {
             this->logger->debug() << "Loaded \"" << scriptFilePath << "\".";
 
             luaState->new_enum("Direction",
-                               "Up", Scenes::Actor::Direction::Up,
-                               "Right", Scenes::Actor::Direction::Right,
-                               "Down", Scenes::Actor::Direction::Down,
-                               "Left", Scenes::Actor::Direction::Left);
+                               "Up", Direction::Up,
+                               "Right", Direction::Right,
+                               "Down", Direction::Down,
+                               "Left", Direction::Left);
 
             sol::protected_function initialize = (*this->luaState.get())["initialize"];
 

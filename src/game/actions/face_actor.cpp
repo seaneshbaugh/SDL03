@@ -2,10 +2,10 @@
 
 namespace Game {
     namespace Actions {
-        FaceActor::FaceActor(Scenes::Scene* scene, const std::string& actorId, const Scenes::Actor::Direction direction) : scene(scene), actorId(actorId), direction(direction), targetId(""), actor(nullptr), target(nullptr), completed(false) {
+        FaceActor::FaceActor(Scenes::Scene* scene, const std::string& actorId, const Direction direction) : scene(scene), actorId(actorId), direction(direction), targetId(""), actor(nullptr), target(nullptr), completed(false) {
         }
 
-        FaceActor::FaceActor(Scenes::Scene* scene, const std::string& actorId, const std::string& targetId) : scene(scene), actorId(actorId), targetId(targetId), direction(Scenes::Actor::Direction::Down), actor(nullptr), target(nullptr), completed(false) {
+        FaceActor::FaceActor(Scenes::Scene* scene, const std::string& actorId, const std::string& targetId) : scene(scene), actorId(actorId), targetId(targetId), direction(Direction::Down), actor(nullptr), target(nullptr), completed(false) {
         }
 
         FaceActor::~FaceActor() {

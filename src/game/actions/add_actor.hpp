@@ -9,7 +9,7 @@ namespace Game {
     namespace Actions {
         class AddActor : public Base {
         public:
-            AddActor(Scenes::Scene* scene, const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Scenes::Actor::Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
+            AddActor(Scenes::Scene* scene, const std::string& id, const std::string& name, const std::string& spritesheetName, const std::string& dialogueId, const int x, const int y, const Direction direction, const std::string& movementScriptName, const std::string& interactionScriptName);
             ~AddActor();
             void Start() override;
             void Update(float deltaTime) override;
@@ -24,7 +24,7 @@ namespace Game {
             std::string spawnPointId;
             int x;
             int y;
-            Scenes::Actor::Direction direction;
+            Direction direction;
             std::string movementScriptName;
             std::string interactionScriptName;
         };
