@@ -5,10 +5,10 @@ namespace Game {
     namespace Graphics {
         class AnimationFrame {
         public:
-            unsigned int offsetX;
-            unsigned int offsetY;
+            int offsetX;
+            int offsetY;
 
-            AnimationFrame(const unsigned int offsetX, const unsigned int offsetY);
+            AnimationFrame(const int offsetX, const int offsetY);
         };
     }
 }

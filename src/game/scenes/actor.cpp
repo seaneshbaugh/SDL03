@@ -69,12 +69,14 @@ namespace Game {
             this->currentTileY = 0;
             this->animation = Animation::Stand;
             this->isPlayingAnimation = false;
-            this->direction = Direction::Down;
+            this->SetDirection(Direction::Down);
             this->isMoving = false;
             this->movementSpeed = 4.0f;
             this->appearance = std::make_shared<ActorAppearance>(spritesheet);
             this->interactionQueued = false;
             this->LoadLuaState();
+
+            this->animationPlayer.Play(this->appearance->spritesheet->GetAnimationClip("stand"));
         }
 
         Actor::~Actor() {
@@ -155,11 +157,11 @@ namespace Game {
         }
 
         Direction Actor::GetDirection() const {
-            return this->direction;
+            return this->animationPlayer.GetDirection();
         }
 
         void Actor::SetDirection(const Direction direction) {
-            this->direction = direction;
+            this->animationPlayer.SetDirection(direction);
         }
 
         void Actor::SetDirection(Actor* target) {
@@ -174,21 +176,21 @@ namespace Game {
                 return;
             } else if (std::abs(deltaX) > std::abs(deltaY)) {
                 if (deltaX > 0) {
-                    this->direction = Direction::Right;
+                    this->animationPlayer.SetDirection(Direction::Right);
                 } else {
-                    this->direction = Direction::Left;
+                    this->animationPlayer.SetDirection(Direction::Left);
                 }
             } else {
                 if (deltaY > 0) {
-                    this->direction = Direction::Down;
+                    this->animationPlayer.SetDirection(Direction::Down);
                 } else {
-                    this->direction = Direction::Up;
+                    this->animationPlayer.SetDirection(Direction::Up);
                 }
             }
         }
 
         std::string Actor::GetSpriteName() const {
-            return AnimationToString(this->animation) + "." + DirectionToString(this->direction);
+            return AnimationToString(this->animation) + "." + DirectionToString(this->animationPlayer.GetDirection());
         }
 
         bool Actor::HasPendingMovement() const {
@@ -273,9 +275,11 @@ namespace Game {
 
             this->isMoving = true;
 
-            this->SetAnimation(Animation::Walk);
+            // this->SetAnimation(Animation::Walk);
 
             this->SetDirection(direction);
+
+            this->animationPlayer.Play(this->appearance->spritesheet->GetAnimationClip("walk"));
         }
 
         bool Actor::HasCompletedSteps() const {
@@ -334,7 +338,7 @@ namespace Game {
                 float movementTargetTileX = static_cast<float>(this->movementTargetTileX * this->currentMap->tilewidth) + (static_cast<float>(this->currentMap->tilewidth) / 2.0f);
                 float movementTargetTileY = static_cast<float>((this->movementTargetTileY + 1) * this->currentMap->tileheight);
 
-                switch (this->direction) {
+                switch (this->GetDirection()) {
                 case Direction::Up:
                     this->currentWorldY -= movementSpeedY * deltaTime;
 
@@ -386,24 +390,29 @@ namespace Game {
                 // There are 8 frames in the walk animation right now. It's very unlikely that'll ever change, but it'd
                 // still be a good idea to not hard code that value here. Maybe add a function to the Character class
                 // that returns the number of frames in the walk animation and then use the reciprocal.
-                if (this->timeSinceLastAnimationFrame >= 0.125f) {
-                    this->animationFrame = (this->animationFrame + 1) % this->GetAnimationFrameCount();
-                    this->timeSinceLastAnimationFrame = 0.0f;
-                }
+                //if (this->timeSinceLastAnimationFrame >= 0.125f) {
+                //    this->animationFrame = (this->animationFrame + 1) % this->GetAnimationFrameCount();
+                //    this->timeSinceLastAnimationFrame = 0.0f;
+                //}
             } else {
                 if (!this->isPlayingAnimation) {
                     // I don't like how I'm resetting this on every frame where the player is standing still. But if I set
                     // the animation when the player is finished moving in the block above then it drops the last frame
                     // of the walk animation and looks really weird.
-                    this->SetAnimation(Animation::Stand);
-                    this->animationFrame = 0;
-                    this->timeSinceLastAnimationFrame = 0.0f;
+                    //this->SetAnimation(Animation::Stand);
+                    //this->animationFrame = 0;
+                    //this->timeSinceLastAnimationFrame = 0.0f;
+
+                    this->animationPlayer.Play(this->appearance->spritesheet->GetAnimationClip("stand"));
                 }
             }
+
+            this->animationPlayer.Update(deltaTime);
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) const {
-            this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, camera);
+            // this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, camera);
+            this->appearance->Render(this->animationPlayer.GetCurrentAnimation(), this->animationPlayer.GetCurrentAnimationFrame(), this->currentWorldX, this->currentWorldY, camera);
         }
 
         void Actor::LoadLuaState() {

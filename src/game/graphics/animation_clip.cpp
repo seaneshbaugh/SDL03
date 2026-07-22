@@ -2,8 +2,20 @@
 
 namespace Game {
     namespace Graphics {
-        AnimationClip::AnimationClip(const std::map<Direction, Animation>& variants) {
+        AnimationClip::AnimationClip(const std::map<Direction, std::shared_ptr<Animation>>& variants) {
             std::copy(variants.begin(), variants.end(), std::inserter(this->variants, this->variants.begin()));
+        }
+
+        std::shared_ptr<Animation> AnimationClip::GetAnimation(const Direction direction) const {
+            if (this->variants.empty()) {
+                return nullptr;
+            }
+
+            if (this->variants.contains(direction)) {
+                return this->variants.at(direction);
+            }
+
+            return this->variants.begin()->second;
         }
     }
 }

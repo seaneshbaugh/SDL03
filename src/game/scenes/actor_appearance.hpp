@@ -2,6 +2,7 @@
 #define SDL03_Game_ActorAppearance
 
 #include "../services/locator.hpp"
+#include "../graphics/animation.hpp"
 #include "../graphics/spritesheet.hpp"
 
 namespace Game {
@@ -13,7 +14,8 @@ namespace Game {
             std::shared_ptr<Graphics::Spritesheet> spritesheet;
 
             ActorAppearance(std::shared_ptr<Graphics::Spritesheet> spritesheet);
-            void Render(const std::string& animationName, const unsigned int frameIndex, const float worldX, const float worldY, std::shared_ptr<Camera> camera);
+            void Render(const std::string& animationName, const unsigned int frameIndex, const float worldX, const float worldY, std::shared_ptr<Camera> camera) const;
+            void Render(std::shared_ptr<Graphics::Animation> animation, const unsigned int frameIndex, const float worldX, const float worldY, std::shared_ptr<Camera> camera) const;
         };
     }
 }

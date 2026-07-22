@@ -24,6 +24,14 @@ namespace Game {
             return rect;
         }
 
+        std::shared_ptr<AnimationClip> Spritesheet::GetAnimationClip(const std::string& animationClipName) const {
+            return this->animationClips.at(animationClipName);
+        }
+
+        std::shared_ptr<Graphics::Animation> Spritesheet::GetAnimation(const std::string& animationName, const Direction direction) const {
+            return this->animationClips.at(animationName)->GetAnimation(direction);
+        }
+
         std::shared_ptr<Assets::Texture> Spritesheet::GetTexture() const {
             return this->texture;
         }
@@ -71,6 +79,53 @@ namespace Game {
 
             spritesheet.texture = Services::Locator::TextureService()->AddTexture(spritesheet.name, spritesheetNode["texture"].get<std::string>());
             spritesheet.animations = this->ParseAnimations(spritesheetNode["animations"]);
+            spritesheet.animationClips = this->ParseAnimationClips(spritesheetNode["animations"]);
+        }
+
+        std::map<std::string, std::shared_ptr<AnimationClip>> Spritesheet::Parser::ParseAnimationClips(const json& animationClipsNode) {
+            std::map<std::string, std::shared_ptr<AnimationClip>> animationClips;
+
+            for (auto animationClipNode = animationClipsNode.begin(); animationClipNode != animationClipsNode.end(); ++animationClipNode) {
+                const std::string animationClipName = animationClipNode.key();
+                const json& variants = animationClipNode.value();
+                std::map<Direction, std::shared_ptr<Animation>> variantAnimations;
+
+                for (auto variantNode = variants.begin(); variantNode != variants.end(); ++variantNode) {
+                    const std::string directionString = variantNode.key();
+
+                    Direction direction;
+
+                    if (directionString == "up") {
+                        direction = Direction::Up;
+                    } else if (directionString == "right") {
+                        direction = Direction::Right;
+                    } else if (directionString == "down") {
+                        direction = Direction::Down;
+                    } else if (directionString == "left") {
+                        direction = Direction::Left;
+                    } else {
+                        direction = Direction::Down;
+                    }
+
+                    int width = variantNode.value()["width"].get<int>();
+                    int height = variantNode.value()["height"].get<int>();
+
+                    std::vector<Graphics::AnimationFrame> frames;
+
+                    for (auto frameNode = variantNode.value()["frames"].begin(); frameNode != variantNode.value()["frames"].end(); ++frameNode) {
+                        frames.push_back(this->ParseAnimationFrame(frameNode.value()));
+                    }
+
+                    std::shared_ptr<Graphics::Animation> animation = std::make_shared<Graphics::Animation>(width, height, frames);
+
+                    variantAnimations.insert(std::make_pair(direction, animation));
+                }
+
+                std::shared_ptr<AnimationClip> animationClip = std::make_shared<AnimationClip>(variantAnimations);
+                animationClips.insert(std::make_pair(animationClipName, animationClip));
+            }
+
+            return animationClips;
         }
 
         std::map<std::string, Animation> Spritesheet::Parser::ParseAnimations(const json& animationsNode) {
@@ -109,8 +164,8 @@ namespace Game {
         }
 
         AnimationFrame Spritesheet::Parser::ParseAnimationFrame(const json& animationFrameNode) {
-            const unsigned int offsetX = animationFrameNode[0].get<unsigned int>();
-            const unsigned int offsetY = animationFrameNode[1].get<unsigned int>();
+            const int offsetX = animationFrameNode[0].get<int>();
+            const int offsetY = animationFrameNode[1].get<int>();
 
             AnimationFrame frame(offsetX, offsetY);
 

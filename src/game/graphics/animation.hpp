@@ -4,17 +4,20 @@
 #include <vector>
 #include <iterator>
 
+#include <SDL3/SDL.h>
+
 #include "animation_frame.hpp"
 
 namespace Game {
     namespace Graphics {
         class Animation {
         public:
-            Animation(const unsigned int width, const unsigned int height, const std::vector<AnimationFrame>& frames);
-
+            int width;
+            int height;
             std::vector<AnimationFrame> frames;
-            unsigned int width;
-            unsigned int height;
+
+            Animation(const int width, const int height, const std::vector<AnimationFrame>& frames);
+            SDL_Rect GetFrameRect(const std::vector<AnimationFrame>::size_type frameIndex) const;
         };
     }
 }

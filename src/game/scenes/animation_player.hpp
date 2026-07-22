@@ -1,24 +1,30 @@
 #ifndef SDL03_Game_Scenes_AnimationPlayer
 #define SDL03_Game_Scenes_AnimationPlayer
 
-#include <string>
+#include "../graphics/animation_clip.hpp"
 
 namespace Game {
     namespace Scenes {
-        struct AnimationState {
-
-        };
-
         class AnimationPlayer {
         public:
             AnimationPlayer();
             ~AnimationPlayer();
-            void Play(const std::string& animationName);
+
+            void Play(std::shared_ptr<Graphics::AnimationClip> animationClip);
+            // void Play(std::shared_ptr<Graphics::Animation> animation);
             void Update(float deltaTime);
 
+            std::shared_ptr<Graphics::Animation> GetCurrentAnimation() const;
+            Direction GetDirection() const;
+            std::vector<Graphics::AnimationFrame>::size_type GetCurrentAnimationFrame() const;
+
+            void SetDirection(const Direction direction);
+
         private:
-            std::string currentAnimation;
-            unsigned int animationFrame;
+            std::shared_ptr<Graphics::Animation> currentAnimation;
+            std::shared_ptr<Graphics::AnimationClip> currentAnimationClip;
+            Direction direction;
+            std::vector<Graphics::AnimationFrame>::size_type animationFrame;
             float timeSinceLastAnimationFrame;
         };
     }
