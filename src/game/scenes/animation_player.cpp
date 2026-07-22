@@ -2,21 +2,11 @@
 
 namespace Game {
     namespace Scenes {
-        AnimationPlayer::AnimationPlayer() : currentAnimation(nullptr), currentAnimationClip(nullptr), direction(Direction::Down), animationFrame(0), timeSinceLastAnimationFrame(0.0f) {
+        AnimationPlayer::AnimationPlayer() : currentAnimationClip(nullptr), direction(Direction::Down), animationFrame(0), timeSinceLastAnimationFrame(0.0f) {
         }
 
         AnimationPlayer::~AnimationPlayer() {
         }
-
-        //void AnimationPlayer::Play(std::shared_ptr<Graphics::Animation> animation) {
-        //    if (this->currentAnimation == animation) {
-        //        return;
-        //    }
-
-        //    this->currentAnimation = animation;
-        //    this->animationFrame = 0;
-        //    this->timeSinceLastAnimationFrame = 0.0f;
-        //}
 
         void AnimationPlayer::Play(std::shared_ptr<Graphics::AnimationClip> animationClip) {
             if (this->currentAnimationClip == animationClip) {

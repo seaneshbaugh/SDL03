@@ -11,7 +11,6 @@ namespace Game {
             ~AnimationPlayer();
 
             void Play(std::shared_ptr<Graphics::AnimationClip> animationClip);
-            // void Play(std::shared_ptr<Graphics::Animation> animation);
             void Update(float deltaTime);
 
             std::shared_ptr<Graphics::Animation> GetCurrentAnimation() const;
@@ -21,7 +20,6 @@ namespace Game {
             void SetDirection(const Direction direction);
 
         private:
-            std::shared_ptr<Graphics::Animation> currentAnimation;
             std::shared_ptr<Graphics::AnimationClip> currentAnimationClip;
             Direction direction;
             std::vector<Graphics::AnimationFrame>::size_type animationFrame;
