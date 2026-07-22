@@ -384,25 +384,11 @@ namespace Game {
                 if (!this->isMoving) {
                     this->completedSteps.push({this->currentTileX, this->currentTileY});
                 }
-
-                this->timeSinceLastAnimationFrame += deltaTime;
-
-                // There are 8 frames in the walk animation right now. It's very unlikely that'll ever change, but it'd
-                // still be a good idea to not hard code that value here. Maybe add a function to the Character class
-                // that returns the number of frames in the walk animation and then use the reciprocal.
-                //if (this->timeSinceLastAnimationFrame >= 0.125f) {
-                //    this->animationFrame = (this->animationFrame + 1) % this->GetAnimationFrameCount();
-                //    this->timeSinceLastAnimationFrame = 0.0f;
-                //}
             } else {
                 if (!this->isPlayingAnimation) {
                     // I don't like how I'm resetting this on every frame where the player is standing still. But if I set
                     // the animation when the player is finished moving in the block above then it drops the last frame
                     // of the walk animation and looks really weird.
-                    //this->SetAnimation(Animation::Stand);
-                    //this->animationFrame = 0;
-                    //this->timeSinceLastAnimationFrame = 0.0f;
-
                     this->animationPlayer.Play(this->appearance->spritesheet->GetAnimationClip("stand"));
                 }
             }
@@ -411,7 +397,6 @@ namespace Game {
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) const {
-            // this->appearance->Render(this->GetSpriteName(), this->animationFrame, this->currentWorldX, this->currentWorldY, camera);
             this->appearance->Render(this->animationPlayer.GetCurrentAnimation(), this->animationPlayer.GetCurrentAnimationFrame(), this->currentWorldX, this->currentWorldY, camera);
         }
 

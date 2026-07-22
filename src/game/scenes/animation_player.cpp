@@ -19,14 +19,20 @@ namespace Game {
         }
 
         void AnimationPlayer::Update(float deltaTime) {
-            if (this->currentAnimationClip == nullptr || this->currentAnimationClip->GetAnimation(this->direction) == nullptr) {
+            if (this->currentAnimationClip == nullptr) {
+                return;
+            }
+
+            std::shared_ptr<Graphics::Animation> currentAnimation = this->currentAnimationClip->GetAnimation(this->direction);
+
+            if (currentAnimation == nullptr) {
                 return;
             }
 
             this->timeSinceLastAnimationFrame += deltaTime;
 
             if (this->timeSinceLastAnimationFrame >= 0.125f) {
-                this->animationFrame = (this->animationFrame + 1) % this->currentAnimationClip->GetAnimation(this->direction)->frames.size();
+                this->animationFrame = (this->animationFrame + 1) % currentAnimation->frames.size();
                 this->timeSinceLastAnimationFrame = 0.0f;
             }
         }
