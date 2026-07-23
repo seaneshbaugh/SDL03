@@ -68,10 +68,8 @@ namespace Game {
         void ActorManager::PlaceActor(std::shared_ptr<Scenes::Actor> actor, const int x, const int y, const Direction direction) const {
             actor->currentMap = this->scene->GetCurrentMap();
             actor->SetPosition(x, y);
-            actor->SetAnimation(Scenes::Actor::Animation::Stand);
+            actor->animationPlayer.Play(actor->appearance->spritesheet->GetAnimationClip("stand"));
             actor->SetDirection(direction);
-            actor->animationFrame = 0;
-            actor->timeSinceLastAnimationFrame = 0.0f;
         }
 
         void ActorManager::UpdateActors(const float deltaTime) {

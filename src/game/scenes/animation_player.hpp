@@ -2,6 +2,7 @@
 #define SDL03_Game_Scenes_AnimationPlayer
 
 #include "../graphics/animation_clip.hpp"
+#include "../services/locator.hpp"
 
 namespace Game {
     namespace Scenes {
@@ -20,7 +21,12 @@ namespace Game {
             void SetDirection(const Direction direction);
 
         private:
+            static const std::string logChannel;
+
+            std::shared_ptr<Log::Logger> logger;
             std::shared_ptr<Graphics::AnimationClip> currentAnimationClip;
+            std::shared_ptr<Graphics::AnimationClip> desiredAnimationClip;
+            std::shared_ptr<Graphics::Animation> currentAnimation;
             Direction direction;
             std::vector<Graphics::AnimationFrame>::size_type animationFrame;
             float timeSinceLastAnimationFrame;

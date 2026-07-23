@@ -275,8 +275,6 @@ namespace Game {
 
             this->isMoving = true;
 
-            // this->SetAnimation(Animation::Walk);
-
             this->SetDirection(direction);
 
             this->animationPlayer.Play(this->appearance->spritesheet->GetAnimationClip("walk"));
@@ -332,6 +330,8 @@ namespace Game {
         }
 
         void Actor::Update(const float deltaTime) {
+            this->animationPlayer.Update(deltaTime);
+
             if (this->isMoving) {
                 float movementSpeedX = this->movementSpeed * static_cast<float>(this->currentMap->tilewidth);
                 float movementSpeedY = this->movementSpeed * static_cast<float>(this->currentMap->tileheight);
@@ -383,17 +383,10 @@ namespace Game {
 
                 if (!this->isMoving) {
                     this->completedSteps.push({this->currentTileX, this->currentTileY});
-                }
-            } else {
-                if (!this->isPlayingAnimation) {
-                    // I don't like how I'm resetting this on every frame where the player is standing still. But if I set
-                    // the animation when the player is finished moving in the block above then it drops the last frame
-                    // of the walk animation and looks really weird.
+
                     this->animationPlayer.Play(this->appearance->spritesheet->GetAnimationClip("stand"));
                 }
             }
-
-            this->animationPlayer.Update(deltaTime);
         }
 
         void Actor::Render(std::shared_ptr<Camera> camera) const {

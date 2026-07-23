@@ -2,42 +2,61 @@
 
 namespace Game {
     namespace Scenes {
-        AnimationPlayer::AnimationPlayer() : currentAnimationClip(nullptr), direction(Direction::Down), animationFrame(0), timeSinceLastAnimationFrame(0.0f) {
+        const std::string AnimationPlayer::logChannel = "scene.animation_player";
+
+        AnimationPlayer::AnimationPlayer() : currentAnimationClip(nullptr), desiredAnimationClip(nullptr), currentAnimation(nullptr), direction(Direction::Down), animationFrame(0), timeSinceLastAnimationFrame(0.0f) {
+            this->logger = Services::Locator::LoggerService()->GetLogger(AnimationPlayer::logChannel);
         }
 
         AnimationPlayer::~AnimationPlayer() {
         }
 
         void AnimationPlayer::Play(std::shared_ptr<Graphics::AnimationClip> animationClip) {
-            if (this->currentAnimationClip == animationClip) {
+            if (this->desiredAnimationClip == animationClip) {
                 return;
             }
 
-            this->currentAnimationClip = animationClip;
-            this->animationFrame = 0;
-            this->timeSinceLastAnimationFrame = 0.0f;
+            if (this->currentAnimationClip == nullptr) {
+                this->currentAnimationClip = animationClip;
+                this->animationFrame = 0;
+                this->timeSinceLastAnimationFrame = 0.0f;
+                this->currentAnimation = this->currentAnimationClip->GetAnimation(this->direction);
+
+                return;
+            }
+
+            this->desiredAnimationClip = animationClip;
         }
 
         void AnimationPlayer::Update(float deltaTime) {
-            if (this->currentAnimationClip == nullptr) {
+            if (this->desiredAnimationClip != nullptr && this->desiredAnimationClip != this->currentAnimationClip) {
+                this->currentAnimationClip = this->desiredAnimationClip;
+                this->desiredAnimationClip = nullptr;
+                this->animationFrame = 0;
+                this->timeSinceLastAnimationFrame = 0.0f;
+                this->currentAnimation = this->currentAnimationClip->GetAnimation(this->direction);
+
                 return;
             }
 
-            std::shared_ptr<Graphics::Animation> currentAnimation = this->currentAnimationClip->GetAnimation(this->direction);
-
-            if (currentAnimation == nullptr) {
+            if (this->currentAnimationClip == nullptr) {
                 return;
             }
 
             this->timeSinceLastAnimationFrame += deltaTime;
 
             if (this->timeSinceLastAnimationFrame >= 0.125f) {
-                this->animationFrame = (this->animationFrame + 1) % currentAnimation->frames.size();
+                this->animationFrame = (this->animationFrame + 1) % this->currentAnimation->frames.size();
+
                 this->timeSinceLastAnimationFrame = 0.0f;
             }
         }
 
         std::shared_ptr<Graphics::Animation> AnimationPlayer::GetCurrentAnimation() const {
+            if (this->currentAnimationClip == nullptr) {
+                return nullptr;
+            }
+
             return this->currentAnimationClip->GetAnimation(this->direction);
         }
 
