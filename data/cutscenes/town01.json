@@ -38,6 +38,7 @@
       "type": "animate_actor",
       "actorId": "guard",
       "animation": "die",
+      "loops": 3,
       "duration": 1.5
     },
     {

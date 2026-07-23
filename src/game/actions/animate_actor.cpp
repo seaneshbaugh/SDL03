@@ -3,7 +3,7 @@
 
 namespace Game {
     namespace Actions {
-        AnimateActor::AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, float duration) : scene(scene), actorId(actorId), animationName(animationName), duration(duration), elapsedTime(0.0f), started(false), failed(false), previousAnimation(Scenes::Actor::Animation::Stand), previousAnimationRestored(false) {
+        AnimateActor::AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, int loops, float duration) : scene(scene), actorId(actorId), animationName(animationName), loops(loops), duration(duration), elapsedTime(0.0f), started(false), failed(false), previousAnimation(Scenes::Actor::Animation::Stand), previousAnimationRestored(false) {
         }
 
         AnimateActor::~AnimateActor() {

@@ -20,6 +20,8 @@ namespace Game {
 
             void SetDirection(const Direction direction);
 
+            bool ConsumeCompletedLoop();
+
         private:
             static const std::string logChannel;
 
@@ -30,6 +32,7 @@ namespace Game {
             Direction direction;
             std::vector<Graphics::AnimationFrame>::size_type animationFrame;
             float timeSinceLastAnimationFrame;
+            int completedLoops;
         };
     }
 }

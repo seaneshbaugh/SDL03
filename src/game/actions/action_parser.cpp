@@ -37,9 +37,10 @@ namespace Game {
             this->actionFactories["animate_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
                 std::string actorId = node["actorId"].get<std::string>();
                 std::string animationName = node["animation"].get<std::string>();
+                int loops = node["loops"].get<int>();
                 float duration = node["duration"].get<float>();
 
-                return std::make_shared<Actions::AnimateActor>(script->scene, actorId, animationName, duration);
+                return std::make_shared<Actions::AnimateActor>(script->scene, actorId, animationName, loops, duration);
             };
 
             this->actionFactories["face_actor"] = [this](const json& node, Scripts::Script* script) -> std::shared_ptr<Actions::Base> {
