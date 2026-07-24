@@ -58,6 +58,10 @@ namespace Game {
             }
         }
 
+        std::shared_ptr<Graphics::AnimationClip> AnimationPlayer::GetCurrentAnimationClip() const {
+            return this->currentAnimationClip;
+        }
+
         std::shared_ptr<Graphics::Animation> AnimationPlayer::GetCurrentAnimation() const {
             if (this->currentAnimationClip == nullptr) {
                 return nullptr;

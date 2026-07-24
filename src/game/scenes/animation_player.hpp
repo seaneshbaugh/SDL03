@@ -14,6 +14,7 @@ namespace Game {
             void Play(std::shared_ptr<Graphics::AnimationClip> animationClip);
             void Update(float deltaTime);
 
+            std::shared_ptr<Graphics::AnimationClip> GetCurrentAnimationClip() const;
             std::shared_ptr<Graphics::Animation> GetCurrentAnimation() const;
             Direction GetDirection() const;
             std::vector<Graphics::AnimationFrame>::size_type GetCurrentAnimationFrame() const;

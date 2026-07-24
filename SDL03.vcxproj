@@ -377,7 +377,6 @@
     <None Include=".editorconfig" />
     <None Include=".gitignore" />
     <None Include=".oclint" />
-    <None Include="data\cutscenes\town01.json" />
     <None Include="data\dialogue\graphs\ginger.json" />
     <None Include="data\dialogue\graphs\goblins.json" />
     <None Include="data\dialogue\graphs\hello_world.json" />

@@ -7,17 +7,7 @@ namespace Game {
             this->spritesheet = spritesheet;
         }
 
-        void ActorAppearance::Render(const std::string& animationName, const unsigned int frameIndex, const float worldX, const float worldY, std::shared_ptr<Camera> camera) const {
-            const SDL_Rect spriteRect = this->spritesheet->GetSpriteRect(animationName, frameIndex);
-            SDL_FRect srcrect = {0.0f, 0.0f, 0.0f, 0.0f};
-            SDL_RectToFRect(&spriteRect, &srcrect);
-            float screenX = worldX - camera->x - (srcrect.w / 2.0f);
-            float screenY = worldY - camera->y - srcrect.h;
-            const SDL_FRect dstrect = {screenX, screenY, srcrect.w, srcrect.h};
-            Services::Locator::VideoService()->RenderTexture(this->spritesheet->GetTexture(), &srcrect, &dstrect);
-        }
-
-        void ActorAppearance::Render(std::shared_ptr<Graphics::Animation> animation, const unsigned int frameIndex, const float worldX, const float worldY, std::shared_ptr<Camera> camera) const {
+        void ActorAppearance::Render(std::shared_ptr<Graphics::Animation> animation, const size_t frameIndex, const float worldX, const float worldY, std::shared_ptr<Camera> camera) const {
             const SDL_Rect spriteRect = animation->GetFrameRect(frameIndex);
             SDL_FRect srcrect = {0.0f, 0.0f, 0.0f, 0.0f};
             SDL_RectToFRect(&spriteRect, &srcrect);

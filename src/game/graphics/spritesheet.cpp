@@ -16,20 +16,8 @@ namespace Game {
         Spritesheet::~Spritesheet() {
         }
 
-        SDL_Rect Spritesheet::GetSpriteRect(const std::string& animationName, const unsigned int frameIndex) {
-            const Animation& animation = this->animations.at(animationName);
-            const AnimationFrame& frame = animation.frames.at(frameIndex);
-            const SDL_Rect rect = {frame.offsetX, frame.offsetY, animation.width, animation.height};
-
-            return rect;
-        }
-
         std::shared_ptr<AnimationClip> Spritesheet::GetAnimationClip(const std::string& animationClipName) const {
             return this->animationClips.at(animationClipName);
-        }
-
-        std::shared_ptr<Graphics::Animation> Spritesheet::GetAnimation(const std::string& animationName, const Direction direction) const {
-            return this->animationClips.at(animationName)->GetAnimation(direction);
         }
 
         std::shared_ptr<Assets::Texture> Spritesheet::GetTexture() const {
@@ -78,7 +66,6 @@ namespace Game {
             json spritesheetNode = json::parse(jsonString);
 
             spritesheet.texture = Services::Locator::TextureService()->AddTexture(spritesheet.name, spritesheetNode["texture"].get<std::string>());
-            spritesheet.animations = this->ParseAnimations(spritesheetNode["animations"]);
             spritesheet.animationClips = this->ParseAnimationClips(spritesheetNode["animations"]);
         }
 
@@ -126,41 +113,6 @@ namespace Game {
             }
 
             return animationClips;
-        }
-
-        std::map<std::string, Animation> Spritesheet::Parser::ParseAnimations(const json& animationsNode) {
-            std::map<std::string, Animation> animations;
-
-            for (auto animationNode = animationsNode.begin(); animationNode != animationsNode.end(); ++animationNode) {
-                const std::string animationName = animationNode.key();
-
-                // animationNode.value() is a json object for this animation
-                const json& directions = animationNode.value();
-
-                for (auto animationDirectionNode = directions.begin(); animationDirectionNode != directions.end(); ++animationDirectionNode) {
-                    const std::string animationDirection = animationDirectionNode.key();
-
-                    if (animationDirection != "up" && animationDirection != "down" && animationDirection != "left" && animationDirection != "right") {
-                        this->logger->error() << "Invalid animation direction \"" << animationDirection << "\" for animation \"" << animationName << "\".";
-                        continue;
-                    }
-
-                    unsigned int width = animationDirectionNode.value()["width"].get<unsigned int>();
-                    unsigned int height = animationDirectionNode.value()["height"].get<unsigned int>();
-
-                    std::vector<Graphics::AnimationFrame> frames;
-
-                    for (auto frameNode = animationDirectionNode.value()["frames"].begin(); frameNode != animationDirectionNode.value()["frames"].end(); ++frameNode) {
-                        frames.push_back(this->ParseAnimationFrame(frameNode.value()));
-                    }
-
-                    Graphics::Animation animation(width, height, frames);
-
-                    animations.insert(std::make_pair(animationName + "." + animationDirection, animation));
-                }
-            }
-
-            return animations;
         }
 
         AnimationFrame Spritesheet::Parser::ParseAnimationFrame(const json& animationFrameNode) {

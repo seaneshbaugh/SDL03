@@ -152,10 +152,6 @@ namespace Game {
             this->animation = animation;
         }
 
-        int Actor::GetAnimationFrameCount() const {
-            return this->appearance->spritesheet->animations.find(this->GetSpriteName())->second.frames.size();
-        }
-
         Direction Actor::GetDirection() const {
             return this->animationPlayer.GetDirection();
         }

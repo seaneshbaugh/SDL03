@@ -1133,7 +1133,6 @@
     <None Include="data\dialogue\graphs\help.json" />
     <None Include="scripts\items\consumables\health_potion.lua" />
     <None Include="scripts\items\consumables\lesser_health_potion.lua" />
-    <None Include="data\cutscenes\town01.json" />
     <None Include="scripts\actors\movement\stationary.lua" />
     <None Include="scripts\maps\world01.lua" />
     <None Include="scripts\maps\town01.lua" />

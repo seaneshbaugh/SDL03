@@ -9,7 +9,7 @@ namespace Game {
     namespace Actions {
         class AnimateActor : public Base {
         public:
-            AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, int loops, float duration);
+            AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, int loops);
             ~AnimateActor();
             void Start() override;
             void Update(float deltaTime) override;
@@ -21,10 +21,8 @@ namespace Game {
             std::string animationName;
             std::shared_ptr<Scenes::Actor> actor;
             int loops;
-            float duration;
-            float elapsedTime;
-            Scenes::Actor::Animation previousAnimation;
-            bool previousAnimationRestored;
+            int currentLoop;
+            std::shared_ptr<Graphics::AnimationClip> previousAnimationClip;
             bool started;
             bool failed;
         };

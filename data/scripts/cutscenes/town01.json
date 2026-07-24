@@ -58,7 +58,7 @@
             "type": "animate_actor",
             "actorId": "guard",
             "animation": "die",
-            "duration": 1.5
+            "loops": 3
           }
         },
         {

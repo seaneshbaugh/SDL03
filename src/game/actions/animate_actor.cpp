@@ -3,7 +3,7 @@
 
 namespace Game {
     namespace Actions {
-        AnimateActor::AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, int loops, float duration) : scene(scene), actorId(actorId), animationName(animationName), loops(loops), duration(duration), elapsedTime(0.0f), started(false), failed(false), previousAnimation(Scenes::Actor::Animation::Stand), previousAnimationRestored(false) {
+AnimateActor::AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, int loops) : scene(scene), actorId(actorId), animationName(animationName), loops(loops), currentLoop(0), started(false), failed(false), previousAnimationClip(nullptr) {
         }
 
         AnimateActor::~AnimateActor() {
@@ -18,39 +18,29 @@ namespace Game {
                 return;
             }
 
-            this->previousAnimation = this->actor->GetAnimation();
-            this->previousAnimationRestored = false;
+            this->previousAnimationClip = this->actor->animationPlayer.GetCurrentAnimationClip();
 
-            this->actor->SetAnimation(Scenes::Actor::StringToAnimation(this->animationName));
-            this->actor->timeSinceLastAnimationFrame = 0.0f;
-            this->actor->animationFrame = 0;
-            this->actor->isPlayingAnimation = true;
+            this->actor->animationPlayer.Play(this->actor->appearance->spritesheet->GetAnimationClip(this->animationName));
 
             this->started = true;
         }
 
         void AnimateActor::Update(float deltaTime) {
-            if (this->started) {
-                this->elapsedTime += deltaTime;
-                this->actor->timeSinceLastAnimationFrame += deltaTime;
+            if (!this->started || this->failed) {
+                return;
+            }
 
-                if (this->actor->timeSinceLastAnimationFrame >= 0.125f) {
-                    this->actor->animationFrame = (this->actor->animationFrame + 1) % this->actor->GetAnimationFrameCount();
+            if (this->actor->animationPlayer.ConsumeCompletedLoop()) {
+                this->currentLoop++;
 
-                    this->actor->timeSinceLastAnimationFrame = 0.0f;
-                }
-
-                if (this->elapsedTime >= this->duration && !this->previousAnimationRestored) {
-                    this->actor->SetAnimation(this->previousAnimation);
-                    this->actor->isPlayingAnimation = false;
-
-                    this->previousAnimationRestored = true;
+                if (this->currentLoop >= this->loops) {
+                    this->actor->animationPlayer.Play(this->previousAnimationClip);
                 }
             }
         }
 
         bool AnimateActor::IsCompleted() const {
-            return this->failed || (this->started && this->elapsedTime >= this->duration);
+            return this->failed || (this->started && this->currentLoop >= this->loops);
         }
     }
 }

@@ -17,15 +17,14 @@ namespace Game {
             std::string name;
             std::map<std::string, std::shared_ptr<AnimationClip>> animationClips;
 
-            std::map<std::string, Animation> animations;
-            // std::map<std::string, SpriteRegion> statics;
+            // std::map<std::string, AnimationFrame> statics;
 
             Spritesheet(const std::string& name);
             ~Spritesheet();
-            SDL_Rect GetSpriteRect(const std::string& animationName, const unsigned int frameIndex);
+
             std::shared_ptr<AnimationClip> GetAnimationClip(const std::string& animationClipName) const;
-            std::shared_ptr<Animation> GetAnimation(const std::string& animationName, const Direction direction) const;
             std::shared_ptr<Assets::Texture> GetTexture() const;
+
             bool Load(const std::string& filename);
             bool ParseSpritesheetFile(const std::string& jsonString);
 
