@@ -67,8 +67,6 @@ namespace Game {
             this->currentMap = nullptr;
             this->currentTileX = 0;
             this->currentTileY = 0;
-            this->animation = Animation::Stand;
-            this->isPlayingAnimation = false;
             this->SetDirection(Direction::Down);
             this->isMoving = false;
             this->movementSpeed = 4.0f;
@@ -144,14 +142,6 @@ namespace Game {
             this->currentWorldY = static_cast<float>((y + 1) * this->currentMap->tileheight);
         }
 
-        Actor::Animation Actor::GetAnimation() const {
-            return this->animation;
-        }
-
-        void Actor::SetAnimation(const Animation animation) {
-            this->animation = animation;
-        }
-
         Direction Actor::GetDirection() const {
             return this->animationPlayer.GetDirection();
         }
@@ -183,10 +173,6 @@ namespace Game {
                     this->animationPlayer.SetDirection(Direction::Up);
                 }
             }
-        }
-
-        std::string Actor::GetSpriteName() const {
-            return AnimationToString(this->animation) + "." + DirectionToString(this->animationPlayer.GetDirection());
         }
 
         bool Actor::HasPendingMovement() const {

@@ -28,11 +28,6 @@ namespace Game {
                 Walk
             };
 
-            struct AnimationState {
-                Animation animation;
-                Direction direction;
-            };
-
             struct CompletedStep {
                 int tileX;
                 int tileY;
@@ -47,9 +42,6 @@ namespace Game {
             std::string name;
             std::unique_ptr<Scripts::ScriptSelector> scriptSelector;
             std::shared_ptr<Objects::Maps::Map> currentMap;
-            unsigned int animationFrame;
-            float timeSinceLastAnimationFrame;
-            bool isPlayingAnimation;
             std::shared_ptr<ActorAppearance> appearance;
             AnimationPlayer animationPlayer;
             std::shared_ptr<sol::state> luaState;
@@ -69,15 +61,9 @@ namespace Game {
             bool OccupiesTile(const int x, const int y) const;
             void SetPosition(const int x, const int y);
 
-            Animation GetAnimation() const;
-            void SetAnimation(const Animation animation);
-            int GetAnimationFrameCount() const;
-
             Direction GetDirection() const;
             void SetDirection(const Direction direction);
             void SetDirection(Actor* target);
-
-            std::string GetSpriteName() const;
 
             bool HasPendingMovement() const;
             std::optional<Direction> PeekMovement() const;
@@ -103,7 +89,6 @@ namespace Game {
             void Render(std::shared_ptr<Camera> camera) const;
 
             bool LoadLuaScript(const std::string& scriptFilePath);
-
             void SetCommandQueue(Interfaces::CommandQueue* commandQueue);
 
         private:
@@ -121,8 +106,6 @@ namespace Game {
             int movementStartTileY;
             int movementTargetTileX;
             int movementTargetTileY;
-            Animation animation;
-            Direction direction;
             std::queue<Direction> movementQueue;
             std::queue<CompletedStep> completedSteps;
             bool interactionQueued;
