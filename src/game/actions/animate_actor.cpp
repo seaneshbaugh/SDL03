@@ -1,9 +1,8 @@
 #include "animate_actor.hpp"
-#include "../states/map.hpp"
 
 namespace Game {
     namespace Actions {
-AnimateActor::AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, int loops) : scene(scene), actorId(actorId), animationName(animationName), loops(loops), currentLoop(0), started(false), failed(false), previousAnimationClip(nullptr) {
+        AnimateActor::AnimateActor(Scenes::Scene* scene, const std::string& actorId, const std::string& animationName, int loops) : scene(scene), actorId(actorId), animationName(animationName), loops(loops), currentLoop(0), started(false), failed(false), previousAnimationClip(nullptr) {
         }
 
         AnimateActor::~AnimateActor() {

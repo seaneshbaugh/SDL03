@@ -16,7 +16,6 @@ namespace Game {
         public:
             std::string name;
             std::map<std::string, std::shared_ptr<AnimationClip>> animationClips;
-
             // std::map<std::string, AnimationFrame> statics;
 
             Spritesheet(const std::string& name);
@@ -34,7 +33,7 @@ namespace Game {
             std::shared_ptr<Log::Logger> logger;
             std::shared_ptr<Assets::Texture> texture;
 
-            std::string NameToFilename();
+            std::string NameToFilename() const;
 
             class Parser {
             public:
@@ -48,7 +47,7 @@ namespace Game {
                 std::shared_ptr<Log::Logger> logger;
 
                 std::map<std::string, std::shared_ptr<AnimationClip>> ParseAnimationClips(const json& animationClipsNode);
-                std::map<std::string, Animation> ParseAnimations(const json& animationsNode);
+                std::shared_ptr<Animation> ParseAnimation(const json& animationNode);
                 AnimationFrame ParseAnimationFrame(const json& animationFrameNode);
             };
         };

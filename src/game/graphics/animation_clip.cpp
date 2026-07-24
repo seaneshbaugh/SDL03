@@ -2,9 +2,7 @@
 
 namespace Game {
     namespace Graphics {
-        int AnimationClip::defaultFramesPerSecond = 8;
-
-        AnimationClip::AnimationClip(const std::map<Direction, std::shared_ptr<Animation>>& variants) : framesPerSecond(AnimationClip::defaultFramesPerSecond) {
+        AnimationClip::AnimationClip(const std::map<Direction, std::shared_ptr<Animation>>& variants, const int framesPerSecond) : framesPerSecond(framesPerSecond) {
             std::copy(variants.begin(), variants.end(), std::inserter(this->variants, this->variants.begin()));
         }
 

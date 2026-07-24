@@ -46,7 +46,7 @@ namespace Game {
             return true;
         }
 
-        std::string Spritesheet::NameToFilename() {
+        std::string Spritesheet::NameToFilename() const {
             // TODO: This feels very brittle. What I really want is some way of mapping a
             // unique identifier to a spritesheet file path. Need to ponder this more.
             std::string filename = "assets/spritesheets/" + this->name + ".json";
@@ -74,10 +74,10 @@ namespace Game {
 
             for (auto animationClipNode = animationClipsNode.begin(); animationClipNode != animationClipsNode.end(); ++animationClipNode) {
                 const std::string animationClipName = animationClipNode.key();
-                const json& variants = animationClipNode.value();
+                int framesPerSecond = animationClipNode.value()["framesPerSecond"].get<int>();
                 std::map<Direction, std::shared_ptr<Animation>> variantAnimations;
 
-                for (auto variantNode = variants.begin(); variantNode != variants.end(); ++variantNode) {
+                for (auto variantNode = animationClipNode.value()["variants"].begin(); variantNode != animationClipNode.value()["variants"].end(); ++variantNode) {
                     const std::string directionString = variantNode.key();
 
                     Direction direction;
@@ -94,25 +94,29 @@ namespace Game {
                         direction = Direction::Down;
                     }
 
-                    int width = variantNode.value()["width"].get<int>();
-                    int height = variantNode.value()["height"].get<int>();
-
-                    std::vector<Graphics::AnimationFrame> frames;
-
-                    for (auto frameNode = variantNode.value()["frames"].begin(); frameNode != variantNode.value()["frames"].end(); ++frameNode) {
-                        frames.push_back(this->ParseAnimationFrame(frameNode.value()));
-                    }
-
-                    std::shared_ptr<Graphics::Animation> animation = std::make_shared<Graphics::Animation>(width, height, frames);
+                    std::shared_ptr<Graphics::Animation> animation = this->ParseAnimation(variantNode.value());
 
                     variantAnimations.insert(std::make_pair(direction, animation));
                 }
 
-                std::shared_ptr<AnimationClip> animationClip = std::make_shared<AnimationClip>(variantAnimations);
+                std::shared_ptr<AnimationClip> animationClip = std::make_shared<AnimationClip>(variantAnimations, framesPerSecond);
+
                 animationClips.insert(std::make_pair(animationClipName, animationClip));
             }
 
             return animationClips;
+        }
+
+        std::shared_ptr<Graphics::Animation> Spritesheet::Parser::ParseAnimation(const json& animationNode) {
+            int width = animationNode["width"].get<int>();
+            int height = animationNode["height"].get<int>();
+            std::vector<Graphics::AnimationFrame> frames;
+
+            for (auto frameNode = animationNode["frames"].begin(); frameNode != animationNode["frames"].end(); ++frameNode) {
+                frames.push_back(this->ParseAnimationFrame(frameNode.value()));
+            }
+
+            return std::make_shared<Graphics::Animation>(width, height, frames);
         }
 
         AnimationFrame Spritesheet::Parser::ParseAnimationFrame(const json& animationFrameNode) {

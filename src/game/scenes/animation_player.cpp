@@ -47,7 +47,7 @@ namespace Game {
 
             this->timeSinceLastAnimationFrame += deltaTime;
 
-            if (this->timeSinceLastAnimationFrame >= 0.125f) {
+            if (this->timeSinceLastAnimationFrame >= 1.0 / static_cast<float>(this->currentAnimationClip->GetFramesPerSecond())) {
                 this->animationFrame = (this->animationFrame + 1) % this->currentAnimation->frames.size();
 
                 if (this->animationFrame == 0) {

@@ -11,13 +11,11 @@ namespace Game {
     namespace Graphics {
         class AnimationClip {
         public:
-            AnimationClip(const std::map<Direction, std::shared_ptr<Animation>>& variants);
+            AnimationClip(const std::map<Direction, std::shared_ptr<Animation>>& variants, const int framesPerSecond);
             std::shared_ptr<Animation> GetAnimation(const Direction direction) const;
             int GetFramesPerSecond() const;
 
         private:
-            static int defaultFramesPerSecond;
-
             std::map<Direction, std::shared_ptr<Animation>> variants;
             int framesPerSecond;
         };
