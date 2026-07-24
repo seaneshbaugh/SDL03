@@ -28,7 +28,7 @@ namespace Game {
 
             std::shared_ptr<Log::Logger> logger;
             std::shared_ptr<Graphics::AnimationClip> currentAnimationClip;
-            std::shared_ptr<Graphics::AnimationClip> desiredAnimationClip;
+            std::shared_ptr<Graphics::AnimationClip> pendingAnimationClip;
             std::shared_ptr<Graphics::Animation> currentAnimation;
             Direction direction;
             std::vector<Graphics::AnimationFrame>::size_type animationFrame;

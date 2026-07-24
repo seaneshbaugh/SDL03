@@ -4,7 +4,7 @@ namespace Game {
     namespace Scenes {
         const std::string AnimationPlayer::logChannel = "scene.animation_player";
 
-        AnimationPlayer::AnimationPlayer() : currentAnimationClip(nullptr), desiredAnimationClip(nullptr), currentAnimation(nullptr), direction(Direction::Down), animationFrame(0), timeSinceLastAnimationFrame(0.0f), completedLoops(0) {
+        AnimationPlayer::AnimationPlayer() : currentAnimationClip(nullptr), pendingAnimationClip(nullptr), currentAnimation(nullptr), direction(Direction::Down), animationFrame(0), timeSinceLastAnimationFrame(0.0f), completedLoops(0) {
             this->logger = Services::Locator::LoggerService()->GetLogger(AnimationPlayer::logChannel);
         }
 
@@ -12,7 +12,7 @@ namespace Game {
         }
 
         void AnimationPlayer::Play(std::shared_ptr<Graphics::AnimationClip> animationClip) {
-            if (this->desiredAnimationClip == animationClip) {
+            if (this->pendingAnimationClip == animationClip) {
                 return;
             }
 
@@ -26,13 +26,13 @@ namespace Game {
                 return;
             }
 
-            this->desiredAnimationClip = animationClip;
+            this->pendingAnimationClip = animationClip;
         }
 
         void AnimationPlayer::Update(float deltaTime) {
-            if (this->desiredAnimationClip != nullptr && this->desiredAnimationClip != this->currentAnimationClip) {
-                this->currentAnimationClip = this->desiredAnimationClip;
-                this->desiredAnimationClip = nullptr;
+            if (this->pendingAnimationClip != nullptr && this->pendingAnimationClip != this->currentAnimationClip) {
+                this->currentAnimationClip = this->pendingAnimationClip;
+                this->pendingAnimationClip = nullptr;
                 this->animationFrame = 0;
                 this->timeSinceLastAnimationFrame = 0.0f;
                 this->completedLoops = 0;
