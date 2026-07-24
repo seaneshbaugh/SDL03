@@ -507,7 +507,7 @@
     <ClCompile Include="src\game\scripts\script_profile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\scenes\animation_player.cpp">
+    <ClCompile Include="src\game\graphics\animation_player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\graphics\animation_clip.cpp">
@@ -1058,7 +1058,7 @@
     <ClInclude Include="src\game\scripts\script_profile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\scenes\animation_player.hpp">
+    <ClInclude Include="src\game\graphics\animation_player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\graphics\animation_clip.hpp">

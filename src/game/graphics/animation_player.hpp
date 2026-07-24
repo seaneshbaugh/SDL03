@@ -1,11 +1,11 @@
-#ifndef SDL03_Game_Scenes_AnimationPlayer
-#define SDL03_Game_Scenes_AnimationPlayer
+#ifndef SDL03_Game_Graphics_AnimationPlayer
+#define SDL03_Game_Graphics_AnimationPlayer
 
-#include "../graphics/animation_clip.hpp"
 #include "../services/locator.hpp"
+#include "animation_clip.hpp"
 
 namespace Game {
-    namespace Scenes {
+    namespace Graphics {
         class AnimationPlayer {
         public:
             AnimationPlayer();

@@ -1,7 +1,7 @@
 #include "animation_player.hpp"
 
 namespace Game {
-    namespace Scenes {
+    namespace Graphics {
         const std::string AnimationPlayer::logChannel = "scene.animation_player";
 
         AnimationPlayer::AnimationPlayer() : currentAnimationClip(nullptr), pendingAnimationClip(nullptr), currentAnimation(nullptr), direction(Direction::Down), animationFrame(0), timeSinceLastAnimationFrame(0.0f), completedLoops(0) {
